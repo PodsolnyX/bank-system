@@ -2,5 +2,6 @@
 export const Links = {
     Main: "/",
     Users: "/users",
-    Accounts: "/accounts"
+    Accounts: "/accounts",
+    Account: `/account/:id`
 }
