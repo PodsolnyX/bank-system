@@ -30,11 +30,13 @@ const columns: ColumnsType<AccountData> = [
         title: 'ФИО',
         dataIndex: 'name',
         key: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
+        sorter: (a, b) => a.id.localeCompare(b.id),
         render: (text: string) => <Link to={generatePath(Links.Account, {id:text})}>{text}</Link>
     },
     {
@@ -42,6 +44,7 @@ const columns: ColumnsType<AccountData> = [
         dataIndex: 'money',
         key: 'money',
         align: "end",
+        sorter: (a, b) => a.money - b.money,
         render: (text: number) => convertNumberPriceToNormalString(text) || 0
     }
 ];

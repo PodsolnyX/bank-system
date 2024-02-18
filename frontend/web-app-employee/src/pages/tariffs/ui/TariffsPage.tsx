@@ -28,12 +28,14 @@ const columns: ColumnsType<TariffData> = [
         title: 'Название',
         dataIndex: 'name',
         key: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
         title: 'Ставка',
         dataIndex: 'rate',
         key: 'rate',
         align: "end",
+        sorter: (a, b) => a.rate - b.rate,
         render: (text: number) => `${text}%`
 
     }

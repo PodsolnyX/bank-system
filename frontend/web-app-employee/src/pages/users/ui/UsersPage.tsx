@@ -1,9 +1,15 @@
-import {Button, Table, Typography} from "antd";
+import {Button, Table, TableColumnsType, TableProps, Typography} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {dataClients} from "../mocks/DataClients.ts";
 import {dataEmployee} from "../mocks/DataEmployees.ts";
+import React from "react";
 
 const UsersPage = () => {
+
+    const onChange: TableProps<UserData>['onChange'] = (pagination, filters, sorter, extra) => {
+
+    };
+
     return (
         <div className={"w-full flex flex-col gap-5"}>
             <div className={"flex flex-col gap-3"}>
@@ -11,7 +17,13 @@ const UsersPage = () => {
                     <Typography.Text className={"text-2xl text-lime-500"} strong>Клиенты</Typography.Text>
                     <Button icon={<PlusOutlined/>}>Добавить</Button>
                 </div>
-                <Table dataSource={dataClients} columns={columns} bordered size={"small"}/>
+                <Table
+                    onChange={onChange}
+                    dataSource={dataClients}
+                    columns={columns}
+                    bordered
+                    size={"small"}
+                />
             </div>
             <div className={"flex flex-col gap-3"}>
                 <div className={"flex justify-between"}>
@@ -25,27 +37,27 @@ const UsersPage = () => {
 }
 
 interface UserData {
-    key: string,
+    key: React.Key,
     name: string,
     email: string,
     isBanned: boolean
 }
 
-const columns = [
+const columns: TableColumnsType<UserData> = [
     {
         title: 'ФИО',
         dataIndex: 'name',
-        key: 'name',
+        defaultSortOrder: "ascend",
+        sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
         title: 'Почта',
         dataIndex: 'email',
-        key: 'email',
+        sorter: (a, b) => a.email.localeCompare(b.email),
     },
     {
         title: 'Действия',
         dataIndex: '',
-        key: 'ban',
         width: '0',
         render: (_text: string, record: UserData) =>
             <Button danger={!record.isBanned} className={"w-full"} ghost type={"primary"} size={"small"}>

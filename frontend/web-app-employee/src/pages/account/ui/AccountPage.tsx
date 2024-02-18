@@ -1,4 +1,4 @@
-import {Table, Tag, Typography} from "antd";
+import {Table, TableProps, Tag, Typography} from "antd";
 import {ColumnsType} from "antd/es/table";
 import {dataAccount} from "../mocks/dataAccount.ts";
 import {
@@ -14,6 +14,10 @@ const AccountPage = () => {
         userName,
         money
     } = dataAccount;
+
+    const onChange: TableProps<AccountHistoryData>['onChange'] = (pagination, filters, sorter, extra) => {
+        console.log(filters)
+    };
 
     return (
         <div className={"w-full flex flex-col gap-5"}>
@@ -33,7 +37,7 @@ const AccountPage = () => {
                         <Typography.Text strong>{convertNumberPriceToNormalString(money)}</Typography.Text>
                     </div>
                 </div>
-                <Table dataSource={history} columns={columns} bordered size={"small"}/>
+                <Table dataSource={history} columns={columns} bordered size={"small"} onChange={onChange}/>
             </div>
         </div>
     )
@@ -86,11 +90,13 @@ export const OperationTypeText: Record<OperationType, string> = {
     [OperationType.LoanRepay]: "Погашение кредита",
 }
 
+
 const columns: ColumnsType<AccountHistoryData> = [
     {
         title: 'Номер',
         dataIndex: 'id',
         key: 'id',
+        sorter: (a, b) => a.id.localeCompare(b.id),
     },
     {
         title: 'Тип',
@@ -102,11 +108,29 @@ const columns: ColumnsType<AccountHistoryData> = [
                 {OperationTypeText[text]}
             </Tag>
         ),
+        filterSearch: true,
+        // @ts-ignore
+        onFilter: (value: string, record) => record.type.startsWith(value),
+        filters: [
+            {
+                text: OperationTypeText[OperationType.Replenish],
+                value: OperationType.Replenish,
+            },
+            {
+                text: OperationTypeText[OperationType.Withdraw],
+                value: OperationType.Withdraw,
+            },
+            {
+                text: OperationTypeText[OperationType.LoanRepay],
+                value: OperationType.LoanRepay,
+            },
+        ],
     },
     {
         title: 'Дата и время',
         dataIndex: 'date',
         key: 'date',
+        sorter: (a, b) => a.date.localeCompare(b.date),
         render: (text: string) => convertDateTimmeStringToNormalString(text)
     },
     {
@@ -114,6 +138,7 @@ const columns: ColumnsType<AccountHistoryData> = [
         dataIndex: 'sum',
         key: 'sum',
         align: "end",
+        sorter: (a, b) => a.sum - b.sum,
         render: (text: number) => convertNumberPriceToNormalString(text) || 0
     },
     {
@@ -126,6 +151,23 @@ const columns: ColumnsType<AccountHistoryData> = [
                 {OperationStatusText[text]}
             </Tag>
         ),
+        filterSearch: true,
+        // @ts-ignore
+        onFilter: (value: string, record) => record.status.startsWith(value),
+        filters: [
+            {
+                text: OperationStatusText[OperationStatus.Success],
+                value: OperationStatus.Success,
+            },
+            {
+                text: OperationStatusText[OperationStatus.Error],
+                value: OperationStatus.Error,
+            },
+            {
+                text: OperationStatusText[OperationStatus.InProcess],
+                value: OperationStatus.InProcess,
+            },
+        ],
     },
 ];
 
