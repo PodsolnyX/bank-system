@@ -1,5 +1,7 @@
 import {Button, Table, Typography} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
+import {dataClients} from "../mocks/DataClients.ts";
+import {dataEmployee} from "../mocks/DataEmployees.ts";
 
 const UsersPage = () => {
     return (
@@ -22,42 +24,12 @@ const UsersPage = () => {
     )
 }
 
-type UserData = {
+interface UserData {
     key: string,
     name: string,
     email: string,
     isBanned: boolean
 }
-
-const dataClients = [
-    {
-        key: '1',
-        name: 'Артамонов Михаил Потапович',
-        email: "arta222@mail.ru",
-        isBanned: false
-    },
-    {
-        key: '2',
-        name: 'Усов Никита Никитич',
-        email: "usov2001@mail.ru",
-        isBanned: true
-    },
-];
-
-const dataEmployee = [
-    {
-        key: '1',
-        name: 'Зубенко Михаил Петрович',
-        email: "zubenko1989@mail.ru",
-        isBanned: false
-    },
-    {
-        key: '2',
-        name: 'Жадин Олег Тинович',
-        email: "tinkoff@gmail.com",
-        isBanned: false
-    },
-];
 
 const columns = [
     {
@@ -76,7 +48,7 @@ const columns = [
         key: 'ban',
         width: '0',
         render: (_text: string, record: UserData) =>
-            <Button danger={!record.isBanned} className={"w-full"} ghost type={"primary"}>
+            <Button danger={!record.isBanned} className={"w-full"} ghost type={"primary"} size={"small"}>
                 {record.isBanned ? "Разбанить":"Забанить"}
             </Button>,
     },

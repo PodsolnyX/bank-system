@@ -1,8 +1,9 @@
 import {Table, Typography} from "antd";
-import {convertNumberPriceToNormalString} from "../../../helpers/stringHelpers.ts";
+import {convertNumberPriceToNormalString} from "../../../shared/helpers/stringHelpers.ts";
 import {ColumnsType} from "antd/es/table";
 import {generatePath, Link} from "react-router-dom";
 import {Links} from "../../../constants/Links.ts";
+import {dataAccounts} from "../mocks/dataAccounts.ts";
 
 const AccountsPage = () => {
     return (
@@ -17,29 +18,14 @@ const AccountsPage = () => {
     )
 }
 
-interface DataAccountType {
+interface AccountData {
     key: string;
     name: string;
     id: string;
     money: number
 }
 
-const dataAccounts = [
-    {
-        key: '1',
-        name: 'Артамонов Михаил Потапович',
-        id: "0000-0000-0000-0001",
-        money: 1000
-    },
-    {
-        key: '2',
-        name: 'Усов Никита Никитич',
-        id: "0000-0000-0000-0002",
-        money: 10000
-    },
-];
-
-const columns: ColumnsType<DataAccountType> = [
+const columns: ColumnsType<AccountData> = [
     {
         title: 'ФИО',
         dataIndex: 'name',
@@ -57,7 +43,6 @@ const columns: ColumnsType<DataAccountType> = [
         key: 'money',
         align: "end",
         render: (text: number) => convertNumberPriceToNormalString(text) || 0
-
     }
 ];
 
