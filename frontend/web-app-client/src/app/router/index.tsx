@@ -10,11 +10,12 @@ export const ApplicationRouter = () => {
       path: '/',
       element: <Layout />,
       errorElement: <ErrorPage />,
-      children: [
-        ...publicRoutes,
-        ...privateRoutes,
-        { path: '*', element: <NotFoundPage /> },
-      ],
+      children: privateRoutes,
+    },
+    {
+      path: '/',
+      errorElement: <ErrorPage />,
+      children: [...publicRoutes, { path: '*', element: <NotFoundPage /> }],
     },
   ])
 

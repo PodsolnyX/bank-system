@@ -1,12 +1,14 @@
 export enum AppRoutes {
   MAIN = '/',
   LOGIN = '/login',
+  LOGOUT = '/logout',
   REGISTER = '/register',
+  PROFILE = '/profile',
 
-  TARIFFS = '/tariffs',
-  CREDIT = '/credit',
+  NEW_CREDIT = '/new_credit',
+  CREDIT = '/credits',
 
   ACCOUNTS = '/accounts',
-  ACCOUNT = '/account/:id',
-  ACCOUNT_OPERATION = 'account/:id/transaction',
+  ACCOUNT = '/accounts/:id',
+  ACCOUNT_OPERATION = '/operations',
 }

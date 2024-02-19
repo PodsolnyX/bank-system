@@ -5,7 +5,9 @@ import {
   AccountPage,
   AccountsPage,
   CreditPage,
+  LogoutPage,
   MainPage,
+  ProfilePage,
   TariffsPage,
 } from 'pages'
 
@@ -35,8 +37,16 @@ const _privateRoutes: RouteObject[] = [
     element: <MainPage />,
   },
   {
-    path: AppRoutes.TARIFFS,
+    path: AppRoutes.NEW_CREDIT,
     element: <TariffsPage />,
+  },
+  {
+    path: AppRoutes.PROFILE,
+    element: <ProfilePage />,
+  },
+  {
+    path: AppRoutes.LOGOUT,
+    element: <LogoutPage />,
   },
 ]
 

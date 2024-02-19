@@ -1,0 +1,16 @@
+import { Layout } from 'antd'
+import { Title, Menu } from 'shared'
+import { HeaderLinks } from 'widgets/header/config'
+import { useMenuLinkMap } from 'widgets/header/lib'
+
+export const Header = () => {
+  const leftLinks = useMenuLinkMap(HeaderLinks.left)
+  const rightLinks = useMenuLinkMap(HeaderLinks.right)
+
+  return (
+    <Layout.Header className='bg-gray-100 flex items-center p-1 sm:p-2 p-4 shadow'>
+      <Title className='ml-1 md:ml-3' />
+      <Menu leftSide={leftLinks} rightSide={rightLinks} />
+    </Layout.Header>
+  )
+}
