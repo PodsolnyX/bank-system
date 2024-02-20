@@ -12,7 +12,7 @@ const leftLinks: MenuLinkDescription[] = [
   },
   {
     label: 'Операции',
-    to: AppRoutes.ACCOUNT_OPERATION,
+    to: AppRoutes.OPERATIONS_MENU,
   },
   {
     label: 'Кредиты',

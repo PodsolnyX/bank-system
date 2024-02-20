@@ -1,6 +1,6 @@
 import { Result, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { AppRoutes, Center } from 'shared'
+import { AppRoutes, Center, Image } from 'shared'
 import logo from 'assets/logo.svg'
 
 export const NotFoundPage = () => {
@@ -14,7 +14,7 @@ export const NotFoundPage = () => {
     <Center>
       <Result
         className='shimmer'
-        icon={<img src={logo} className='img-shadow' />}
+        icon={<Image src={logo} className='img-shadow w-[150px] md:w-[200px]' />}
         title='Страница не найдена!'
         subTitle='Извините, запрашиваемая Вами страница не существует.'
         extra={

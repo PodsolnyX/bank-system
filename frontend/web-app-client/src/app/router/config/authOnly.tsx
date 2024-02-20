@@ -7,6 +7,7 @@ import {
   CreditPage,
   LogoutPage,
   MainPage,
+  OperationPage,
   ProfilePage,
   TariffsPage,
 } from 'pages'
@@ -17,7 +18,7 @@ import { privateWrapper } from 'app/router/lib'
 
 const _privateRoutes: RouteObject[] = [
   {
-    path: AppRoutes.ACCOUNT,
+    path: AppRoutes.ACCOUNT_HISTORY,
     element: <AccountPage />,
   },
   {
@@ -25,8 +26,16 @@ const _privateRoutes: RouteObject[] = [
     element: <AccountsPage />,
   },
   {
-    path: AppRoutes.ACCOUNT_OPERATION,
+    path: AppRoutes.OPERATIONS_MENU,
     element: <AccountOperationPage />,
+  },
+  {
+    path: AppRoutes.WITHDRAW,
+    element: <OperationPage />,
+  },
+  {
+    path: AppRoutes.DEPOSIT,
+    element: <OperationPage />,
   },
   {
     path: AppRoutes.CREDIT,

@@ -8,7 +8,7 @@ export const Header = () => {
   const rightLinks = useMenuLinkMap(HeaderLinks.right)
 
   return (
-    <Layout.Header className='bg-gray-100 flex items-center p-1 sm:p-2 p-4 shadow'>
+    <Layout.Header className='bg-gray-100 flex justify-center items-center sm:justify-start p-1 sm:p-2 p-4 shadow'>
       <Title className='ml-1 md:ml-3' />
       <Menu leftSide={leftLinks} rightSide={rightLinks} />
     </Layout.Header>

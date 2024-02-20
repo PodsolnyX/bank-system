@@ -1,3 +1,4 @@
+import { Image } from 'shared'
 import logoSVG from 'assets/logo.svg'
 
 export interface LogoProps {
@@ -6,12 +7,11 @@ export interface LogoProps {
 
 export const Logo = (props: LogoProps) => {
   return (
-    <img
+    <Image
       {...props}
       className='w-[30px] h-[30px] md:w-[40px] md:h-[40px] mx-1'
       src={logoSVG}
       alt='Зеленый банк'
-      draggable={false}
     />
   )
 }

@@ -3,12 +3,12 @@ import { Header, Footer } from 'widgets'
 
 export const Layout = () => {
   return (
-    <div className='w-full h-full flex flex-col bg-green-100'>
+    <>
       <Header />
-      <main className='px-2 py-1'>
+      <main className='my-3 px-2 py-1 w-full h-full'>
         <Outlet />
       </main>
       <Footer />
-    </div>
+    </>
   )
 }
