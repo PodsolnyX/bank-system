@@ -7,6 +7,7 @@ import {
   CreditPage,
   LogoutPage,
   MainPage,
+  NewAccountPage,
   OperationPage,
   ProfilePage,
   TariffsPage,
@@ -48,6 +49,10 @@ const _privateRoutes: RouteObject[] = [
   {
     path: AppRoutes.NEW_CREDIT,
     element: <TariffsPage />,
+  },
+  {
+    path: AppRoutes.ACCOUNT_NEW,
+    element: <NewAccountPage />,
   },
   {
     path: AppRoutes.PROFILE,

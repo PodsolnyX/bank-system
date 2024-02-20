@@ -1,11 +1,15 @@
 import { StoreProvider } from 'shared/store'
 import { ApplicationRouter } from './router'
+import ruRU from 'antd/locale/ru_RU'
+import { ConfigProvider } from 'antd'
 
 function App() {
   return (
-    <StoreProvider>
-      <ApplicationRouter />
-    </StoreProvider>
+    <ConfigProvider locale={ruRU}>
+      <StoreProvider>
+        <ApplicationRouter />
+      </StoreProvider>
+    </ConfigProvider>
   )
 }
 

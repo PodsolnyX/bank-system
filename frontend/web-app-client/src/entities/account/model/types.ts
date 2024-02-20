@@ -1,6 +1,6 @@
 export type Account = {
   id: string
-  name: string
+  number: string
   balance: number
   closed: boolean
 }
