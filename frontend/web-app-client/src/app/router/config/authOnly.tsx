@@ -5,6 +5,7 @@ import {
   AccountPage,
   AccountsPage,
   CreditPage,
+  HistoryPage,
   LogoutPage,
   MainPage,
   NewAccountPage,
@@ -14,6 +15,7 @@ import {
 } from 'pages'
 
 import { privateWrapper } from 'app/router/lib'
+import { OperationType } from 'entities/operation'
 
 // These routes are only for authorized users
 
@@ -32,14 +34,18 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.WITHDRAW,
-    element: <OperationPage />,
+    element: <OperationPage type={OperationType.WITHDRAW} />,
   },
   {
     path: AppRoutes.DEPOSIT,
-    element: <OperationPage />,
+    element: <OperationPage type={OperationType.DEPOSIT} />,
   },
   {
-    path: AppRoutes.CREDIT,
+    path: AppRoutes.HISTORY,
+    element: <HistoryPage />
+  },
+  {
+    path: AppRoutes.CREDITS,
     element: <CreditPage />,
   },
   {

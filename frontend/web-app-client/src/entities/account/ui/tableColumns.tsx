@@ -12,13 +12,14 @@ export const columns: ColumnsType<Account> = [
     dataIndex: 'number',
     key: 'number',
     sorter: (a, b) => a.number.localeCompare(b.number),
-    render: (number, acc) => <Link to={getAccountHistoryLink(acc.id)}>{number}</Link>
+    render: (number, acc) => <Link to={getAccountHistoryLink(acc.id)}>{number}</Link>,
   },
   {
     title: 'Баланс (руб.)',
     dataIndex: 'balance',
     key: 'balance',
     sorter: (a, b) => a.balance - b.balance,
+    responsive: ['md'],
   },
   {
     title: 'Статус',
@@ -36,13 +37,14 @@ export const columns: ColumnsType<Account> = [
       },
     ],
     onFilter: (value, acc) => acc.closed === value,
-    defaultFilteredValue: [false]
+    defaultFilteredValue: [false],
   },
   {
     title: 'Действие',
     dataIndex: '',
     render: (_, acc) => <Dropdown items={getDropdownItemsDescr(acc)} />,
-    width: '15%',
+    width: '10%',
     align: 'center',
+    responsive: ['md'],
   },
 ]

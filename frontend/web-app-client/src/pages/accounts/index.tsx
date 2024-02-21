@@ -8,7 +8,7 @@ export const AccountsPage = () => {
   const accounts = [
     {
       name: 'Накопительный счет',
-      balance: 13765,
+      balance: 0,
       id: '214213123',
       closed: true,
       number: '1234-1234-1234-1234',
@@ -22,7 +22,7 @@ export const AccountsPage = () => {
     },
     {
       name: 'Накопительный счет',
-      balance: 13765,
+      balance: 0,
       id: '213125521213',
       closed: true,
       number: '1234-1234-1234-1234',
@@ -57,7 +57,7 @@ export const AccountsPage = () => {
     },
     {
       name: 'Другой счет',
-      balance: 5000,
+      balance: 0,
       id: '223131232133',
       closed: false,
       number: '1234-1234-1234-1234',

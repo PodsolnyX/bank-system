@@ -1,5 +1,5 @@
 import { Button, Input } from 'antd'
-import { CreditCardOutlined } from '@ant-design/icons'
+import { DollarOutlined } from '@ant-design/icons'
 import { Form, Center } from 'shared'
 
 export const NewAccountPage = () => {
@@ -25,7 +25,7 @@ export const NewAccountPage = () => {
             type='number'
             min='0'
             max='99999999'
-            prefix={<CreditCardOutlined className='site-form-item-icon' />}
+            prefix={<DollarOutlined className='site-form-item-icon' />}
             placeholder='Сумма (руб)'
           />
         </Form.Item>

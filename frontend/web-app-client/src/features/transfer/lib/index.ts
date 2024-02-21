@@ -28,7 +28,7 @@ export function getTransferAssets(type: OperationType) {
       return {
         title: 'Погашение кредита',
         arrow: arrowDown,
-        route: AppRoutes.CREDIT,
+        route: AppRoutes.CREDITS,
       }
     default:
       return {

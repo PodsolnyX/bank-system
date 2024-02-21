@@ -3,6 +3,7 @@ import { MenuCardProps } from 'pages/main/ui/menuCard'
 
 import accountsIcon from 'assets/card.svg'
 import creditIcon from 'assets/credit.svg'
+import historyIcon from 'assets/history.svg'
 
 export const MainMenuItems: MenuCardProps[] = [
   {
@@ -12,7 +13,12 @@ export const MainMenuItems: MenuCardProps[] = [
   },
   {
     title: 'Кредиты',
-    link: AppRoutes.CREDIT,
+    link: AppRoutes.CREDITS,
     icon: creditIcon,
   },
+  {
+    title: 'История',
+    link: AppRoutes.HISTORY,
+    icon: historyIcon
+  }
 ]

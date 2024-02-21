@@ -16,12 +16,16 @@ const leftLinks: MenuLinkDescription[] = [
   },
   {
     label: 'Кредиты',
-    to: AppRoutes.CREDIT,
+    to: AppRoutes.CREDITS,
   },
+  {
+    label: 'История',
+    to: AppRoutes.HISTORY
+  }
 ]
 
 const rightLinks: MenuLinkDescription[] = [
- /* {
+  /* {
     label: 'Профиль',
     to: AppRoutes.PROFILE,
   },

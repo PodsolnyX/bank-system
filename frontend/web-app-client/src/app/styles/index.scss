@@ -1,4 +1,5 @@
 @import "reset";
+@import "antd";
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -27,7 +28,7 @@ body, #root {
     }
 }}
 
-img, h1 {
+img, h1, h2, h3 {
     user-select: none;
 }
 
@@ -49,4 +50,9 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    color: rgb(132, 204, 22) !important;
 }
