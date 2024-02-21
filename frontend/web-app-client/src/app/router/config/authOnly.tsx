@@ -17,8 +17,6 @@ import {
 import { privateWrapper } from 'app/router/lib'
 import { OperationType } from 'entities/operation'
 
-// These routes are only for authorized users
-
 const _privateRoutes: RouteObject[] = [
   {
     path: AppRoutes.ACCOUNT_HISTORY,
@@ -42,18 +40,22 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.HISTORY,
-    element: <HistoryPage />
+    element: <HistoryPage />,
   },
   {
     path: AppRoutes.CREDITS,
     element: <CreditPage />,
   },
   {
+    path: AppRoutes.REPAY,
+    element: <OperationPage type={OperationType.REPAYMENT}/>
+  },
+  {
     path: AppRoutes.MAIN,
     element: <MainPage />,
   },
   {
-    path: AppRoutes.NEW_CREDIT,
+    path: AppRoutes.CREDIT_NEW,
     element: <NewCreditPage />,
   },
   {

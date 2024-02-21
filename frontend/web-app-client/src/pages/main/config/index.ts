@@ -19,6 +19,6 @@ export const MainMenuItems: MenuCardProps[] = [
   {
     title: 'История',
     link: AppRoutes.HISTORY,
-    icon: historyIcon
-  }
+    icon: historyIcon,
+  },
 ]

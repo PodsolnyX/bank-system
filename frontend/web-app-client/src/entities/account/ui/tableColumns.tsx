@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ColumnsType } from 'antd/lib/table'
 import { getDropdownItemsDescr } from 'entities/account/config'
 import { Account } from 'entities/account/model'
-import { Dropdown } from 'entities/account/ui/dropdown'
+import { Dropdown } from 'shared/ui'
 import { getAccountHistoryLink } from 'shared'
 
 export const columns: ColumnsType<Account> = [

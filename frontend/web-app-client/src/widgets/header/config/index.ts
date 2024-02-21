@@ -20,8 +20,8 @@ const leftLinks: MenuLinkDescription[] = [
   },
   {
     label: 'История',
-    to: AppRoutes.HISTORY
-  }
+    to: AppRoutes.HISTORY,
+  },
 ]
 
 const rightLinks: MenuLinkDescription[] = [

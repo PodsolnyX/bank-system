@@ -58,9 +58,10 @@ export const fullHistoryColumns: ColumnsType<Operation> = [
     dataIndex: 'account',
     key: 'account',
     width: '15%',
-    render: (acc) => <Link to={getAccountHistoryLink(acc.id)}>{acc.number}</Link>
+    render: (acc) => <Link to={getAccountHistoryLink(acc.id)}>{acc.number}</Link>,
+    sorter: (a, b) => a.date.localeCompare(b.date),
   },
-  ...historyColumns
+  ...historyColumns,
 ]
 
 const getTagColor = (type: OperationType): NonNullable<TagProps['color']> => {

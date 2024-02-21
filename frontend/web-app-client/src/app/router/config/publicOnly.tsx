@@ -4,8 +4,6 @@ import { LoginPage, RegisterPage } from 'pages'
 
 import { publicWrapper } from 'app/router/lib'
 
-// These routes are only for authorized users
-
 const _publicRoutes: RouteObject[] = [
   {
     path: AppRoutes.LOGIN,
