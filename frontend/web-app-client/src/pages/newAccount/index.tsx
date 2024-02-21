@@ -1,6 +1,6 @@
-import { Center } from 'shared'
+import { Button, Input } from 'antd'
 import { CreditCardOutlined } from '@ant-design/icons'
-import { Button, Form, Input } from 'antd'
+import { Form, Center } from 'shared'
 
 export const NewAccountPage = () => {
   const onFinish = (values: any) => {
@@ -9,12 +9,12 @@ export const NewAccountPage = () => {
 
   return (
     <Center>
-      <h1 className='mb-6'>Новый счет</h1>
+      <h1 className='mb-3'>Новый счет</h1>
       <Form
         layout='vertical'
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        className='w-full p-2 border-[1px] border-slate-300 border-solid rounded-md shadow-xl'
+        className='w-2/3 md:w-1/3'
       >
         <Form.Item
           name='initialSum'

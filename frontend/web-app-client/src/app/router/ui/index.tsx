@@ -5,7 +5,7 @@ export const Layout = () => {
   return (
     <>
       <Header />
-      <main className='my-3 px-2 py-1 w-full h-full'>
+      <main className='mb-5 mt-3 px-5 w-full h-full'>
         <Outlet />
       </main>
       <Footer />

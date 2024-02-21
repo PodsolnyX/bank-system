@@ -1,12 +1,7 @@
-import { ReactNode } from 'react'
 import cs from 'classnames'
-export interface ContainerProps {
-  children?: ReactNode
-  className?: string
-  [key: string]: any
-}
+import { CommonProps } from 'shared/utils'
 
-export const Container = (props: ContainerProps) => {
+export const Container = (props: CommonProps) => {
   const { children, className, ...rest } = props
   return (
     <div

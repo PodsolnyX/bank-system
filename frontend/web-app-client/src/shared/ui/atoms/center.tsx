@@ -1,9 +1,13 @@
 import cs from 'classnames'
-import { PropsWithChildren } from 'react'
+import { CommonProps } from 'shared/utils'
 
-export const Center = ({ children }: PropsWithChildren) => {
+export const Center = (props: CommonProps) => {
+  const { children, className, ...rest } = props
   return (
-    <div className='w-full h-full flex flex-col justify-center items-center'>
+    <div
+      className={cs('w-full h-full flex flex-col justify-center items-center', className)}
+      {...rest}
+    >
       {children}
     </div>
   )
