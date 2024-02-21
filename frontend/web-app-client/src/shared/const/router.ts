@@ -9,7 +9,7 @@ export enum AppRoutes {
   CREDITS = '/credits',
   CREDIT = '/credit/:id',
   REPAY = '/repay/:id?',
-  
+
   ACCOUNTS = '/accounts',
   ACCOUNT_NEW = '/account/new',
   ACCOUNT_HISTORY = '/accounts/:id/history',
@@ -19,7 +19,6 @@ export enum AppRoutes {
   OPERATION_RESULT = 'operation_result/:id',
   DEPOSIT = '/deposit/:id?',
   WITHDRAW = '/withdraw/:id?',
-
 }
 
 const route_rep =

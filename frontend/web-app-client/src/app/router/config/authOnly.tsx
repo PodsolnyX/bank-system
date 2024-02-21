@@ -48,7 +48,7 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.REPAY,
-    element: <OperationPage type={OperationType.REPAYMENT}/>
+    element: <OperationPage type={OperationType.REPAYMENT} />,
   },
   {
     path: AppRoutes.MAIN,

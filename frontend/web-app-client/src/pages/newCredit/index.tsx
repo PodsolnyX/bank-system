@@ -1,12 +1,11 @@
-import { Button } from 'antd'
+import { Center } from 'shared'
+import { NewCreditForm } from 'features/credit'
 
 export const NewCreditPage = () => {
   return (
-    <div className='flex flex-col items-center justify-center'>
-      <h1>Оформить кредит</h1>
-      <Button type='primary' className='mt-8'>
-        Выбрать
-      </Button>
-    </div>
+    <Center>
+      <h1 className='mb-3'>Новый кредит</h1>
+      <NewCreditForm />
+    </Center>
   )
 }

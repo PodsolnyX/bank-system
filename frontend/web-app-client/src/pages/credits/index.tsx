@@ -29,9 +29,9 @@ const credits: Credit[] = [
     number: '231-12',
     tariff: {
       id: '213',
-      name: 'тариф 1'
+      name: 'тариф 1',
     },
-    fine: 102
+    fine: 102,
   },
   {
     currentAmount: 23122,
@@ -43,8 +43,8 @@ const credits: Credit[] = [
     number: '123-112',
     tariff: {
       id: '2213',
-      name: 'тариф 2'
+      name: 'тариф 2',
     },
-    fine: 211
-  }
+    fine: 211,
+  },
 ]
