@@ -2,7 +2,6 @@ import { Form as AntdForm } from 'antd'
 import cs from 'classnames'
 import { CommonProps } from 'shared/utils'
 
-
 export const Form = (props: CommonProps) => {
   const { children, className, ...rest } = props
   return (

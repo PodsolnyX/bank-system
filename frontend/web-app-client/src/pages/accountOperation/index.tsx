@@ -7,7 +7,7 @@ export const AccountOperationPage = () => {
   return (
     <Center>
       <h1 className='mb-6'>Меню операций</h1>
-      <Flex className='mb-6'>
+      <Flex wrap={'wrap'} justify='center' align='center' className='mb-6'>
         <Transfer type={OperationType.DEPOSIT} />
         <Transfer type={OperationType.WITHDRAW} />
       </Flex>

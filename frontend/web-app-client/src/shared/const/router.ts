@@ -14,11 +14,14 @@ export enum AppRoutes {
   ACCOUNT_CLOSE = '/accounts/:id/close',
   OPERATIONS_MENU = '/operations_menu',
   OPERATION_RESULT = 'operation_result/:id',
-  DEPOSIT = '/deposit',
-  WITHDRAW = '/withdraw',
+  DEPOSIT = '/deposit/:id?',
+  WITHDRAW = '/withdraw/:id?',
 }
 
 export const getAccountHistoryLink = (id: string) =>
   AppRoutes.ACCOUNT_HISTORY.replace(':id', id)
 export const getAccountCloseLink = (id: string) =>
   AppRoutes.ACCOUNT_CLOSE.replace(':id', id)
+export const getAccountDepositLink = (id: string) => AppRoutes.DEPOSIT.replace(':id?', id)
+export const getAccountWithdrawLink = (id: string) =>
+  AppRoutes.WITHDRAW.replace(':id', id)

@@ -6,7 +6,7 @@ export const Container = (props: CommonProps) => {
   return (
     <div
       className={cs(
-        'bg-white rounded-lg border-[1px] border-slate-300 border-solid mx-1 p-2 relative select-none hover:shadow-inner',
+        'bg-white rounded-lg border-[1px] border-slate-300 border-solid m-1 p-2 relative select-none hover:shadow-inner',
         className
       )}
       {...rest}
