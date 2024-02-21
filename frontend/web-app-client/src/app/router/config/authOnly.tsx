@@ -11,7 +11,7 @@ import {
   NewAccountPage,
   OperationPage,
   ProfilePage,
-  TariffsPage,
+  NewCreditPage,
 } from 'pages'
 
 import { privateWrapper } from 'app/router/lib'
@@ -54,7 +54,7 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.NEW_CREDIT,
-    element: <TariffsPage />,
+    element: <NewCreditPage />,
   },
   {
     path: AppRoutes.ACCOUNT_NEW,
