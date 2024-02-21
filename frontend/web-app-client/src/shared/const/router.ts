@@ -18,10 +18,9 @@ export enum AppRoutes {
   WITHDRAW = '/withdraw/:id?',
 }
 
-export const getAccountHistoryLink = (id: string) =>
-  AppRoutes.ACCOUNT_HISTORY.replace(':id', id)
-export const getAccountCloseLink = (id: string) =>
-  AppRoutes.ACCOUNT_CLOSE.replace(':id', id)
-export const getAccountDepositLink = (id: string) => AppRoutes.DEPOSIT.replace(':id?', id)
-export const getAccountWithdrawLink = (id: string) =>
-  AppRoutes.WITHDRAW.replace(':id', id)
+const route_rep = (route: string) => (id = '') => route.replace(/:id\??/, id).replace(/\/$/, '')
+
+export const getAccountHistoryLink = route_rep(AppRoutes.ACCOUNT_HISTORY)
+export const getAccountCloseLink = route_rep(AppRoutes.ACCOUNT_CLOSE)
+export const getAccountDepositLink = route_rep(AppRoutes.DEPOSIT)
+export const getAccountWithdrawLink = route_rep(AppRoutes.WITHDRAW)

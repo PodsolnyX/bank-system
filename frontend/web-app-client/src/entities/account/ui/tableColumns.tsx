@@ -1,8 +1,10 @@
 import { Tag } from 'antd'
+import { Link } from 'react-router-dom'
 import { ColumnsType } from 'antd/lib/table'
 import { getDropdownItemsDescr } from 'entities/account/config'
 import { Account } from 'entities/account/model'
 import { Dropdown } from 'entities/account/ui/dropdown'
+import { getAccountHistoryLink } from 'shared'
 
 export const columns: ColumnsType<Account> = [
   {
@@ -10,6 +12,7 @@ export const columns: ColumnsType<Account> = [
     dataIndex: 'number',
     key: 'number',
     sorter: (a, b) => a.number.localeCompare(b.number),
+    render: (number, acc) => <Link to={getAccountHistoryLink(acc.id)}>{number}</Link>
   },
   {
     title: 'Баланс (руб.)',
@@ -28,15 +31,12 @@ export const columns: ColumnsType<Account> = [
     align: 'center',
     filters: [
       {
-        text: 'Закрыт',
+        text: 'Показать закрытые',
         value: true,
       },
-      {
-        text: 'Открыт',
-        value: false,
-      },
     ],
-    onFilter: (value, record) => record.closed === value,
+    onFilter: (value, acc) => acc.closed === value,
+    defaultFilteredValue: [false]
   },
   {
     title: 'Действие',

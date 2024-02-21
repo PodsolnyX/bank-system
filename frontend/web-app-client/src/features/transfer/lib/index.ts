@@ -1,5 +1,5 @@
 import { OperationType } from 'entities/operation/model/types'
-import { AppRoutes } from 'shared'
+import { AppRoutes, getAccountDepositLink, getAccountWithdrawLink } from 'shared'
 
 import arrow from 'assets/arrow.svg'
 import arrowDown from 'assets/arrowDown.svg'
@@ -16,13 +16,13 @@ export function getTransferAssets(type: OperationType) {
       return {
         title: 'Внести деньги',
         arrow,
-        route: AppRoutes.DEPOSIT,
+        route: getAccountDepositLink(),
       }
     case OperationType.WITHDRAW:
       return {
         title: 'Cнять деньги',
         arrow: arrowDown,
-        route: AppRoutes.WITHDRAW,
+        route: getAccountWithdrawLink(),
       }
     case OperationType.REPAYMENT:
       return {
