@@ -59,6 +59,10 @@ const _privateRoutes: RouteObject[] = [
     element: <NewCreditPage />,
   },
   {
+    path: AppRoutes.CREDIT,
+    element: <CreditPage />,
+  },
+  {
     path: AppRoutes.ACCOUNT_NEW,
     element: <NewAccountPage />,
   },

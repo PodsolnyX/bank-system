@@ -4,7 +4,7 @@ import { PlusCircleOutlined } from '@ant-design/icons'
 import { AppRoutes, Center } from 'shared'
 import { Credit, CreditTable } from 'entities'
 
-export const CreditPage = () => {
+export const CreditsListPage = () => {
   return (
     <Center>
       <h1 className='mb-1'>Меню кредитов</h1>
