@@ -8,6 +8,6 @@ export type Credit = {
   fullAmount: number
   currentAmount: number
   needToPay: boolean
-  tariff: Pick<Tariff, 'id' | 'name'>
+  tariff: Pick<Tariff, 'id' | 'name' | 'rate'>
   fine: number
 }

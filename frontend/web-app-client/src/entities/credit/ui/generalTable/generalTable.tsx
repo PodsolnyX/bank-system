@@ -1,12 +1,12 @@
 import { Table } from 'antd'
 import { Credit } from 'entities'
-import { creditTableColumns } from 'entities/credit/ui/tableColumns'
+import { generalCreditTableColumns } from './generalTableColumns'
 
-export interface CreditTableProps {
+export interface GeneralCreditTableProps {
   credits: Credit[]
 }
 
-export const CreditTable = (props: CreditTableProps) => {
+export const GeneralCreditTable = (props: GeneralCreditTableProps) => {
   const { credits } = props
 
   return (
@@ -14,7 +14,7 @@ export const CreditTable = (props: CreditTableProps) => {
       rowKey={(record) => record.id}
       bordered
       className='w-full md:w-2/3 border-[1px] border-slate-300 border-solid rounded-lg text-sm'
-      columns={creditTableColumns}
+      columns={generalCreditTableColumns}
       dataSource={credits}
       pagination={{ pageSize: 7 }}
     />

@@ -1,5 +1,5 @@
 import { Account, HistoryTable, OperationType } from 'entities'
-import { Center } from 'shared'
+import { Center, Property } from 'shared'
 
 export const AccountPage = () => {
   const account: Account = {
@@ -12,16 +12,9 @@ export const AccountPage = () => {
   return (
     <Center>
       <h1 className='my-3 text-lime-500'>История операций</h1>
-      <div className='w-full md:w-2/3 my-1'>
-        <span className='text-lime-500'>Номер счета:</span> {account.number}
-      </div>
-      <div className='w-full md:w-2/3 my-1'>
-        <span className='text-lime-500'>Текущая сумма:</span> {account.balance}
-      </div>
-      <div className='w-full md:w-2/3 my-1'>
-        <span className='text-lime-500'>Статус счета:</span>{' '}
-        {account.closed ? 'Закрыт' : 'Открыт'}
-      </div>
+      <Property name='Номер счета' value={account.number} />
+      <Property name='Текущая сумма' value={account.balance} />
+      <Property name='Статус счета' value={account.closed ? 'Закрыт' : 'Открыт'} />
       <HistoryTable
         history={[
           { amount: 350, date: '2005.11.06', type: OperationType.DEPOSIT, id: '13' },

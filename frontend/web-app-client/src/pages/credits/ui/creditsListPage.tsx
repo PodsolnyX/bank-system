@@ -2,7 +2,7 @@ import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { AppRoutes, Center } from 'shared'
-import { Credit, CreditTable } from 'entities'
+import { Credit, GeneralCreditTable } from 'entities'
 
 export const CreditsListPage = () => {
   return (
@@ -13,7 +13,7 @@ export const CreditsListPage = () => {
           Новый кредит
         </Button>
       </Link>
-      <CreditTable credits={credits} />
+      <GeneralCreditTable credits={credits} />
     </Center>
   )
 }

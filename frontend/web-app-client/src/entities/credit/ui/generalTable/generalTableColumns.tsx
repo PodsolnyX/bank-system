@@ -6,7 +6,7 @@ import { getCreditLink, Dropdown } from 'shared'
 import { Credit } from 'entities/credit/model'
 import { getDropdownItemsDescr } from 'entities/credit/config'
 
-export const creditTableColumns: ColumnsType<Credit> = [
+export const generalCreditTableColumns: ColumnsType<Credit> = [
   {
     title: 'Номер',
     dataIndex: 'number',
