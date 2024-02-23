@@ -5,6 +5,7 @@ import { AuthRequest, AuthResponse } from './types'
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
+  keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     loginUser: builder.mutation<AuthRequest, AuthResponse>({
       query: (token) => ({

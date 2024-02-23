@@ -1,13 +1,16 @@
-import { StoreProvider } from 'shared/store'
-import { ApplicationRouter } from './router'
 import ruRU from 'antd/locale/ru_RU'
 import { ConfigProvider } from 'antd'
+
+import { StoreProvider } from 'shared/store'
+import { ApplicationRouter } from './router'
+import { Toaster } from './toast'
 
 function App() {
   return (
     <ConfigProvider locale={ruRU}>
       <StoreProvider>
-        <ApplicationRouter />
+          <Toaster />
+          <ApplicationRouter />
       </StoreProvider>
     </ConfigProvider>
   )

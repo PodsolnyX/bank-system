@@ -14,6 +14,7 @@ import {
 export const accountsApi = createApi({
   reducerPath: 'accountsApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_ACCOUNTS }),
+  keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getAccounts: builder.query<GetAccountsResp, GetAccountsReq>({
       query: () => ({ url: '' }),
@@ -37,5 +38,5 @@ export const accountsApi = createApi({
   }),
 })
 
-export const { useGetAccountsQuery, useNewAccountMutation, useCloseAccountMutation } =
+export const { useGetAccountQuery, useGetAccountsQuery, useNewAccountMutation, useCloseAccountMutation } =
   accountsApi

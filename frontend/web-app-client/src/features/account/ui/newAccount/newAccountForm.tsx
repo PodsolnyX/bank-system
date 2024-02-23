@@ -1,20 +1,26 @@
 import { Button, Input } from 'antd'
 import { DollarOutlined } from '@ant-design/icons'
-import { Form } from 'shared/ui'
+import { Form, FormProps } from 'shared/ui'
 
-export const NewAccountForm = () => {
-  const onFinish = (values: any) => {
-    console.log(values)
-  }
+export type NewAccountFormProps = {
+  onFinish: (data: NewAccountFormData) => void
+} & Omit<FormProps, 'children'>
+
+export interface NewAccountFormData {
+  balance: number
+}
+
+export const NewAccountForm = (props: NewAccountFormProps) => {
+  const { onFinish, ...rest } = props
 
   return (
     <Form
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
+      {...rest}
+      onFinish={(data: NewAccountFormData) => onFinish(data)}
       className='w-2/3 md:w-1/3'
     >
       <Form.Item
-        name='initialSum'
+        name='balance'
         label='Начальная сумма'
         rules={[{ required: true, message: 'Пожалуйста, введите сумму!' }]}
       >

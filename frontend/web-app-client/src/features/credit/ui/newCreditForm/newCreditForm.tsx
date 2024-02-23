@@ -8,11 +8,7 @@ export const NewCreditForm = () => {
   }
 
   return (
-    <Form
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      className='w-2/3 md:w-1/3'
-    >
+    <Form onFinish={onFinish} className='w-2/3 md:w-1/3'>
       <Form.Item
         label='Тариф'
         name='tariff'
