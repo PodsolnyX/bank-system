@@ -1,2 +1,3 @@
 export * from './card'
-export * from './newAccountForm'
+export * from './newAccount'
+export * from './closeAccount'

@@ -1,6 +1,6 @@
 import { VerboseCreditTable, OperationType, Credit } from 'entities'
 import { Link } from 'react-router-dom'
-import { Center, Property, getCreditRepayLink } from 'shared'
+import { Center, PageHeader, Property, getCreditRepayLink } from 'shared'
 
 export const CreditPage = () => {
   const credit: Credit = {
@@ -20,7 +20,7 @@ export const CreditPage = () => {
   }
   return (
     <Center>
-      <h1 className='my-3 text-lime-500'>Информация</h1>
+      <PageHeader text='Информация о кредите' />
 
       <Property
         name='Кредит'
@@ -58,7 +58,7 @@ export const CreditPage = () => {
             amount: 600,
             date: '2006.11.09',
             type: OperationType.REPAYMENT,
-            id: '15',
+            id: '125',
             credit: { id: '1', number: '1' },
             account: { id: '1123', number: '1234-1234-1234-1234' },
           },

@@ -1,13 +1,13 @@
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { AppRoutes, Center } from 'shared'
+import { AppRoutes, Center, PageHeader } from 'shared'
 import { Credit, GeneralCreditTable } from 'entities'
 
 export const CreditsListPage = () => {
   return (
     <Center>
-      <h1 className='mb-1'>Меню кредитов</h1>
+      <PageHeader text='Меню кредитов' />
       <Link to={AppRoutes.CREDIT_NEW}>
         <Button className='mb-2' icon={<PlusCircleOutlined />}>
           Новый кредит
@@ -30,6 +30,7 @@ const credits: Credit[] = [
     tariff: {
       id: '213',
       name: 'тариф 1',
+      rate: 10,
     },
     fine: 102,
   },
@@ -44,6 +45,7 @@ const credits: Credit[] = [
     tariff: {
       id: '2213',
       name: 'тариф 2',
+      rate: 15,
     },
     fine: 211,
   },

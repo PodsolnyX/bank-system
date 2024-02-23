@@ -25,7 +25,7 @@ export const TransferForm = (props: TransferFormProps) => {
           />
         </Form.Item>
         {type === OperationType.REPAYMENT && (
-          <Form.Item label='Счет' name='credit'>
+          <Form.Item label='Кредит' name='credit'>
             <Select
               className='text-black'
               suffixIcon={<CreditCardOutlined />}

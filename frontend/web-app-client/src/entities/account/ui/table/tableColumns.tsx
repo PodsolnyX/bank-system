@@ -45,6 +45,5 @@ export const columns: ColumnsType<Account> = [
     render: (_, acc) => <Dropdown items={getDropdownItemsDescr(acc)} />,
     width: '10%',
     align: 'center',
-    responsive: ['md'],
   },
 ]

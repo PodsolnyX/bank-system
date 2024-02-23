@@ -24,6 +24,5 @@ export const verboseCreditTableColumns: ColumnsType<Operation> = [
     dataIndex: 'amount',
     key: 'amount',
     sorter: (a, b) => a.amount - b.amount,
-    responsive: ['md'],
   },
 ]

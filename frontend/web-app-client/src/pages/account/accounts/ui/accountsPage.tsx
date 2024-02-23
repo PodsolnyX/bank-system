@@ -1,7 +1,7 @@
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { AppRoutes, Center } from 'shared'
+import { AppRoutes, Center, PageHeader } from 'shared'
 import { AccountsTable } from 'entities/account'
 
 export const AccountsPage = () => {
@@ -80,7 +80,7 @@ export const AccountsPage = () => {
 
   return (
     <Center>
-      <h1 className='mb-1'>Список счетов</h1>
+      <PageHeader text='Список счетов' />
       <Link to={AppRoutes.ACCOUNT_NEW}>
         <Button className='mb-2' icon={<PlusCircleOutlined />}>
           Новый счет

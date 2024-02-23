@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import { Center } from 'shared'
 import { Account } from 'entities/account'
-import { columns } from 'entities/account/ui/tableColumns'
+import { columns } from './tableColumns'
 
 export interface AccountsListProps {
   accounts: Account[]

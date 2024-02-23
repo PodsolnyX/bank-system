@@ -12,6 +12,7 @@ import {
   OperationPage,
   ProfilePage,
   NewCreditPage,
+  CloseAccountPage,
 } from 'pages'
 
 import { privateWrapper } from 'app/router/lib'
@@ -65,6 +66,10 @@ const _privateRoutes: RouteObject[] = [
   {
     path: AppRoutes.ACCOUNT_NEW,
     element: <NewAccountPage />,
+  },
+  {
+    path: AppRoutes.ACCOUNT_CLOSE,
+    element: <CloseAccountPage />
   },
   {
     path: AppRoutes.PROFILE,

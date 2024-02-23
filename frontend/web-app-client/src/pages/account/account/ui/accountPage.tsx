@@ -1,5 +1,5 @@
 import { Account, HistoryTable, OperationType } from 'entities'
-import { Center, Property } from 'shared'
+import { Center, PageHeader, Property } from 'shared'
 
 export const AccountPage = () => {
   const account: Account = {
@@ -11,7 +11,7 @@ export const AccountPage = () => {
 
   return (
     <Center>
-      <h1 className='my-3 text-lime-500'>История операций</h1>
+      <PageHeader text='Страница счета' />
       <Property name='Номер счета' value={account.number} />
       <Property name='Текущая сумма' value={account.balance} />
       <Property name='Статус счета' value={account.closed ? 'Закрыт' : 'Открыт'} />

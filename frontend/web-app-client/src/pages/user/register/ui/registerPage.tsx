@@ -1,3 +1,9 @@
+import { Center, PageHeader } from 'shared'
+
 export const RegisterPage = () => {
-  return <h1>RegisterPage</h1>
+  return (
+    <Center>
+      <PageHeader text='Регистрация' />
+    </Center>
+  )
 }

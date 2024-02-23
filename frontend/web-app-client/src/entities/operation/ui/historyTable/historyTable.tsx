@@ -3,7 +3,7 @@ import { Operation } from 'entities'
 import {
   fullHistoryColumns,
   historyColumns,
-} from 'entities/operation/ui/historyTableColumns'
+} from './historyTableColumns'
 
 export interface HistoryTableProps {
   history: Operation[]

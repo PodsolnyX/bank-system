@@ -1,10 +1,10 @@
 import { HistoryTable, OperationType } from 'entities'
-import { Center } from 'shared'
+import { Center, PageHeader } from 'shared'
 
 export const HistoryPage = () => {
   return (
     <Center>
-      <h1 className='my-3 text-lime-500'>История операций</h1>
+      <PageHeader text='История операций' />
       <HistoryTable
         full
         history={[

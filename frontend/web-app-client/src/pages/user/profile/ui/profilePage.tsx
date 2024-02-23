@@ -1,3 +1,9 @@
+import { Center, PageHeader } from 'shared'
+
 export const ProfilePage = () => {
-  return <h1>ProfilePage</h1>
+  return (
+    <Center>
+      <PageHeader text='Профиль' />
+    </Center>
+  )
 }
