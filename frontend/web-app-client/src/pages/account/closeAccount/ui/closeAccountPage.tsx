@@ -8,13 +8,13 @@ import { PageLoader } from 'widgets'
 import { useEffect } from 'react'
 
 export const CloseAccountPage = () => {
-  const id = useParams()['id']!;
-  const navigate = useNavigate();
+  const id = useParams()['id']!
+  const navigate = useNavigate()
 
-  const { data, error, isLoading } = useGetAccountQuery({id});
-  const [trigger, result] = useCloseAccountMutation();
+  const { data, error, isLoading } = useGetAccountQuery({ id })
+  const [trigger, result] = useCloseAccountMutation()
 
-  useEffect(() =>{
+  useEffect(() => {
     if (error) {
       navigate(AppRoutes.ACCOUNTS)
     }
@@ -25,8 +25,7 @@ export const CloseAccountPage = () => {
       await trigger({ id }).unwrap()
       toast.success('Счет закрыт!')
       navigate(AppRoutes.ACCOUNTS)
-    }
-    catch {
+    } catch {
       toast.error('Ошибка при закрытии счета!')
     }
   }
@@ -37,7 +36,11 @@ export const CloseAccountPage = () => {
   return (
     <Center>
       <PageHeader text='Закрыть счет' />
-      <CloseAccountForm isLoading={result.isLoading} account={data!} onFinish={onFinish} />
+      <CloseAccountForm
+        isLoading={result.isLoading}
+        account={data!}
+        onFinish={onFinish}
+      />
     </Center>
   )
 }

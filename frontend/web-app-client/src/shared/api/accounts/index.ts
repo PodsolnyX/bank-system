@@ -9,6 +9,10 @@ import {
   GetAccountResp,
   NewAccountReq,
   NewAccountResp,
+  GetAccountsHistoryReq,
+  GetAccountsHistoryResp,
+  GetAccountHistoryResp,
+  GetAccountHistoryReq,
 } from './types'
 
 export const accountsApi = createApi({
@@ -21,6 +25,12 @@ export const accountsApi = createApi({
     }),
     getAccount: builder.query<GetAccountResp, GetAccountReq>({
       query: ({ id }) => ({ url: `/${id}` }),
+    }),
+    getAccountsHistory: builder.query<GetAccountsHistoryResp, GetAccountsHistoryReq>({
+      query: () => ({ url: '/history' }),
+    }),
+    getAccountHistory: builder.query<GetAccountHistoryResp, GetAccountHistoryReq>({
+      query: ({ id }) => ({ url: `/${id}/history` }),
     }),
     newAccount: builder.mutation<NewAccountResp, NewAccountReq>({
       query: (body) => ({
@@ -38,5 +48,11 @@ export const accountsApi = createApi({
   }),
 })
 
-export const { useGetAccountQuery, useGetAccountsQuery, useNewAccountMutation, useCloseAccountMutation } =
-  accountsApi
+export const {
+  useGetAccountHistoryQuery,
+  useGetAccountsHistoryQuery,
+  useGetAccountQuery,
+  useGetAccountsQuery,
+  useNewAccountMutation,
+  useCloseAccountMutation,
+} = accountsApi

@@ -14,8 +14,7 @@ export const NewAccountPage = () => {
       const result = await trigger(data).unwrap()
       toast.success('Счет создан!')
       navigate(getAccountHistoryLink(result.id))
-    }
-    catch {
+    } catch {
       toast.error('Ошибка при создании счета!')
     }
   }
