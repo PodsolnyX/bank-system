@@ -1,7 +1,8 @@
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { AppRoutes, Center, PageHeader } from 'shared'
+import { Center, PageHeader } from 'shared/ui'
+import { AppRoutes } from 'shared/const'
 import { AccountsTable } from 'entities/account'
 
 export const AccountsPage = () => {

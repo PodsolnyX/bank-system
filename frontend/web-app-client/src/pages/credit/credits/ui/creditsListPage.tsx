@@ -1,8 +1,10 @@
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { AppRoutes, Center, PageHeader } from 'shared'
-import { Credit, GeneralCreditTable } from 'entities'
+import { Center, PageHeader } from 'shared/ui'
+import { Credit } from 'shared/entities'
+import { AppRoutes } from 'shared/const'
+import { GeneralCreditTable } from 'entities'
 
 export const CreditsListPage = () => {
   return (

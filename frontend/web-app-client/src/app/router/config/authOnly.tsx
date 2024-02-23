@@ -1,5 +1,7 @@
 import { RouteObject } from 'react-router-dom'
-import { AppRoutes } from 'shared'
+import { OperationType } from 'shared/entities'
+import { AppRoutes } from 'shared/const'
+
 import {
   AccountOperationPage,
   AccountPage,
@@ -16,7 +18,6 @@ import {
 } from 'pages'
 
 import { privateWrapper } from 'app/router/lib'
-import { OperationType } from 'entities/operation'
 
 const _privateRoutes: RouteObject[] = [
   {
@@ -69,7 +70,7 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.ACCOUNT_CLOSE,
-    element: <CloseAccountPage />
+    element: <CloseAccountPage />,
   },
   {
     path: AppRoutes.PROFILE,

@@ -1,6 +1,7 @@
 import { Result, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { AppRoutes, Center } from 'shared'
+import { Center } from 'shared/ui'
+import { AppRoutes } from 'shared/const'
 
 export const ErrorPage = () => {
   const navigate = useNavigate()

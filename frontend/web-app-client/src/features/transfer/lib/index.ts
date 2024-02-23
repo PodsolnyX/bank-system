@@ -1,5 +1,5 @@
-import { OperationType } from 'entities/operation/model/types'
-import { AppRoutes, getAccountDepositLink, getAccountWithdrawLink } from 'shared'
+import { AppRoutes, getAccountDepositLink, getAccountWithdrawLink } from 'shared/const'
+import { OperationType } from 'shared/entities'
 
 import arrow from 'assets/arrow.svg'
 import arrowDown from 'assets/arrowDown.svg'

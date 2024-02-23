@@ -1,9 +1,9 @@
-import { Image } from 'shared'
-import cash from 'assets/cash.svg'
-import { Container } from 'shared/ui/atoms/container'
-import { getTransferAssets } from 'features/transfer/lib'
 import { useNavigate } from 'react-router-dom'
-import { OperationType } from 'entities/operation'
+import { Image, Container } from 'shared/ui'
+import { OperationType } from 'shared/entities'
+import { getTransferAssets } from 'features/transfer/lib'
+
+import cash from 'assets/cash.svg'
 
 export interface TransferProps {
   type: OperationType

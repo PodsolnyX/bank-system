@@ -1,6 +1,8 @@
 import { Result, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { AppRoutes, Center, Image } from 'shared'
+import { Center, Image } from 'shared/ui'
+import { AppRoutes } from 'shared/const'
+
 import logo from 'assets/logo.svg'
 
 export const NotFoundPage = () => {

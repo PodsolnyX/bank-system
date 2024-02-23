@@ -1,4 +1,4 @@
-import { Center, PageHeader } from 'shared'
+import { Center, PageHeader } from 'shared/ui'
 
 export const ProfilePage = () => {
   return (

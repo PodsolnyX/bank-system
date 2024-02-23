@@ -1,5 +1,5 @@
 import { Table } from 'antd'
-import { Operation } from 'entities'
+import { Operation } from 'shared/entities'
 import { verboseCreditTableColumns } from './verboseTableColumns'
 
 export interface VerboseCreditTableProps {

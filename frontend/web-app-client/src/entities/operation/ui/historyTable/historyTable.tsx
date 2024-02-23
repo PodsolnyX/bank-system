@@ -1,9 +1,6 @@
 import { Table } from 'antd'
-import { Operation } from 'entities'
-import {
-  fullHistoryColumns,
-  historyColumns,
-} from './historyTableColumns'
+import { Operation } from 'shared/entities'
+import { fullHistoryColumns, historyColumns } from './historyTableColumns'
 
 export interface HistoryTableProps {
   history: Operation[]

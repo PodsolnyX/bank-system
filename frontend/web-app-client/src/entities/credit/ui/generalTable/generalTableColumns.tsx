@@ -2,8 +2,9 @@ import { Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
-import { getCreditLink, Dropdown } from 'shared'
-import { Credit } from 'entities/credit/model'
+import { Dropdown } from 'shared/ui'
+import { Credit } from 'shared/entities'
+import { getCreditLink } from 'shared/const'
 import { getDropdownItemsDescr } from 'entities/credit/config'
 
 export const generalCreditTableColumns: ColumnsType<Credit> = [

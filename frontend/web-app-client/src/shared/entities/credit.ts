@@ -1,4 +1,4 @@
-import { Tariff } from 'entities/tariff'
+import { Tariff } from 'shared'
 
 export type Credit = {
   id: string

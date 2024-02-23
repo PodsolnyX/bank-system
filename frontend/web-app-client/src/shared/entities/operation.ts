@@ -1,4 +1,4 @@
-import { Credit, Account } from 'entities'
+import { Credit, Account } from 'shared'
 
 export enum OperationType {
   WITHDRAW,

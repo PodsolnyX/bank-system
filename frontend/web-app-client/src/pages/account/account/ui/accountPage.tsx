@@ -1,5 +1,6 @@
-import { Account, HistoryTable, OperationType } from 'entities'
-import { Center, PageHeader, Property } from 'shared'
+import { HistoryTable } from 'entities'
+import { Center, PageHeader, Property } from 'shared/ui'
+import { Account, OperationType } from 'shared/entities'
 
 export const AccountPage = () => {
   const account: Account = {

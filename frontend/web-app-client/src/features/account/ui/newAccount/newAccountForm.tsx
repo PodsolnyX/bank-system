@@ -1,6 +1,6 @@
 import { Button, Input } from 'antd'
 import { DollarOutlined } from '@ant-design/icons'
-import { Form } from 'shared'
+import { Form } from 'shared/ui'
 
 export const NewAccountForm = () => {
   const onFinish = (values: any) => {
@@ -9,7 +9,6 @@ export const NewAccountForm = () => {
 
   return (
     <Form
-      layout='vertical'
       initialValues={{ remember: true }}
       onFinish={onFinish}
       className='w-2/3 md:w-1/3'

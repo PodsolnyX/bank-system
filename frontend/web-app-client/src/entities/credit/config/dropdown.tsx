@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
-import { getCreditLink, getCreditRepayLink } from 'shared'
-import { Credit } from 'entities/credit/model'
+import { Credit } from 'shared/entities'
+import { getCreditLink, getCreditRepayLink } from 'shared/const'
 
 export const getDropdownItemsDescr = (credit: Credit): ItemType[] => [
   {

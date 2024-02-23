@@ -1,5 +1,5 @@
 import { Table } from 'antd'
-import { Credit } from 'entities'
+import { Credit } from 'shared/entities'
 import { generalCreditTableColumns } from './generalTableColumns'
 
 export interface GeneralCreditTableProps {

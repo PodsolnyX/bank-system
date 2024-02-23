@@ -1,7 +1,7 @@
-import { Center, PageHeader } from 'shared'
-import { Transfer } from 'features'
-import { OperationType } from 'entities/operation'
 import { Flex } from 'antd'
+import { OperationType } from 'shared/entities'
+import { Center, PageHeader } from 'shared/ui'
+import { Transfer } from 'features'
 
 export const AccountOperationPage = () => {
   return (

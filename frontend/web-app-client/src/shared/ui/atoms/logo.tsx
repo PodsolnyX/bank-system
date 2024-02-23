@@ -1,4 +1,4 @@
-import { Image } from 'shared'
+import { Image } from 'shared/ui'
 import logoSVG from 'assets/logo.svg'
 
 export interface LogoProps {

@@ -1,8 +1,8 @@
 import { ColumnsType } from 'antd/lib/table'
-
-import { getAccountHistoryLink } from 'shared'
-import { Operation } from 'entities/operation'
 import { Link } from 'react-router-dom'
+
+import { getAccountHistoryLink } from 'shared/const'
+import { Operation } from 'shared/entities'
 
 export const verboseCreditTableColumns: ColumnsType<Operation> = [
   {

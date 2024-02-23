@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
-import { AppRoutes } from 'shared'
+import { AppRoutes } from 'shared/const'
 
 export const PrivateRoute = ({ elem }: { elem: ReactNode }) => {
   const isAuth = true

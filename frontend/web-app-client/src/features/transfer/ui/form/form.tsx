@@ -1,8 +1,8 @@
 import { Button, Input, Select } from 'antd'
 import { CreditCardOutlined, DollarOutlined } from '@ant-design/icons'
 
-import { Center, Form } from 'shared'
-import { OperationType } from 'entities/operation'
+import { Center, Form } from 'shared/ui'
+import { OperationType } from 'shared/entities'
 import { getTransferAssets } from 'features/transfer/lib'
 
 export interface TransferFormProps {

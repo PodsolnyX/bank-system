@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router-dom'
-import { AppRoutes } from 'shared'
+import { AppRoutes } from 'shared/const'
 import { LoginPage, RegisterPage } from 'pages'
 
 import { publicWrapper } from 'app/router/lib'

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { MenuLink } from 'shared'
+import { MenuLink } from 'shared/ui'
 import { MenuLinkDescription } from 'widgets/header/config'
 
 export const useMenuLinkMap = (linksDescr: MenuLinkDescription[]) => {

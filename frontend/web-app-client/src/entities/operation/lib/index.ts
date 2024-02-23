@@ -1,4 +1,4 @@
-import { OperationType } from 'entities/operation/model/types'
+import { OperationType } from 'shared/entities'
 
 export function getOperationName(type: OperationType) {
   switch (type) {

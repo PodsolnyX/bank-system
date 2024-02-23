@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
 
-import { Account } from 'entities/account/model/types'
+import { Account } from 'shared/entities'
 import {
   getAccountCloseLink,
   getAccountHistoryLink,
   getAccountDepositLink,
   getAccountWithdrawLink,
-} from 'shared'
+} from 'shared/const'
 
 export const getDropdownItemsDescr = (account: Account): ItemType[] => [
   {

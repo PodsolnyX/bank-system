@@ -1,5 +1,5 @@
 import { Layout } from 'antd'
-import { Title, Menu } from 'shared'
+import { Title, Menu } from 'shared/ui'
 import { HeaderLinks } from 'widgets/header/config'
 import { useMenuLinkMap } from 'widgets/header/lib'
 

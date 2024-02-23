@@ -2,9 +2,9 @@ import { Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { ColumnsType } from 'antd/lib/table'
 import { getDropdownItemsDescr } from 'entities/account/config'
-import { Account } from 'entities/account/model'
+import { Account } from 'shared/entities'
 import { Dropdown } from 'shared/ui'
-import { getAccountHistoryLink } from 'shared'
+import { getAccountHistoryLink } from 'shared/const'
 
 export const columns: ColumnsType<Account> = [
   {

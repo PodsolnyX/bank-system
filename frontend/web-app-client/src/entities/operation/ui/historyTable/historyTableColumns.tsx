@@ -1,11 +1,11 @@
 import { Tag } from 'antd'
+import { TagProps } from 'antd/es/tag'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
-import { Operation, OperationType } from 'entities/operation'
 import { getOperationName } from 'entities/operation/lib'
-import { getAccountHistoryLink, getCreditLink } from 'shared'
-import { TagProps } from 'antd/es/tag'
+import { getAccountHistoryLink, getCreditLink } from 'shared/const'
+import { Operation, OperationType } from 'shared/entities'
 
 export const historyColumns: ColumnsType<Operation> = [
   {

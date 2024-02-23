@@ -1,6 +1,5 @@
-import { Image } from 'shared'
-import { Container } from 'shared/ui/atoms/container'
 import { useNavigate } from 'react-router-dom'
+import { Image, Container } from 'shared/ui'
 
 export interface MenuCardProps {
   icon: string

@@ -1,6 +1,9 @@
-import { VerboseCreditTable, OperationType, Credit } from 'entities'
 import { Link } from 'react-router-dom'
-import { Center, PageHeader, Property, getCreditRepayLink } from 'shared'
+
+import { VerboseCreditTable } from 'entities'
+import { Center, PageHeader, Property } from 'shared/ui'
+import { OperationType, Credit } from 'shared/entities'
+import { getCreditRepayLink } from 'shared/const'
 
 export const CreditPage = () => {
   const credit: Credit = {

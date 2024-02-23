@@ -1,5 +1,6 @@
-import { HistoryTable, OperationType } from 'entities'
-import { Center, PageHeader } from 'shared'
+import { HistoryTable } from 'entities'
+import { OperationType } from 'shared/entities'
+import { Center, PageHeader } from 'shared/ui'
 
 export const HistoryPage = () => {
   return (
