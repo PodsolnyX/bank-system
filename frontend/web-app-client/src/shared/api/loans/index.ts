@@ -31,17 +31,17 @@ export const loansApi = createApi({
       }),
     }),
     getTariffs: builder.query<GetTariffsResp, GetTariffsReq>({
-      query: (body) => ({
+      query: (params) => ({
         url: '',
         method: 'GET',
-        body,
+        params,
       }),
     }),
     getLoans: builder.query<GetLoansResp, GetLoansReq>({
-      query: (body) => ({
+      query: (params) => ({
         url: '',
         method: 'GET',
-        body,
+        params,
       }),
     }),
   }),

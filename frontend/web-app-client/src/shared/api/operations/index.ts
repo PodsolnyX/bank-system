@@ -7,7 +7,7 @@ export const operationsApi = createApi({
   keepUnusedDataFor: 0,
   baseQuery: fetchBaseQuery({ baseUrl: API_OPERATIONS }),
   endpoints: (builder) => ({
-    getProfile: builder.query<GetHistoryResp, GetHistoryReq>({
+    getHistory: builder.query<GetHistoryResp, GetHistoryReq>({
       query: (body) => ({
         url: '',
         method: 'GET',
@@ -16,3 +16,5 @@ export const operationsApi = createApi({
     }),
   }),
 })
+
+export const { useGetHistoryQuery } = operationsApi
