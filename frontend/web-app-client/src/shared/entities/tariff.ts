@@ -1,5 +1,9 @@
+import { CurrencyType } from 'shared/entities/currency'
+
 export type Tariff = {
   id: string
   name: string
-  rate: number
+  periodInDays: number
+  interestRate: number
+  currencyTypes: CurrencyType[]
 }

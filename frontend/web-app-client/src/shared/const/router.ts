@@ -5,9 +5,9 @@ export enum AppRoutes {
   REGISTER = '/register',
   PROFILE = '/profile',
 
-  CREDIT_NEW = '/new_credit',
-  CREDITS = '/credits',
-  CREDIT = '/credit/:id',
+  LOAN_NEW = '/new_loan',
+  LOANS = '/loans',
+  LOAN = '/loan/:id',
   REPAY = '/repay/:id?',
 
   ACCOUNTS = '/accounts',
@@ -31,5 +31,5 @@ export const getAccountCloseLink = route_rep(AppRoutes.ACCOUNT_CLOSE)
 export const getAccountDepositLink = route_rep(AppRoutes.DEPOSIT)
 export const getAccountWithdrawLink = route_rep(AppRoutes.WITHDRAW)
 
-export const getCreditLink = route_rep(AppRoutes.CREDIT)
-export const getCreditRepayLink = route_rep(AppRoutes.REPAY)
+export const getLoanLink = route_rep(AppRoutes.LOAN)
+export const getLoanRepayLink = route_rep(AppRoutes.REPAY)

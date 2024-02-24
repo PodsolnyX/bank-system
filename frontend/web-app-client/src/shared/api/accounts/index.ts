@@ -9,10 +9,10 @@ import {
   GetAccountResp,
   NewAccountReq,
   NewAccountResp,
-  GetAccountsHistoryReq,
-  GetAccountsHistoryResp,
-  GetAccountHistoryResp,
-  GetAccountHistoryReq,
+  DepositResp,
+  DepositReq,
+  WithdrawResp,
+  WithdrawReq,
 } from './types'
 
 export const accountsApi = createApi({
@@ -25,12 +25,6 @@ export const accountsApi = createApi({
     }),
     getAccount: builder.query<GetAccountResp, GetAccountReq>({
       query: ({ id }) => ({ url: `/${id}` }),
-    }),
-    getAccountsHistory: builder.query<GetAccountsHistoryResp, GetAccountsHistoryReq>({
-      query: () => ({ url: '/history' }),
-    }),
-    getAccountHistory: builder.query<GetAccountHistoryResp, GetAccountHistoryReq>({
-      query: ({ id }) => ({ url: `/${id}/history` }),
     }),
     newAccount: builder.mutation<NewAccountResp, NewAccountReq>({
       query: (body) => ({
@@ -45,14 +39,34 @@ export const accountsApi = createApi({
         method: 'POST',
       }),
     }),
+    deposit: builder.mutation<DepositResp, DepositReq>({
+      query: ({ id, moneyAmount, message }) => ({
+        url: `/${id}/deposit`,
+        method: 'POST',
+        body: {
+          moneyAmount,
+          message,
+        },
+      }),
+    }),
+    withdraw: builder.mutation<WithdrawResp, WithdrawReq>({
+      query: ({ id, moneyAmount, message }) => ({
+        url: `/${id}/withdraw`,
+        method: 'POST',
+        body: {
+          moneyAmount,
+          message,
+        },
+      }),
+    }),
   }),
 })
 
 export const {
-  useGetAccountHistoryQuery,
-  useGetAccountsHistoryQuery,
   useGetAccountQuery,
   useGetAccountsQuery,
   useNewAccountMutation,
   useCloseAccountMutation,
+  useDepositMutation,
+  useWithdrawMutation,
 } = accountsApi

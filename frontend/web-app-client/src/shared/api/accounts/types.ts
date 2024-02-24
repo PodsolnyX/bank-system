@@ -1,4 +1,4 @@
-import { Account, Operation } from 'shared/entities'
+import { Account } from 'shared/entities'
 
 export type GetAccountReq = Pick<Account, 'id'>
 export type GetAccountResp = Account
@@ -6,16 +6,22 @@ export type GetAccountResp = Account
 export type GetAccountsReq = void
 export type GetAccountsResp = Account[]
 
-export type GetAccountsHistoryReq = void
-export type GetAccountsHistoryResp = Operation[]
-
-export type GetAccountHistoryReq = Pick<Account, 'id'>
-export type GetAccountHistoryResp = Operation[]
-
-export type NewAccountReq = Pick<Account, 'balance'>
+export type NewAccountReq = Pick<Account, 'type'>
 export type NewAccountResp = Account
 
 export type CloseAccountReq = Pick<Account, 'id'>
-export type CloseAccountResp = {
-  result: boolean
+export type CloseAccountResp = void
+
+export type DepositReq = {
+  id: string
+  moneyAmount: number
+  message?: string
 }
+export type DepositResp = void
+
+export type WithdrawReq = {
+  id: string
+  moneyAmount: number
+  message?: string
+}
+export type WithdrawResp = void

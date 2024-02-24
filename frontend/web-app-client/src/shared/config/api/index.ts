@@ -8,5 +8,6 @@ const path = (...parts: string[]) => {
 
 export const API_AUTH = path('auth')
 export const API_ACCOUNTS = path('accounts')
-export const API_CREDITS = path('credits')
+export const API_LOANS = path('loans')
 export const API_OPERATIONS = path('operations')
+export const API_USER = path('user')

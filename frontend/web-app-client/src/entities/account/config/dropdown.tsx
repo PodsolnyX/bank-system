@@ -9,7 +9,7 @@ import {
   getAccountWithdrawLink,
 } from 'shared/const'
 
-export const getDropdownItemsDescr = (account: Account): ItemType[] => [
+export const getAccountActions = (account: Account): ItemType[] => [
   {
     label: <Link to={getAccountHistoryLink(account.id)}>История</Link>,
     disabled: false,
@@ -17,17 +17,17 @@ export const getDropdownItemsDescr = (account: Account): ItemType[] => [
   },
   {
     label: <Link to={getAccountDepositLink(account.id)}>Пополнить</Link>,
-    disabled: account.closed,
+    disabled: !!account.closedAt,
     key: 'deposit',
   },
   {
     label: <Link to={getAccountWithdrawLink(account.id)}>Снять</Link>,
-    disabled: account.closed,
+    disabled: !!account.closedAt,
     key: 'withdraw',
   },
   {
     label: <Link to={getAccountCloseLink(account.id)}>Закрыть</Link>,
-    disabled: account.closed || account.balance > 0,
+    disabled: !!account.closedAt || account.amount > 0,
     key: 'close',
   },
 ]

@@ -1,14 +1,14 @@
-import { Button, Input } from 'antd'
+import { Button, Select } from 'antd'
 import { DollarOutlined } from '@ant-design/icons'
 import { Form, FormProps } from 'shared/ui'
+import { Account } from 'shared/entities'
+import { CurrencyType } from 'shared/entities/currency'
 
 export type NewAccountFormProps = {
   onFinish: (data: NewAccountFormData) => void
 } & Omit<FormProps, 'children'>
 
-export interface NewAccountFormData {
-  balance: number
-}
+export type NewAccountFormData = Pick<Account, 'type'>
 
 export const NewAccountForm = (props: NewAccountFormProps) => {
   const { onFinish, ...rest } = props
@@ -20,17 +20,15 @@ export const NewAccountForm = (props: NewAccountFormProps) => {
       className='w-2/3 md:w-1/3'
     >
       <Form.Item
-        name='balance'
-        label='Начальная сумма'
-        rules={[{ required: true, message: 'Пожалуйста, введите сумму!' }]}
+        name='type'
+        label='Тип валюты'
+        rules={[{ required: true, message: 'Пожалуйста, выберите тип!' }]}
       >
-        <Input
-          type='number'
-          min='0'
-          max='99999999'
-          prefix={<DollarOutlined className='site-form-item-icon' />}
-          placeholder='Сумма (руб)'
-        />
+        <Select suffixIcon={<DollarOutlined />} placeholder='Выберите валюту'>
+          {Object.keys(CurrencyType).map((cur, i) => (
+            <Select.Option key={i}>{cur}</Select.Option>
+          ))}
+        </Select>
       </Form.Item>
 
       <Button className='float-right' type='primary' htmlType='submit'>

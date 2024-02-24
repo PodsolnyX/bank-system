@@ -1,5 +1,5 @@
 export * from './account'
-export * from './credit'
+export * from './loan'
 export * from './operation'
 export * from './user'
 export * from './error'

@@ -1,4 +1,5 @@
 export * from './auth'
 export * from './accounts'
-export * from './credits'
+export * from './loans'
 export * from './operations'
+export * from './user'

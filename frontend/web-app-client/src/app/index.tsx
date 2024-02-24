@@ -9,8 +9,8 @@ function App() {
   return (
     <ConfigProvider locale={ruRU}>
       <StoreProvider>
-          <Toaster />
-          <ApplicationRouter />
+        <Toaster />
+        <ApplicationRouter />
       </StoreProvider>
     </ConfigProvider>
   )

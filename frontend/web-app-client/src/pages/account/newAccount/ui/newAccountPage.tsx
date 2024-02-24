@@ -3,7 +3,7 @@ import { useNewAccountMutation } from 'shared/api'
 import { NewAccountForm, NewAccountFormData } from 'features/account'
 import { useNavigate } from 'react-router-dom'
 import { getAccountHistoryLink } from 'shared/const'
-import { toast } from 'react-toastify'
+import { toastError, toastSuccess } from 'shared/toast'
 
 export const NewAccountPage = () => {
   const [trigger, result] = useNewAccountMutation()
@@ -12,10 +12,10 @@ export const NewAccountPage = () => {
   const onFinish = async (data: NewAccountFormData) => {
     try {
       const result = await trigger(data).unwrap()
-      toast.success('Счет создан!')
+      toastSuccess('Счет создан!')
       navigate(getAccountHistoryLink(result.id))
     } catch {
-      toast.error('Ошибка при создании счета!')
+      toastError('Ошибка при создании счета!')
     }
   }
 

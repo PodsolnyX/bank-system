@@ -1,16 +1,23 @@
-import { Credit, Account } from 'shared'
-
 export enum OperationType {
-  WITHDRAW,
   DEPOSIT,
-  REPAYMENT,
+  WITHDRAW,
+  LOAN_CHARGE,
+  LOAN_INCOME,
+}
+
+export enum OperationStatus {
+  SUCCESS,
+  FAILURE,
+  PROCESSING,
 }
 
 export type Operation = {
   id: string
+  accountId: string
+  loadId?: string
   type: OperationType
-  date: string
-  account: Pick<Account, 'id' | 'number'>
-  credit?: Pick<Credit, 'id' | 'number'>
+  status: OperationStatus
   amount: number
+  date: string
+  message?: string
 }

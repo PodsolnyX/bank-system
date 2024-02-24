@@ -24,11 +24,17 @@ export function getTransferAssets(type: OperationType) {
         arrow: arrowDown,
         route: getAccountWithdrawLink(),
       }
-    case OperationType.REPAYMENT:
+    case OperationType.LOAN_CHARGE:
       return {
         title: 'Погашение кредита',
         arrow: arrowDown,
-        route: AppRoutes.CREDITS,
+        route: AppRoutes.LOANS,
+      }
+    case OperationType.LOAN_INCOME:
+      return {
+        title: 'Взятие кредита',
+        arrow,
+        route: AppRoutes.LOAN_NEW,
       }
     default:
       return {

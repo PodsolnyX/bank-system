@@ -10,13 +10,13 @@ const leftLinks: MenuLinkDescription[] = [
     label: 'Счета',
     to: AppRoutes.ACCOUNTS,
   },
-  {
+  /*  {
     label: 'Операции',
     to: AppRoutes.OPERATIONS_MENU,
-  },
+  }, */
   {
     label: 'Кредиты',
-    to: AppRoutes.CREDITS,
+    to: AppRoutes.LOANS,
   },
   {
     label: 'История',

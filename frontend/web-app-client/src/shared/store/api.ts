@@ -1,15 +1,17 @@
-import { authApi, accountsApi, creditsApi, operationsApi } from 'shared/api'
+import { authApi, accountsApi, loansApi, operationsApi, userApi } from 'shared/api'
 
 export const apiReducers = {
   [authApi.reducerPath]: authApi.reducer,
   [accountsApi.reducerPath]: accountsApi.reducer,
-  [creditsApi.reducerPath]: creditsApi.reducer,
+  [loansApi.reducerPath]: loansApi.reducer,
   [operationsApi.reducerPath]: operationsApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
 }
 
 export const apiMiddleware = [
   authApi.middleware,
   accountsApi.middleware,
-  creditsApi.middleware,
+  loansApi.middleware,
   operationsApi.middleware,
+  userApi.middleware,
 ]

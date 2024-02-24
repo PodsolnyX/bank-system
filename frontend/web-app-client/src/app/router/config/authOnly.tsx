@@ -3,17 +3,17 @@ import { OperationType } from 'shared/entities'
 import { AppRoutes } from 'shared/const'
 
 import {
-  AccountOperationPage,
   AccountPage,
   AccountsPage,
-  CreditPage,
+  LoanPage,
+  LoansListPage,
   HistoryPage,
   LogoutPage,
   MainPage,
   NewAccountPage,
   OperationPage,
   ProfilePage,
-  NewCreditPage,
+  NewLoanPage,
   CloseAccountPage,
 } from 'pages'
 
@@ -28,10 +28,10 @@ const _privateRoutes: RouteObject[] = [
     path: AppRoutes.ACCOUNTS,
     element: <AccountsPage />,
   },
-  {
+  /*  {
     path: AppRoutes.OPERATIONS_MENU,
     element: <AccountOperationPage />,
-  },
+  }, */
   {
     path: AppRoutes.WITHDRAW,
     element: <OperationPage type={OperationType.WITHDRAW} />,
@@ -45,24 +45,24 @@ const _privateRoutes: RouteObject[] = [
     element: <HistoryPage />,
   },
   {
-    path: AppRoutes.CREDITS,
-    element: <CreditPage />,
+    path: AppRoutes.LOANS,
+    element: <LoansListPage />,
   },
   {
     path: AppRoutes.REPAY,
-    element: <OperationPage type={OperationType.REPAYMENT} />,
+    element: <OperationPage type={OperationType.LOAN_CHARGE} />,
   },
   {
     path: AppRoutes.MAIN,
     element: <MainPage />,
   },
   {
-    path: AppRoutes.CREDIT_NEW,
-    element: <NewCreditPage />,
+    path: AppRoutes.LOAN_NEW,
+    element: <NewLoanPage />,
   },
   {
-    path: AppRoutes.CREDIT,
-    element: <CreditPage />,
+    path: AppRoutes.LOAN,
+    element: <LoanPage />,
   },
   {
     path: AppRoutes.ACCOUNT_NEW,

@@ -1,5 +1,5 @@
-import { OperationType } from 'shared'
-import { TransferForm } from 'features/transfer/ui/form'
+import { OperationType } from 'shared/entities'
+import { TransferForm } from 'features/transfer'
 
 export interface OperationPageProps {
   type: OperationType

@@ -4,7 +4,7 @@ import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
 import { getOperationName } from 'entities/operation/lib'
-import { getAccountHistoryLink, getCreditLink } from 'shared/const'
+import { getAccountHistoryLink, getLoanLink } from 'shared/const'
 import { Operation, OperationType } from 'shared/entities'
 
 export const historyColumns: ColumnsType<Operation> = [
@@ -28,15 +28,15 @@ export const historyColumns: ColumnsType<Operation> = [
         value: OperationType.WITHDRAW,
       },
       {
-        text: getOperationName(OperationType.REPAYMENT),
-        value: OperationType.REPAYMENT,
+        text: getOperationName(OperationType.LOAN_CHARGE),
+        value: OperationType.LOAN_CHARGE,
       },
     ],
     render: (_, op) => (
       <>
         <Tag color={getTagColor(op.type)}>{getOperationName(op.type)}</Tag>
-        {op.type === OperationType.REPAYMENT && (
-          <Link to={getCreditLink(op.credit?.id)}>{`Кредит #${op.credit?.number}`}</Link>
+        {op.type === OperationType.LOAN_CHARGE && (
+          <Link to={getLoanLink('2')}>{`Кредит #${'2'}`}</Link>
         )}
       </>
     ),
@@ -58,7 +58,7 @@ export const fullHistoryColumns: ColumnsType<Operation> = [
     dataIndex: 'account',
     key: 'account',
     width: '15%',
-    render: (acc) => <Link to={getAccountHistoryLink(acc.id)}>{acc.number}</Link>,
+    render: () => <Link to={getAccountHistoryLink('32')}>{'23'}</Link>,
     sorter: (a, b) => a.date.localeCompare(b.date),
   },
   ...historyColumns,
@@ -70,7 +70,7 @@ const getTagColor = (type: OperationType): NonNullable<TagProps['color']> => {
       return 'green'
     case OperationType.WITHDRAW:
       return 'blue'
-    case OperationType.REPAYMENT:
+    case OperationType.LOAN_CHARGE:
       return 'orange'
     default:
       return 'default'

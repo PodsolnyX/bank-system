@@ -1,7 +1,7 @@
 export type User = {
-  email: string
-  firstName: string
-  lastName: string
-  patronymic: string
-  dob: string
+  id: string
+  name: string
+  mail: string
+  banedAt?: string
+  isEmployee: boolean
 }

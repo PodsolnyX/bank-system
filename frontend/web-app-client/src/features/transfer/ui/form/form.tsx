@@ -24,8 +24,8 @@ export const TransferForm = (props: TransferFormProps) => {
             placeholder='Номер счета'
           />
         </Form.Item>
-        {type === OperationType.REPAYMENT && (
-          <Form.Item label='Кредит' name='credit'>
+        {type === OperationType.LOAN_CHARGE && (
+          <Form.Item label='Кредит' name='loan'>
             <Select
               className='text-black'
               suffixIcon={<CreditCardOutlined />}
@@ -41,6 +41,9 @@ export const TransferForm = (props: TransferFormProps) => {
             suffix={<DollarOutlined />}
             placeholder='Введите число'
           />
+        </Form.Item>
+        <Form.Item label='Сообщение' name='message'>
+          <Input.TextArea placeholder='Введите сообщение (опционально)' />
         </Form.Item>
         <Button type='primary' className='float-right'>
           Подтвердить

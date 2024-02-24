@@ -1,11 +1,10 @@
 import { Button } from 'antd'
 import { Form, FormProps } from 'shared/ui'
-import { Account } from 'shared/entities'
 import { useEffect, useState } from 'react'
 
 export type CloseAccountFormProps = {
   onFinish: () => void
-  account: Pick<Account, 'number'>
+  account: string
 } & FormProps
 
 export const CloseAccountForm = (props: CloseAccountFormProps) => {
@@ -24,7 +23,7 @@ export const CloseAccountForm = (props: CloseAccountFormProps) => {
     <Form {...rest} onFinish={onFinish} className='w-2/3 md:w-1/3'>
       <h2 className='text-center'>Подтвердите закрытие</h2>
       <h3 className='text-center'>Это действие невозможно отменить!</h3>
-      <h3 className='text-center'>Номер счета: {account.number}</h3>
+      <h3 className='text-center'>Номер счета: {account}</h3>
 
       <Button
         disabled={time > 0}
