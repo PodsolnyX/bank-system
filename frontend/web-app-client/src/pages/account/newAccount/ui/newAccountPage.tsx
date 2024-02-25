@@ -21,7 +21,7 @@ export const NewAccountPage = () => {
 
   return (
     <Center>
-      <PageHeader text='Новый счет' />
+      <PageHeader text='Открыть счет' />
       <NewAccountForm isLoading={result.isLoading} onFinish={onFinish} />
     </Center>
   )

@@ -1,2 +1,2 @@
-export * from './newLoanForm'
 export * from './chargeLoanForm'
+export * from './types'

@@ -15,6 +15,7 @@ import {
   ProfilePage,
   NewLoanPage,
   CloseAccountPage,
+  ChargeLoanPage,
 } from 'pages'
 
 import { privateWrapper } from 'app/router/lib'
@@ -50,7 +51,7 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.REPAY,
-    element: <OperationPage type={OperationType.LOAN_CHARGE} />,
+    element: <ChargeLoanPage />,
   },
   {
     path: AppRoutes.MAIN,

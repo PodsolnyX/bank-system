@@ -12,7 +12,7 @@ export const LoanPage = () => {
     dateEnd: '211231',
     dateStart: '21312',
     fine: 213,
-    fullAmount: 123,
+    sum: 123,
     needToPay: true,
     number: '21312312',
     tariff: {
@@ -27,12 +27,12 @@ export const LoanPage = () => {
 
       <Property
         name='Кредит'
-        value={`${loan.number}, тариф ${loan.tariff.name}, ${loan.tariff.interestRate}%`}
+        value={`${loan.id}, тариф ${loan.tariff.name}, ${loan.tariff.interestRate}%`}
       />
       <Property name='Срок' value={`${loan.dateStart} по ${loan.dateEnd}`} />
       <Property
         name='Долг, сумма, пеня'
-        value={`${loan.currentAmount}, ${loan.fullAmount}, ${loan.fine} руб`}
+        value={`${loan.amount}, ${loan.fullAmount}, ${loan.fine} руб`}
       />
       <Property
         name='Оплачен'

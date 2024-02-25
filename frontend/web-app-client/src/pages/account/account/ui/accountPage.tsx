@@ -1,10 +1,9 @@
 import { HistoryTable } from 'entities'
-import { Center, PageHeader, Property } from 'shared/ui'
+import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 import { useGetHistoryQuery, useGetAccountQuery } from 'shared/api'
 import { PageLoader } from 'widgets'
-import { Navigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
-import { toastError } from 'shared/toast'
 
 export const AccountPage = () => {
   const id = useParams()['id']!
@@ -12,8 +11,13 @@ export const AccountPage = () => {
   const histQuery = useGetHistoryQuery({ account: [id] })
 
   if (accQuery.isError || histQuery.isError) {
-    toastError('Ошибка при получении данных о счете')
-    return <Navigate to={AppRoutes.ACCOUNTS} />
+    return (
+      <ErrorMsg
+        link={AppRoutes.ACCOUNTS}
+        linkText='Вернуться в меню счетов'
+        text='Произошла ошибка при загрузке данных'
+      />
+    )
   }
   if (!accQuery.isSuccess || !histQuery.isSuccess) {
     return <PageLoader />

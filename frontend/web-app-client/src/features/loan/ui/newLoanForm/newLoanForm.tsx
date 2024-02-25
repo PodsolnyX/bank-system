@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Alert, Button, InputNumber, Select } from 'antd'
 import {
   DollarOutlined,
@@ -6,8 +7,7 @@ import {
 } from '@ant-design/icons'
 import { Form, FormProps } from 'shared/ui'
 import { Account, Tariff } from 'shared/entities'
-import { RequestLoanReq } from 'shared/api/loans/types'
-import { useState } from 'react'
+import { RequestLoanReq } from 'shared/api'
 import { moneyRules } from 'shared/utils'
 
 export type NewLoanFormProps = {
@@ -63,9 +63,7 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
       <Form.Item
         name='accountId'
         label='На какой счет'
-        rules={
-          [{ required: true, message: 'Пожалуйста, укажите счет!' }]
-        }
+        rules={[{ required: true, message: 'Пожалуйста, укажите счет!' }]}
       >
         <Select
           className='text-black'
@@ -75,7 +73,9 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
           onChange={(v) => setAccount(v)}
         >
           {visibleAccounts.map((acc) => (
-            <Select.Option key={acc.id}>{`${acc.id}: ${acc.amount}${acc.type}`}</Select.Option>
+            <Select.Option
+              key={acc.id}
+            >{`${acc.id}: ${acc.amount}${acc.type}`}</Select.Option>
           ))}
         </Select>
       </Form.Item>
@@ -90,8 +90,14 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
           controls={false}
         />
       </Form.Item>
-      {!isValid && <Alert message='Счет и тариф должны совпадать по валютам' type='info' className='my-2'/>}
-    
+      {!isValid && (
+        <Alert
+          message='Счет и тариф должны совпадать по валютам'
+          type='info'
+          className='my-2'
+        />
+      )}
+
       <p className='text-red-500'></p>
       <Button className='float-right' type='primary' htmlType='submit'>
         Создать

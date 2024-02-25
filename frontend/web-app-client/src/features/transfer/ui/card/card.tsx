@@ -11,7 +11,7 @@ export interface TransferProps {
 
 export const Transfer = (props: TransferProps) => {
   const { type } = props
-  const { arrow, route, title } = getTransferAssets(type)
+  const { route, title } = getTransferAssets(type)
   const navigate = useNavigate()
 
   const onClick = () => {
@@ -25,7 +25,7 @@ export const Transfer = (props: TransferProps) => {
     >
       <h2>{title}</h2>
       <div className='w-2/3'>
-        <Image src={arrow} className='w-full' />
+        <Image src={''} className='w-full' />
       </div>
       <Image
         src={cash}

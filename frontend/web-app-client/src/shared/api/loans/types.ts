@@ -29,3 +29,6 @@ export type GetLoansReq = PaginationReq & {
   currencyType?: CurrencyType[]
 }
 export type GetLoansResp = Loan[]
+
+export type GetLoanReq = Pick<Loan, 'id'>
+export type GetLoanResp = Loan

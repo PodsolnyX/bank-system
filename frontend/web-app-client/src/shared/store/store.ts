@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { apiMiddleware, apiReducers } from './api'
+import { authReducer } from './auth'
 
 export const store = configureStore({
   reducer: combineReducers({
     ...apiReducers,
+    authReducer,
   }),
   middleware: (gDM) => gDM().concat(apiMiddleware),
 })

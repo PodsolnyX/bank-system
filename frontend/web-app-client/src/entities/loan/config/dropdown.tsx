@@ -11,7 +11,7 @@ export const getLoanActions = (loan: Loan): ItemType[] => [
   },
   {
     label: <Link to={getLoanRepayLink(loan.id)}>Погасить</Link>,
-    disabled: loan.currentAmount <= 0,
+    disabled: loan.debt <= 0,
     key: 'deposit',
   },
 ]

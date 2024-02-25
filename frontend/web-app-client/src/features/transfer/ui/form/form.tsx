@@ -1,51 +1,63 @@
-import { Button, Input, Select } from 'antd'
-import { CreditCardOutlined, DollarOutlined } from '@ant-design/icons'
+import { Button, Input, InputNumber } from 'antd'
+import { CreditCardOutlined } from '@ant-design/icons'
 
 import { Center, Form } from 'shared/ui'
-import { OperationType } from 'shared/entities'
-import { getTransferAssets } from 'features/transfer/lib'
-
-export interface TransferFormProps {
-  type: OperationType
-}
+import { getTransferAssets } from 'features/transfer'
+import { moneyRules } from 'shared/utils'
+import { TransferFormProps } from './types'
 
 export const TransferForm = (props: TransferFormProps) => {
-  const { type } = props
+  const { type, account, onFinish, isLoading } = props
   const { title } = getTransferAssets(type)
 
   return (
     <Center>
       <h1>{title}</h1>
-      <Form className='w-full md:w-1/3'>
+      <Form
+        className='w-full md:w-1/3'
+        onFinish={onFinish}
+        initialValues={{
+          account: account.id,
+        }}
+        isLoading={isLoading}
+      >
         <Form.Item label='Счет' name='account'>
-          <Select
-            className='text-black'
-            suffixIcon={<CreditCardOutlined />}
-            placeholder='Номер счета'
-          />
-        </Form.Item>
-        {type === OperationType.LOAN_CHARGE && (
-          <Form.Item label='Кредит' name='loan'>
-            <Select
-              className='text-black'
-              suffixIcon={<CreditCardOutlined />}
-              placeholder='Кредит'
-            />
-          </Form.Item>
-        )}
-        <Form.Item label='Сумма (руб.)' name='amount'>
           <Input
-            type='number'
-            min='10'
-            max='99999999'
-            suffix={<DollarOutlined />}
-            placeholder='Введите число'
+            className='text-black'
+            suffix={<CreditCardOutlined />}
+            placeholder='Номер счета'
+            readOnly
           />
         </Form.Item>
-        <Form.Item label='Сообщение' name='message'>
-          <Input.TextArea placeholder='Введите сообщение (опционально)' />
+
+        <Form.Item
+          label='Сумма'
+          name='amount'
+          rules={moneyRules.concat([
+            {
+              validator: (_rule, v) =>
+                account.amount >= v
+                  ? Promise.resolve()
+                  : Promise.reject('Недостаточно денег'),
+            },
+          ])}
+        >
+          <InputNumber
+            className='w-full'
+            placeholder='Введите число'
+            addonAfter={account.type}
+          />
         </Form.Item>
-        <Button type='primary' className='float-right'>
+
+        <Form.Item label='Сообщение' name='message'>
+          <Input.TextArea
+            showCount
+            maxLength={255}
+            placeholder='Введите сообщение (опционально)'
+          />
+        </Form.Item>
+
+        <Button type='primary' className='float-right' htmlType='submit'>
           Подтвердить
         </Button>
       </Form>

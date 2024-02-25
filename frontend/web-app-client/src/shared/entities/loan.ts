@@ -1,13 +1,12 @@
-import { Tariff } from 'shared/entities'
+import { CurrencyType, Tariff } from 'shared/entities'
 
 export type Loan = {
   id: string
-  dateStart: string
-  dateEnd: string
-  number: string
-  fullAmount: number
-  currentAmount: number
-  needToPay: boolean
-  tariff: Pick<Tariff, 'id' | 'name' | 'interestRate'>
-  fine: number
+  userId: string
+  accountId: string
+  tariff: Tariff
+  lastChargeDate: string
+  currencyType: CurrencyType
+  sum: number
+  debt: number
 }

@@ -1,4 +1,4 @@
-import { Container } from 'shared/ui/atoms/container'
+import { Container } from 'shared/ui'
 
 export const Card = () => {
   return <Container></Container>
