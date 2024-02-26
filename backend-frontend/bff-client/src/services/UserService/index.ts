@@ -1,2 +1,2 @@
-export * from './UserService'
-export * from './IUserRepository'
+export { default as UserService } from './UserService'
+export * from './IUserRepo'

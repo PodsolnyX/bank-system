@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { IUserService } from "controllers/User/IUserService";
-import UserService from "../../services/UserService/UserService";
+import { IUserService } from "./IUserService";
 
 class UserController {
     private _UserService: IUserService
@@ -15,4 +14,4 @@ class UserController {
     }
 }
 
-export default new UserController(UserService)
+export default UserController

@@ -1,4 +1,5 @@
-import { CurrencyType, Tariff } from 'domain'
+import { CurrencyType } from 'entities/Currency'
+import { Tariff } from 'entities/Tariff'
 
 export type Loan = {
   Id: string
