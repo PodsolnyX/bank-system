@@ -1,1 +1,1 @@
-export * from './AppRoutes'
+export { default as UserRouter } from "./UserRouter";
