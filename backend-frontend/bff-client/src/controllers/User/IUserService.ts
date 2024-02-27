@@ -1,5 +1,5 @@
-import { User } from "entities/User"
+import { GetProfileDto, UserDto } from "dto/User"
 
 export interface IUserService {
-    GetProfile(): Promise<User>
+    GetProfile(Dto: GetProfileDto): Promise<UserDto>
 }
