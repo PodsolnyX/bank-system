@@ -1,5 +1,6 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { IOperationHistoryService } from './IOperationHistoryService'
+import { GetOperationHistoryReq } from './types'
 
 class OperationHistoryController {
   private _OperationHistoryService: IOperationHistoryService
@@ -8,8 +9,8 @@ class OperationHistoryController {
     this._OperationHistoryService = OperationHistoryService
   }
 
-  async GetOperationHistory(req: Request, res: Response) {
-    const data = await this._OperationHistoryService.GetOperationHistory()
+  async GetOperationHistory(req: GetOperationHistoryReq, res: Response) {
+    const data = await this._OperationHistoryService.GetOperationHistory(req.body)
     res.status(200).send(data)
   }
 }

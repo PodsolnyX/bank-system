@@ -1,6 +1,6 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { IUserService } from './IUserService'
-import { UserDto } from 'dto/User'
+import { GetUserReq } from './types'
 
 class UserController {
   private _UserService: IUserService
@@ -9,8 +9,8 @@ class UserController {
     this._UserService = UserService
   }
 
-  async GetProfile(req: Request, res: Response) {
-    const data = await this._UserService.GetProfile()
+  async GetProfile(req: GetUserReq, res: Response) {
+    const data = await this._UserService.GetProfile(req.body)
     res.status(200).send(data)
   }
 }
