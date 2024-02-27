@@ -1,8 +1,8 @@
-import { CurrencyType } from "entities/Currency"
+import { CurrencyType } from 'entities/Currency'
 
 export type SearchTariffDto = {
-    Name?: string
-    PeriodInDays?: number
-    InterestRate?: number
-    CurrencyType?: CurrencyType[]
+  Name?: string
+  PeriodInDays?: number
+  InterestRate?: number
+  CurrencyType?: CurrencyType[]
 }

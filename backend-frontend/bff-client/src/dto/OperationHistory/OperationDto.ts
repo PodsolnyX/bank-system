@@ -1,3 +1,3 @@
-import { Operation } from "entities/Operation";
+import { Operation } from 'entities/Operation'
 
 export type OperationDto = Operation

@@ -1,5 +1,5 @@
-import { CurrencyType } from "entities/Currency"
+import { CurrencyType } from 'entities/Currency'
 
 export type OpenAccountDto = {
-    type: CurrencyType
+  type: CurrencyType
 }

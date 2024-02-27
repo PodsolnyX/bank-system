@@ -1,2 +1,2 @@
-export { default as AccountController } from "./AccountController"
+export { default as AccountController } from './AccountController'
 export * from './IAccountService'

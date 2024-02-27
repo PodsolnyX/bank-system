@@ -1,3 +1,3 @@
 export type GetProfileDto = {
-    Mail: string
+  Mail: string
 }

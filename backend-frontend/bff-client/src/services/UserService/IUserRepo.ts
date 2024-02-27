@@ -1,5 +1,5 @@
-import { GetProfileDto, UserDto } from "dto/User"
+import { GetProfileDto, UserDto } from 'dto/User'
 
 export interface IUserRepo {
-    GetProfile(Dto: GetProfileDto): Promise<UserDto>
+  GetProfile(Dto: GetProfileDto): Promise<UserDto>
 }

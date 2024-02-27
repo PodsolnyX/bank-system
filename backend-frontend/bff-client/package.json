@@ -5,7 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "start": "nodemon src/app.ts --watch src/**/*.ts",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "prettier": "npx prettier --write **/*.ts"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.19",
     "nodemon": "^3.0.3",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"

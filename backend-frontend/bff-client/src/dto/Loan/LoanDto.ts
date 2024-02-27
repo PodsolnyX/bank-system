@@ -1,3 +1,3 @@
-import { Loan } from "entities/Loan";
+import { Loan } from 'entities/Loan'
 
 export type LoanDto = Loan

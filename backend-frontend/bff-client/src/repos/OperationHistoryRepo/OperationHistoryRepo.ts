@@ -1,11 +1,16 @@
-import { Operation } from "entities/Operation";
-import { IOperationHistoryRepo } from "services/OperationHistoryService";
-import axios from 'axios';
+import { IOperationHistoryRepo } from 'services/OperationHistoryService'
+import { MainInstance } from 'repos/lib'
+import { PaginationReq } from 'dto/Common'
+import { SearchOperationUserDto, OperationDto } from 'dto/OperationHistory'
 
 class OperationHistoryRepo implements IOperationHistoryRepo {
-    async GetProfile() {
-        return (await axios.get<Operation>('https://jsonplaceholder.typicode.com/todos/1')).data
-    }
+  async GetOperationHistory(Dto: PaginationReq<SearchOperationUserDto>) {
+    return (
+      await MainInstance.get<OperationDto[]>(
+        'https://jsonplaceholder.typicode.com/todos/1'
+      )
+    ).data
+  }
 }
 
 export default OperationHistoryRepo

@@ -1,4 +1,4 @@
 export type DepositDto = {
-    MoneyAmount: number
-    Message?: string
+  MoneyAmount: number
+  Message?: string
 }

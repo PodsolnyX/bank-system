@@ -1,6 +1,6 @@
-import { CurrencyType } from "entities/Currency"
+import { CurrencyType } from 'entities/Currency'
 
 export type SearchLoanUserDto = {
-    Account: string[]
-    CurrencyType: CurrencyType[]
+  Account: string[]
+  CurrencyType: CurrencyType[]
 }
