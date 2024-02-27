@@ -17,11 +17,6 @@ RouterHelper.use(UserRouter, UserControllerInst, [
         path: '/profile',
         handlers: [UserControllerInst.GetProfile]
     },
-    {
-        method: 'get',
-        path: '/profiler',
-        handlers: [UserControllerInst.GetProfile]
-    }
 ])
 
 export default UserRouter;

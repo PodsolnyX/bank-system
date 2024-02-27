@@ -4,6 +4,6 @@ import { ChargeLoanDto, RequestLoanDto, SearchTariffDto, TariffDto, LoanDto, Sea
 export interface ILoanService {
     RequestLoan(Dto: RequestLoanDto): Promise<void>
     ChargeLoan(Dto: ChargeLoanDto): Promise<void>
-    GetTariffs(Dto: PaginationReq<SearchTariffDto>): TariffDto[]
-    GetLoands(Dto: PaginationReq<SearchLoanUserDto>): LoanDto[]
+    GetTariffs(Dto: PaginationReq<SearchTariffDto>): Promise<TariffDto[]>
+    GetLoans(Dto: PaginationReq<SearchLoanUserDto>): Promise<LoanDto[]>
 }

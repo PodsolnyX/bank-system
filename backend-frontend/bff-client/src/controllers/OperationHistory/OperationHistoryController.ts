@@ -8,9 +8,9 @@ class OperationHistoryController {
         this._OperationHistoryService = OperationHistoryService
     }
 
-    async GetProfile(_req: Request, res: Response): Promise<void> {
-        const t = await this._OperationHistoryService.GetProfile()
-        res.status(200).send(t) 
+    async GetOperationHistory(req: Request, res: Response) {
+        const data = await this._OperationHistoryService.GetOperationHistory()
+        res.status(200).send(data)
     }
 }
 

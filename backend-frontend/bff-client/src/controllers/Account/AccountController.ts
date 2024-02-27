@@ -8,9 +8,34 @@ class AccountController {
         this._AccountService = AccountService
     }
 
-    async GetProfile(_req: Request, res: Response): Promise<void> {
-        const t = await this._AccountService.GetProfile()
-        res.status(200).send(t) 
+    async OpenAccount(req: Request, res: Response) {
+        const data = await this._AccountService.OpenAccount()
+        res.status(200).send(data) 
+    }
+
+    async CloseAccount(req: Request, res: Response) {
+        const data = await this._AccountService.CloseAccount()
+        res.status(200).send(data) 
+    }
+
+    async GetAccounts(req: Request, res: Response) {
+        const data = await this._AccountService.GetAccounts()
+        res.status(200).send(data) 
+    }
+
+    async GetAccount(req: Request, res: Response) {
+        const data = await this._AccountService.GetAccount()
+        res.status(200).send(data) 
+    }
+
+    async Deposit(req: Request, res: Response) {
+        const data = await this._AccountService.Deposit()
+        res.status(200).send(data) 
+    }
+
+    async Withdraw(req: Request, res: Response) {
+        const data = await this._AccountService.Withdraw()
+        res.status(200).send(data) 
     }
 }
 

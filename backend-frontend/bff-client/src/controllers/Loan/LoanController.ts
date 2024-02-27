@@ -8,9 +8,24 @@ class LoanController {
         this._LoanService = LoanService
     }
 
-    async GetProfile(_req: Request, res: Response): Promise<void> {
-        const t = await this._LoanService.GetProfile()
-        res.status(200).send(t) 
+    async RequestLoan(req: Request, res: Response) {
+        const data = await this._LoanService.RequestLoan()
+        res.status(200).send(data) 
+    }
+
+    async ChargeLoan(req: Request, res: Response) {
+        const data = await this._LoanService.ChargeLoan()
+        res.status(200).send(data) 
+    }
+
+    async GetTariffs(req: Request, res: Response) {
+        const data = await this._LoanService.GetTariffs()
+        res.status(200).send(data) 
+    }
+
+    async GetLoans(req: Request, res: Response) {
+        const data = await this._LoanService.GetLoans()
+        res.status(200).send(data) 
     }
 }
 
