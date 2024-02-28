@@ -2,7 +2,7 @@ import { Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { ColumnsType } from 'antd/lib/table'
 import { getAccountActions } from 'entities/account/config'
-import { Account } from 'shared/entities'
+import { Account, CurrencyType } from 'shared/entities'
 import { Dropdown } from 'shared/ui'
 import { getAccountHistoryLink } from 'shared/const'
 
@@ -15,11 +15,24 @@ export const columns: ColumnsType<Account> = [
     render: (id, acc) => <Link to={getAccountHistoryLink(acc.id)}>{id}</Link>,
   },
   {
-    title: 'Баланс (руб.)',
+    title: 'Баланс',
     dataIndex: 'amount',
     key: 'amount',
     sorter: (a, b) => a.amount - b.amount,
     responsive: ['md'],
+    width: '15%',
+  },
+  {
+    title: 'Валюта',
+    dataIndex: 'type',
+    key: 'type',
+    responsive: ['md'],
+    width: '10%',
+    filters: Object.keys(CurrencyType).map((cur) => ({
+      text: cur,
+      value: cur,
+    })),
+    onFilter: (value, record) => record.type === value,
   },
   {
     title: 'Статус',

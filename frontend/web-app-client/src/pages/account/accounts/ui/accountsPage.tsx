@@ -1,38 +1,37 @@
-import { Button } from 'antd'
+import { Button, Skeleton } from 'antd'
 import { Link } from 'react-router-dom'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { Center, PageHeader } from 'shared/ui'
+import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
+import { useGetAccountsQuery } from 'shared/api'
 import { AccountsTable } from 'entities/account'
-import { Account } from 'shared/entities'
-import { CurrencyType } from 'shared/entities/currency'
 
 export const AccountsPage = () => {
-  const accounts: Account[] = [
-    {
-      amount: 0,
-      id: '1214213123',
-      closedAt: '10.01.2000',
-      type: CurrencyType.RUB,
-      user: '12',
-    },
-    {
-      amount: 0,
-      id: '214213123',
-      type: CurrencyType.EUR,
-      user: '12',
-    },
-  ]
+  const accounts = useGetAccountsQuery({ limit: 10000 })
 
+  if (accounts.isError) {
+    return (
+      <ErrorMsg
+        text='Произошла ошибка при загрузке счетов'
+        link={AppRoutes.MAIN}
+        linkText='В главное меню'
+      />
+    )
+  }
   return (
     <Center>
       <PageHeader text='Список счетов' />
-      <Link to={AppRoutes.ACCOUNT_NEW}>
-        <Button className='mb-2' icon={<PlusCircleOutlined />}>
-          Новый счет
-        </Button>
-      </Link>
-      <AccountsTable accounts={accounts} />
+      {accounts.isFetching ? (
+        <Skeleton.Button className='mb-2' />
+      ) : (
+        <Link to={AppRoutes.ACCOUNT_NEW}>
+          <Button className='mb-2' icon={<PlusCircleOutlined />}>
+            Новый счет
+          </Button>
+        </Link>
+      )}
+
+      <AccountsTable isLoading={accounts.isFetching} accounts={accounts.data!} />
     </Center>
   )
 }

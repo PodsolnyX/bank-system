@@ -1,14 +1,15 @@
-import { Table } from 'antd'
+import { Table, Skeleton, Empty } from 'antd'
 import { Operation } from 'shared/entities'
 import { fullHistoryColumns, historyColumns } from './historyTableColumns'
 
 export interface HistoryTableProps {
+  isLoading: boolean
   history: Operation[]
   full?: boolean
 }
 
 export const HistoryTable = (props: HistoryTableProps) => {
-  const { history, full } = props
+  const { history, full, isLoading } = props
   return (
     <Table
       rowKey={(record) => record.id}
@@ -17,6 +18,9 @@ export const HistoryTable = (props: HistoryTableProps) => {
       columns={full ? fullHistoryColumns : historyColumns}
       dataSource={history}
       pagination={{ pageSize: 7 }}
+      locale={{
+        emptyText: isLoading ? <Skeleton active={true} /> : <Empty />,
+      }}
     />
   )
 }

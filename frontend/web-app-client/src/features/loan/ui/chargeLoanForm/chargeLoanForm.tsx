@@ -24,11 +24,7 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   return (
     <Center>
       <h1>Погасить кредит</h1>
-      <Form
-        className='w-full md:w-1/3'
-        {...rest}
-        initialValues={{ loan: loan.id }}
-      >
+      <Form className='w-full md:w-1/3' {...rest} initialValues={{ loan: loan.id }}>
         <Form.Item label='Кредит' name='loan' rules={[{ required: true }]}>
           <Input
             className='text-black'

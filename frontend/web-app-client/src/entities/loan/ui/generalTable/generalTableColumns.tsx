@@ -3,17 +3,17 @@ import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
 import { Dropdown } from 'shared/ui'
-import { Loan } from 'shared/entities'
+import { CurrencyType, Loan } from 'shared/entities'
 import { getLoanLink } from 'shared/const'
 import { getLoanActions } from 'entities/loan'
 
 export const generalLoanTableColumns: ColumnsType<Loan> = [
   {
     title: 'Номер',
-    dataIndex: 'number',
-    key: 'number',
-    sorter: (a, b) => a.number.localeCompare(b.number),
-    render: (_, { id, number }) => <Link to={getLoanLink(id)}>{number}</Link>,
+    dataIndex: 'id',
+    key: 'id',
+    sorter: (a, b) => a.id.localeCompare(b.id),
+    render: (_, { id }) => <Link to={getLoanLink(id)}>{id}</Link>,
   },
   {
     title: 'От',
@@ -30,34 +30,38 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
     responsive: ['md'],
   },
   {
-    title: 'Сумма (руб.)',
-    dataIndex: 'fullAmount',
+    title: 'Сумма',
     key: 'fullAmount',
-    sorter: (a, b) => a.fullAmount - b.fullAmount,
+    sorter: (a, b) => a.sum - b.sum,
     responsive: ['md'],
+    render: (_, rec) => `${rec.sum}${rec.currencyType}`,
   },
   {
-    title: 'Долг (руб.)',
+    title: 'Долг',
     dataIndex: 'currentAmount',
     key: 'currentAmount',
-    sorter: (a, b) => a.currentAmount - b.currentAmount,
+    sorter: (a, b) => a.debt - b.debt,
     defaultSortOrder: 'descend',
     responsive: ['md'],
+    render: (_, rec) => `${rec.debt}${rec.currencyType}`,
   },
   {
-    title: 'Пеня (руб.)',
-    dataIndex: 'fine',
-    key: 'fine',
-    sorter: (a, b) => a.fine - b.fine,
+    title: 'Валюта',
+    dataIndex: 'type',
+    key: 'type',
     responsive: ['md'],
+    filters: Object.keys(CurrencyType).map((cur) => ({
+      text: cur,
+      value: cur,
+    })),
+    onFilter: (value, record) => record.currencyType === value,
   },
   {
     title: 'Статус',
-    dataIndex: 'needToPay',
     key: 'needToPay',
     render: (_, cr) => (
-      <Tag color={cr.needToPay ? 'red' : 'green'}>
-        {cr.needToPay ? 'Не оплачен' : 'Оплачен'}
+      <Tag color={needToPay(cr.lastChargeDate) ? 'red' : 'green'}>
+        {needToPay(cr.lastChargeDate) ? 'Не оплачен' : 'Оплачен'}
       </Tag>
     ),
     align: 'center',
@@ -71,7 +75,10 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
         value: true,
       },
     ],
-    onFilter: (value, cr) => cr.needToPay === value,
+    onFilter: (value, cr) => needToPay(cr.lastChargeDate) === value,
+  },
+  {
+    title: 'Срок',
   },
   {
     title: 'Действия',
@@ -80,3 +87,7 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
     align: 'center',
   },
 ]
+
+const needToPay = (date: string | undefined) => {
+  return !date || Date.now() - new Date(date).getMilliseconds() > 24 * 60 * 60 * 1000
+}

@@ -1,13 +1,14 @@
-import { Table } from 'antd'
+import { Table, Skeleton, Empty } from 'antd'
 import { Account } from 'shared/entities'
 import { Center } from 'shared/ui'
 import { columns } from './tableColumns'
 
 export interface AccountsListProps {
   accounts: Account[]
+  isLoading: boolean
 }
 
-export const AccountsTable = ({ accounts }: AccountsListProps) => {
+export const AccountsTable = ({ accounts, isLoading }: AccountsListProps) => {
   return (
     <Center>
       <Table
@@ -17,6 +18,9 @@ export const AccountsTable = ({ accounts }: AccountsListProps) => {
         columns={columns}
         dataSource={accounts}
         pagination={{ pageSize: 7 }}
+        locale={{
+          emptyText: isLoading ? <Skeleton active={true} /> : <Empty />,
+        }}
       />
     </Center>
   )

@@ -1,13 +1,14 @@
-import { Table } from 'antd'
+import { Table, Skeleton, Empty } from 'antd'
 import { Loan } from 'shared/entities'
 import { generalLoanTableColumns } from './generalTableColumns'
 
 export interface GeneralLoanTableProps {
   loans: Loan[]
+  isLoading: boolean
 }
 
 export const GeneralLoanTable = (props: GeneralLoanTableProps) => {
-  const { loans } = props
+  const { loans, isLoading } = props
 
   return (
     <Table
@@ -17,6 +18,9 @@ export const GeneralLoanTable = (props: GeneralLoanTableProps) => {
       columns={generalLoanTableColumns}
       dataSource={loans}
       pagination={{ pageSize: 7 }}
+      locale={{
+        emptyText: isLoading ? <Skeleton active={true} /> : <Empty />,
+      }}
     />
   )
 }

@@ -4,7 +4,7 @@ import { GetProfileReq, GetProfileResp } from './types'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_USER }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_USER, credentials: "include" }),
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getProfile: builder.query<GetProfileResp, GetProfileReq>({
@@ -14,8 +14,8 @@ export const userApi = createApi({
         }
         return {
           url: '/profile',
-          method: 'GET',
-          params: {
+          method: 'POST',
+          body: {
             email,
           },
         }
