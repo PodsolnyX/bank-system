@@ -1,4 +1,4 @@
-import { PaginationReq } from 'dto/Common'
+import { PaginationReq, WithUser } from 'dto/Common'
 import { SearchOperationUserDto } from 'dto/OperationHistory'
 import { Request } from 'express'
 

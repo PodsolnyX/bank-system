@@ -20,8 +20,8 @@ RouterHelper.use(UserRouter, UserControllerInst, [
   {
     method: 'post',
     path: '/logout',
-    handlers: [UserControllerInst.Logout]
-  }
+    handlers: [UserControllerInst.Logout],
+  },
 ])
 
 export default UserRouter

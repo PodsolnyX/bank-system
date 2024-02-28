@@ -1,6 +1,6 @@
 import { ILoanService } from 'controllers/Loan'
 import { ILoanRepo } from 'services/LoanService'
-import { PaginationReq } from 'dto/Common'
+import { PaginationReq, WithUser } from 'dto/Common'
 import {
   ChargeLoanDto,
   RequestLoanDto,
@@ -21,23 +21,23 @@ class LoanService implements ILoanService {
     this.GetLoans = this.GetLoans.bind(this)
   }
 
-  async RequestLoan(Dto: RequestLoanDto) {
+  async RequestLoan(Dto: WithUser<RequestLoanDto>) {
     return await this._LoanRepo.RequestLoan(Dto)
   }
 
-  async ChargeLoan(Dto: ChargeLoanDto) {
+  async ChargeLoan(Dto: WithUser<ChargeLoanDto>) {
     return await this._LoanRepo.ChargeLoan(Dto)
   }
 
-  async GetTariffs(Dto: PaginationReq<SearchTariffDto>) {
+  async GetTariffs(Dto: WithUser<PaginationReq<SearchTariffDto>>) {
     return await this._LoanRepo.GetTariffs(Dto)
   }
 
-  async GetLoans(Dto: PaginationReq<SearchLoanUserDto>) {
+  async GetLoans(Dto: WithUser<PaginationReq<SearchLoanUserDto>>) {
     return await this._LoanRepo.GetLoans(Dto)
   }
 
-  async GetLoan(Dto: GetLoanDto) {
+  async GetLoan(Dto: WithUser<GetLoanDto>) {
     return await this._LoanRepo.GetLoan(Dto)
   }
 }

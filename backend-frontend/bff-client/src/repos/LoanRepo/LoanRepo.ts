@@ -1,5 +1,5 @@
 import { ILoanRepo } from 'services/LoanService'
-import { PaginationReq } from 'dto/Common'
+import { PaginationReq, WithUser } from 'dto/Common'
 import {
   ChargeLoanDto,
   RequestLoanDto,
@@ -9,30 +9,49 @@ import {
   SearchLoanUserDto,
   GetLoanDto,
 } from 'dto/Loan'
-import { MainInstance } from 'repos/lib/MainInstance'
+import { MainInstance } from 'request/MainInstance'
 
 class LoanRepo implements ILoanRepo {
-  async RequestLoan(Dto: RequestLoanDto) {
-    await MainInstance.post('https://jsonplaceholder.typicode.com/todos/1')
+  async RequestLoan(Dto: WithUser<RequestLoanDto>) {
+    await MainInstance.post('https://jsonplaceholder.typicode.com/todos/1', {
+      headers: {
+        Authorization: Dto.Authorization,
+      },
+    })
   }
 
-  async ChargeLoan(Dto: ChargeLoanDto) {
-    await MainInstance.post('https://jsonplaceholder.typicode.com/todos/1')
+  async ChargeLoan(Dto: WithUser<ChargeLoanDto>) {
+    await MainInstance.post('https://jsonplaceholder.typicode.com/todos/1', {
+      headers: {
+        Authorization: Dto.Authorization,
+      },
+    })
   }
 
-  async GetTariffs(Dto: PaginationReq<SearchTariffDto>) {
+  async GetTariffs(Dto: WithUser<PaginationReq<SearchTariffDto>>) {
     return (
-      await MainInstance.get<TariffDto[]>('https://jsonplaceholder.typicode.com/todos/1')
+      await MainInstance.get<TariffDto[]>(
+        'https://jsonplaceholder.typicode.com/todos/1',
+        {
+          headers: {
+            Authorization: Dto.Authorization,
+          },
+        }
+      )
     ).data
   }
 
-  async GetLoans(Dto: PaginationReq<SearchLoanUserDto>) {
+  async GetLoans(Dto: WithUser<PaginationReq<SearchLoanUserDto>>) {
     return (
-      await MainInstance.get<LoanDto[]>('https://jsonplaceholder.typicode.com/todos/1')
+      await MainInstance.get<LoanDto[]>('https://jsonplaceholder.typicode.com/todos/1', {
+        headers: {
+          Authorization: Dto.Authorization,
+        },
+      })
     ).data
   }
 
-  async GetLoan(Dto: GetLoanDto) {
+  async GetLoan(Dto: WithUser<GetLoanDto>) {
     return (
       await MainInstance.get<LoanDto>('https://jsonplaceholder.typicode.com/todos/1')
     ).data

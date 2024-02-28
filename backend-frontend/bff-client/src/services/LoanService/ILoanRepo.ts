@@ -1,4 +1,4 @@
-import { PaginationReq } from 'dto/Common'
+import { PaginationReq, WithUser } from 'dto/Common'
 import {
   ChargeLoanDto,
   RequestLoanDto,
@@ -10,9 +10,9 @@ import {
 } from 'dto/Loan'
 
 export interface ILoanRepo {
-  RequestLoan(Dto: RequestLoanDto): Promise<void>
-  ChargeLoan(Dto: ChargeLoanDto): Promise<void>
-  GetTariffs(Dto: PaginationReq<SearchTariffDto>): Promise<TariffDto[]>
-  GetLoans(Dto: PaginationReq<SearchLoanUserDto>): Promise<LoanDto[]>
-  GetLoan(Dto: GetLoanDto): Promise<LoanDto>
+  RequestLoan(Dto: WithUser<RequestLoanDto>): Promise<void>
+  ChargeLoan(Dto: WithUser<ChargeLoanDto>): Promise<void>
+  GetTariffs(Dto: WithUser<PaginationReq<SearchTariffDto>>): Promise<TariffDto[]>
+  GetLoans(Dto: WithUser<PaginationReq<SearchLoanUserDto>>): Promise<LoanDto[]>
+  GetLoan(Dto: WithUser<GetLoanDto>): Promise<LoanDto>
 }

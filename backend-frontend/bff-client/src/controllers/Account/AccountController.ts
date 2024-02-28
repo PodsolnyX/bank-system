@@ -8,6 +8,7 @@ import {
   OpenAccountReq,
   WithdrawReq,
 } from 'controllers/Account/types'
+import { Extractor } from 'common/Extractor'
 
 class AccountController {
   private _AccountService: IAccountService
@@ -17,32 +18,32 @@ class AccountController {
   }
 
   async OpenAccount(req: OpenAccountReq, res: Response) {
-    const data = await this._AccountService.OpenAccount(req.body)
+    const data = await this._AccountService.OpenAccount(Extractor.ExtractBody(req))
     res.status(200).send(data)
   }
 
   async CloseAccount(req: CloseAccountReq, res: Response) {
-    const data = await this._AccountService.CloseAccount(req.body)
+    const data = await this._AccountService.CloseAccount(Extractor.ExtractBody(req))
     res.status(200).send(data)
   }
 
   async GetAccounts(req: GetAccountsReq, res: Response) {
-    const data = await this._AccountService.GetAccounts(req.body)
+    const data = await this._AccountService.GetAccounts(Extractor.ExtractBody(req))
     res.status(200).send(data)
   }
 
   async GetAccount(req: GetAccountReq, res: Response) {
-    const data = await this._AccountService.GetAccount(req.body)
+    const data = await this._AccountService.GetAccount(Extractor.ExtractBody(req))
     res.status(200).send(data)
   }
 
   async Deposit(req: DepositReq, res: Response) {
-    const data = await this._AccountService.Deposit(req.body)
+    const data = await this._AccountService.Deposit(Extractor.ExtractBody(req))
     res.status(200).send(data)
   }
 
   async Withdraw(req: WithdrawReq, res: Response) {
-    const data = await this._AccountService.Withdraw(req.body)
+    const data = await this._AccountService.Withdraw(Extractor.ExtractBody(req))
     res.status(200).send(data)
   }
 }

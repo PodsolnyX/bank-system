@@ -4,6 +4,7 @@ import UserRouter from 'routes/UserRouter'
 import AccountRouter from 'routes/AccountRouter'
 import LoanRouter from 'routes/LoanRouter'
 import OperationHistoryRouter from 'routes/OperationHistoryRouter'
+import { AuthMiddleware } from 'middleware/Auth'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -12,20 +13,12 @@ app.use(cookieParser())
 
 app.use('/user', UserRouter)
 
-app.use('*', (req, res, next) => {
-  if (!req.cookies.Authorization) {
-    res.sendStatus(401);
-    return;
-  }
-  next();
-})
+app.use('*', AuthMiddleware())
 
 app.use('/account', AccountRouter)
 app.use('/loan', LoanRouter)
 app.use('/operationHistory', OperationHistoryRouter)
 
-app.use((_req, res) => {
-  res.sendStatus(404)
-})
+app.use((_req, res) => res.sendStatus(404))
 
 app.listen(port, () => console.log(`Express - localhost:${port}`))

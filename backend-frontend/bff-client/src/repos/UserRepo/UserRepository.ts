@@ -1,6 +1,6 @@
 import { User } from 'entities/User'
 import { IUserRepo } from 'services/UserService'
-import { MainInstance } from 'repos/lib'
+import { MainInstance } from 'request/MainInstance'
 
 class UserRepo implements IUserRepo {
   async GetProfile() {
