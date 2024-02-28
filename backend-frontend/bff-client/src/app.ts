@@ -11,6 +11,15 @@ const port = process.env.PORT || 3000
 app.use(cookieParser())
 
 app.use('/user', UserRouter)
+
+app.use('*', (req, res, next) => {
+  if (!req.cookies.Authorization) {
+    res.sendStatus(401);
+    return;
+  }
+  next();
+})
+
 app.use('/account', AccountRouter)
 app.use('/loan', LoanRouter)
 app.use('/operationHistory', OperationHistoryRouter)

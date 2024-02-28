@@ -13,10 +13,15 @@ const UserControllerInst = new UserController(UserServiceInst)
 
 RouterHelper.use(UserRouter, UserControllerInst, [
   {
-    method: 'get',
+    method: 'post',
     path: '/profile',
     handlers: [UserControllerInst.GetProfile],
   },
+  {
+    method: 'post',
+    path: '/logout',
+    handlers: [UserControllerInst.Logout]
+  }
 ])
 
 export default UserRouter
