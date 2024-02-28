@@ -7,12 +7,7 @@ class OperationHistoryRepo implements IOperationHistoryRepo {
   async GetOperationHistory(Dto: WithUser<PaginationReq<SearchOperationUserDto>>) {
     return (
       await MainInstance.get<OperationDto[]>(
-        'https://jsonplaceholder.typicode.com/todos/1',
-        {
-          headers: {
-            Authorization: Dto.Authorization,
-          },
-        }
+        'https://jsonplaceholder.typicode.com/todos/1'
       )
     ).data
   }
