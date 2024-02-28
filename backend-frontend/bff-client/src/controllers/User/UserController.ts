@@ -15,9 +15,6 @@ class UserController {
     try {
       const data = await this._UserService.GetProfile(req.body)
       res.cookie(CookieName, data.Id, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
         maxAge: CookieAuthTime,
       })
       res.status(200).send(data)
