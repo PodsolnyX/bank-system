@@ -14,7 +14,7 @@ export enum OperationStatus {
 export type Operation = {
   id: string
   accountId: string
-  loadId?: string
+  loanId?: string
   type: OperationType
   status: OperationStatus
   amount: number

@@ -18,9 +18,10 @@ export const verboseLoanTableColumns: ColumnsType<Operation> = [
     render: (_, acc) => <Link to={getAccountHistoryLink(acc.id)}>{acc.id}</Link>,
   },
   {
-    title: 'Сумма (руб.)',
+    title: 'Сумма',
     dataIndex: 'amount',
     key: 'amount',
     sorter: (a, b) => a.amount - b.amount,
+    render: (_, rec) => `${rec.amount} ${rec.type}`,
   },
 ]

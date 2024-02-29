@@ -2,11 +2,10 @@ import { Link, useParams } from 'react-router-dom'
 
 import { VerboseLoanTable } from 'entities'
 import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
-import { OperationType } from 'shared/entities'
 import { AppRoutes, getLoanRepayLink } from 'shared/const'
 import { needToPay } from 'entities/loan/lib'
 import { useGetHistoryQuery, useGetLoanQuery } from 'shared/api'
-import { Empty, Skeleton } from 'antd'
+import { OperationStatus } from 'shared/entities'
 
 export const LoanPage = () => {
   const { id } = useParams()
@@ -19,7 +18,11 @@ export const LoanPage = () => {
     data: history,
     isFetching: historyIsFetching,
     isError: historyIsError,
-  } = useGetHistoryQuery({ loan: [id!], limit: 100000 })
+  } = useGetHistoryQuery({
+    loan: [id!],
+    limit: 100000,
+    status: [OperationStatus.SUCCESS],
+  })
 
   const isLoading = loanIsFetching || historyIsFetching || !history || !loan
   const isError = loanIsError || historyIsError
