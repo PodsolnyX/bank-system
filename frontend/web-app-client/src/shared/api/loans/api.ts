@@ -20,37 +20,36 @@ export const loansApi = createApi({
   endpoints: (builder) => ({
     requestLoan: builder.mutation<RequestLoanResp, RequestLoanReq>({
       query: (body) => ({
-        url: '',
+        url: '/request',
         method: 'POST',
         body,
       }),
     }),
     chargeLoan: builder.mutation<ChargeLoanResp, ChargeLoanReq>({
       query: (body) => ({
-        url: '',
+        url: '/charge',
         method: 'POST',
         body,
       }),
     }),
     getTariffs: builder.query<GetTariffsResp, GetTariffsReq>({
       query: (params) => ({
-        url: '',
+        url: '/tariffs',
         method: 'GET',
         params,
       }),
     }),
     getLoans: builder.query<GetLoansResp, GetLoansReq>({
       query: (params) => ({
-        url: '',
+        url: '/loans',
         method: 'GET',
         params,
       }),
     }),
     getLoan: builder.query<GetLoanResp, GetLoanReq>({
-      query: (params) => ({
-        url: '',
+      query: ({ id }) => ({
+        url: `/${id}`,
         method: 'GET',
-        params,
       }),
     }),
   }),

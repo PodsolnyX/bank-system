@@ -21,21 +21,21 @@ export const accountsApi = createApi({
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getAccounts: builder.query<GetAccountsResp, GetAccountsReq>({
-      query: () => ({ url: '' }),
+      query: () => ({ url: '/accounts' }),
     }),
     getAccount: builder.query<GetAccountResp, GetAccountReq>({
       query: ({ id }) => ({ url: `/${id}` }),
     }),
     newAccount: builder.mutation<NewAccountResp, NewAccountReq>({
       query: (body) => ({
-        url: '',
+        url: '/open',
         method: 'POST',
         body,
       }),
     }),
     closeAccount: builder.mutation<CloseAccountResp, CloseAccountReq>({
       query: ({ id }) => ({
-        url: `/close/${id}`,
+        url: `/${id}/close`,
         method: 'POST',
       }),
     }),

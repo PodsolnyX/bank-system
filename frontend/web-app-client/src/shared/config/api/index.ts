@@ -7,7 +7,7 @@ const path = (...parts: string[]) => {
 }
 
 export const API_AUTH = path('auth')
-export const API_ACCOUNTS = path('accounts')
-export const API_LOANS = path('loans')
-export const API_OPERATIONS = path('operations')
+export const API_ACCOUNTS = path('account')
+export const API_LOANS = path('loan')
+export const API_OPERATIONS = path('operationHistory')
 export const API_USER = path('user')

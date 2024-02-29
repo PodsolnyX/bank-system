@@ -11,7 +11,7 @@ export const authApi = createApi({
       query: (token) => ({
         url: API_AUTH,
         method: 'POST',
-        params: {
+        body: {
           token,
         },
         responseHandler: (resp) => resp.text(),

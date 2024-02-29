@@ -8,10 +8,10 @@ export const operationsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_OPERATIONS, credentials: 'include' }),
   endpoints: (builder) => ({
     getHistory: builder.query<GetHistoryResp, GetHistoryReq>({
-      query: (body) => ({
-        url: '',
+      query: (params) => ({
+        url: '/',
         method: 'GET',
-        body,
+        params,
       }),
     }),
   }),
