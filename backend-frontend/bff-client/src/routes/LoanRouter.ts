@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { RouterHelper } from './lib'
-import { LoanControllerInst } from 'init/loan'
+import { LoanControllerInst } from 'init/Loan'
 
 const LoanRouter = express.Router()
 

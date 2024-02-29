@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { RouterHelper } from './lib'
-import { AccountControllerInst } from 'init/account'
+import { AccountControllerInst } from 'init/Account'
 
 const AccountRouter = express.Router()
 

@@ -11,7 +11,7 @@ import {
 import { PaginationReq, WithUser } from 'dto/Common'
 
 class AccountService implements IAccountService {
-  private _AccountRepo
+  private _AccountRepo: IAccountRepo
 
   constructor(AccountRepo: IAccountRepo) {
     this._AccountRepo = AccountRepo

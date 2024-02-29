@@ -4,7 +4,7 @@ import { PaginationReq, WithUser } from 'dto/Common'
 import { SearchOperationUserDto } from 'dto/OperationHistory'
 
 class OperationHistoryService implements IOperationHistoryService {
-  private _OperationHistoryRepo
+  private _OperationHistoryRepo: IOperationHistoryRepo
 
   constructor(OperationHistoryRepo: IOperationHistoryRepo) {
     this._OperationHistoryRepo = OperationHistoryRepo

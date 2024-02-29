@@ -10,7 +10,7 @@ import {
 } from 'dto/Loan'
 
 class LoanService implements ILoanService {
-  private _LoanRepo
+  private _LoanRepo: ILoanRepo
 
   constructor(LoanRepo: ILoanRepo) {
     this._LoanRepo = LoanRepo

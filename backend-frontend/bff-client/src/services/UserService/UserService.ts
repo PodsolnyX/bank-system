@@ -3,7 +3,7 @@ import { IUserRepo } from 'services/UserService'
 import { GetProfileDto } from 'dto/User'
 
 class UserService implements IUserService {
-  private _UserRepo
+  private _UserRepo: IUserRepo
 
   constructor(UserRepo: IUserRepo) {
     this._UserRepo = UserRepo
