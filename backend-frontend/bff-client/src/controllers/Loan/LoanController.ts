@@ -27,17 +27,17 @@ class LoanController {
   }
 
   async GetTariffs(req: GetTariffsReq, res: Response) {
-    const data = await this._LoanService.GetTariffs(Extractor.ExtractBody(req))
+    const data = await this._LoanService.GetTariffs(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 
   async GetLoans(req: GetLoansReq, res: Response) {
-    const data = await this._LoanService.GetLoans(Extractor.ExtractBody(req))
+    const data = await this._LoanService.GetLoans(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 
   async GetLoan(req: GetLoanReq, res: Response) {
-    const data = await this._LoanService.GetLoan(Extractor.ExtractBody(req))
+    const data = await this._LoanService.GetLoan(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 }

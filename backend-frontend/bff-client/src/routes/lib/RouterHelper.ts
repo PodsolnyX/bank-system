@@ -5,7 +5,7 @@ type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'all'
 type Route = {
   method: Method
   path: string
-  handlers: RequestHandler[]
+  handlers: RequestHandler<any, any>[]
 }
 
 class RouterHelper {

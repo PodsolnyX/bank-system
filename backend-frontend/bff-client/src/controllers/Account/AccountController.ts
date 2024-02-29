@@ -28,12 +28,12 @@ class AccountController {
   }
 
   async GetAccounts(req: GetAccountsReq, res: Response) {
-    const data = await this._AccountService.GetAccounts(Extractor.ExtractBody(req))
+    const data = await this._AccountService.GetAccounts(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 
   async GetAccount(req: GetAccountReq, res: Response) {
-    const data = await this._AccountService.GetAccount(Extractor.ExtractBody(req))
+    const data = await this._AccountService.GetAccount(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 

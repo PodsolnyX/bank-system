@@ -12,7 +12,7 @@ class OperationHistoryController {
 
   async GetOperationHistory(req: GetOperationHistoryReq, res: Response) {
     const data = await this._OperationHistoryService.GetOperationHistory(
-      Extractor.ExtractBody(req)
+      Extractor.ExtractParams(req)
     )
     res.status(200).send(data)
   }

@@ -8,7 +8,7 @@ const AccountRouter = express.Router()
 RouterHelper.use(AccountRouter, AccountControllerInst, [
   {
     method: 'get',
-    path: '/:id',
+    path: '/:AccountId',
     handlers: [AccountControllerInst.GetAccount],
   },
   {
