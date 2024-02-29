@@ -13,11 +13,6 @@ RouterHelper.use(LoanRouter, LoanControllerInst, [
   },
   {
     method: 'get',
-    path: '/:LoanId',
-    handlers: [LoanControllerInst.GetLoan],
-  },
-  {
-    method: 'get',
     path: '/tariffs',
     handlers: [LoanControllerInst.GetTariffs],
   },
@@ -30,6 +25,11 @@ RouterHelper.use(LoanRouter, LoanControllerInst, [
     method: 'post',
     path: '/request',
     handlers: [LoanControllerInst.RequestLoan],
+  },
+  {
+    method: 'get',
+    path: '/:LoanId',
+    handlers: [LoanControllerInst.GetLoan],
   },
 ])
 

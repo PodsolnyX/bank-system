@@ -8,11 +8,6 @@ const AccountRouter = express.Router()
 RouterHelper.use(AccountRouter, AccountControllerInst, [
   {
     method: 'get',
-    path: '/:AccountId',
-    handlers: [AccountControllerInst.GetAccount],
-  },
-  {
-    method: 'get',
     path: '/accounts',
     handlers: [AccountControllerInst.GetAccounts],
   },
@@ -23,18 +18,23 @@ RouterHelper.use(AccountRouter, AccountControllerInst, [
   },
   {
     method: 'delete',
-    path: '/:id/close',
+    path: '/close',
     handlers: [AccountControllerInst.CloseAccount],
   },
   {
     method: 'post',
-    path: '/:id/withdraw',
+    path: '/withdraw',
     handlers: [AccountControllerInst.Withdraw],
   },
   {
     method: 'post',
-    path: '/:id/deposit',
+    path: '/deposit',
     handlers: [AccountControllerInst.Deposit],
+  },
+  {
+    method: 'get',
+    path: '/:AccountId',
+    handlers: [AccountControllerInst.GetAccount],
   },
 ])
 
