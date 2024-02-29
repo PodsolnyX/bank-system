@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { Dropdown } from 'shared/ui'
 import { CurrencyType, Loan } from 'shared/entities'
-import { getLoanLink } from 'shared/const'
+import { getAccountHistoryLink, getLoanLink } from 'shared/const'
 import { getLoanActions } from 'entities/loan'
 
 export const generalLoanTableColumns: ColumnsType<Loan> = [
@@ -16,40 +16,19 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
     render: (_, { id }) => <Link to={getLoanLink(id)}>{id}</Link>,
   },
   {
-    title: 'От',
-    dataIndex: 'dateStart',
-    key: 'dateStart',
-    sorter: (a, b) => a.dateStart.localeCompare(b.dateStart),
+    title: 'Счет',
+    dataIndex: 'accountId',
+    key: 'accountId',
     responsive: ['md'],
+    render: (_, { accountId: id }) => <Link to={getAccountHistoryLink(id)}>{id}</Link>,
   },
   {
-    title: 'До',
-    dataIndex: 'dateEnd',
-    key: 'dateEnd',
-    sorter: (a, b) => a.dateEnd.localeCompare(b.dateEnd),
-    responsive: ['md'],
-  },
-  {
-    title: 'Сумма',
-    key: 'fullAmount',
-    sorter: (a, b) => a.sum - b.sum,
-    responsive: ['md'],
-    render: (_, rec) => `${rec.sum}${rec.currencyType}`,
-  },
-  {
-    title: 'Долг',
-    dataIndex: 'currentAmount',
-    key: 'currentAmount',
+    title: 'Долг / сумма',
+    dataIndex: 'debt',
+    key: 'debt',
     sorter: (a, b) => a.debt - b.debt,
     defaultSortOrder: 'descend',
-    responsive: ['md'],
-    render: (_, rec) => `${rec.debt}${rec.currencyType}`,
-  },
-  {
-    title: 'Валюта',
-    dataIndex: 'type',
-    key: 'type',
-    responsive: ['md'],
+    render: (_, rec) => `${rec.debt} / ${rec.sum} ${rec.currencyType}`,
     filters: Object.keys(CurrencyType).map((cur) => ({
       text: cur,
       value: cur,
@@ -61,7 +40,7 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
     key: 'needToPay',
     render: (_, cr) => (
       <Tag color={needToPay(cr.lastChargeDate) ? 'red' : 'green'}>
-        {needToPay(cr.lastChargeDate) ? 'Не оплачен' : 'Оплачен'}
+        {cr.lastChargeDate}
       </Tag>
     ),
     align: 'center',
@@ -76,15 +55,20 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
       },
     ],
     onFilter: (value, cr) => needToPay(cr.lastChargeDate) === value,
+    responsive: ['md'],
   },
   {
-    title: 'Срок',
+    title: 'Тариф',
+    dataIndex: 'tariff',
+    render: (_, { tariff: t }) => `${t.name}, ${t.interestRate}, ${t.periodInDays}`,
+    responsive: ['md'],
   },
   {
     title: 'Действия',
     dataIndex: 'action',
     render: (_, cr) => <Dropdown items={getLoanActions(cr)} />,
     align: 'center',
+    width: '10%',
   },
 ]
 

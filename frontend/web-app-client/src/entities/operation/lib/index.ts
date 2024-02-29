@@ -9,7 +9,7 @@ export function getOperationName(type: OperationType) {
     case OperationType.LOAN_CHARGE:
       return 'Погашение'
     case OperationType.LOAN_INCOME:
-      return 'Взят кредит'
+      return 'Кредит'
     default:
       return 'Неизвестная операция'
   }

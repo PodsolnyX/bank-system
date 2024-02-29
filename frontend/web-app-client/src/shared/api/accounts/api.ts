@@ -37,21 +37,21 @@ export const accountsApi = createApi({
       query: (body) => ({
         url: '/close',
         method: 'DELETE',
-        body
+        body,
       }),
     }),
     deposit: builder.mutation<DepositResp, DepositReq>({
       query: (body) => ({
         url: '/deposit',
         method: 'POST',
-        body
+        body,
       }),
     }),
     withdraw: builder.mutation<WithdrawResp, WithdrawReq>({
       query: (body) => ({
         url: '/withdraw',
         method: 'POST',
-        body
+        body,
       }),
     }),
   }),

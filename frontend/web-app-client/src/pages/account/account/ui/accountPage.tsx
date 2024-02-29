@@ -30,7 +30,6 @@ export const AccountPage = () => {
       {isLoading ? (
         <>
           <Skeleton.Button className='mb-2' />
-          <Skeleton />
         </>
       ) : (
         <>
