@@ -1,15 +1,9 @@
 import express from 'express'
-import { AccountController } from 'controllers/Account'
-import { AccountService } from 'services/AccountService'
-import { AccountRepo } from 'repos/AccountRepo'
 
 import { RouterHelper } from './lib'
+import { AccountControllerInst } from 'init/account'
 
 const AccountRouter = express.Router()
-
-const AccountRepositoryInst = new AccountRepo()
-const AccountServiceInst = new AccountService(AccountRepositoryInst)
-const AccountControllerInst = new AccountController(AccountServiceInst)
 
 RouterHelper.use(AccountRouter, AccountControllerInst, [
   {

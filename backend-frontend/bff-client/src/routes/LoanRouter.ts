@@ -1,15 +1,9 @@
 import express from 'express'
-import { LoanController } from 'controllers/Loan'
-import { LoanService } from 'services/LoanService'
-import { LoanRepo } from 'repos/LoanRepo'
 
 import { RouterHelper } from './lib'
+import { LoanControllerInst } from 'init/loan'
 
 const LoanRouter = express.Router()
-
-const LoanRepositoryInst = new LoanRepo()
-const LoanServiceInst = new LoanService(LoanRepositoryInst)
-const LoanControllerInst = new LoanController(LoanServiceInst)
 
 RouterHelper.use(LoanRouter, LoanControllerInst, [
   {

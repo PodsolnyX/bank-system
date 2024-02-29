@@ -1,7 +1,8 @@
+import { IUserService } from 'controllers/User'
 import { NextFunction, Request, Response } from 'express'
 import { MainInstance } from 'request/MainInstance'
 
-export const AuthMiddleware = () => (req: Request, res: Response, next: NextFunction) => {
+export const AuthMiddleware = (UserService: IUserService) => async (req: Request, res: Response, next: NextFunction) => {
   const User = req.cookies.Authorization
   if (!User) {
     res.sendStatus(401)
@@ -9,5 +10,13 @@ export const AuthMiddleware = () => (req: Request, res: Response, next: NextFunc
   }
 
   MainInstance.defaults.headers.Authorization = User
-  return next()
+  
+  const profile = await UserService.GetProfile(User)
+
+  if (profile.BanedAt) {
+    res.sendStatus(403)
+    return;
+  }
+
+  next()
 }

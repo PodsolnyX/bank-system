@@ -6,7 +6,7 @@ import UserRouter from 'routes/UserRouter'
 import AccountRouter from 'routes/AccountRouter'
 import LoanRouter from 'routes/LoanRouter'
 import OperationHistoryRouter from 'routes/OperationHistoryRouter'
-import { AuthMiddleware } from 'middleware/Auth'
+import { AuthMiddlewareInst } from 'init/AuthMiddleware'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -16,7 +16,7 @@ app.use(cookieParser())
 
 app.use('/user', UserRouter)
 
-app.use('*', AuthMiddleware())
+app.use('*', AuthMiddlewareInst())
 
 app.use('/account', AccountRouter)
 app.use('/loan', LoanRouter)
