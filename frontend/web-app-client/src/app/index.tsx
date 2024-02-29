@@ -4,20 +4,27 @@ import { ConfigProvider } from 'antd'
 import { StoreProvider, useAppSelector } from 'shared/store'
 import { ApplicationRouter } from './router'
 import { Toaster } from './toast'
-import { useGetProfileQuery } from 'shared/api'
+import { useGetProfileMutation } from 'shared/api'
 import { Spinner } from 'shared/ui'
 import { BanPage } from 'pages/ban'
+import { useEffect } from 'react'
 
 function App() {
   const mail = useAppSelector((store) => store.authReducer.mail)
-  const profile = useGetProfileQuery(mail, { skip: !mail })
+  const [trigger, { isLoading, data }] = useGetProfileMutation()
 
-  if (profile.isFetching) {
+  useEffect(() => {
+    if (mail) {
+      trigger(mail)
+    }
+  }, [])
+
+  if (isLoading) {
     return <Spinner />
   }
 
-  if (profile.data?.banedAt) {
-    return <BanPage banedAt={profile.data?.banedAt} />
+  if (data?.banedAt) {
+    return <BanPage banedAt={data?.banedAt} />
   }
 
   return (

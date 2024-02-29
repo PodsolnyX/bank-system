@@ -17,7 +17,7 @@ export const MenuCard = (props: MenuCardProps) => {
 
   return (
     <Container
-      className='w-[200px] h-[150px] md:w-[300px] md:h-[250px] flex flex-col items-center cursor-pointer'
+      className='w-[180px] h-[150px] md:w-[280px] md:h-[250px] flex flex-col items-center cursor-pointer'
       onClick={onClick}
     >
       <h2>{title}</h2>

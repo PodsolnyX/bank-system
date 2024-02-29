@@ -1,7 +1,14 @@
 import { Outlet } from 'react-router-dom'
+import { useAppSelector } from 'shared/store'
 import { Header, Footer } from 'widgets'
 
 export const Layout = () => {
+  const mail = useAppSelector((store) => store.authReducer.mail)
+
+  if (!mail) {
+    return <Outlet />
+  }
+
   return (
     <>
       <Header />

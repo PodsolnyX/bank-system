@@ -1,3 +1,15 @@
+import { useState, useEffect } from 'react'
+
 export const PageLoader = () => {
-  return <h1>Загрузка...</h1>
+  const [dots, setDots] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prevDots) => ++prevDots)
+    }, 100)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return <h1 className='loader'>Загрузка{'.'.repeat(dots % 4)}</h1>
 }

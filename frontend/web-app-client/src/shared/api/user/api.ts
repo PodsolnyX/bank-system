@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { API_USER } from 'shared/config'
-import { GetProfileReq, GetProfileResp } from './types'
+import { GetProfileReq, GetProfileResp, LogoutReq, LogoutResp } from './types'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_USER, credentials: "include" }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_USER, credentials: 'include' }),
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
-    getProfile: builder.query<GetProfileResp, GetProfileReq>({
+    getProfile: builder.mutation<GetProfileResp, GetProfileReq>({
       query: (email) => {
         if (!email) {
           throw Error()
@@ -21,7 +21,15 @@ export const userApi = createApi({
         }
       },
     }),
+    logout: builder.mutation<LogoutResp, LogoutReq>({
+      query: () => {
+        return {
+          url: '/logout',
+          method: 'POST',
+        }
+      },
+    }),
   }),
 })
 
-export const { useGetProfileQuery } = userApi
+export const { useGetProfileMutation, useLogoutMutation } = userApi

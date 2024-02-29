@@ -17,7 +17,7 @@ import {
 
 export const accountsApi = createApi({
   reducerPath: 'accountsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_ACCOUNTS, credentials: "include" }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_ACCOUNTS, credentials: 'include' }),
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getAccounts: builder.query<GetAccountsResp, GetAccountsReq>({

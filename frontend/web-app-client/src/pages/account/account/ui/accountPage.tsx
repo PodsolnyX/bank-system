@@ -29,8 +29,9 @@ export const AccountPage = () => {
       <PageHeader text='Страница счета' />
       {isLoading ? (
         <>
-        <Skeleton.Button className='mb-2' />
-        <Skeleton /></>
+          <Skeleton.Button className='mb-2' />
+          <Skeleton />
+        </>
       ) : (
         <>
           <Link to={AppRoutes.ACCOUNT_NEW}>

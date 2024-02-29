@@ -25,14 +25,10 @@ const leftLinks: MenuLinkDescription[] = [
 ]
 
 const rightLinks: MenuLinkDescription[] = [
-  /* {
+  {
     label: 'Профиль',
     to: AppRoutes.PROFILE,
   },
-  {
-    label: 'Выход',
-    to: AppRoutes.LOGOUT,
-  },*/
 ]
 
 export const HeaderLinks = {
