@@ -1,72 +1,70 @@
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { VerboseLoanTable } from 'entities'
-import { Center, PageHeader, Property } from 'shared/ui'
-import { OperationType, Loan } from 'shared/entities'
-import { getLoanRepayLink } from 'shared/const'
+import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
+import { OperationType } from 'shared/entities'
+import { AppRoutes, getLoanRepayLink } from 'shared/const'
+import { needToPay } from 'entities/loan/lib'
+import { useGetHistoryQuery, useGetLoanQuery } from 'shared/api'
+import { Empty, Skeleton } from 'antd'
 
 export const LoanPage = () => {
-  const loan: Loan = {
-    id: '234',
-    currentAmount: 21321,
-    dateEnd: '211231',
-    dateStart: '21312',
-    fine: 213,
-    sum: 123,
-    needToPay: true,
-    number: '21312312',
-    tariff: {
-      id: '13',
-      name: 'adssda',
-      interestRate: 15,
-    },
+  const { id } = useParams()
+  const {
+    data: loan,
+    isFetching: loanIsFetching,
+    isError: loanIsError,
+  } = useGetLoanQuery({ id: id! })
+  const {
+    data: history,
+    isFetching: historyIsFetching,
+    isError: historyIsError,
+  } = useGetHistoryQuery({ loan: [id!], limit: 100000 })
+
+  const isLoading = loanIsFetching || historyIsFetching || !history || !loan
+  const isError = loanIsError || historyIsError
+
+  if (isError) {
+    return (
+      <ErrorMsg
+        link={AppRoutes.LOANS}
+        linkText='Вернуться в меню кредитов'
+        text='Произошла ошибка при загрузке данных'
+      />
+    )
   }
+
   return (
     <Center>
       <PageHeader text='Информация о кредите' />
 
-      <Property
-        name='Кредит'
-        value={`${loan.id}, тариф ${loan.tariff.name}, ${loan.tariff.interestRate}%`}
-      />
-      <Property name='Срок' value={`${loan.dateStart} по ${loan.dateEnd}`} />
-      <Property
-        name='Долг, сумма, пеня'
-        value={`${loan.amount}, ${loan.fullAmount}, ${loan.fine} руб`}
-      />
-      <Property
-        name='Оплачен'
-        value={
-          loan.needToPay ? (
-            <Link to={getLoanRepayLink(loan.id)} className='text-red-500'>
-              Нужна оплата
-            </Link>
-          ) : (
-            <span className='text-lime-500'>Да</span>
-          )
-        }
-      />
+      {!isLoading && (
+        <>
+          <Property
+            name='Кредит'
+            value={`${loan.id}, тариф ${loan.tariff.name}, ${loan.tariff.interestRate}%`}
+          />
+          <Property
+            name='Долг / сумма'
+            value={`${loan.debt} / ${loan.sum} ${loan.currencyType}`}
+          />
+          <Property
+            name='Статус'
+            value={
+              needToPay(loan.lastChargeDate) ? (
+                <Link to={getLoanRepayLink(loan.id)} className='text-red-500'>
+                  Нужна оплата
+                </Link>
+              ) : (
+                <span className='text-lime-500'>Да</span>
+              )
+            }
+          />
+          <Property name='Последняя оплата' value={loan.lastChargeDate || '—'} />
+        </>
+      )}
 
-      <VerboseLoanTable
-        operations={[
-          {
-            amount: 400,
-            date: '2006.11.08',
-            type: OperationType.LOAN_CHARGE,
-            id: '15',
-            loadId: '1',
-            accountId: '1234123412341234',
-          },
-          {
-            amount: 600,
-            date: '2006.11.09',
-            type: OperationType.LOAN_CHARGE,
-            id: '125',
-            loadId: '21',
-            accountId: '213',
-          },
-        ]}
-      />
+      <VerboseLoanTable operations={history!} isLoading={isLoading} />
     </Center>
   )
 }

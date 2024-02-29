@@ -6,6 +6,7 @@ import { Dropdown } from 'shared/ui'
 import { CurrencyType, Loan } from 'shared/entities'
 import { getAccountHistoryLink, getLoanLink } from 'shared/const'
 import { getLoanActions } from 'entities/loan'
+import { needToPay } from 'entities/loan/lib'
 
 export const generalLoanTableColumns: ColumnsType<Loan> = [
   {
@@ -71,7 +72,3 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
     width: '10%',
   },
 ]
-
-const needToPay = (date: string | undefined) => {
-  return !date || Date.now() - new Date(date).getMilliseconds() > 24 * 60 * 60 * 1000
-}

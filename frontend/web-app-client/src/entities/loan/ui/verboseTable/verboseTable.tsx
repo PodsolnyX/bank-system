@@ -1,13 +1,14 @@
-import { Table } from 'antd'
+import { Empty, Skeleton, Table } from 'antd'
 import { Operation } from 'shared/entities'
 import { verboseLoanTableColumns } from './verboseTableColumns'
 
 export interface VerboseLoanTableProps {
   operations: Operation[]
+  isLoading: boolean
 }
 
 export const VerboseLoanTable = (props: VerboseLoanTableProps) => {
-  const { operations } = props
+  const { operations, isLoading } = props
 
   return (
     <Table
@@ -17,6 +18,9 @@ export const VerboseLoanTable = (props: VerboseLoanTableProps) => {
       columns={verboseLoanTableColumns}
       dataSource={operations}
       pagination={{ pageSize: 7 }}
+      locale={{
+        emptyText: isLoading ? <Skeleton active={true} /> : <Empty />,
+      }}
     />
   )
 }
