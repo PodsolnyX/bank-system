@@ -1,5 +1,7 @@
-﻿using Common.DataTransfer;
+﻿using System.Buffers;
+using Common.DataTransfer;
 using Common.Enum;
+using OperationStatus = Common.Enum.OperationStatus;
 
 namespace OperationHistory.BLL.DataTransferObjects;
 

@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
+      <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
     </ItemGroup>
 
 </Project>

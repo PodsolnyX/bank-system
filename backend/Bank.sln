@@ -26,19 +26,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loan.API", "Loan\Loan.API\L
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OperationHistory", "OperationHistory", "{7047C162-87FD-4270-9EE7-5A62CE0B101D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationHistory.API", "OperationHistory.API\OperationHistory.API.csproj", "{003EF475-A31B-469D-B4DF-CBE25DDE4B44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationHistory.API", "OperationHistory\OperationHistory.API\OperationHistory.API.csproj", "{003EF475-A31B-469D-B4DF-CBE25DDE4B44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationHistory.BLL", "OperationHistory.BLL\OperationHistory.BLL.csproj", "{FDE73D6C-A845-4EE1-80BD-CE41D8E8757D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationHistory.BLL", "OperationHistory\OperationHistory.BLL\OperationHistory.BLL.csproj", "{FDE73D6C-A845-4EE1-80BD-CE41D8E8757D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationHistory.DAL", "OperationHistory.DAL\OperationHistory.DAL.csproj", "{390F1560-299C-40BF-A669-69086AED9E61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationHistory.DAL", "OperationHistory\OperationHistory.DAL\OperationHistory.DAL.csproj", "{390F1560-299C-40BF-A669-69086AED9E61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{CAC84F18-679A-47AF-8A6A-C47A43373364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.API", "Auth.API\Auth.API.csproj", "{FDFEA110-F613-4BD4-B21F-4B89BA7E6401}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthAuth.API", "Auth\Auth.API\Auth.API.csproj", "{FDFEA110-F613-4BD4-B21F-4B89BA7E6401}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.BLL", "Auth.BLL\Auth.BLL.csproj", "{1C13EF57-C0F0-4031-99D8-C44C084DFE6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.BLL", "Auth\Auth.BLL\Auth.BLL.csproj", "{1C13EF57-C0F0-4031-99D8-C44C084DFE6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.DAL", "Auth.DAL\Auth.DAL.csproj", "{9BC7DE34-8034-4CA1-8B84-CD69FDD3C273}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.DAL", "Auth\Auth.DAL\Auth.DAL.csproj", "{9BC7DE34-8034-4CA1-8B84-CD69FDD3C273}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Arbiter", "Arbiter", "{F669BD9E-10C7-470E-AE3D-8C6134DB25BA}"
 EndProject

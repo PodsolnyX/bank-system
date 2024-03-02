@@ -7,13 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Enumerations\" />
-      <Folder Include="Extensions\" />
+      <ProjectReference Include="..\..\Common\Common.Enum\Common.Enum.csproj" />
+      <ProjectReference Include="..\Common\Common.Enum\Common.Enum.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
-      <ProjectReference Include="..\Common\Common.Enum\Common.Enum.csproj" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
     </ItemGroup>
 
 </Project>
