@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(
         policy => {
@@ -19,9 +20,8 @@ builder.Services.AddControllers().AddJsonOptions(opts => {
 });
 
 // Add services to the container.
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(option => {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Arbiter", Version = "v1" });
+builder.Services.AddEndpointsApiExplorer();builder.Services.AddSwaggerGen(option => {
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: OperationHistory", Version = "v1" });
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
