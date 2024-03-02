@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Auth.DAL;
 
-public class OpHistoryDbContext: DbContext {
+public class AuthDbContext: DbContext {
     public DbSet<User> Users { get; set; }
     
-    public OpHistoryDbContext(DbContextOptions<OpHistoryDbContext> options) : base(options) {
-        
+    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options) {
     }
-
 }

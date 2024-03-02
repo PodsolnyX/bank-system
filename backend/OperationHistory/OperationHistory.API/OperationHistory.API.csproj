@@ -17,11 +17,15 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
+      <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
       <ProjectReference Include="..\OperationHistory.BLL\OperationHistory.BLL.csproj" />
     </ItemGroup>
 
