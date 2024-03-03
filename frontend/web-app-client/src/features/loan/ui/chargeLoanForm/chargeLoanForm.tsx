@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   const { loan, accounts, ...rest } = props
   const validAccounts = useMemo(() => {
-    return accounts.filter((acc) => !acc.closedAt && acc.type === loan.currencyType)
+    return accounts.filter((acc) => !acc.closedAt && acc.currencyType === loan.currencyType)
   }, [accounts, loan.currencyType])
 
   if (!validAccounts.length) {
@@ -46,7 +46,7 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
             {validAccounts.map((acc) => (
               <Select.Option
                 key={acc.id}
-              >{`${acc.id}: ${acc.amount}${acc.type}`}</Select.Option>
+              >{`${acc.id}: ${acc.amount}${acc.currencyType}`}</Select.Option>
             ))}
           </Select>
         </Form.Item>

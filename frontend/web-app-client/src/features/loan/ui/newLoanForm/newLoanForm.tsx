@@ -24,7 +24,7 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
   const [tariff, setTariff] = useState<string | null>(null)
   const [account, setAccount] = useState<string | null>(null)
   const tariffCurr = tariffs.find((t) => t.id === tariff)?.currencyTypes
-  const accountCurr = accounts.find((a) => a.id === account)?.type
+  const accountCurr = accounts.find((a) => a.id === account)?.currencyType
   const isValid = !!(accountCurr && tariffCurr?.includes(accountCurr))
 
   const displayCurr = isValid ? accountCurr : '...'
@@ -75,7 +75,7 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
           {visibleAccounts.map((acc) => (
             <Select.Option
               key={acc.id}
-            >{`${acc.id}: ${acc.amount}${acc.type}`}</Select.Option>
+            >{`${acc.id}: ${acc.amount}${acc.currencyType}`}</Select.Option>
           ))}
         </Select>
       </Form.Item>

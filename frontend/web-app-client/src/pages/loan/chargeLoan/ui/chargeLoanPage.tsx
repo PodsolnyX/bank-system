@@ -38,14 +38,14 @@ export const ChargeLoanPage = () => {
       isLoading={result.isLoading}
       onFinish={onFinish}
       loan={{
-        currencyType: CurrencyType.EUR,
+        currencyType: CurrencyType.Eur,
         debt: 31,
         id: '7820',
       }}
       showSkeleton={!loan.isSuccess || !accounts.isSuccess}
       accounts={[
-        { id: '3', type: CurrencyType.EUR, amount: 13 },
-        { id: '4', type: CurrencyType.RUB, amount: 15 },
+        { id: '3', currencyType: CurrencyType.Eur, amount: 13 },
+        { id: '4', currencyType: CurrencyType.Rub, amount: 15 },
       ]}
     />
   )

@@ -5,6 +5,7 @@ import { Center, Form } from 'shared/ui'
 import { getTransferAssets } from 'features/transfer'
 import { moneyRules } from 'shared/utils'
 import { TransferFormProps } from './types'
+import { OperationType } from 'shared/entities'
 
 export const TransferForm = (props: TransferFormProps) => {
   const { type, account, onFinish, isLoading } = props
@@ -17,11 +18,11 @@ export const TransferForm = (props: TransferFormProps) => {
         className='w-full md:w-1/3'
         onFinish={onFinish}
         initialValues={{
-          account: account.id,
+          AccountId: account.id,
         }}
         isLoading={isLoading}
       >
-        <Form.Item label='Счет' name='account'>
+        <Form.Item label='Счет' name='AccountId'>
           <Input
             className='text-black'
             suffix={<CreditCardOutlined />}
@@ -36,7 +37,7 @@ export const TransferForm = (props: TransferFormProps) => {
           rules={moneyRules.concat([
             {
               validator: (_rule, v) =>
-                account.amount >= v
+                account.amount >= v || type === OperationType.DEPOSIT
                   ? Promise.resolve()
                   : Promise.reject('Недостаточно денег'),
             },
@@ -45,7 +46,7 @@ export const TransferForm = (props: TransferFormProps) => {
           <InputNumber
             className='w-full'
             placeholder='Введите число'
-            addonAfter={account.type}
+            addonAfter={account.currencyType}
           />
         </Form.Item>
 

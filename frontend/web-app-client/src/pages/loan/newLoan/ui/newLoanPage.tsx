@@ -47,10 +47,10 @@ export const NewLoanPage = () => {
       <PageHeader text='Новый кредит' />
       <NewLoanForm
         onFinish={onFinish}
-        accounts={[{ amount: 32, id: '1', type: CurrencyType.EUR, user: '1' }]}
+        accounts={[{ amount: 32, id: '1', currencyType: CurrencyType.Eur, user: '1' }]}
         tariffs={[
           {
-            currencyTypes: [CurrencyType.EUR],
+            currencyTypes: [CurrencyType.Eur],
             id: '11',
             interestRate: 11.5,
             name: 'тест',

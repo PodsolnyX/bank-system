@@ -8,7 +8,7 @@ export type TransferFormProps = {
 }
 
 export type TransferFormValues = {
-  id: string
+  AccountId: string
   moneyAmount: number
   message?: string
 }

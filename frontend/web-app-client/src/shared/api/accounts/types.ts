@@ -11,18 +11,21 @@ export type GetAccountsResp = Account[]
 export type NewAccountReq = Pick<Account, 'type'>
 export type NewAccountResp = Account
 
-export type CloseAccountReq = Pick<Account, 'id'>
+export type CloseAccountReq = {
+  AccountId: string
+}
+
 export type CloseAccountResp = void
 
 export type DepositReq = {
-  id: string
+  AccountId: string
   moneyAmount: number
   message?: string
 }
 export type DepositResp = void
 
 export type WithdrawReq = {
-  id: string
+  AccountId: string
   moneyAmount: number
   message?: string
 }

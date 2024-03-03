@@ -23,7 +23,7 @@ export const CloseAccountPage = () => {
 
   const onFinish = async () => {
     try {
-      await trigger({ id }).unwrap()
+      await trigger({ AccountId: id }).unwrap()
       toastSuccess('Счет закрыт!')
       navigate(AppRoutes.ACCOUNTS)
     } catch {

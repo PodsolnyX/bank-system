@@ -9,7 +9,7 @@ export type CloseAccountFormProps = {
 
 export const CloseAccountForm = (props: CloseAccountFormProps) => {
   const { onFinish, account, ...rest } = props
-  const [time, setTime] = useState(5)
+  const [time, setTime] = useState(3)
 
   useEffect(() => {
     const timer = setInterval(() => {

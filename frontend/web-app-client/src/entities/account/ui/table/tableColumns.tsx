@@ -24,15 +24,15 @@ export const columns: ColumnsType<Account> = [
   },
   {
     title: 'Валюта',
-    dataIndex: 'type',
-    key: 'type',
+    dataIndex: 'currencyType',
+    key: 'currencyType',
     responsive: ['md'],
     width: '10%',
     filters: Object.keys(CurrencyType).map((cur) => ({
       text: cur,
       value: cur,
     })),
-    onFilter: (value, record) => record.type === value,
+    onFilter: (value, record) => record.currencyType === value,
   },
   {
     title: 'Статус',

@@ -41,7 +41,7 @@ export const AccountPage = () => {
           <Property name='Номер счета' value={accQuery.data!.id} />
           <Property
             name='Текущая сумма'
-            value={`${accQuery.data!.amount}${accQuery.data!.type}`}
+            value={`${accQuery.data!.amount}${accQuery.data!.currencyType}`}
           />
           <Property
             name='Статус счета'
