@@ -1,6 +1,9 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Auth.BLL.Extensions;
+using Common.Exception;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,8 @@ builder.Services.AddCors(options => {
         });
 });
 
+builder.Services.AddBllServicesDependency();
+builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddControllers().AddJsonOptions(opts => {
     var enumConverter = new JsonStringEnumConverter();
     opts.JsonSerializerOptions.Converters.Add(enumConverter);
@@ -24,7 +29,16 @@ builder.Services.AddEndpointsApiExplorer();builder.Services.AddSwaggerGen(option
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 var app = builder.Build();
+
+await app.MigrateDbAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -33,6 +47,7 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseErrorHandleMiddleware();
 
 app.MapControllers();
 app.Run();

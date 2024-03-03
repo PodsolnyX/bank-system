@@ -4,6 +4,7 @@ using Common.Auth.ApiKeyAuthorization;
 using Common.Configurations.RabbitMq;
 using Microsoft.OpenApi.Models;
 using OperationHistory.BLL.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,14 @@ builder.Services.AddSwaggerGen(option =>
 });
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 
 builder
     .Services.AddOptions<RabbitMqConfiguration>()
