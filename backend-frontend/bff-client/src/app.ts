@@ -28,6 +28,6 @@ app.use((_req, res) => res.sendStatus(404))
 
 app.listen(port, () => console.log(`Express - localhost:${port}`))
 
-process.on('uncaughtException', err => {
-    console.log(`Error`, err)
+process.on('uncaughtException', (err) => {
+  console.log(`Error`, err)
 })

@@ -20,7 +20,7 @@ class RouterHelper {
         return async (...args: Parameters<ProtoReqHandler>) => {
           try {
             return await handler.call(controller, ...args)
-          } catch(err) {
+          } catch (err) {
             if (err instanceof AxiosError && err.response) {
               args[1].status(err.response.status).send(err.response.data)
             } else {

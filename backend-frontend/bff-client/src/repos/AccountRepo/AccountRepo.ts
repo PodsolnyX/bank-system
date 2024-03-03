@@ -17,8 +17,8 @@ class AccountRepo implements IAccountRepo {
     return (
       await MainInstance.post<Account>('/account/user', null, {
         params: {
-          CurrencyType: Dto.type
-        }
+          CurrencyType: Dto.type,
+        },
       })
     ).data
   }
@@ -28,26 +28,22 @@ class AccountRepo implements IAccountRepo {
   }
 
   async GetAccounts(Dto: PaginationReq<SearchAccountDto>) {
-    return (
-      await MainInstance.get<AccountDto[]>('/account/user')
-    ).data
+    return (await MainInstance.get<AccountDto[]>('/account/user')).data
   }
 
   async GetAccount(Dto: GetAccountDto) {
-    return (
-      await MainInstance.get<Account>(`/account/user/${Dto.AccountId}`)
-    ).data
+    return (await MainInstance.get<Account>(`/account/user/${Dto.AccountId}`)).data
   }
 
   async Deposit(Dto: DepositDto) {
     await MainInstance.post<Account>(`/account/user/${Dto.AccountId}/deposit`, null, {
-      params: Dto
+      params: Dto,
     })
   }
 
   async Withdraw(Dto: WithdrawDto) {
     await MainInstance.post<Account>(`/account/user/${Dto.AccountId}/withdraw`, null, {
-      params: Dto
+      params: Dto,
     })
   }
 }
