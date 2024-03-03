@@ -4,6 +4,7 @@ using Common.Auth.ApiKeyAuthorization;
 using Common.Configurations.RabbitMq;
 using Core.BLL.Extensions;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,15 @@ builder.Services.AddSwaggerGen(option =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
+
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 

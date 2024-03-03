@@ -111,7 +111,7 @@ services:
       - rabbitmq
       - postgres
     volumes:
-      - /var/log/bank/loan:/app/logs
+      - /var/log/bank/operation-history:/app/logs
 
 
 

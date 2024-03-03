@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
+      <ProjectReference Include="..\..\Common\Common.Exception\Common.Exception.csproj" />
+      <ProjectReference Include="..\Auth.DAL\Auth.DAL.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -15,6 +17,12 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore">
+        <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.2\Microsoft.AspNetCore.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
