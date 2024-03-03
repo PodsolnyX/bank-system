@@ -1,0 +1,23 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+      - backend
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+
+    - name: Stop docker
+      run: sudo docker-compose down
+      working-directory: ./backend
+
+    - name: Start docker
+      run: sudo docker-compose up -d --build
+      working-directory: ./backend
