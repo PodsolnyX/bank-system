@@ -14,6 +14,7 @@ class UserController {
   async GetProfile(req: GetUserReq, res: Response) {
     try {
       const data = await this._UserService.GetProfile(req.body)
+      data.Mail = 'fd23a5bf-e90b-4792-a884-6b6626d22276'
       res.cookie(CookieName, data.Mail, {
         maxAge: CookieAuthTime,
       })

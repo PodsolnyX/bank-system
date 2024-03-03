@@ -7,13 +7,13 @@ import {
   SearchAccountDto,
   GetAccountDto,
 } from 'dto/Account'
-import { PaginationReq, WithUser } from 'dto/Common'
+import { PaginationReq } from 'dto/Common'
 
 export interface IAccountRepo {
-  OpenAccount(Dto: WithUser<OpenAccountDto>): Promise<AccountDto>
-  CloseAccount(Dto: WithUser<CloseAccountDto>): Promise<void>
-  GetAccounts(Dto: WithUser<PaginationReq<SearchAccountDto>>): Promise<AccountDto[]>
-  GetAccount(Dto: WithUser<GetAccountDto>): Promise<AccountDto>
-  Deposit(Dto: WithUser<DepositDto>): Promise<void>
-  Withdraw(Dto: WithUser<WithdrawDto>): Promise<void>
+  OpenAccount(Dto: OpenAccountDto): Promise<AccountDto>
+  CloseAccount(Dto: CloseAccountDto): Promise<void>
+  GetAccounts(Dto: PaginationReq<SearchAccountDto>): Promise<AccountDto[]>
+  GetAccount(Dto: GetAccountDto): Promise<AccountDto>
+  Deposit(Dto: DepositDto): Promise<void>
+  Withdraw(Dto: WithdrawDto): Promise<void>
 }

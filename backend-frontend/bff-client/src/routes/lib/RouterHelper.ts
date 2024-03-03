@@ -1,11 +1,14 @@
+import { AxiosError } from 'axios'
 import { Router, RequestHandler } from 'express'
 
 type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'all'
 
+type ProtoReqHandler = (...args: Parameters<RequestHandler<any, any>>) => Promise<any>
+
 type Route = {
   method: Method
   path: string
-  handlers: RequestHandler<any, any>[]
+  handlers: ProtoReqHandler[]
 }
 
 class RouterHelper {
@@ -14,7 +17,17 @@ class RouterHelper {
 
     for (const route of routes) {
       const bindedHandlers = [...route.handlers].map((handler) => {
-        return handler.bind(controller)
+        return async (...args: Parameters<ProtoReqHandler>) => {
+          try {
+            return await handler.call(controller, ...args)
+          } catch(err) {
+            if (err instanceof AxiosError && err.response) {
+              args[1].status(err.response.status).send(err.response.data)
+            } else {
+              args[1].sendStatus(500)
+            }
+          }
+        }
       })
 
       router[route.method](route.path, bindedHandlers)

@@ -9,38 +9,46 @@ import {
   GetAccountDto,
   AccountDto,
 } from 'dto/Account'
-import { PaginationReq, WithUser } from 'dto/Common'
+import { PaginationReq } from 'dto/Common'
 import { MainInstance } from 'request/MainInstance'
 
 class AccountRepo implements IAccountRepo {
-  async OpenAccount(Dto: WithUser<OpenAccountDto>) {
+  async OpenAccount(Dto: OpenAccountDto) {
     return (
-      await MainInstance.get<Account>('https://jsonplaceholder.typicode.com/todos/1')
+      await MainInstance.post<Account>('/account/user', null, {
+        params: {
+          CurrencyType: Dto.type
+        }
+      })
     ).data
   }
 
-  async CloseAccount(Dto: WithUser<CloseAccountDto>) {
-    await MainInstance.delete<Account>('https://jsonplaceholder.typicode.com/todos/1')
+  async CloseAccount(Dto: CloseAccountDto) {
+    await MainInstance.delete<Account>(`/account/user/${Dto.AccountId}`)
   }
 
-  async GetAccounts(Dto: WithUser<PaginationReq<SearchAccountDto>>) {
+  async GetAccounts(Dto: PaginationReq<SearchAccountDto>) {
     return (
-      await MainInstance.get<AccountDto[]>('https://jsonplaceholder.typicode.com/todos/1')
+      await MainInstance.get<AccountDto[]>('/account/user')
     ).data
   }
 
-  async GetAccount(Dto: WithUser<GetAccountDto>) {
+  async GetAccount(Dto: GetAccountDto) {
     return (
-      await MainInstance.get<Account>('https://jsonplaceholder.typicode.com/todos/1')
+      await MainInstance.get<Account>(`/account/user/${Dto.AccountId}`)
     ).data
   }
 
-  async Deposit(Dto: WithUser<DepositDto>) {
-    await MainInstance.post<Account>('https://jsonplaceholder.typicode.com/todos/1')
+  async Deposit(Dto: DepositDto) {
+    await MainInstance.post<Account>(`/account/user/${Dto.AccountId}/deposit`, null, {
+      params: Dto
+    })
   }
 
-  async Withdraw(Dto: WithUser<WithdrawDto>) {
-    await MainInstance.post<Account>('https://jsonplaceholder.typicode.com/todos/1')
+  async Withdraw(Dto: WithdrawDto) {
+    await MainInstance.post<Account>(`/account/user/${Dto.AccountId}/withdraw`, null, {
+      params: Dto
+    })
   }
 }
 
