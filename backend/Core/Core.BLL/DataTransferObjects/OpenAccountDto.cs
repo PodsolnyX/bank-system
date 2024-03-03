@@ -2,7 +2,7 @@
 
 namespace Core.BLL.DataTransferObjects;
 
-public class OpenAccountDto {
-    public Guid UserId { get; set; }
+public class OpenAccountDto
+{
     public CurrencyType CurrencyType { get; set; }
 }

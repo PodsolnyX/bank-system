@@ -13,4 +13,8 @@
     <ItemGroup>
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Common.Exception\Common.Exception.csproj" />
+    </ItemGroup>
 </Project>
