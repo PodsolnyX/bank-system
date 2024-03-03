@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { IUserService } from './IUserService'
-import { GetUserReq } from './types'
-import { AxiosError } from 'axios'
+import { GetUserReq, RegisterReq } from './types'
 import { CookieAuthTime, CookieName } from 'config/Auth'
 
 class UserController {
@@ -12,22 +11,11 @@ class UserController {
   }
 
   async GetProfile(req: GetUserReq, res: Response) {
-    try {
-      const data = await this._UserService.GetProfile(req.body)
-      data.Mail = 'fd23a5bf-e90b-4792-a884-6b6626d22276'
-      res.cookie(CookieName, data.Mail, {
-        maxAge: CookieAuthTime,
-      })
-      res.status(200).send(data)
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.status) {
-          res.sendStatus(err.status)
-        } else {
-          res.sendStatus(500)
-        }
-      }
-    }
+    const data = await this._UserService.GetProfile(req.body)
+    res.cookie(CookieName, data.mail, {
+      maxAge: CookieAuthTime,
+    })
+    res.status(200).send(data)
   }
 
   async Logout(req: Request, res: Response) {
@@ -38,6 +26,14 @@ class UserController {
 
     res.clearCookie(CookieName)
     res.sendStatus(200)
+  }
+
+  async Register(req: RegisterReq, res: Response) {
+    const id = await this._UserService.Register(req.body)
+    res.cookie(CookieName, req.body.mail, {
+      maxAge: CookieAuthTime,
+    })
+    res.status(200).send({ id })
   }
 }
 

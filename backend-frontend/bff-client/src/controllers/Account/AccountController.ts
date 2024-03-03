@@ -8,7 +8,7 @@ import {
   OpenAccountReq,
   WithdrawReq,
 } from 'controllers/Account/types'
-import { Extractor } from 'common/Extractor'
+import { Extractor } from 'controllers/lib/Extractor'
 
 class AccountController {
   private _AccountService: IAccountService

@@ -9,33 +9,39 @@ import {
   SearchLoanUserDto,
   GetLoanDto,
 } from 'dto/Loan'
-import { MainInstance } from 'request/MainInstance'
+import { LoanReq } from 'request/Loan'
 
 class LoanRepo implements ILoanRepo {
-  async RequestLoan(Dto: WithUser<RequestLoanDto>) {
-    await MainInstance.post('https://jsonplaceholder.typicode.com/todos/1')
+  async RequestLoan(Dto: RequestLoanDto) {
+    await LoanReq.post('/loan/user/request', null, {
+      params: Dto,
+    })
   }
 
-  async ChargeLoan(Dto: WithUser<ChargeLoanDto>) {
-    await MainInstance.post('https://jsonplaceholder.typicode.com/todos/1')
+  async ChargeLoan(Dto: ChargeLoanDto) {
+    await LoanReq.post('/loan/user/charge', null, {
+      params: Dto,
+    })
   }
 
-  async GetTariffs(Dto: WithUser<PaginationReq<SearchTariffDto>>) {
+  async GetTariffs(Dto: PaginationReq<SearchTariffDto>) {
     return (
-      await MainInstance.get<TariffDto[]>('https://jsonplaceholder.typicode.com/todos/1')
+      await LoanReq.get<TariffDto[]>('/tariff/user', {
+        params: Dto,
+      })
     ).data
   }
 
-  async GetLoans(Dto: WithUser<PaginationReq<SearchLoanUserDto>>) {
+  async GetLoans(Dto: PaginationReq<SearchLoanUserDto>) {
     return (
-      await MainInstance.get<LoanDto[]>('https://jsonplaceholder.typicode.com/todos/1')
+      await LoanReq.get<LoanDto[]>('/loan/user', {
+        params: Dto,
+      })
     ).data
   }
 
-  async GetLoan(Dto: WithUser<GetLoanDto>) {
-    return (
-      await MainInstance.get<LoanDto>('https://jsonplaceholder.typicode.com/todos/1')
-    ).data
+  async GetLoan(Dto: GetLoanDto) {
+    return (await LoanReq.get<LoanDto>(`/loam/user/${Dto.LoanId}`)).data
   }
 }
 

@@ -1,11 +1,21 @@
 import { User } from 'entities/User'
 import { IUserRepo } from 'services/UserService'
-import { MainInstance } from 'request/MainInstance'
+import { AuthReq } from 'request/Auth'
+import { GetProfileDto, RegisterDto, RegisterResp } from 'dto/User'
 
 class UserRepo implements IUserRepo {
-  async GetProfile() {
-    return (await MainInstance.get<User>('https://jsonplaceholder.typicode.com/todos/1'))
-      .data
+  async GetProfile(Dto: GetProfileDto) {
+    return (
+      await AuthReq.get<User>('/auth/user', {
+        params: {
+          mail: Dto.mail,
+        },
+      })
+    ).data
+  }
+
+  async Register(Dto: RegisterDto) {
+    return (await AuthReq.post<RegisterResp>('/auth/user', Dto)).data
   }
 }
 

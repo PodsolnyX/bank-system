@@ -7,7 +7,7 @@ import {
   GetTariffsReq,
   RequestLoanReq,
 } from './types'
-import { Extractor } from 'common/Extractor'
+import { Extractor } from 'controllers/lib/Extractor'
 
 class LoanController {
   private _LoanService: ILoanService

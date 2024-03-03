@@ -12,12 +12,12 @@ export enum OperationStatus {
 }
 
 export type Operation = {
-  Id: string
-  AccountId: string
-  LoanId?: string
-  Type: OperationType
-  Status: OperationStatus
-  Amount: number
-  Date: string
-  Message?: string
+  id: string
+  accountId: string
+  loanId?: string
+  type: OperationType
+  status: OperationStatus
+  amount: number
+  date: string
+  message?: string
 }

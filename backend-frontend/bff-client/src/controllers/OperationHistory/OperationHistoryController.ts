@@ -1,7 +1,7 @@
 import { Response } from 'express'
 import { IOperationHistoryService } from './IOperationHistoryService'
 import { GetOperationHistoryReq } from './types'
-import { Extractor } from 'common/Extractor'
+import { Extractor } from 'controllers/lib/Extractor'
 
 class OperationHistoryController {
   private _OperationHistoryService: IOperationHistoryService

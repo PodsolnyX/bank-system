@@ -1,6 +1,6 @@
 export type Account = {
-  Id: string
-  User: string
-  Amount: number
-  ClosedAt?: string
+  id: string
+  user: string
+  amount: number
+  closedAt?: string
 }

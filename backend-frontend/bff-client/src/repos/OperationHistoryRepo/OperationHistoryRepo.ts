@@ -1,14 +1,14 @@
 import { IOperationHistoryRepo } from 'services/OperationHistoryService'
-import { MainInstance } from 'request/MainInstance'
+import { OperationReq } from 'request/Operation'
 import { PaginationReq, WithUser } from 'dto/Common'
 import { SearchOperationUserDto, OperationDto } from 'dto/OperationHistory'
 
 class OperationHistoryRepo implements IOperationHistoryRepo {
-  async GetOperationHistory(Dto: WithUser<PaginationReq<SearchOperationUserDto>>) {
+  async GetOperationHistory(Dto: PaginationReq<SearchOperationUserDto>) {
     return (
-      await MainInstance.get<OperationDto[]>(
-        'https://jsonplaceholder.typicode.com/todos/1'
-      )
+      await OperationReq.get<OperationDto[]>('/operation-history/user', {
+        params: Dto,
+      })
     ).data
   }
 }

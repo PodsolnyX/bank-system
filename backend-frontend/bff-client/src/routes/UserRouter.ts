@@ -16,6 +16,11 @@ RouterHelper.use(UserRouter, UserControllerInst, [
     path: '/logout',
     handlers: [UserControllerInst.Logout],
   },
+  {
+    method: 'post',
+    path: '/register',
+    handlers: [UserControllerInst.Register],
+  },
 ])
 
 export default UserRouter
