@@ -33,6 +33,7 @@ builder.Services.AddSwaggerGen(option =>
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
 

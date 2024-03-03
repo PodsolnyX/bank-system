@@ -9,11 +9,8 @@ namespace Core.BLL.Extensions;
 public static class ServiceDependencyExtension
 {
     /// <summary>
-    /// Add Backend BLL service dependencies
+    /// Add Backend BLL database dependencies
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
-    /// <returns></returns>
     public static IServiceCollection AddDatabase(
         this IServiceCollection services,
         IConfiguration configuration
@@ -22,7 +19,23 @@ public static class ServiceDependencyExtension
         services.AddDbContext<CoreDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Database"))
         );
-        services.AddScoped<AccountService>();
+        services.AddScoped<AccountExternalService>();
+        return services;
+    }
+
+    /// <summary>
+    /// Add Backend BLL service dependencies
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddServices(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
+    {
+        services.AddScoped<AccountExternalService>();
+        services.AddScoped<AccountInternalService>();
         return services;
     }
 }

@@ -5,11 +5,11 @@ using Core.DAL.Entities;
 
 namespace Core.BLL.Services;
 
-public class AccountService
+public class AccountExternalService
 {
     private readonly CoreDbContext _dbContext;
 
-    public AccountService(CoreDbContext dbContext)
+    public AccountExternalService(CoreDbContext dbContext)
     {
         _dbContext = dbContext;
     }

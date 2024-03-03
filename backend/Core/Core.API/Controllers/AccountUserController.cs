@@ -12,11 +12,11 @@ namespace Core.API.Controllers;
 [Route("account/user")]
 public class AccountUserController : ControllerBase
 {
-    private readonly AccountService _accountService;
+    private readonly AccountExternalService _accountExternalService;
 
-    public AccountUserController(AccountService accountService)
+    public AccountUserController(AccountExternalService accountExternalService)
     {
-        _accountService = accountService;
+        _accountExternalService = accountExternalService;
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class AccountUserController : ControllerBase
     public async Task<AccountDto> OpenAccount(OpenAccountDto dto)
     {
         var userId = HttpContext.GetUserId();
-        return await _accountService.OpenAccount(userId, dto);
+        return await _accountExternalService.OpenAccount(userId, dto);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class AccountUserController : ControllerBase
     public async Task CloseAccount(Guid id)
     {
         var userId = HttpContext.GetUserId();
-        await _accountService.CloseAccount(userId, id);
+        await _accountExternalService.CloseAccount(userId, id);
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class AccountUserController : ControllerBase
     public async Task<List<AccountDto>> GetAccounts(SearchAccountUserDto searchDto)
     {
         var userId = HttpContext.GetUserId();
-        return await _accountService.GetAccounts(userId, searchDto);
+        return await _accountExternalService.GetAccounts(userId, searchDto);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class AccountUserController : ControllerBase
     public async Task<AccountDto> GetAccount(Guid id)
     {
         var userId = HttpContext.GetUserId();
-        return await _accountService.GetAccount(userId, id);
+        return await _accountExternalService.GetAccount(userId, id);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class AccountUserController : ControllerBase
     public async Task Deposit(Guid accountId, DepositDto dto)
     {
         var userId = HttpContext.GetUserId();
-        await _accountService.Deposit(userId, accountId, dto);
+        await _accountExternalService.Deposit(userId, accountId, dto);
     }
 
     /// <summary>
@@ -76,6 +76,6 @@ public class AccountUserController : ControllerBase
     public async Task Withdraw(Guid accountId, DepositDto dto)
     {
         var userId = HttpContext.GetUserId();
-        await _accountService.Withdraw(userId, accountId, dto);
+        await _accountExternalService.Withdraw(userId, accountId, dto);
     }
 }

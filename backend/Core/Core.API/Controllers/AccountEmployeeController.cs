@@ -11,11 +11,11 @@ namespace Core.API.Controllers;
 [Route("account/employee")]
 public class AccountEmployeeController : ControllerBase
 {
-    private readonly AccountService _accountService;
+    private readonly AccountExternalService _accountExternalService;
 
-    public AccountEmployeeController(AccountService accountService)
+    public AccountEmployeeController(AccountExternalService accountExternalService)
     {
-        _accountService = accountService;
+        _accountExternalService = accountExternalService;
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public class AccountEmployeeController : ControllerBase
     [HttpGet]
     public async Task<List<AccountDto>> GetAccounts(SearchAccountEmployeeDto searchDto)
     {
-        return await _accountService.GetAccounts(searchDto);
+        return await _accountExternalService.GetAccounts(searchDto);
     }
 
     /// <summary>
@@ -33,6 +33,6 @@ public class AccountEmployeeController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<AccountDto> GetAccount(Guid id)
     {
-        return await _accountService.GetAccount(id);
+        return await _accountExternalService.GetAccount(id);
     }
 }
