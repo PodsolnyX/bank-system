@@ -1,4 +1,5 @@
 ﻿using Common.DataTransfer;
+using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.DAL;
 using Core.DAL.Entities;
@@ -8,10 +9,15 @@ namespace Core.BLL.Services;
 public class AccountExternalService
 {
     private readonly CoreDbContext _dbContext;
+    private readonly OperationHistorySender _operationHistorySender;
 
-    public AccountExternalService(CoreDbContext dbContext)
+    public AccountExternalService(
+        CoreDbContext dbContext,
+        OperationHistorySender operationHistorySender
+    )
     {
         _dbContext = dbContext;
+        _operationHistorySender = operationHistorySender;
     }
 
     public async Task<AccountDto> OpenAccount(Guid userId, OpenAccountDto dto)
@@ -121,6 +127,20 @@ public class AccountExternalService
         account.ModifiedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
+
+        await _operationHistorySender.SendOperationHistoryMessage(
+            new OperationHistoryMessage
+            {
+                UserId = userId,
+                AccountId = accountId,
+                Amount = dto.Amount,
+                OperationType = OperationType.Deposit,
+                CurrencyType = account.CurrencyType,
+                OperationStatus = OperationStatus.Success,
+                DateTime = DateTime.UtcNow,
+                Message = dto.Message
+            }
+        );
     }
 
     public async Task Withdraw(Guid userId, Guid accountId, DepositDto dto)
@@ -139,6 +159,20 @@ public class AccountExternalService
         account.ModifiedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
+
+        await _operationHistorySender.SendOperationHistoryMessage(
+            new OperationHistoryMessage
+            {
+                UserId = userId,
+                AccountId = accountId,
+                Amount = dto.Amount,
+                OperationType = OperationType.Withdraw,
+                CurrencyType = account.CurrencyType,
+                OperationStatus = OperationStatus.Success,
+                DateTime = DateTime.UtcNow,
+                Message = dto.Message
+            }
+        );
     }
 
     private void CheckAccount(Guid userId, Account? account)

@@ -1,10 +1,10 @@
-﻿using Core.BLL.Services;
-using Core.DAL;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OperationHistory.BLL.Services;
+using OperationHistory.DAL;
 
-namespace Core.BLL.Extensions;
+namespace OperationHistory.BLL.Extensions;
 
 public static class ServiceDependencyExtension
 {
@@ -16,10 +16,9 @@ public static class ServiceDependencyExtension
         IConfiguration configuration
     )
     {
-        services.AddDbContext<CoreDbContext>(options =>
+        services.AddDbContext<OpHistoryDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Database"))
         );
-        services.AddScoped<AccountExternalService>();
         return services;
     }
 
@@ -31,9 +30,8 @@ public static class ServiceDependencyExtension
         IConfiguration configuration
     )
     {
-        services.AddScoped<AccountExternalService>();
-        services.AddScoped<AccountInternalService>();
-        services.AddScoped<OperationHistorySender>();
+        services.AddScoped<OperationHistoryService>();
+        services.AddHostedService<RabbitMqListenerService>();
         return services;
     }
 }

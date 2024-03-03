@@ -7,7 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
-      <ProjectReference Include="..\..\Common\Common.Enum\Common.Enum.csproj" />
+        <ProjectReference Include="..\..\Common\Common.Configurations\Common.Configurations.csproj" />
+        <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
+        <ProjectReference Include="..\..\Common\Common.Enum\Common.Enum.csproj" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <ProjectReference Include="..\..\Core\Core.BLL\Core.BLL.csproj" />
+
+        <ProjectReference Include="..\OperationHistory.DAL\OperationHistory.DAL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     </ItemGroup>
 </Project>

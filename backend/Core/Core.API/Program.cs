@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
+using Common.Configurations.RabbitMq;
 using Core.BLL.Extensions;
 using Microsoft.OpenApi.Models;
 
@@ -34,6 +35,10 @@ builder.Services.AddSwaggerGen(option =>
 });
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
+
+builder
+    .Services.AddOptions<RabbitMqConfiguration>()
+    .Bind(builder.Configuration.GetSection("RabbitMq"));
 
 var app = builder.Build();
 

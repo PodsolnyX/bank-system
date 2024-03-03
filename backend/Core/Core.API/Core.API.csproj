@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.Auth\Common.Auth.csproj" />
+      <ProjectReference Include="..\..\Common\Common.Configurations\Common.Configurations.csproj" />
       <ProjectReference Include="..\Core.BLL\Core.BLL.csproj" />
     </ItemGroup>
 
