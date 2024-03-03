@@ -10,7 +10,9 @@ import { Link } from 'react-router-dom'
 export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   const { loan, accounts, ...rest } = props
   const validAccounts = useMemo(() => {
-    return accounts.filter((acc) => !acc.closedAt && acc.currencyType === loan.currencyType)
+    return accounts.filter(
+      (acc) => !acc.closedAt && acc.currencyType === loan.currencyType
+    )
   }, [accounts, loan.currencyType])
 
   if (!validAccounts.length) {

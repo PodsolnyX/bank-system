@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 
 function App() {
   const mail = useAppSelector((store) => store.authReducer.mail)
-  const [trigger, { isLoading, data }] = useGetProfileMutation()
+  const [trigger, { isLoading, data, isUninitialized }] = useGetProfileMutation()
 
   useEffect(() => {
     if (mail) {
@@ -19,7 +19,7 @@ function App() {
     }
   }, [])
 
-  if (isLoading) {
+  if (isLoading || isUninitialized) {
     return <Spinner />
   }
 

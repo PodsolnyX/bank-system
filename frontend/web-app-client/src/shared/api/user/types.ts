@@ -5,3 +5,11 @@ export type GetProfileResp = User
 
 export type LogoutReq = void
 export type LogoutResp = void
+
+export type RegisterReq = {
+  name: string
+  mail: string
+}
+export type RegisterResp = {
+  id: string
+}
