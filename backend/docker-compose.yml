@@ -1,0 +1,125 @@
+﻿version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - internal-network
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - internal-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+  arbiter:
+    build:
+      context: .
+      dockerfile: Arbiter/Arbiter.API/Dockerfile
+    restart: always
+    environment:
+      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-arbiter-db
+    networks:
+      - internal-network
+    ports:
+      - "7000:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - /var/log/bank/arbiter:/app/logs
+  
+  auth:
+    build:
+      context: .
+      dockerfile: Auth/Auth.API/Dockerfile
+    restart: always
+    environment:
+      - CONNECTIONSTRINGS__AUTHDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-auth-db
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "7001:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - /var/log/bank/auth:/app/logs
+  
+  core:
+    build:
+      context: .
+      dockerfile: Core/Core.API/Dockerfile
+    restart: always
+    environment:
+      - RABBITMQ__HOSTNAME=rabbitmq
+      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-core-db
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "7002:8080"
+    depends_on:
+      - rabbitmq
+      - postgres
+    volumes:
+      - /var/log/bank/core:/app/logs
+  
+  loan:
+    build:
+      context: .
+      dockerfile: Loan/Loan.API/Dockerfile
+    restart: always
+    environment:
+      - RABBITMQ__HOSTNAME=rabbitmq
+      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-loan-db
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "7003:8080"
+    depends_on:
+      - rabbitmq
+      - postgres
+    volumes:
+      - /var/log/bank/loan:/app/logs
+  
+  operation-history:
+    build:
+      context: .
+      dockerfile: OperationHistory/OperationHistory.API/Dockerfile
+    restart: always
+    environment:
+      - RABBITMQ__HOSTNAME=rabbitmq
+      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-op-history-db
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "7004:8080"
+    depends_on:
+      - rabbitmq
+      - postgres
+    volumes:
+      - /var/log/bank/loan:/app/logs
+
+
+
+volumes:
+  rabbitmq_data:
+  postgres_data:
+
+networks:
+  internal-network:
+  external-network:
+    external: true

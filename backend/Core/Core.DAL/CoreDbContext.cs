@@ -5,4 +5,7 @@ namespace Core.DAL;
 
 public class CoreDbContext : DbContext {
     public DbSet<Account> Accounts { get; set; }
+    
+    public CoreDbContext(DbContextOptions<CoreDbContext> options) : base(options) {
+    }
 }
