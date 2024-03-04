@@ -21,7 +21,7 @@ class UserController {
   }
 
   async Logout(req: Request, res: Response) {
-    if (!req.cookies[this._CookieAuthTime]) {
+    if (!req.cookies[CookieName]) {
       res.sendStatus(401)
       return
     }
