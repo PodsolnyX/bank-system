@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { AuthData, CookieName, HeaderName } from 'config/Auth'
+import { AuthData, CookieName } from 'config/Auth'
 import { IUserService } from 'controllers/User'
 import { NextFunction, Request, Response } from 'express'
 

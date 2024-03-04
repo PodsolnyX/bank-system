@@ -1,19 +1,19 @@
 import { User } from 'entities/User'
 import { IUserRepo } from 'services/UserService'
 import { GetProfileDto, RegisterDto, RegisterResp } from 'dto/User'
-import { Req } from 'repos/lib'
+import { AuthAPI } from 'repos/lib'
 
 class UserRepo implements IUserRepo {
   async GetProfile(Dto: GetProfileDto) {
     return (
-      await Req.Auth.get<User>('/auth/user', {
+      await AuthAPI.Req.get<User>('/auth/user', {
         params: Dto,
       })
     ).data
   }
 
   async Register(Dto: RegisterDto) {
-    return (await Req.Auth.post<RegisterResp>('/auth/user', Dto)).data
+    return (await AuthAPI.Req.post<RegisterResp>('/auth/user', Dto)).data
   }
 }
 

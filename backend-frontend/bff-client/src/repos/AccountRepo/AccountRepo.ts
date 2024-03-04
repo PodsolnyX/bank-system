@@ -10,12 +10,12 @@ import {
   AccountDto,
 } from 'dto/Account'
 import { PaginationReq } from 'dto/Common'
-import { Req } from 'repos/lib'
+import { CoreAPI } from 'repos/lib'
 
 class AccountRepo implements IAccountRepo {
   async OpenAccount(Dto: OpenAccountDto) {
     return (
-      await Req.Core.post<Account>('/account/user', null, {
+      await CoreAPI.Req.post<Account>('/account/user', null, {
         params: {
           CurrencyType: Dto.type,
         },
@@ -24,25 +24,25 @@ class AccountRepo implements IAccountRepo {
   }
 
   async CloseAccount(Dto: CloseAccountDto) {
-    await Req.Core.delete<Account>(`/account/user/${Dto.AccountId}`)
+    await CoreAPI.Req.delete<Account>(`/account/user/${Dto.AccountId}`)
   }
 
-  async GetAccounts(Dto: PaginationReq<SearchAccountDto>) {
-    return (await Req.Core.get<AccountDto[]>('/account/user')).data
+  async GetAccounts(_Dto: PaginationReq<SearchAccountDto>) {
+    return (await CoreAPI.Req.get<AccountDto[]>('/account/user')).data
   }
 
   async GetAccount(Dto: GetAccountDto) {
-    return (await Req.Core.get<Account>(`/account/user/${Dto.AccountId}`)).data
+    return (await CoreAPI.Req.get<Account>(`/account/user/${Dto.AccountId}`)).data
   }
 
   async Deposit(Dto: DepositDto) {
-    await Req.Core.post<Account>(`/account/user/${Dto.AccountId}/deposit`, null, {
+    await CoreAPI.Req.post<Account>(`/account/user/${Dto.AccountId}/deposit`, null, {
       params: Dto,
     })
   }
 
   async Withdraw(Dto: WithdrawDto) {
-    await Req.Core.post<Account>(`/account/user/${Dto.AccountId}/withdraw`, null, {
+    await CoreAPI.Req.post<Account>(`/account/user/${Dto.AccountId}/withdraw`, null, {
       params: Dto,
     })
   }
