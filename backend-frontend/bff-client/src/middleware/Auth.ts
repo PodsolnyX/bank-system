@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios'
-import { CookieName, HeaderName } from 'config/Auth'
+import { AuthData, CookieName, HeaderName } from 'config/Auth'
 import { IUserService } from 'controllers/User'
 import { NextFunction, Request, Response } from 'express'
-import { CoreReq } from 'request/Core'
 
 export const AuthMiddleware =
   (UserService: IUserService) =>
@@ -24,7 +23,7 @@ export const AuthMiddleware =
         return
       }
 
-      CoreReq.defaults.headers[HeaderName] = profile.id
+      AuthData.Header = profile.id
 
       next()
     } catch (err) {

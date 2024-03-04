@@ -1,5 +1,5 @@
 import { ILoanRepo } from 'services/LoanService'
-import { PaginationReq, WithUser } from 'dto/Common'
+import { PaginationReq } from 'dto/Common'
 import {
   ChargeLoanDto,
   RequestLoanDto,
@@ -9,24 +9,24 @@ import {
   SearchLoanUserDto,
   GetLoanDto,
 } from 'dto/Loan'
-import { LoanReq } from 'request/Loan'
+import { Req } from 'repos/lib'
 
 class LoanRepo implements ILoanRepo {
   async RequestLoan(Dto: RequestLoanDto) {
-    await LoanReq.post('/loan/user/request', null, {
+    await Req.Loan.post('/loan/user/request', null, {
       params: Dto,
     })
   }
 
   async ChargeLoan(Dto: ChargeLoanDto) {
-    await LoanReq.post('/loan/user/charge', null, {
+    await Req.Loan.post('/loan/user/charge', null, {
       params: Dto,
     })
   }
 
   async GetTariffs(Dto: PaginationReq<SearchTariffDto>) {
     return (
-      await LoanReq.get<TariffDto[]>('/tariff/user', {
+      await Req.Loan.get<TariffDto[]>('/tariff/user', {
         params: Dto,
       })
     ).data
@@ -34,14 +34,14 @@ class LoanRepo implements ILoanRepo {
 
   async GetLoans(Dto: PaginationReq<SearchLoanUserDto>) {
     return (
-      await LoanReq.get<LoanDto[]>('/loan/user', {
+      await Req.Loan.get<LoanDto[]>('/loan/user', {
         params: Dto,
       })
     ).data
   }
 
   async GetLoan(Dto: GetLoanDto) {
-    return (await LoanReq.get<LoanDto>(`/loam/user/${Dto.LoanId}`)).data
+    return (await Req.Loan.get<LoanDto>(`/loam/user/${Dto.LoanId}`)).data
   }
 }
 
