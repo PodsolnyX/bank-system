@@ -11,7 +11,7 @@ export const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const [trigger] = useRegisterMutation()
+  const [trigger, result] = useRegisterMutation()
 
   const onFinish = async (values: any) => {
     try {
@@ -54,7 +54,7 @@ export const RegisterPage = () => {
           </Link>
 
           <Form.Item className='m-1'>
-            <Button type='primary' htmlType='submit' className='w-1/2'>
+            <Button type='primary' htmlType='submit' className='w-1/2' disabled={result.isLoading}>
               Готово
             </Button>
           </Form.Item>

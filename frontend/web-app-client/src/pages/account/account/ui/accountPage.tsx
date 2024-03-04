@@ -16,7 +16,6 @@ export const AccountPage = () => {
   const accQuery = useGetAccountQuery({ id })
   const histQuery = useGetHistoryQuery({ account: [id] })
   const isLoading = !accQuery.isSuccess || !histQuery.isSuccess
-
   if (accQuery.isError || histQuery.isError) {
     return (
       <ErrorMsg

@@ -16,6 +16,7 @@ import { API_LOANS } from 'shared/config'
 export const loansApi = createApi({
   reducerPath: 'loansApi',
   keepUnusedDataFor: 0,
+  refetchOnMountOrArgChange: true,
   baseQuery: fetchBaseQuery({ baseUrl: API_LOANS, credentials: 'include' }),
   endpoints: (builder) => ({
     requestLoan: builder.mutation<RequestLoanResp, RequestLoanReq>({

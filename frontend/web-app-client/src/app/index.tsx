@@ -17,9 +17,9 @@ function App() {
     if (mail) {
       trigger(mail)
     }
-  }, [])
+  }, [mail])
 
-  if (isLoading || isUninitialized) {
+  if (isLoading || (isUninitialized && mail)) {
     return <Spinner />
   }
 

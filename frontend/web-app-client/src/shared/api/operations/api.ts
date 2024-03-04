@@ -5,6 +5,7 @@ import { API_OPERATIONS } from 'shared/config'
 export const operationsApi = createApi({
   reducerPath: 'operationsApi',
   keepUnusedDataFor: 0,
+  refetchOnMountOrArgChange: true,
   baseQuery: fetchBaseQuery({ baseUrl: API_OPERATIONS, credentials: 'include' }),
   endpoints: (builder) => ({
     getHistory: builder.query<GetHistoryResp, GetHistoryReq>({

@@ -12,6 +12,7 @@ export const historyColumns: ColumnsType<Operation> = [
     title: 'Код',
     dataIndex: 'id',
     key: 'id',
+    responsive: ['md']
   },
   {
     title: 'Дата',
@@ -58,22 +59,22 @@ export const historyColumns: ColumnsType<Operation> = [
     render: (_, rec) => `${rec.amount} ${rec.currencyType}`,
   },
   {
-    title: `Сообщение`,
+    title: `Сообщ.`,
     dataIndex: 'message',
     key: 'message',
     render: (msg) => msg || '-',
     className: 'wrap break-all',
+    responsive: ['md']
   },
 ]
 
 export const fullHistoryColumns: ColumnsType<Operation> = [
   {
     title: 'Счет',
-    dataIndex: 'account',
-    key: 'account',
+    dataIndex: 'accountId',
+    key: 'accountId',
     width: '15%',
-    render: () => <Link to={getAccountHistoryLink('32')}>{'23'}</Link>,
-    sorter: (a, b) => a.date.localeCompare(b.date),
+    render: (_, { accountId }) => <Link to={getAccountHistoryLink(accountId)}>{accountId}</Link>,
   },
   ...historyColumns,
 ]
