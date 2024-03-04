@@ -49,7 +49,7 @@ export const RegisterPage = () => {
             <Input />
           </Form.Item>
 
-          <Link to={AppRoutes.LOGIN}>Вход</Link>
+          <Link to={AppRoutes.LOGIN} className='select-none'>Вход</Link>
 
 
           <Form.Item className='m-1'>

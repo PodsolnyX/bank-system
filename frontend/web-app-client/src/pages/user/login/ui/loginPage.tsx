@@ -36,7 +36,7 @@ export const LoginPage = () => {
             <Input />
           </Form.Item>
 
-          <Link to={AppRoutes.REGISTER}>Регистрация</Link>
+          <Link to={AppRoutes.REGISTER} className='select-none'>Регистрация</Link>
 
           <Form.Item className='m-1'>
             <Button type='primary' htmlType='submit' className='w-1/2'>
