@@ -1,3 +1,5 @@
+import { CookieName } from "config/Auth"
+
 export type WithUser<T> = T & {
-  XApiKey: string
+  [CookieName]: string
 }
