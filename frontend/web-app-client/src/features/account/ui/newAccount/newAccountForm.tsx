@@ -8,7 +8,7 @@ export type NewAccountFormProps = {
   onFinish: (data: NewAccountFormData) => void
 } & Omit<FormProps, 'children'>
 
-export type NewAccountFormData = Pick<Account, 'type'>
+export type NewAccountFormData = Pick<Account, 'currencyType'>
 
 export const NewAccountForm = (props: NewAccountFormProps) => {
   const { onFinish, ...rest } = props
@@ -20,7 +20,7 @@ export const NewAccountForm = (props: NewAccountFormProps) => {
       className='w-2/3 md:w-1/3'
     >
       <Form.Item
-        name='type'
+        name='currencyType'
         label='Тип валюты'
         rules={[{ required: true, message: 'Пожалуйста, выберите тип!' }]}
       >

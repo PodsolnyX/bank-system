@@ -8,7 +8,7 @@ export type GetAccountsReq = PaginationReq & {
 }
 export type GetAccountsResp = Account[]
 
-export type NewAccountReq = Pick<Account, 'type'>
+export type NewAccountReq = Pick<Account, 'currencyType'>
 export type NewAccountResp = Account
 
 export type CloseAccountReq = {

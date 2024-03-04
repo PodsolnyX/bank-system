@@ -1,8 +1,8 @@
 import { Operation, OperationStatus, OperationType, PaginationReq } from 'shared/entities'
 
 export type GetHistoryReq = PaginationReq & {
-  account?: string[]
-  loan?: string[]
+  AccountIds?: string[]
+  LoanIds?: string[]
   type?: OperationType[]
   status?: OperationStatus[]
 }

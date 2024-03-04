@@ -19,7 +19,7 @@ export const LoanPage = () => {
     isFetching: historyIsFetching,
     isError: historyIsError,
   } = useGetHistoryQuery({
-    loan: [id!],
+    LoanIds: [id!],
     limit: 100000,
     status: [OperationStatus.SUCCESS],
   })
