@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
-import { IUserService } from './IUserService'
 import { GetUserReq, RegisterReq } from './types'
 import { CookieName } from 'config/Auth'
+import { UserService } from 'services/UserService'
 
 class UserController {
-  private _UserService: IUserService
+  private _UserService: UserService
   private _CookieAuthTime: number
 
-  constructor(UserService: IUserService) {
+  constructor(UserService: UserService) {
     this._UserService = UserService
     this._CookieAuthTime = 60 * 24 * 60 * 60 * 1000
   }

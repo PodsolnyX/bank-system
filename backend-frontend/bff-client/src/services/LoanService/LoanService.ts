@@ -1,5 +1,3 @@
-import { ILoanService } from 'controllers/Loan'
-import { ILoanRepo } from 'services/LoanService'
 import { PaginationReq, WithUser } from 'dto/Common'
 import {
   ChargeLoanDto,
@@ -8,11 +6,12 @@ import {
   SearchLoanUserDto,
   GetLoanDto,
 } from 'dto/Loan'
+import { LoanRepo } from 'repos/LoanRepo'
 
-class LoanService implements ILoanService {
-  private _LoanRepo: ILoanRepo
+class LoanService {
+  private _LoanRepo: LoanRepo
 
-  constructor(LoanRepo: ILoanRepo) {
+  constructor(LoanRepo: LoanRepo) {
     this._LoanRepo = LoanRepo
 
     this.RequestLoan = this.RequestLoan.bind(this)

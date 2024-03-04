@@ -1,5 +1,4 @@
 import { Response } from 'express'
-import { IAccountService } from './IAccountService'
 import {
   CloseAccountReq,
   DepositReq,
@@ -8,12 +7,13 @@ import {
   OpenAccountReq,
   WithdrawReq,
 } from 'controllers/Account/types'
-import { Extractor } from 'controllers/lib/Extractor'
+import { Extractor } from '../lib/Extractor'
+import { AccountService } from 'services/AccountService'
 
 class AccountController {
-  private _AccountService: IAccountService
+  private _AccountService: AccountService
 
-  constructor(AccountService: IAccountService) {
+  constructor(AccountService: AccountService) {
     this._AccountService = AccountService
   }
 

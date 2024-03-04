@@ -1,12 +1,12 @@
 import { Response } from 'express'
-import { IOperationHistoryService } from './IOperationHistoryService'
 import { GetOperationHistoryReq } from './types'
-import { Extractor } from 'controllers/lib/Extractor'
+import { Extractor } from '../lib/Extractor'
+import { OperationHistoryService } from 'services/OperationHistoryService'
 
 class OperationHistoryController {
-  private _OperationHistoryService: IOperationHistoryService
+  private _OperationHistoryService: OperationHistoryService
 
-  constructor(OperationHistoryService: IOperationHistoryService) {
+  constructor(OperationHistoryService: OperationHistoryService) {
     this._OperationHistoryService = OperationHistoryService
   }
 

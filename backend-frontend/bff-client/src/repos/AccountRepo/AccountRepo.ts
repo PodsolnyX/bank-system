@@ -1,5 +1,4 @@
 import { Account } from 'entities/Account'
-import { IAccountRepo } from 'services/AccountService'
 import {
   CloseAccountDto,
   DepositDto,
@@ -12,7 +11,7 @@ import {
 import { PaginationReq } from 'dto/Common'
 import { CoreAPI } from 'repos/lib'
 
-class AccountRepo implements IAccountRepo {
+class AccountRepo {
   async OpenAccount(Dto: OpenAccountDto) {
     return (
       await CoreAPI.Req.post<Account>('/account/user', null, {

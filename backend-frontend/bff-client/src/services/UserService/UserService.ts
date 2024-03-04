@@ -1,11 +1,10 @@
-import { IUserService } from 'controllers/User'
-import { IUserRepo } from 'services/UserService'
 import { GetProfileDto, RegisterDto } from 'dto/User'
+import { UserRepo } from 'repos/UserRepo'
 
-class UserService implements IUserService {
-  private _UserRepo: IUserRepo
+class UserService {
+  private _UserRepo: UserRepo
 
-  constructor(UserRepo: IUserRepo) {
+  constructor(UserRepo: UserRepo) {
     this._UserRepo = UserRepo
 
     this.GetProfile = this.GetProfile.bind(this)

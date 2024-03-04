@@ -1,5 +1,4 @@
 import { Response } from 'express'
-import { ILoanService } from './ILoanService'
 import {
   ChargeLoanReq,
   GetLoanReq,
@@ -7,12 +6,13 @@ import {
   GetTariffsReq,
   RequestLoanReq,
 } from './types'
-import { Extractor } from 'controllers/lib/Extractor'
+import { Extractor } from '../lib/Extractor'
+import { LoanService } from 'services/LoanService'
 
 class LoanController {
-  private _LoanService: ILoanService
+  private _LoanService: LoanService
 
-  constructor(LoanService: ILoanService) {
+  constructor(LoanService: LoanService) {
     this._LoanService = LoanService
   }
 

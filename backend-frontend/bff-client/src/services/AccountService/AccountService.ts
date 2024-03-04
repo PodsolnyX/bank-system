@@ -1,5 +1,3 @@
-import { IAccountService } from 'controllers/Account'
-import { IAccountRepo } from 'services/AccountService'
 import {
   CloseAccountDto,
   DepositDto,
@@ -9,11 +7,12 @@ import {
   GetAccountDto,
 } from 'dto/Account'
 import { PaginationReq, WithUser } from 'dto/Common'
+import { AccountRepo } from 'repos/AccountRepo'
 
-class AccountService implements IAccountService {
-  private _AccountRepo: IAccountRepo
+class AccountService {
+  private _AccountRepo: AccountRepo
 
-  constructor(AccountRepo: IAccountRepo) {
+  constructor(AccountRepo: AccountRepo) {
     this._AccountRepo = AccountRepo
 
     this.OpenAccount = this.OpenAccount.bind(this)

@@ -1,12 +1,11 @@
-import { IOperationHistoryService } from 'controllers/OperationHistory'
-import { IOperationHistoryRepo } from 'services/OperationHistoryService'
 import { PaginationReq, WithUser } from 'dto/Common'
 import { SearchOperationUserDto } from 'dto/OperationHistory'
+import { OperationHistoryRepo } from 'repos/OperationHistoryRepo'
 
-class OperationHistoryService implements IOperationHistoryService {
-  private _OperationHistoryRepo: IOperationHistoryRepo
+class OperationHistoryService {
+  private _OperationHistoryRepo: OperationHistoryRepo
 
-  constructor(OperationHistoryRepo: IOperationHistoryRepo) {
+  constructor(OperationHistoryRepo: OperationHistoryRepo) {
     this._OperationHistoryRepo = OperationHistoryRepo
 
     this.GetOperationHistory = this.GetOperationHistory.bind(this)

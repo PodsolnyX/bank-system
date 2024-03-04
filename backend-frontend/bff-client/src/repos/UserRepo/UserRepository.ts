@@ -1,9 +1,8 @@
 import { User } from 'entities/User'
-import { IUserRepo } from 'services/UserService'
 import { GetProfileDto, RegisterDto, RegisterResp } from 'dto/User'
 import { AuthAPI } from 'repos/lib'
 
-class UserRepo implements IUserRepo {
+class UserRepo {
   async GetProfile(Dto: GetProfileDto) {
     return (
       await AuthAPI.Req.get<User>('/auth/user', {

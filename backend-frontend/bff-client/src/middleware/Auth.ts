@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios'
 import { AuthData, CookieName } from 'config/Auth'
-import { IUserService } from 'controllers/User'
 import { NextFunction, Request, Response } from 'express'
+import { UserService } from 'services/UserService'
 
 export const AuthMiddleware =
-  (UserService: IUserService) =>
+  (UserService: UserService) =>
   async (req: Request, res: Response, next: NextFunction) => {
     const User = req.cookies[CookieName]
     if (!User) {

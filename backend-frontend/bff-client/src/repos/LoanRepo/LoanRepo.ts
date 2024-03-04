@@ -1,4 +1,3 @@
-import { ILoanRepo } from 'services/LoanService'
 import { PaginationReq } from 'dto/Common'
 import {
   ChargeLoanDto,
@@ -11,7 +10,7 @@ import {
 } from 'dto/Loan'
 import { LoanAPI } from 'repos/lib'
 
-class LoanRepo implements ILoanRepo {
+class LoanRepo {
   async RequestLoan(Dto: RequestLoanDto) {
     await LoanAPI.Req.post('/loan/user/request', null, {
       params: Dto,
