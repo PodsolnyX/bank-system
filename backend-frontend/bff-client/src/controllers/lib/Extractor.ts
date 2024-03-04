@@ -3,16 +3,17 @@ import { WithUser } from 'dto/Common'
 import { Request } from 'express'
 
 export class Extractor {
-  static ExtractBody<T>(req: Request<{}, {}, T>): WithUser<T> {
+  static ExtractBody<T>(req: Request<any, any, T>): WithUser<T> {
     return {
       ...req.body,
       [CookieName]: req.cookies[CookieName]?.toString() || '',
     }
   }
 
-  static ExtractParams<T>(req: Request<T>): WithUser<T> {
+  static ExtractParams<T, V>(req: Request<T, any, any, V>): WithUser<T & V> {
     return {
       ...req.params,
+      ...req.query,
       [CookieName]: req.cookies[CookieName]?.toString() || '',
     }
   }
