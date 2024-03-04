@@ -20,7 +20,7 @@ export const RegisterPage = () => {
       localStorage.setItem('email', values.mail)
       toastSuccess('Вы зарегистрировались')
       navigate(AppRoutes.MAIN)
-    } catch(err) {
+    } catch (err) {
       toastError('Ошибка при регистрации')
     }
   }
@@ -49,8 +49,9 @@ export const RegisterPage = () => {
             <Input />
           </Form.Item>
 
-          <Link to={AppRoutes.LOGIN} className='select-none'>Вход</Link>
-
+          <Link to={AppRoutes.LOGIN} className='select-none'>
+            Вход
+          </Link>
 
           <Form.Item className='m-1'>
             <Button type='primary' htmlType='submit' className='w-1/2'>

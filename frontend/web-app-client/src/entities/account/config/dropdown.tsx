@@ -22,7 +22,7 @@ export const getAccountActions = (account: Account): ItemType[] => [
   },
   {
     label: <Link to={getAccountWithdrawLink(account.id)}>Снять</Link>,
-    disabled: !!account.closedAt,
+    disabled: !!account.closedAt || account.amount <= 0,
     key: 'withdraw',
   },
   {

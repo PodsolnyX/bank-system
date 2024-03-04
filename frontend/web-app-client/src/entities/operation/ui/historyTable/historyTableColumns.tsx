@@ -9,6 +9,11 @@ import { Operation, OperationType } from 'shared/entities'
 
 export const historyColumns: ColumnsType<Operation> = [
   {
+    title: 'Код',
+    dataIndex: 'id',
+    key: 'id',
+  },
+  {
     title: 'Дата',
     dataIndex: 'date',
     key: 'number',
@@ -41,14 +46,23 @@ export const historyColumns: ColumnsType<Operation> = [
       </>
     ),
     onFilter: (value, acc) => acc.type === value,
+    align: 'center',
   },
   {
-    title: 'Сумма (руб.)',
+    title: `Сумма`,
     dataIndex: 'amount',
     key: 'amount',
     width: '10%',
     align: 'center',
     sorter: (a, b) => a.amount - b.amount,
+    render: (_, rec) => `${rec.amount} ${rec.currencyType}`,
+  },
+  {
+    title: `Сообщение`,
+    dataIndex: 'message',
+    key: 'message',
+    render: (msg) => msg || '-',
+    className: 'wrap break-all',
   },
 ]
 

@@ -1,8 +1,10 @@
+import { CurrencyType } from 'shared/entities/currency'
+
 export enum OperationType {
-  DEPOSIT,
-  WITHDRAW,
-  LOAN_CHARGE,
-  LOAN_INCOME,
+  DEPOSIT = 'Deposit',
+  WITHDRAW = 'Withdraw',
+  LOAN_CHARGE = 'LoanCharge',
+  LOAN_INCOME = 'LoanIncome',
 }
 
 export enum OperationStatus {
@@ -12,12 +14,13 @@ export enum OperationStatus {
 }
 
 export type Operation = {
-  id: string
   accountId: string
-  loanId?: string
-  type: OperationType
-  status: OperationStatus
   amount: number
-  date: string
+  currencyType: CurrencyType
+  id: string
+  loanId?: string
   message?: string
+  status: OperationStatus
+  type: OperationType
+  date: string
 }
