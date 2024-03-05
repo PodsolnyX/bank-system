@@ -5,6 +5,8 @@ const MAX = 10000000
 const requiredMsg = 'Пожалуйста, введите сумму!'
 const minMsg = `Сумма должна быть больше ${MIN}!`
 const maxMsg = `Сумма должна быть не больше ${MAX}!`
+const integerMsg = `Введите целое число`
+
 export const moneyRules: Rule[] = [
   { required: true, message: requiredMsg },
   {
@@ -14,5 +16,9 @@ export const moneyRules: Rule[] = [
   {
     validator: (_rule, v) =>
       Number(v) <= MAX || v === undefined ? Promise.resolve() : Promise.reject(maxMsg),
+  },
+  {
+    validator: (_rule, v) =>
+      /^-?\d+$/.test(String(v)) ? Promise.resolve() : Promise.reject(integerMsg),
   },
 ]

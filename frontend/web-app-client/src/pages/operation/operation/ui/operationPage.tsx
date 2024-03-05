@@ -5,6 +5,7 @@ import { toastError, toastSuccess } from 'shared/toast'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppRoutes, getAccountHistoryLink } from 'shared/const'
 import { PageLoader } from 'widgets'
+import { ErrorMsg } from 'shared/ui'
 
 export interface OperationPageProps {
   type: OperationType.WITHDRAW | OperationType.DEPOSIT
@@ -39,8 +40,13 @@ export const OperationPage = (props: OperationPageProps) => {
   }
 
   if (account.isError) {
-    toastError('Произошла ошибка')
-    navigate(AppRoutes.ACCOUNTS)
+    return (
+      <ErrorMsg
+        link={AppRoutes.ACCOUNTS}
+        linkText='Перейти в меню счетов'
+        text='Произошла ошибка при загрузке данных'
+      />
+    )
   }
 
   if (!account.isSuccess) {

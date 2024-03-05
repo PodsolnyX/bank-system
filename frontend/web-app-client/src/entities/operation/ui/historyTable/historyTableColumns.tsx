@@ -37,6 +37,10 @@ export const historyColumns: ColumnsType<Operation> = [
         text: getOperationName(OperationType.LOAN_CHARGE),
         value: OperationType.LOAN_CHARGE,
       },
+      {
+        text: getOperationName(OperationType.LOAN_INCOME),
+        value: OperationType.LOAN_INCOME,
+      },
     ],
     render: (_, op) => (
       <>
