@@ -25,8 +25,8 @@ export const NewAccountForm = (props: NewAccountFormProps) => {
         rules={[{ required: true, message: 'Пожалуйста, выберите тип!' }]}
       >
         <Select suffixIcon={<DollarOutlined />} placeholder='Выберите валюту'>
-          {Object.keys(CurrencyType).map((cur, i) => (
-            <Select.Option key={i}>{cur}</Select.Option>
+          {Object.keys(CurrencyType).map((cur) => (
+            <Select.Option key={cur}>{cur}</Select.Option>
           ))}
         </Select>
       </Form.Item>

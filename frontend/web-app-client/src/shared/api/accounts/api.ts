@@ -28,10 +28,10 @@ export const accountsApi = createApi({
       query: ({ id }) => ({ url: `/${id}` }),
     }),
     newAccount: builder.mutation<NewAccountResp, NewAccountReq>({
-      query: (body) => ({
+      query: (params) => ({
         url: '/open',
         method: 'POST',
-        body,
+        params,
       }),
     }),
     closeAccount: builder.mutation<CloseAccountResp, CloseAccountReq>({
