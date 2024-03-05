@@ -4,7 +4,7 @@ export type GetAccountReq = Pick<Account, 'id'>
 export type GetAccountResp = Account
 
 export type GetAccountsReq = PaginationReq & {
-  type?: CurrencyType[]
+  currencyTypes?: CurrencyType[]
 }
 export type GetAccountsResp = Account[]
 
@@ -19,14 +19,14 @@ export type CloseAccountResp = void
 
 export type DepositReq = {
   AccountId: string
-  moneyAmount: number
-  message?: string
+  Amount: number
+  Message?: string
 }
 export type DepositResp = void
 
 export type WithdrawReq = {
   AccountId: string
-  moneyAmount: number
-  message?: string
+  Amount: number
+  Message?: string
 }
 export type WithdrawResp = void

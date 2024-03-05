@@ -21,7 +21,7 @@ export const LoanPage = () => {
   } = useGetHistoryQuery({
     LoanIds: [id!],
     limit: 100000,
-    status: [OperationStatus.SUCCESS],
+    OperationStatuses: [OperationStatus.SUCCESS],
   })
 
   const isLoading = loanIsFetching || historyIsFetching || !history || !loan

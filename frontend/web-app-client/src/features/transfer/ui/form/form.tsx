@@ -33,7 +33,7 @@ export const TransferForm = (props: TransferFormProps) => {
 
         <Form.Item
           label='Сумма'
-          name='amount'
+          name='Amount'
           rules={moneyRules.concat([
             {
               validator: (_rule, v) =>
@@ -50,7 +50,7 @@ export const TransferForm = (props: TransferFormProps) => {
           />
         </Form.Item>
 
-        <Form.Item label='Сообщение' name='message'>
+        <Form.Item label='Сообщение' name='Message'>
           <Input.TextArea
             showCount
             maxLength={255}

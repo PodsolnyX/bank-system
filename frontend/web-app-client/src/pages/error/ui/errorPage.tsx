@@ -15,7 +15,7 @@ export const ErrorPage = () => {
       <Result
         status='error'
         title='Что-то пошло не так'
-        subTitle='Произошла непредвиденная ошибка, попробуйте вернуться на главную страницу.'
+        subTitle='Произошла непредвиденная ошибка'
         extra={[
           <Button type='primary' onClick={onClick}>
             Главная

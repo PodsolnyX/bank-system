@@ -1,17 +1,19 @@
 import { useEffect } from 'react'
 import { Card, Skeleton } from 'antd'
-import { useGetProfileMutation } from 'shared/api'
+import { useLazyGetProfileQuery } from 'shared/api'
 import { useAppSelector } from 'shared/store'
 import { Center, PageHeader, Property } from 'shared/ui'
 import { Link } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
 
 export const ProfilePage = () => {
-  const [trigger, { data, isLoading }] = useGetProfileMutation()
+  const [trigger, { data, isLoading }] = useLazyGetProfileQuery()
   const mail = useAppSelector((store) => store.authReducer.mail)
 
   useEffect(() => {
-    trigger(mail)
+    if (mail) {
+      trigger(mail, true)
+    }
   }, [trigger, mail])
 
   if (isLoading) {

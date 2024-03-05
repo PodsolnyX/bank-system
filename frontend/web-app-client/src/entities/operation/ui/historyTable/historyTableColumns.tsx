@@ -12,7 +12,7 @@ export const historyColumns: ColumnsType<Operation> = [
     title: 'Код',
     dataIndex: 'id',
     key: 'id',
-    responsive: ['md']
+    responsive: ['md'],
   },
   {
     title: 'Дата',
@@ -68,7 +68,7 @@ export const historyColumns: ColumnsType<Operation> = [
     key: 'message',
     render: (msg) => msg || '-',
     className: 'wrap break-all',
-    responsive: ['md']
+    responsive: ['md'],
   },
 ]
 
@@ -78,7 +78,9 @@ export const fullHistoryColumns: ColumnsType<Operation> = [
     dataIndex: 'accountId',
     key: 'accountId',
     width: '15%',
-    render: (_, { accountId }) => <Link to={getAccountHistoryLink(accountId)}>{accountId}</Link>,
+    render: (_, { accountId }) => (
+      <Link to={getAccountHistoryLink(accountId)}>{accountId}</Link>
+    ),
   },
   ...historyColumns,
 ]

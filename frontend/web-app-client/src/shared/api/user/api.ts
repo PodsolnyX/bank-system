@@ -12,17 +12,17 @@ import {
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_USER, credentials: 'include' }),
-  keepUnusedDataFor: 0,
+  keepUnusedDataFor: 1,
   endpoints: (builder) => ({
-    getProfile: builder.mutation<GetProfileResp, GetProfileReq>({
+    getProfile: builder.query<GetProfileResp, GetProfileReq>({
       query: (mail) => {
         if (!mail) {
           throw Error()
         }
         return {
-          url: '/profile',
-          method: 'POST',
-          body: {
+          url: '/',
+          method: 'GET',
+          params: {
             mail,
           },
         }
@@ -39,7 +39,7 @@ export const userApi = createApi({
     register: builder.mutation<RegisterResp, RegisterReq>({
       query: (body) => {
         return {
-          url: '/register',
+          url: '/',
           method: 'POST',
           body,
         }
@@ -48,4 +48,4 @@ export const userApi = createApi({
   }),
 })
 
-export const { useGetProfileMutation, useLogoutMutation, useRegisterMutation } = userApi
+export const { useLazyGetProfileQuery, useLogoutMutation, useRegisterMutation } = userApi

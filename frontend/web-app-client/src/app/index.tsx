@@ -1,30 +1,42 @@
 import ruRU from 'antd/locale/ru_RU'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, Result } from 'antd'
 
 import { StoreProvider, useAppSelector } from 'shared/store'
 import { ApplicationRouter } from './router'
 import { Toaster } from './toast'
-import { useGetProfileMutation } from 'shared/api'
+import { useLazyGetProfileQuery } from 'shared/api'
 import { Spinner } from 'shared/ui'
 import { BanPage } from 'pages/ban'
 import { useEffect } from 'react'
 
 function App() {
   const mail = useAppSelector((store) => store.authReducer.mail)
-  const [trigger, { isLoading, data, isUninitialized }] = useGetProfileMutation()
+  const [trigger, { isLoading, isError, data, isUninitialized }] = useLazyGetProfileQuery(
+    {}
+  )
 
   useEffect(() => {
     if (mail) {
-      trigger(mail)
+      trigger(mail, true)
     }
-  }, [mail])
+  }, [mail, trigger])
 
   if (isLoading || (isUninitialized && mail)) {
     return <Spinner />
   }
 
-  if (data?.banedAt) {
-    return <BanPage banedAt={data?.banedAt} />
+  if (isError) {
+    return (
+      <Result
+        status='error'
+        title='Что-то пошло не так'
+        subTitle='Произошла непредвиденная ошибка'
+      />
+    )
+  }
+
+  if (data?.bannedAt) {
+    return <BanPage bannedAt={data?.bannedAt} />
   }
 
   return (

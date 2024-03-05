@@ -54,7 +54,12 @@ export const RegisterPage = () => {
           </Link>
 
           <Form.Item className='m-1'>
-            <Button type='primary' htmlType='submit' className='w-1/2' disabled={result.isLoading}>
+            <Button
+              type='primary'
+              htmlType='submit'
+              className='w-1/2'
+              disabled={result.isLoading}
+            >
               Готово
             </Button>
           </Form.Item>

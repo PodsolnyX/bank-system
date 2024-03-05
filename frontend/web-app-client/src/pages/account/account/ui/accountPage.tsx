@@ -9,7 +9,12 @@ import {
 import { HistoryTable } from 'entities'
 import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 import { useGetHistoryQuery, useGetAccountQuery } from 'shared/api'
-import { AppRoutes, getAccountCloseLink, getAccountDepositLink, getAccountWithdrawLink } from 'shared/const'
+import {
+  AppRoutes,
+  getAccountCloseLink,
+  getAccountDepositLink,
+  getAccountWithdrawLink,
+} from 'shared/const'
 
 export const AccountPage = () => {
   const id = useParams()['id']!

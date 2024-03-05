@@ -2,8 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {
   GetLoansResp,
   GetLoansReq,
-  GetTariffsReq,
-  GetTariffsResp,
   RequestLoanResp,
   RequestLoanReq,
   ChargeLoanResp,
@@ -20,24 +18,17 @@ export const loansApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_LOANS, credentials: 'include' }),
   endpoints: (builder) => ({
     requestLoan: builder.mutation<RequestLoanResp, RequestLoanReq>({
-      query: (body) => ({
+      query: (params) => ({
         url: '/request',
         method: 'POST',
-        body,
+        params,
       }),
     }),
     chargeLoan: builder.mutation<ChargeLoanResp, ChargeLoanReq>({
-      query: (body) => ({
+      query: (data) => ({
         url: '/charge',
         method: 'POST',
-        body,
-      }),
-    }),
-    getTariffs: builder.query<GetTariffsResp, GetTariffsReq>({
-      query: (params) => ({
-        url: '/tariffs',
-        method: 'GET',
-        params,
+        data,
       }),
     }),
     getLoans: builder.query<GetLoansResp, GetLoansReq>({
@@ -59,7 +50,6 @@ export const loansApi = createApi({
 export const {
   useRequestLoanMutation,
   useChargeLoanMutation,
-  useGetTariffsQuery,
   useGetLoansQuery,
   useGetLoanQuery,
 } = loansApi

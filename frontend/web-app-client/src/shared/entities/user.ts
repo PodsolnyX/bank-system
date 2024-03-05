@@ -2,6 +2,6 @@ export type User = {
   id: string
   name: string
   mail: string
-  banedAt?: string
+  bannedAt?: string
   isEmployee: boolean
 }

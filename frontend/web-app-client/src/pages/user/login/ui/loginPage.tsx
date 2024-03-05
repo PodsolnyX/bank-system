@@ -1,6 +1,6 @@
 import { Input, Button } from 'antd'
 import { Link } from 'react-router-dom'
-import { useGetProfileMutation } from 'shared/api'
+import { useLazyGetProfileQuery } from 'shared/api'
 import { AppRoutes } from 'shared/const'
 import { useAppDispatch } from 'shared/store'
 import { setEmail } from 'shared/store'
@@ -10,7 +10,7 @@ import { Form } from 'shared/ui'
 export const LoginPage = () => {
   const dispatch = useAppDispatch()
 
-  const [trigger, result] = useGetProfileMutation()
+  const [trigger, result] = useLazyGetProfileQuery()
 
   const onFinish = async (values: any) => {
     try {
@@ -41,7 +41,12 @@ export const LoginPage = () => {
           </Link>
 
           <Form.Item className='m-1'>
-            <Button type='primary' htmlType='submit' className='w-1/2' disabled={result.isLoading}>
+            <Button
+              type='primary'
+              htmlType='submit'
+              className='w-1/2'
+              disabled={result.isLoading}
+            >
               Войти
             </Button>
           </Form.Item>

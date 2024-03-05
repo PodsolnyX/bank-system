@@ -1,10 +1,17 @@
-import { Operation, OperationStatus, OperationType, PaginationReq } from 'shared/entities'
+import {
+  CurrencyType,
+  Operation,
+  OperationStatus,
+  OperationType,
+  PaginationReq,
+} from 'shared/entities'
 
 export type GetHistoryReq = PaginationReq & {
   AccountIds?: string[]
   LoanIds?: string[]
-  type?: OperationType[]
-  status?: OperationStatus[]
+  CurrencyTypes?: CurrencyType[]
+  OperationTypes?: OperationType[]
+  OperationStatuses?: OperationStatus[]
 }
 
 export type GetHistoryResp = Operation[]

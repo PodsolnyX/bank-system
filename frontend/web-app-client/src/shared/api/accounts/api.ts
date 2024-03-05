@@ -22,37 +22,42 @@ export const accountsApi = createApi({
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getAccounts: builder.query<GetAccountsResp, GetAccountsReq>({
-      query: () => ({ url: '/accounts' }),
+      query: (params) => ({ url: '/', params }),
     }),
     getAccount: builder.query<GetAccountResp, GetAccountReq>({
       query: ({ id }) => ({ url: `/${id}` }),
     }),
     newAccount: builder.mutation<NewAccountResp, NewAccountReq>({
       query: (params) => ({
-        url: '/open',
+        url: '/',
         method: 'POST',
         params,
       }),
     }),
     closeAccount: builder.mutation<CloseAccountResp, CloseAccountReq>({
-      query: (body) => ({
-        url: '/close',
+      query: ({ AccountId }) => ({
+        url: `/${AccountId}`,
         method: 'DELETE',
-        body,
       }),
     }),
     deposit: builder.mutation<DepositResp, DepositReq>({
-      query: (body) => ({
-        url: '/deposit',
+      query: (data) => ({
+        url: `/${data.AccountId}/deposit`,
         method: 'POST',
-        body,
+        params: {
+          Amount: data.Amount,
+          Message: data.Message,
+        },
       }),
     }),
     withdraw: builder.mutation<WithdrawResp, WithdrawReq>({
-      query: (body) => ({
-        url: '/withdraw',
+      query: (data) => ({
+        url: `/${data.AccountId}/withdraw`,
         method: 'POST',
-        body,
+        params: {
+          Amount: data.Amount,
+          Message: data.Message,
+        },
       }),
     }),
   }),
