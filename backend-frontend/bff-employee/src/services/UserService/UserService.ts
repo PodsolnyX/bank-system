@@ -1,26 +1,38 @@
-import { GetProfileDto, GetUserStatusDto, RegisterDto } from 'dto/User'
-import { UserRepo } from 'repos/UserRepo'
+import {GetProfileDto, GetUserStatusDto, GetUserStatusResp, UserCreateResp, UserCreateDto, UserDto} from 'dto/User'
+import {AuthAPI} from "repos/lib";
+import {UserBanDto} from "../../dto/User/UserBanDto";
 
 class UserService {
-  private _UserRepo: UserRepo
 
-  constructor(UserRepo: UserRepo) {
-    this._UserRepo = UserRepo
+  constructor() {
 
-    this.GetProfile = this.GetProfile.bind(this)
-    this.Register = this.Register.bind(this)
-  }
-
-  async GetProfile(Dto: GetProfileDto) {
-    return await this._UserRepo.GetProfile(Dto)
+    this.GetStatus = this.GetStatus.bind(this)
+    this.GetUsers = this.GetUsers.bind(this)
+    this.CreateUser = this.CreateUser.bind(this)
   }
 
   async GetStatus(Dto: GetUserStatusDto) {
-    return await this._UserRepo.GetStatus(Dto)
+    return (await AuthAPI.Req.get<GetUserStatusResp>('/auth/user', { params: Dto })).data
   }
 
-  async Register(Dto: RegisterDto) {
-    return await this._UserRepo.Register(Dto)
+  async GetUsers(Dto: GetProfileDto) {
+    return (
+        await AuthAPI.Req.get<UserDto[]>('/auth/employee', {
+          params: Dto,
+        })
+    ).data
+  }
+
+  async CreateUser(Dto: UserCreateDto) {
+    return (
+        await AuthAPI.Req.post<UserCreateResp>('/auth/employee', {
+          params: Dto,
+        })
+    ).data
+  }
+
+  async BanUser(Dto: UserBanDto) {
+    return (await AuthAPI.Req.post(`/auth/employee/${Dto.UserId}`)).data
   }
 }
 
