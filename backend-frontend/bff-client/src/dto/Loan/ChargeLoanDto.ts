@@ -2,6 +2,6 @@ import { CurrencyType } from 'entities/Currency'
 
 export type ChargeLoanDto = {
   AccountId: string
-  MoneyAmount: number
+  Amount: number
   CurrencyType: CurrencyType
 }

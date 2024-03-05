@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { GetUserReq, RegisterReq } from './types'
 import { CookieName } from 'config/Auth'
 import { UserService } from 'services/UserService'
+import { Extractor } from 'controllers/lib/Extractor'
 
 class UserController {
   private _UserService: UserService
@@ -13,7 +14,7 @@ class UserController {
   }
 
   async GetProfile(req: GetUserReq, res: Response) {
-    const data = await this._UserService.GetProfile(req.body)
+    const data = await this._UserService.GetProfile(Extractor.ExtractParams(req))
     res.cookie(CookieName, data.mail, {
       maxAge: this._CookieAuthTime,
     })
@@ -31,8 +32,8 @@ class UserController {
   }
 
   async Register(req: RegisterReq, res: Response) {
-    const id = await this._UserService.Register(req.body)
-    res.cookie(CookieName, req.body.mail, {
+    const id = await this._UserService.Register(Extractor.ExtractBody(req))
+    res.cookie(CookieName, req.query.mail, {
       maxAge: this._CookieAuthTime,
     })
     res.status(200).send({ id })

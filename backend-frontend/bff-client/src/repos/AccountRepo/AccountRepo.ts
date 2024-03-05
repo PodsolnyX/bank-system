@@ -15,9 +15,7 @@ class AccountRepo {
   async OpenAccount(Dto: OpenAccountDto) {
     return (
       await CoreAPI.Req.post<Account>('/account/user', null, {
-        params: {
-          CurrencyType: Dto.currencyType,
-        },
+        params: Dto,
       })
     ).data
   }
@@ -27,9 +25,11 @@ class AccountRepo {
   }
 
   async GetAccounts(Dto: PaginationReq<SearchAccountDto>) {
-    return (await CoreAPI.Req.get<AccountDto[]>('/account/user', {
-      params: Dto
-    })).data
+    return (
+      await CoreAPI.Req.get<AccountDto[]>('/account/user', {
+        params: Dto,
+      })
+    ).data
   }
 
   async GetAccount(Dto: GetAccountDto) {
@@ -38,13 +38,19 @@ class AccountRepo {
 
   async Deposit(Dto: DepositDto) {
     await CoreAPI.Req.post<Account>(`/account/user/${Dto.AccountId}/deposit`, null, {
-      params: Dto,
+      params: {
+        Message: Dto.Message,
+        Amount: Dto.Amount,
+      },
     })
   }
 
   async Withdraw(Dto: WithdrawDto) {
     await CoreAPI.Req.post<Account>(`/account/user/${Dto.AccountId}/withdraw`, null, {
-      params: Dto,
+      params: {
+        Message: Dto.Message,
+        Amount: Dto.Amount,
+      },
     })
   }
 }

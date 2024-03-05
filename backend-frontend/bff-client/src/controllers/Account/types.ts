@@ -13,5 +13,15 @@ export type OpenAccountReq = Request<{}, {}, {}, OpenAccountDto>
 export type CloseAccountReq = Request<{}, {}, CloseAccountDto>
 export type GetAccountsReq = Request<{}, {}, {}, PaginationReq<SearchAccountDto>>
 export type GetAccountReq = Request<GetAccountDto>
-export type DepositReq = Request<{}, {}, DepositDto>
-export type WithdrawReq = Request<{}, {}, WithdrawDto>
+export type DepositReq = Request<
+  Pick<DepositDto, 'AccountId'>,
+  {},
+  {},
+  Omit<DepositDto, 'AccountId'>
+>
+export type WithdrawReq = Request<
+  Pick<WithdrawDto, 'AccountId'>,
+  {},
+  {},
+  Omit<WithdrawDto, 'AccountId'>
+>

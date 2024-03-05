@@ -7,8 +7,8 @@ const UserRouter = express.Router()
 
 RouterHelper.use(UserRouter, UserControllerInst, [
   {
-    method: 'post',
-    path: '/profile',
+    method: 'get',
+    path: '/',
     handlers: [UserControllerInst.GetProfile],
   },
   {
@@ -18,7 +18,7 @@ RouterHelper.use(UserRouter, UserControllerInst, [
   },
   {
     method: 'post',
-    path: '/register',
+    path: '/',
     handlers: [UserControllerInst.Register],
   },
 ])

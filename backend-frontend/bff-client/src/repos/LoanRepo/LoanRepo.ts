@@ -23,14 +23,6 @@ class LoanRepo {
     })
   }
 
-  async GetTariffs(Dto: PaginationReq<SearchTariffDto>) {
-    return (
-      await LoanAPI.Req.get<TariffDto[]>('/tariff/user', {
-        params: Dto,
-      })
-    ).data
-  }
-
   async GetLoans(Dto: PaginationReq<SearchLoanUserDto>) {
     return (
       await LoanAPI.Req.get<LoanDto[]>('/loan/user', {

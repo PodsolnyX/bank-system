@@ -5,6 +5,7 @@ import { Request } from 'express'
 export class Extractor {
   static ExtractBody<T>(req: Request<any, any, T>): WithUser<T> {
     return {
+      ...req.params,
       ...req.body,
       [CookieName]: req.cookies[CookieName]?.toString() || '',
     }

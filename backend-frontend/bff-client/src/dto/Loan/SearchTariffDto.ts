@@ -4,5 +4,5 @@ export type SearchTariffDto = {
   Name?: string
   PeriodInDays?: number
   InterestRate?: number
-  CurrencyType?: CurrencyType[]
+  CurrencyTypes?: CurrencyType[]
 }

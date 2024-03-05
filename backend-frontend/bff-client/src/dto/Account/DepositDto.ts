@@ -1,5 +1,5 @@
 export type DepositDto = {
   AccountId: string
-  MoneyAmount: number
+  Amount: number
   Message?: string
 }

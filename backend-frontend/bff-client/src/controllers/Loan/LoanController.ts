@@ -1,11 +1,5 @@
 import { Response } from 'express'
-import {
-  ChargeLoanReq,
-  GetLoanReq,
-  GetLoansReq,
-  GetTariffsReq,
-  RequestLoanReq,
-} from './types'
+import { ChargeLoanReq, GetLoanReq, GetLoansReq, RequestLoanReq } from './types'
 import { Extractor } from '../lib/Extractor'
 import { LoanService } from 'services/LoanService'
 
@@ -17,17 +11,12 @@ class LoanController {
   }
 
   async RequestLoan(req: RequestLoanReq, res: Response) {
-    const data = await this._LoanService.RequestLoan(Extractor.ExtractBody(req))
+    const data = await this._LoanService.RequestLoan(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 
   async ChargeLoan(req: ChargeLoanReq, res: Response) {
-    const data = await this._LoanService.ChargeLoan(Extractor.ExtractBody(req))
-    res.status(200).send(data)
-  }
-
-  async GetTariffs(req: GetTariffsReq, res: Response) {
-    const data = await this._LoanService.GetTariffs(Extractor.ExtractParams(req))
+    const data = await this._LoanService.ChargeLoan(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 

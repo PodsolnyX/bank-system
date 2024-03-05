@@ -38,12 +38,12 @@ class AccountController {
   }
 
   async Deposit(req: DepositReq, res: Response) {
-    const data = await this._AccountService.Deposit(Extractor.ExtractBody(req))
+    const data = await this._AccountService.Deposit(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 
   async Withdraw(req: WithdrawReq, res: Response) {
-    const data = await this._AccountService.Withdraw(Extractor.ExtractBody(req))
+    const data = await this._AccountService.Withdraw(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 }

@@ -3,7 +3,9 @@ import { Router, RequestHandler } from 'express'
 
 type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'all'
 
-type ProtoReqHandler = (...args: Parameters<RequestHandler<any, any, any, any>>) => Promise<any>
+type ProtoReqHandler = (
+  ...args: Parameters<RequestHandler<any, any, any, any>>
+) => Promise<any>
 
 type Route = {
   method: Method

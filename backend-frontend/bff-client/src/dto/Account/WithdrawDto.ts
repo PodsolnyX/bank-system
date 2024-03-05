@@ -1,5 +1,5 @@
 export type WithdrawDto = {
   AccountId: string
-  MoneyAmount: number
+  Amount: number
   Message?: string
 }
