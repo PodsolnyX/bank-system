@@ -3,6 +3,8 @@ import { API_USER } from 'shared/config'
 import {
   GetProfileReq,
   GetProfileResp,
+  GetStatusReq,
+  GetStatusResp,
   LogoutReq,
   LogoutResp,
   RegisterReq,
@@ -21,6 +23,20 @@ export const userApi = createApi({
         }
         return {
           url: '/',
+          method: 'GET',
+          params: {
+            mail,
+          },
+        }
+      },
+    }),
+    getStatus: builder.query<GetStatusResp, GetStatusReq>({
+      query: (mail) => {
+        if (!mail) {
+          throw Error()
+        }
+        return {
+          url: '/status',
           method: 'GET',
           params: {
             mail,
@@ -48,4 +64,4 @@ export const userApi = createApi({
   }),
 })
 
-export const { useLazyGetProfileQuery, useLogoutMutation, useRegisterMutation } = userApi
+export const { useLazyGetStatusQuery, useLazyGetProfileQuery, useLogoutMutation, useRegisterMutation } = userApi

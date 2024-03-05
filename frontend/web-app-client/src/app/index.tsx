@@ -4,14 +4,14 @@ import { ConfigProvider, Result } from 'antd'
 import { StoreProvider, useAppSelector } from 'shared/store'
 import { ApplicationRouter } from './router'
 import { Toaster } from './toast'
-import { useLazyGetProfileQuery } from 'shared/api'
+import { useLazyGetStatusQuery } from 'shared/api'
 import { Spinner } from 'shared/ui'
 import { BanPage } from 'pages/ban'
 import { useEffect } from 'react'
 
 function App() {
   const mail = useAppSelector((store) => store.authReducer.mail)
-  const [trigger, { isLoading, isError, data, isUninitialized }] = useLazyGetProfileQuery(
+  const [trigger, { isLoading, isError, data, isUninitialized }] = useLazyGetStatusQuery(
     {}
   )
 
