@@ -1,4 +1,4 @@
-import { GetProfileDto, RegisterDto } from 'dto/User'
+import { GetProfileDto, GetUserStatusDto, RegisterDto } from 'dto/User'
 import { UserRepo } from 'repos/UserRepo'
 
 class UserService {
@@ -13,6 +13,10 @@ class UserService {
 
   async GetProfile(Dto: GetProfileDto) {
     return await this._UserRepo.GetProfile(Dto)
+  }
+
+  async GetStatus(Dto: GetUserStatusDto) {
+    return await this._UserRepo.GetStatus(Dto)
   }
 
   async Register(Dto: RegisterDto) {

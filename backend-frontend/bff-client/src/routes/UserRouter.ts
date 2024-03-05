@@ -12,6 +12,11 @@ RouterHelper.use(UserRouter, UserControllerInst, [
     handlers: [UserControllerInst.GetProfile],
   },
   {
+    method: 'get',
+    path: '/status',
+    handlers: [UserControllerInst.GetUserStatus],
+  },
+  {
     method: 'post',
     path: '/logout',
     handlers: [UserControllerInst.Logout],

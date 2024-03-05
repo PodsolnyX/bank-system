@@ -1,5 +1,11 @@
 import { User } from 'entities/User'
-import { GetProfileDto, RegisterDto, RegisterResp } from 'dto/User'
+import {
+  GetProfileDto,
+  GetUserStatusDto,
+  GetUserStatusResp,
+  RegisterDto,
+  RegisterResp,
+} from 'dto/User'
 import { AuthAPI } from 'repos/lib'
 
 class UserRepo {
@@ -13,6 +19,10 @@ class UserRepo {
 
   async Register(Dto: RegisterDto) {
     return (await AuthAPI.Req.post<RegisterResp>('/auth/user', Dto)).data
+  }
+
+  async GetStatus(Dto: GetUserStatusDto) {
+    return (await AuthAPI.Req.get<GetUserStatusResp>('/auth/user', { params: Dto })).data
   }
 }
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { GetUserReq, RegisterReq } from './types'
+import { GetUserReq, GetUserStatusReq, RegisterReq } from './types'
 import { CookieName } from 'config/Auth'
 import { UserService } from 'services/UserService'
 import { Extractor } from 'controllers/lib/Extractor'
@@ -37,6 +37,11 @@ class UserController {
       maxAge: this._CookieAuthTime,
     })
     res.status(200).send({ id })
+  }
+
+  async GetUserStatus(req: GetUserStatusReq, res: Response) {
+    const status = await this._UserService.GetStatus(Extractor.ExtractParams(req))
+    res.status(200).send(status)
   }
 }
 

@@ -2,9 +2,8 @@ export type GetProfileDto = {
   mail: string
 }
 
-export type RegisterDto = {
+export type GetUserStatusDto = {
   mail: string
-  name: string
 }
 
-export type RegisterResp = string
+export type GetUserStatusResp = string
