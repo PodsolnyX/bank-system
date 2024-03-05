@@ -1,5 +1,5 @@
 export enum CurrencyType {
-  Rub,
-  Usd,
-  Eur,
+  Rub = 'RUB',
+  Usd = 'USD',
+  Eur = 'EUR',
 }

@@ -12,7 +12,6 @@ export const AuthMiddleware =
       return
     }
 
-
     try {
       const profile = await UserService.GetProfile({
         mail: User,

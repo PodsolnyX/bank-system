@@ -18,7 +18,7 @@ class AccountController {
   }
 
   async OpenAccount(req: OpenAccountReq, res: Response) {
-    const data = await this._AccountService.OpenAccount(Extractor.ExtractBody(req))
+    const data = await this._AccountService.OpenAccount(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 

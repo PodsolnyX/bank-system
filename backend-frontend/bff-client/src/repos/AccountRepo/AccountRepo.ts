@@ -16,7 +16,7 @@ class AccountRepo {
     return (
       await CoreAPI.Req.post<Account>('/account/user', null, {
         params: {
-          CurrencyType: Dto.type,
+          CurrencyType: Dto.currencyType,
         },
       })
     ).data
@@ -26,8 +26,10 @@ class AccountRepo {
     await CoreAPI.Req.delete<Account>(`/account/user/${Dto.AccountId}`)
   }
 
-  async GetAccounts(_Dto: PaginationReq<SearchAccountDto>) {
-    return (await CoreAPI.Req.get<AccountDto[]>('/account/user')).data
+  async GetAccounts(Dto: PaginationReq<SearchAccountDto>) {
+    return (await CoreAPI.Req.get<AccountDto[]>('/account/user', {
+      params: Dto
+    })).data
   }
 
   async GetAccount(Dto: GetAccountDto) {
