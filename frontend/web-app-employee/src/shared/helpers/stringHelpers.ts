@@ -1,6 +1,6 @@
 export function convertNumberPriceToNormalString(price?: number): string {
-    if (price === undefined) return  "- RUB"
-    return `${price.toLocaleString()} RUB`
+    if (price === undefined) return  ""
+    return `${price.toLocaleString()}`
 }
 
 export function convertDateTimmeStringToNormalString(date?: string): string {

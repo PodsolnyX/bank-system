@@ -12,7 +12,7 @@ const Layout = (props: LayoutProps) => {
     } = props;
 
     return (
-        <div className={"w-screen min-h-screen flex justify-center bg-lime-200"}>
+        <div className={"w-screen overflow-x-hidden min-h-screen flex justify-center bg-lime-200"}>
             <div className={"max-w-[1100px] w-full"}>
                 <Header/>
                 <div className={"w-full bg-white shadow-xl rounded-2xl my-6"}>
