@@ -9,10 +9,24 @@ namespace Core.API.Controllers;
 public class AccountInternalController : ControllerBase
 {
     private readonly AccountInternalService _accountInternalService;
+    private readonly AccountExternalService _accountExternalService;
 
-    public AccountInternalController(AccountInternalService accountInternalService)
+    public AccountInternalController(
+        AccountInternalService accountInternalService,
+        AccountExternalService accountExternalService
+    )
     {
         _accountInternalService = accountInternalService;
+        _accountExternalService = accountExternalService;
+    }
+
+    /// <summary>
+    /// Get specific account
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    public async Task<AccountDto> GetAccount(Guid id)
+    {
+        return await _accountExternalService.GetAccount(id);
     }
 
     /// <summary>
