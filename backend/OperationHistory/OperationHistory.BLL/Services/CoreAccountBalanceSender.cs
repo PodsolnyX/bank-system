@@ -2,26 +2,32 @@
 using System.Text.Json;
 using Common.Configuration;
 using Common.DataTransfer;
-using Core.BLL.DataTransferObjects;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
-namespace Core.BLL.Services;
+namespace OperationHistory.BLL.Services;
 
-public class OperationHistorySender
+public class CoreAccountBalanceSender
 {
     private readonly IOptions<RabbitMqConfiguration> _configuration;
+    private readonly ILogger<CoreAccountBalanceSender> _logger;
 
-    public OperationHistorySender(IOptions<RabbitMqConfiguration> configuration)
+    public CoreAccountBalanceSender(
+        IOptions<RabbitMqConfiguration> configuration,
+        ILogger<CoreAccountBalanceSender> logger
+    )
     {
         _configuration = configuration;
+        _logger = logger;
     }
 
-    public Task SendOperationHistoryMessage(OperationHistoryMessage messageDto)
+    public Task SendCoreAccountBalanceMessage(UpdateAccountBalanceMessage messageDto)
     {
         var factory = new ConnectionFactory() { HostName = _configuration.Value.HostName };
         try
         {
+            _logger.LogInformation("Try send message to Core");
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
             channel.ExchangeDeclare(
@@ -41,7 +47,7 @@ public class OperationHistorySender
         }
         catch (Exception e)
         {
-            // TODO: log error
+            _logger.LogError(e, "Error while sending message to Core");
         }
         return Task.CompletedTask;
     }

@@ -2,18 +2,21 @@
 using System.Text.Json;
 using Common.Configuration;
 using Common.DataTransfer;
+using Core.BLL.DataTransferObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace OperationHistory.BLL.Services;
+namespace Core.BLL.Services;
 
 public class RabbitMqListenerService : BackgroundService
 {
     private readonly IConnection _connection;
     private readonly IModel _channel;
+    private readonly ILogger<RabbitMqListenerService> _logger;
     private readonly IOptions<RabbitMqConfiguration> _configuration;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -22,11 +25,13 @@ public class RabbitMqListenerService : BackgroundService
     /// </summary>
     public RabbitMqListenerService(
         IOptions<RabbitMqConfiguration> configuration,
-        IServiceScopeFactory serviceScopeFactory
+        IServiceScopeFactory serviceScopeFactory,
+        ILogger<RabbitMqListenerService> logger
     )
     {
         _configuration = configuration;
         _serviceScopeFactory = serviceScopeFactory;
+        _logger = logger;
 
         var factory = new ConnectionFactory() { HostName = _configuration.Value.HostName };
         _connection = factory.CreateConnection();
@@ -59,15 +64,22 @@ public class RabbitMqListenerService : BackgroundService
         var consumer = new EventingBasicConsumer(_channel);
         consumer.Received += async (_, eventArgs) =>
         {
-            var rawMessage = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-            var message = JsonSerializer.Deserialize<OperationHistoryMessage>(rawMessage);
-            if (message == null)
-                throw new InvalidOperationException();
+            try
+            {
+                _logger.LogInformation("Core received message");
+                var rawMessage = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+                var message = JsonSerializer.Deserialize<UpdateAccountBalanceMessage>(rawMessage);
+                if (message == null)
+                    throw new InvalidOperationException();
 
-            using var scope = _serviceScopeFactory.CreateScope();
-            var service = scope.ServiceProvider.GetRequiredService<OperationHistoryService>();
-            await service.AddOperationHistory(message);
-            service.EnqueueUpdateAccountBalance(message.AccountId);
+                using var scope = _serviceScopeFactory.CreateScope();
+                var service = scope.ServiceProvider.GetRequiredService<AccountBalanceService>();
+                await service.UpdateAccountBalance(message);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log exception
+            }
         };
 
         _channel.BasicConsume(

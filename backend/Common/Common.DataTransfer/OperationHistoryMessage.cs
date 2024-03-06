@@ -1,6 +1,6 @@
 ﻿using Common.Enum;
 
-namespace Core.BLL.DataTransferObjects;
+namespace Common.DataTransfer;
 
 public class OperationHistoryMessage
 {

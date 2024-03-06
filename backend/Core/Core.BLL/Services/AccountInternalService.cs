@@ -2,7 +2,6 @@
 using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.DAL;
-using Core.DAL.Entities;
 
 namespace Core.BLL.Services;
 
@@ -24,7 +23,7 @@ public class AccountInternalService
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
 
-        if (account.Amount - dto.Amount < 0)
+        if (account!.Amount - dto.Amount < 0)
         {
             // Todo: Specify exception
             throw new Exception();
