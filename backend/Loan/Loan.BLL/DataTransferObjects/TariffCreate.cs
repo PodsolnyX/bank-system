@@ -8,6 +8,7 @@ public class TariffCreateDto {
     public string Name { get; set; }
     
     [Required]
+    [Range(1, Int32.MaxValue - 1)]
     public int PeriodInDays { get; set; } 
     
     [Required]

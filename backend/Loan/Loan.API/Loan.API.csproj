@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Common\Common.Auth\Common.Auth.csproj" />
       <ProjectReference Include="..\Loan.BLL\Loan.BLL.csproj" />
     </ItemGroup>
 
