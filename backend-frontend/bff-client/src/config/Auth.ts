@@ -1,4 +1,4 @@
-export const CookieName = 'XApiKey'
+export const CookieName = 'MailCookie'
 
 export type AuthInfo = {
   UserId: undefined | string
