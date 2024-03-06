@@ -1,7 +1,8 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
-using Common.Configurations.RabbitMq;
+using Common.Configuration;
+using Hangfire;
 using Microsoft.OpenApi.Models;
 using OperationHistory.BLL.Extensions;
 using Serilog;
@@ -44,7 +45,6 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-
 builder
     .Services.AddOptions<RabbitMqConfiguration>()
     .Bind(builder.Configuration.GetSection("RabbitMq"));
@@ -55,6 +55,7 @@ await app.MigrateDbAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseHangfireDashboard();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

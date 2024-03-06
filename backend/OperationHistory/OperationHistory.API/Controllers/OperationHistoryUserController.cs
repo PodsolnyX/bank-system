@@ -9,11 +9,11 @@ namespace OperationHistory.API.Controllers;
 [Route("operation-history/user")]
 public class OperationHistoryUserController : ControllerBase
 {
-    private readonly OperationHistoryService _operationHistoryService;
+    private readonly OperationHistoryReaderService _operationHistoryReaderService;
 
-    public OperationHistoryUserController(OperationHistoryService operationHistoryService)
+    public OperationHistoryUserController(OperationHistoryReaderService operationHistoryReaderService)
     {
-        _operationHistoryService = operationHistoryService;
+        _operationHistoryReaderService = operationHistoryReaderService;
     }
 
     /// <summary>
@@ -23,6 +23,6 @@ public class OperationHistoryUserController : ControllerBase
     public async Task<List<OperationDto>> GetOperations(SearchOperationUserDto dto)
     {
         var userId = HttpContext.GetUserId();
-        return await _operationHistoryService.GetOperations(userId, dto);
+        return await _operationHistoryReaderService.GetOperations(userId, dto);
     }
 }

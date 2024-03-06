@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
-using Common.Configurations.RabbitMq;
+using Common.Configuration;
 using Core.BLL.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;

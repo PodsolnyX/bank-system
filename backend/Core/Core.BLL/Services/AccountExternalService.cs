@@ -10,14 +10,17 @@ public class AccountExternalService
 {
     private readonly CoreDbContext _dbContext;
     private readonly OperationHistorySender _operationHistorySender;
+    private readonly AccountBalanceService _accountBalanceService;
 
     public AccountExternalService(
         CoreDbContext dbContext,
-        OperationHistorySender operationHistorySender
+        OperationHistorySender operationHistorySender,
+        AccountBalanceService accountBalanceService
     )
     {
         _dbContext = dbContext;
         _operationHistorySender = operationHistorySender;
+        _accountBalanceService = accountBalanceService;
     }
 
     public async Task<AccountDto> OpenAccount(Guid userId, OpenAccountDto dto)
@@ -33,10 +36,9 @@ public class AccountExternalService
     public async Task CloseAccount(Guid userId, Guid accountId)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
+        CheckAccount(account, userId);
 
-        CheckAccount(userId, account);
-
-        account.DeletedAt = DateTime.UtcNow;
+        account!.DeletedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
     }
@@ -44,29 +46,17 @@ public class AccountExternalService
     public async Task<AccountDto> GetAccount(Guid accountId)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
+        CheckAccount(account);
 
-        return new AccountDto
-        {
-            Id = account.Id,
-            UserId = account.UserId,
-            CurrencyType = account.CurrencyType,
-            Amount = account.Amount
-        };
+        return account!.ToDto();
     }
 
     public async Task<AccountDto> GetAccount(Guid userId, Guid accountId)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
+        CheckAccount(account, userId);
 
-        CheckAccount(userId, account);
-
-        return new AccountDto
-        {
-            Id = account.Id,
-            UserId = account.UserId,
-            CurrencyType = account.CurrencyType,
-            Amount = account.Amount
-        };
+        return account!.ToDto();
     }
 
     public async Task<List<AccountDto>> GetAccounts(Guid userId, SearchAccountUserDto searchDto)
@@ -74,7 +64,6 @@ public class AccountExternalService
         var accounts = await _dbContext
             .Accounts.Where(e =>
                 e.UserId == userId
-                && !e.DeletedAt.HasValue
                 && (
                     searchDto.CurrencyTypes.Count == 0
                     || searchDto.CurrencyTypes.Contains(e.CurrencyType)
@@ -82,23 +71,14 @@ public class AccountExternalService
             )
             .ToPagedList(searchDto);
 
-        return accounts
-            .Select(account => new AccountDto
-            {
-                Id = account.Id,
-                UserId = account.UserId,
-                CurrencyType = account.CurrencyType,
-                Amount = account.Amount
-            })
-            .ToList();
+        return accounts.Select(account => account.ToDto()).ToList();
     }
 
     public async Task<List<AccountDto>> GetAccounts(SearchAccountEmployeeDto searchDto)
     {
         var accounts = await _dbContext
             .Accounts.Where(e =>
-                !e.DeletedAt.HasValue
-                && (searchDto.UserIds.Count == 0 || searchDto.UserIds.Contains(e.UserId))
+                (searchDto.UserIds.Count == 0 || searchDto.UserIds.Contains(e.UserId))
                 && (
                     searchDto.CurrencyTypes.Count == 0
                     || searchDto.CurrencyTypes.Contains(e.CurrencyType)
@@ -106,27 +86,15 @@ public class AccountExternalService
             )
             .ToPagedList(searchDto);
 
-        return accounts
-            .Select(account => new AccountDto
-            {
-                Id = account.Id,
-                UserId = account.UserId,
-                CurrencyType = account.CurrencyType,
-                Amount = account.Amount
-            })
-            .ToList();
+        return accounts.Select(account => account.ToDto()).ToList();
     }
 
     public async Task Deposit(Guid userId, Guid accountId, DepositDto dto)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
+        CheckAccount(account, userId);
 
-        CheckAccount(userId, account);
-
-        account.Amount += dto.Amount;
-        account.ModifiedAt = DateTime.UtcNow;
-
-        await _dbContext.SaveChangesAsync();
+        await _accountBalanceService.LockAccount(accountId);
 
         await _operationHistorySender.SendOperationHistoryMessage(
             new OperationHistoryMessage
@@ -135,7 +103,7 @@ public class AccountExternalService
                 AccountId = accountId,
                 Amount = dto.Amount,
                 OperationType = OperationType.Deposit,
-                CurrencyType = account.CurrencyType,
+                CurrencyType = account!.CurrencyType,
                 OperationStatus = OperationStatus.Success,
                 DateTime = DateTime.UtcNow,
                 Message = dto.Message
@@ -146,19 +114,14 @@ public class AccountExternalService
     public async Task Withdraw(Guid userId, Guid accountId, DepositDto dto)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
+        CheckAccount(account, userId);
 
-        CheckAccount(userId, account);
-
-        if (account.Amount - dto.Amount < 0)
+        if (account!.Amount - dto.Amount < 0)
         {
-            // Todo: Specify exception
-            throw new Exception();
+            throw new InvalidOperationException("Not enough money on the account");
         }
 
-        account.Amount -= dto.Amount;
-        account.ModifiedAt = DateTime.UtcNow;
-
-        await _dbContext.SaveChangesAsync();
+        await _accountBalanceService.LockAccount(accountId);
 
         await _operationHistorySender.SendOperationHistoryMessage(
             new OperationHistoryMessage
@@ -175,18 +138,16 @@ public class AccountExternalService
         );
     }
 
-    private void CheckAccount(Guid userId, Account? account)
+    private void CheckAccount(Account? account, Guid? userId = null)
     {
-        if (account == null || account.UserId != userId)
+        if (account == null)
         {
-            // Todo: Specify exception
-            throw new Exception();
+            throw new InvalidOperationException("Account not found");
         }
 
-        if (account.DeletedAt != null)
+        if (userId != null && account.UserId != userId)
         {
-            // Todo: Specify exception
-            throw new Exception();
+            throw new InvalidOperationException("Not enough rights to access the account");
         }
     }
 }

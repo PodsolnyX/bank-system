@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hangfire;
+using Hangfire.PostgreSql;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OperationHistory.BLL.Services;
@@ -30,8 +32,24 @@ public static class ServiceDependencyExtension
         IConfiguration configuration
     )
     {
+        services.AddScoped<OperationHistoryReaderService>();
         services.AddScoped<OperationHistoryService>();
+        services.AddScoped<CoreAccountBalanceSender>();
         services.AddHostedService<RabbitMqListenerService>();
+        services.AddHangfireServer();
+        services.AddHangfire(x =>
+            x.UsePostgreSqlStorage(
+                s =>
+                {
+                    s.UseNpgsqlConnection(configuration.GetConnectionString("Database"));
+                },
+                new PostgreSqlStorageOptions()
+                {
+                    DistributedLockTimeout = TimeSpan.FromSeconds(20),
+                    PrepareSchemaIfNecessary = true,
+                }
+            )
+        );
         return services;
     }
 }

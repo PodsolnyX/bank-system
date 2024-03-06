@@ -1,89 +1,73 @@
 ﻿using Common.DataTransfer;
-using OperationHistory.BLL.DataTransferObjects;
+using Common.Enum;
+using Core.BLL.DataTransferObjects;
+using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using OperationHistory.DAL;
+using OperationHistory.DAL.Entities;
 
 namespace OperationHistory.BLL.Services;
 
 public class OperationHistoryService
 {
     private readonly OpHistoryDbContext _dbContext;
+    private readonly IBackgroundJobClient _backgroundJobClient;
+    private readonly CoreAccountBalanceSender _accountBalanceSender;
 
-    public OperationHistoryService(OpHistoryDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
-    public async Task<List<OperationDto>> GetOperations(
-        Guid userId,
-        SearchOperationUserDto searchDto
+    public OperationHistoryService(
+        OpHistoryDbContext dbContext,
+        IBackgroundJobClient backgroundJobClient,
+        CoreAccountBalanceSender accountBalanceSender
     )
     {
-        var operations = await _dbContext
-            .Operations.Where(e =>
-                e.UserId == userId
-                && !e.DeletedAt.HasValue
-                && (searchDto.AccountIds.Count == 0 || searchDto.AccountIds.Contains(e.AccountId))
-                && (
-                    searchDto.OperationStatuses.Count == 0
-                    || searchDto.OperationStatuses.Contains(e.Status)
-                )
-                && (
-                    searchDto.CurrencyTypes.Count == 0
-                    || searchDto.OperationTypes.Contains(e.Type)
-                )
-                && (
-                    searchDto.CurrencyTypes.Count == 0
-                    || searchDto.CurrencyTypes.Contains(e.CurrencyType)
-                )
-            )
-            .ToPagedList(searchDto);
-
-        return operations
-            .Select(e => new OperationDto
-            {
-                Id = e.Id,
-                AccountId = e.AccountId,
-                LoanId = e.LoanId,
-                Type = e.Type,
-                Status = e.Status,
-                CurrencyType = e.CurrencyType,
-                Amount = e.Amount,
-                Message = e.Message
-            })
-            .ToList();
+        _dbContext = dbContext;
+        _backgroundJobClient = backgroundJobClient;
+        _accountBalanceSender = accountBalanceSender;
     }
 
-    public async Task<List<OperationDto>> GetOperations(SearchOperationEmployeeDto searchDto)
+    public async Task AddOperationHistory(OperationHistoryMessage message)
     {
-        var operations = await _dbContext
-            .Operations.Where(e =>
-                !e.DeletedAt.HasValue
-                && (searchDto.AccountIds.Count == 0 || searchDto.AccountIds.Contains(e.AccountId))
-                && (searchDto.UserIds.Count == 0 || searchDto.UserIds.Contains(e.UserId))
-                && (
-                    searchDto.OperationStatuses.Count == 0
-                    || searchDto.OperationStatuses.Contains(e.Status)
-                )
-                && (searchDto.CurrencyTypes.Count == 0 || searchDto.OperationTypes.Contains(e.Type))
-                && (
-                    searchDto.CurrencyTypes.Count == 0
-                    || searchDto.CurrencyTypes.Contains(e.CurrencyType)
-                )
-            )
-            .ToPagedList(searchDto);
+        var entity = new Operation()
+        {
+            Id = message.Id,
+            UserId = message.UserId,
+            AccountId = message.AccountId,
+            LoanId = message.LoanId,
+            CurrencyType = message.CurrencyType,
+            Type = message.OperationType,
+            Status = message.OperationStatus,
+            Amount = message.Amount,
+            Message = message.Message,
+            DateTime = message.DateTime
+        };
+        await _dbContext.Operations.AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
+    }
 
-        return operations
-            .Select(e => new OperationDto
+    public void EnqueueUpdateAccountBalance(Guid accountId)
+    {
+        _backgroundJobClient.Enqueue(() => UpdateAccountBalance(accountId));
+    }
+
+    public async Task UpdateAccountBalance(Guid accountId)
+    {
+        var operationAggregation = await _dbContext.OperationAggregations.FirstOrDefaultAsync(x =>
+            x.AccountId == accountId
+        );
+
+        var operationSum = await _dbContext
+            .Operations.Where(x => x.AccountId == accountId)
+            .SumAsync(x => x.Amount * (x.Type == OperationType.Deposit ? 1 : -1));
+
+        var balance = operationAggregation?.CalculatedAmount ?? 0 + operationSum;
+
+        await _accountBalanceSender.SendCoreAccountBalanceMessage(
+            new UpdateAccountBalanceMessage
             {
-                Id = e.Id,
-                AccountId = e.AccountId,
-                LoanId = e.LoanId,
-                Type = e.Type,
-                Status = e.Status,
-                CurrencyType = e.CurrencyType,
-                Amount = e.Amount,
-                Message = e.Message
-            })
-            .ToList();
+                AccountId = accountId,
+                Amount = balance,
+                DateTime = DateTime.UtcNow
+            }
+        );
     }
 }

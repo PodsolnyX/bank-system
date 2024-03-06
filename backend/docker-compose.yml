@@ -29,7 +29,7 @@ services:
       dockerfile: Arbiter/Arbiter.API/Dockerfile
     restart: always
     environment:
-      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-arbiter-db
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-arbiter-db
     networks:
       - internal-network
     ports:
@@ -45,7 +45,7 @@ services:
       dockerfile: Auth/Auth.API/Dockerfile
     restart: always
     environment:
-      - CONNECTIONSTRINGS__AUTHDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-auth-db
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-auth-db
     networks:
       - external-network
       - internal-network
@@ -63,7 +63,7 @@ services:
     restart: always
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
-      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-core-db
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-core-db
     networks:
       - external-network
       - internal-network
@@ -82,7 +82,7 @@ services:
     restart: always
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
-      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-loan-db
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-loan-db
     networks:
       - external-network
       - internal-network
@@ -101,7 +101,8 @@ services:
     restart: always
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
-      - CONNECTIONSTRINGS__BACKENDDATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-op-history-db
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-op-history-db
+      - CONNECTIONSTRINGS__HANGFIRE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=hangfire-db
     networks:
       - external-network
       - internal-network

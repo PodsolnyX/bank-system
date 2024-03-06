@@ -8,7 +8,7 @@ namespace OperationHistory.API.Controllers;
 [Route("operation-history/employee")]
 public class OperationHistoryEmployeeController: ControllerBase {
     
-    private readonly OperationHistoryService _operationHistoryService;
+    private readonly OperationHistoryReaderService _operationHistoryReaderService;
     
     /// <summary>
     /// Get operation history of users
@@ -16,6 +16,6 @@ public class OperationHistoryEmployeeController: ControllerBase {
     [HttpGet]
     public async Task<List<OperationDto>> GetOperations(SearchOperationEmployeeDto dto)
     {
-        return await _operationHistoryService.GetOperations(dto);
+        return await _operationHistoryReaderService.GetOperations(dto);
     }
 }
