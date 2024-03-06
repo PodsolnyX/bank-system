@@ -12,26 +12,6 @@ RouterHelper.use(AccountRouter, AccountControllerInst, [
     handlers: [AccountControllerInst.GetAccounts],
   },
   {
-    method: 'post',
-    path: '/',
-    handlers: [AccountControllerInst.OpenAccount],
-  },
-  {
-    method: 'delete',
-    path: '/:AccountId',
-    handlers: [AccountControllerInst.CloseAccount],
-  },
-  {
-    method: 'post',
-    path: '/:AccountId/withdraw',
-    handlers: [AccountControllerInst.Withdraw],
-  },
-  {
-    method: 'post',
-    path: '/:AccountId/deposit',
-    handlers: [AccountControllerInst.Deposit],
-  },
-  {
     method: 'get',
     path: '/:AccountId',
     handlers: [AccountControllerInst.GetAccount],

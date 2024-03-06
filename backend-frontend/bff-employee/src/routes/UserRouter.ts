@@ -23,8 +23,8 @@ RouterHelper.use(UserRouter, UserControllerInst, [
   },
   {
     method: 'post',
-    path: '/',
-    handlers: [UserControllerInst.Register],
+    path: '/create',
+    handlers: [UserControllerInst.CreateUser],
   },
 ])
 
