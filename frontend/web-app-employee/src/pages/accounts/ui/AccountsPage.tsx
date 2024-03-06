@@ -4,8 +4,14 @@ import {ColumnsType} from "antd/es/table";
 import {generatePath, Link} from "react-router-dom";
 import {Links} from "../../../constants/Links.ts";
 import {dataAccounts} from "../mocks/dataAccounts.ts";
+import {useAccounts} from "../hooks/useAccounts.ts";
 
 const AccountsPage = () => {
+
+    const {data} = useAccounts();
+
+    console.log(data)
+
     return (
         <div className={"w-full flex flex-col gap-5"}>
             <div className={"flex flex-col gap-3"}>

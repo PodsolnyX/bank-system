@@ -4,8 +4,17 @@ import {Link} from "react-router-dom";
 import {Links} from "../../../constants/Links.ts";
 import {DownOutlined, LoginOutlined} from "@ant-design/icons";
 import {MenuLinks} from "../constants/MenuLinks.ts";
+import {useAuth} from "../../../app/providers/auth";
 
 const Header = () => {
+
+    const {signOut, isAuth} = useAuth()
+
+    const onClick: MenuProps['onClick'] = ({ key }) => {
+        if (key === "logout") signOut()
+    };
+
+
     return (
         <div className={"w-full bg-white shadow-xl rounded-2xl my-6"}>
             <div className={"flex flex-wrap items-center gap-5 px-6 py-3 "}>
@@ -21,25 +30,28 @@ const Header = () => {
                         </Typography.Text>
                     </div>
                 </Link>
-                <div className={"flex flex-wrap justify-between flex-1"}>
-                    <div className={"flex gap-3"}>
-                        {
-                            MenuLinks.map((it, index) =>
-                                <Link to={it.link} className={"no-underline whitespace-nowrap"} key={index}>
-                                    <Typography.Text strong className={"hover:text-lime-500 transition tracking-wide"}>{it.title}</Typography.Text>
-                                </Link>
-                            )
-                        }
+                {
+                    isAuth &&
+                    <div className={"flex flex-wrap justify-between flex-1"}>
+                        <div className={"flex gap-3"}>
+                            {
+                                MenuLinks.map((it, index) =>
+                                    <Link to={it.link} className={"no-underline whitespace-nowrap"} key={index}>
+                                        <Typography.Text strong className={"hover:text-lime-500 transition tracking-wide"}>{it.title}</Typography.Text>
+                                    </Link>
+                                )
+                            }
+                        </div>
+                        <div>
+                            <Dropdown menu={{ items, onClick }} className={"cursor-pointer"}>
+                                <Space>
+                                    <Typography.Text strong className={"tracking-wide"}>USER</Typography.Text>
+                                    <DownOutlined />
+                                </Space>
+                            </Dropdown>
+                        </div>
                     </div>
-                    <div>
-                        <Dropdown menu={{ items }} className={"cursor-pointer"}>
-                            <Space>
-                                <Typography.Text strong className={"tracking-wide"}>USER</Typography.Text>
-                                <DownOutlined />
-                            </Space>
-                        </Dropdown>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     )
@@ -47,7 +59,7 @@ const Header = () => {
 
 const items: MenuProps['items'] = [
     {
-        key: '1',
+        key: 'logout',
         label: "Выйти",
         danger: true,
         icon: <LoginOutlined/>

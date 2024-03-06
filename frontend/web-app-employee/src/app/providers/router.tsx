@@ -1,12 +1,24 @@
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {Links} from "../../constants/Links.ts";
 import UsersPage from "../../pages/users";
 import AccountsPage from "../../pages/accounts";
 import MainPage from "../../pages/main";
 import TariffsPage from "../../pages/tariffs";
 import AccountPage from "../../pages/account";
+import LoginPage from "../../pages/login";
+import {useAuth} from "./auth";
 
 const Router = () => {
+
+    const {isAuth} = useAuth();
+
+    return (
+        isAuth ? <AuthRoutes/> : <UnauthRoutes/>
+
+    )
+}
+
+const AuthRoutes = () => {
     return (
         <Routes>
             <Route path={Links.Main} element={<MainPage/>}/>
@@ -14,6 +26,16 @@ const Router = () => {
             <Route path={Links.Accounts} element={<AccountsPage/>}/>
             <Route path={Links.Account} element={<AccountPage/>}/>
             <Route path={Links.Tariffs} element={<TariffsPage/>}/>
+            <Route path={"/*"} element={<Navigate to={Links.Main} />}/>
+        </Routes>
+    )
+}
+
+const UnauthRoutes = () => {
+    return (
+        <Routes>
+            <Route path={Links.Login} element={<LoginPage/>}/>
+            <Route path={"/*"} element={<Navigate to={Links.Login} />}/>
         </Routes>
     )
 }
