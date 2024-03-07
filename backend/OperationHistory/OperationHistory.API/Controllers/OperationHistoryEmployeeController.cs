@@ -9,7 +9,12 @@ namespace OperationHistory.API.Controllers;
 public class OperationHistoryEmployeeController: ControllerBase {
     
     private readonly OperationHistoryReaderService _operationHistoryReaderService;
-    
+
+    public OperationHistoryEmployeeController(OperationHistoryReaderService operationHistoryReaderService)
+    {
+        _operationHistoryReaderService = operationHistoryReaderService;
+    }
+
     /// <summary>
     /// Get operation history of users
     /// </summary>
