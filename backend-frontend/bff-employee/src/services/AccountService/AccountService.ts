@@ -41,7 +41,7 @@ class AccountService {
   }
 
   async GetAccount(Dto: WithUser<GetAccountDto>) {
-    return (await CoreAPI.Req.get<Account>(`/account/user/${Dto.AccountId}`)).data
+    return (await CoreAPI.Req.get<Account>(`/account/employee/${Dto.AccountId}`)).data
   }
 }
 

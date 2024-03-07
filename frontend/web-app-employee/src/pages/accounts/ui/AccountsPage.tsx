@@ -8,10 +8,7 @@ import {AccountDto} from "../../../services/account/models/AccountDto.ts";
 
 const AccountsPage = () => {
 
-    const {data} = useAccounts();
-
-    console.log(data)
-
+    const {data, isLoading} = useAccounts();
 
     return (
         <div className={"w-full flex flex-col gap-5"}>
@@ -19,22 +16,21 @@ const AccountsPage = () => {
                 <div className={"flex justify-between"}>
                     <Typography.Text className={"text-2xl text-lime-500"} strong>Счета</Typography.Text>
                 </div>
-                {
-                    !data ? <Spin/> :
-                        <Table
-                            dataSource={getData(data)}
-                            columns={columns}
-                            bordered
-                            size={"small"}
-                            className={"w-full"}
-                        />
-                }
+                <Table
+                    loading={isLoading}
+                    dataSource={getData(data)}
+                    columns={columns}
+                    bordered
+                    size={"small"}
+                    className={"w-full"}
+                />
             </div>
         </div>
     )
 }
 
-const getData = (data: AccountDto[]) => {
+const getData = (data?: AccountDto[]) => {
+    if (!data || !data.length) return [];
     return data.map(it => {
         return {
             key: it.id,

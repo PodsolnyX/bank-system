@@ -1,10 +1,11 @@
-import {Table, TableProps, Tag, Typography} from "antd";
+import {Spin, Table, TableProps, Tag, Typography} from "antd";
 import {ColumnsType} from "antd/es/table";
 import {dataAccount} from "../mocks/dataAccount.ts";
 import {
     convertDateTimmeStringToNormalString,
     convertNumberPriceToNormalString
 } from "../../../shared/helpers/stringHelpers.ts";
+import {useAccount} from "../hooks/useAccount.ts";
 
 const AccountPage = () => {
 
@@ -15,6 +16,8 @@ const AccountPage = () => {
         money
     } = dataAccount;
 
+    const {data} = useAccount();
+
     const onChange: TableProps<AccountHistoryData>['onChange'] = (pagination, filters, sorter, extra) => {
         console.log(filters)
     };
@@ -22,21 +25,30 @@ const AccountPage = () => {
     return (
         <div className={"w-full flex flex-col gap-5"}>
             <div className={"flex flex-col gap-3"}>
-                <Typography.Text className={"text-2xl text-lime-500"} strong>История операций</Typography.Text>
-                <div className={"flex flex-col gap-2"}>
-                    <div className={"flex gap-1 flex-wrap"}>
-                        <Typography.Text className={"text-lime-500"} strong>Счет:</Typography.Text>
-                        <Typography.Text strong>{id}</Typography.Text>
-                    </div>
-                    <div className={"flex gap-1 flex-wrap"}>
-                        <Typography.Text className={"text-lime-500"} strong>ФИО:</Typography.Text>
-                        <Typography.Text strong>{userName}</Typography.Text>
-                    </div>
-                    <div className={"flex gap-1 flex-wrap"}>
-                        <Typography.Text className={"text-lime-500"} strong>Баланс:</Typography.Text>
-                        <Typography.Text strong>{convertNumberPriceToNormalString(money)}</Typography.Text>
-                    </div>
-                </div>
+                {
+                    !data ? <Spin/> :
+                        <>
+                            <Typography.Text className={"text-2xl text-lime-500"} strong>История операций</Typography.Text>
+                            <div className={"grid grid-cols-2 gap-2"}>
+                                <div className={"flex gap-1 flex-wrap"}>
+                                    <Typography.Text className={"text-lime-500"} strong>Счет:</Typography.Text>
+                                    <Typography.Text strong>{data.id}</Typography.Text>
+                                </div>
+                                <div className={"flex gap-1 flex-wrap"}>
+                                    <Typography.Text className={"text-lime-500"} strong>ФИО:</Typography.Text>
+                                    <Typography.Text strong>{data.userId}</Typography.Text>
+                                </div>
+                                <div className={"flex gap-1 flex-wrap"}>
+                                    <Typography.Text className={"text-lime-500"} strong>Баланс:</Typography.Text>
+                                    <Typography.Text strong>{`${convertNumberPriceToNormalString(data.amount)} ${data.currencyType?.toUpperCase()}`}</Typography.Text>
+                                </div>
+                                <div className={"flex gap-1 flex-wrap"}>
+                                    <Typography.Text className={"text-lime-500"} strong>Статус:</Typography.Text>
+                                    <Tag color={data.closedAt ? "red" : "green"}>{data.closedAt ? "Закрытый" : "Открытый"}</Tag>
+                                </div>
+                            </div>
+                        </>
+                }
                 <Table dataSource={history} columns={columns} bordered size={"small"} onChange={onChange}/>
             </div>
         </div>
