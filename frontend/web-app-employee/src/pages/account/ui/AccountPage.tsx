@@ -1,4 +1,4 @@
-import {Spin, TableProps, Tag, Typography} from "antd";
+import {Spin, Table, TableProps, Tag, Typography} from "antd";
 import {ColumnsType} from "antd/es/table";
 import {
     convertDateTimmeStringToNormalString,
@@ -6,13 +6,12 @@ import {
 } from "../../../shared/helpers/stringHelpers.ts";
 import {useAccount} from "../hooks/useAccount.ts";
 import {useHistory} from "../hooks/useHistory.ts";
+import {OperationDto, OperationStatus, OperationType} from "../../../services/operationHistory/models/OperationDto.ts";
 
 const AccountPage = () => {
 
     const {data, isLoading} = useAccount();
     const {data: history} = useHistory();
-
-    console.log(history)
 
     const onChange: TableProps<AccountHistoryData>['onChange'] = (pagination, filters, sorter, extra) => {
         console.log(filters)
@@ -45,7 +44,19 @@ const AccountPage = () => {
                             </div>
                         </>
                 }
-                {/*<Table dataSource={history} columns={columns} bordered size={"small"} onChange={onChange}/>*/}
+                {
+                    data &&
+                    <Table
+                        dataSource={getData(history)}
+                        columns={columns}
+                        bordered
+                        size={"small"}
+                        onChange={onChange}
+                        pagination={{
+                            pageSize: 20
+                        }}
+                    />
+                }
             </div>
         </div>
     )
@@ -57,45 +68,50 @@ export interface AccountHistoryData {
     date: string,
     type: OperationType,
     status: OperationStatus,
-    sum: number
-}
-
-
-
-export enum OperationStatus {
-    Success = "success",
-    Error = "error",
-    InProcess = "inProcess"
+    sum: number,
+    currencyType: string
 }
 
 export const OperationStatusColor: Record<OperationStatus, string> = {
     [OperationStatus.Success]: "green",
-    [OperationStatus.Error]: "red",
-    [OperationStatus.InProcess]: "default",
+    [OperationStatus.Failure]: "red",
+    [OperationStatus.Processing]: "default",
 }
 
 export const OperationStatusText: Record<OperationStatus, string> = {
     [OperationStatus.Success]: "Успешно",
-    [OperationStatus.Error]: "Ошибка",
-    [OperationStatus.InProcess]: "В процессе",
-}
-
-export enum OperationType {
-    Withdraw = "withdraw",
-    Replenish = "replenish",
-    LoanRepay = "loanRepay"
+    [OperationStatus.Failure]: "Ошибка",
+    [OperationStatus.Processing]: "В процессе",
 }
 
 export const OperationTypeColor: Record<OperationType, string> = {
     [OperationType.Withdraw]: "default",
-    [OperationType.Replenish]: "green",
-    [OperationType.LoanRepay]: "blue",
+    [OperationType.Deposit]: "green",
+    [OperationType.LoanCharge]: "blue",
+    [OperationType.LoanIncome]: "blue",
 }
 
 export const OperationTypeText: Record<OperationType, string> = {
     [OperationType.Withdraw]: "Снятие",
-    [OperationType.Replenish]: "Пополнение",
-    [OperationType.LoanRepay]: "Погашение кредита",
+    [OperationType.Deposit]: "Пополнение",
+    [OperationType.LoanCharge]: "Погашение кредита",
+    [OperationType.LoanIncome]: "blue",
+}
+
+function getData(data?: OperationDto[]) {
+    if (!data) return []
+    return data.map(it => {
+        return {
+            key: it.id,
+            id: it.id,
+            date: it.date,
+            type: it.type,
+            status: it.status,
+            sum: it.amount,
+            message: it.message,
+            currencyType: it.currencyType
+        }
+    })
 }
 
 
@@ -105,6 +121,11 @@ const columns: ColumnsType<AccountHistoryData> = [
         dataIndex: 'id',
         key: 'id',
         sorter: (a, b) => a.id.localeCompare(b.id),
+    },
+    {
+        title: 'Сообщение',
+        dataIndex: 'message',
+        key: 'message',
     },
     {
         title: 'Тип',
@@ -119,20 +140,20 @@ const columns: ColumnsType<AccountHistoryData> = [
         filterSearch: true,
         // @ts-ignore
         onFilter: (value: string, record) => record.type.startsWith(value),
-        filters: [
-            {
-                text: OperationTypeText[OperationType.Replenish],
-                value: OperationType.Replenish,
-            },
-            {
-                text: OperationTypeText[OperationType.Withdraw],
-                value: OperationType.Withdraw,
-            },
-            {
-                text: OperationTypeText[OperationType.LoanRepay],
-                value: OperationType.LoanRepay,
-            },
-        ],
+        // filters: [
+        //     {
+        //         text: OperationTypeText[OperationType.Replenish],
+        //         value: OperationType.Replenish,
+        //     },
+        //     {
+        //         text: OperationTypeText[OperationType.Withdraw],
+        //         value: OperationType.Withdraw,
+        //     },
+        //     {
+        //         text: OperationTypeText[OperationType.LoanRepay],
+        //         value: OperationType.LoanRepay,
+        //     },
+        // ],
     },
     {
         title: 'Дата и время',
@@ -147,7 +168,7 @@ const columns: ColumnsType<AccountHistoryData> = [
         key: 'sum',
         align: "end",
         sorter: (a, b) => a.sum - b.sum,
-        render: (text: number) => convertNumberPriceToNormalString(text) || 0
+        render: (text: number, record) => `${convertNumberPriceToNormalString(text)} ${record.currencyType.toUpperCase()}`
     },
     {
         title: 'Статус',
@@ -162,20 +183,20 @@ const columns: ColumnsType<AccountHistoryData> = [
         filterSearch: true,
         // @ts-ignore
         onFilter: (value: string, record) => record.status.startsWith(value),
-        filters: [
-            {
-                text: OperationStatusText[OperationStatus.Success],
-                value: OperationStatus.Success,
-            },
-            {
-                text: OperationStatusText[OperationStatus.Error],
-                value: OperationStatus.Error,
-            },
-            {
-                text: OperationStatusText[OperationStatus.InProcess],
-                value: OperationStatus.InProcess,
-            },
-        ],
+        // filters: [
+        //     {
+        //         text: OperationStatusText[OperationStatus.Success],
+        //         value: OperationStatus.Success,
+        //     },
+        //     {
+        //         text: OperationStatusText[OperationStatus.Error],
+        //         value: OperationStatus.Error,
+        //     },
+        //     {
+        //         text: OperationStatusText[OperationStatus.InProcess],
+        //         value: OperationStatus.InProcess,
+        //     },
+        // ],
     },
 ];
 

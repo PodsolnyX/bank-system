@@ -7,18 +7,19 @@ export interface OperationDto {
     status: OperationStatus
     amount: number
     date: string
-    message?: string
+    message?: string,
+    currencyType: string
 }
 
 export enum OperationType {
-    Deposit,
-    Withdraw,
-    LoanCharge,
-    LoanIncome,
+    Deposit = "Deposit",
+    Withdraw = "Withdraw",
+    LoanCharge = "LoanCharge",
+    LoanIncome = "LoanIncome",
 }
 
 export enum OperationStatus {
-    Success,
-    Failure,
-    Processing,
+    Success = "Success",
+    Failure = "Failure",
+    Processing = "Processing",
 }

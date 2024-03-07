@@ -1,3 +1,5 @@
+import {CurrencyType} from "./Currency";
+
 export enum OperationType {
   Deposit,
   Withdraw,
@@ -20,4 +22,5 @@ export type Operation = {
   amount: number
   date: string
   message?: string
+  currencyType: CurrencyType
 }
