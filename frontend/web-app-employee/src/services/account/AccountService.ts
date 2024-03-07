@@ -3,7 +3,7 @@ import {AccountDto} from "./models/AccountDto.ts";
 
 class AccountService {
     async getAllAccounts() {
-        return instance.get<AccountDto[]>('/account/user')
+        return instance.get<AccountDto[]>('/account/employee')
     }
 }
 

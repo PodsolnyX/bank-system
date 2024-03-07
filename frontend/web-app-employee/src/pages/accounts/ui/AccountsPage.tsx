@@ -38,7 +38,7 @@ const getData = (data: AccountDto[]) => {
     return data.map(it => {
         return {
             key: it.id,
-            name: it.userId,
+            userName: it.userName || "",
             id: it.id,
             amount: it.amount,
             currencyType: it.currencyType
@@ -48,7 +48,7 @@ const getData = (data: AccountDto[]) => {
 
 interface AccountData {
     key: string;
-    name: string;
+    userName: string;
     id: string;
     amount: number;
     currencyType: string
@@ -57,9 +57,9 @@ interface AccountData {
 const columns: ColumnsType<AccountData> = [
     {
         title: 'ФИО',
-        dataIndex: 'name',
-        key: 'name',
-        sorter: (a, b) => a.name.localeCompare(b.name),
+        dataIndex: 'userName',
+        key: 'userName',
+        sorter: (a, b) => a.userName.localeCompare(b.userName),
     },
     {
         title: 'ID',

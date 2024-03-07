@@ -1,3 +1,5 @@
 import { Account } from 'entities/Account'
 
-export type AccountDto = Account
+export interface AccountDto extends Account {
+    userName?: string
+}

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import {BanUserReq, CreateUserReq, GetUserReq, GetUserStatusReq} from './types'
+import {BanUserReq, CreateUserReq, GetUserReq, GetUsersReq, GetUserStatusReq} from './types'
 import { CookieName } from 'config/Auth'
 import { UserService } from 'services/UserService'
 import { Extractor } from 'controllers/lib/Extractor'
@@ -18,6 +18,11 @@ class UserController {
     res.cookie(CookieName, data.mail, {
       maxAge: this._CookieAuthTime,
     })
+    res.status(200).send(data)
+  }
+
+  async GetUsers(req: GetUsersReq, res: Response) {
+    const data = await this._UserService.GetUsers(Extractor.ExtractParams(req))
     res.status(200).send(data)
   }
 

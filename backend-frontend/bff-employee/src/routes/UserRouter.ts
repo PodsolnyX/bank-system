@@ -13,6 +13,11 @@ RouterHelper.use(UserRouter, UserControllerInst, [
   },
   {
     method: 'get',
+    path: '/users',
+    handlers: [UserControllerInst.GetUsers],
+  },
+  {
+    method: 'get',
     path: '/status',
     handlers: [UserControllerInst.GetUserStatus],
   },

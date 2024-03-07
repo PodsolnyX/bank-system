@@ -1,5 +1,6 @@
 import {GetProfileParamsDto} from "./models/GetProfileParamsDto.ts";
 import {instance} from "../../api/instance.ts";
+import {UserDto} from "./models/UserDto.ts";
 
 class AuthService {
     async getProfile(params: GetProfileParamsDto) {
@@ -8,6 +9,9 @@ class AuthService {
         })
     }
 
+    async getUsers() {
+        return instance.get<UserDto[]>('/auth/user/users/' )
+    }
     async logout() {
         return instance.post('/auth/user/logout')
     }
