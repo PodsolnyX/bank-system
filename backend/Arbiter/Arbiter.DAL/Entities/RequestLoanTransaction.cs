@@ -8,6 +8,7 @@ public class RequestLoanTransaction
     public Guid UserId { get; set; }
     public Guid AccountId { get; set; }
     public Guid TariffId { get; set; }
+    public Guid LoanId { get; set; }
     public int Amount { get; set; }
     public CurrencyType CurrencyType { get; set; }
 

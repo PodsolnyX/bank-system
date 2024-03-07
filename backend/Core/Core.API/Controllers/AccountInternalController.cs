@@ -32,7 +32,7 @@ public class AccountInternalController : ControllerBase
     /// <summary>
     /// Loan charge
     /// </summary>
-    [HttpPost("{id:guid}/loan-charge")]
+    [HttpPost("{accountId:guid}/loan-charge")]
     public async Task LoanCharge(Guid accountId, LoanChargeDto dto)
     {
         await _accountInternalService.LoanCharge(accountId, dto);
@@ -41,7 +41,7 @@ public class AccountInternalController : ControllerBase
     /// <summary>
     /// Cancel loan charge
     /// </summary>
-    [HttpDelete("loan-charge")]
+    [HttpDelete("{accountId:guid}/loan-charge")]
     public async Task LoanChargeCancel(Guid accountId, LoanChargeDto dto)
     {
         await _accountInternalService.LoanChargeCancel(accountId, dto);
@@ -50,7 +50,7 @@ public class AccountInternalController : ControllerBase
     /// <summary>
     /// Loan income
     /// </summary>
-    [HttpPost("loan-income")]
+    [HttpPost("{accountId:guid}/loan-income")]
     public async Task LoanIncome(Guid accountId, LoanIncomeDto dto)
     {
         await _accountInternalService.LoanIncome(accountId, dto);

@@ -2,15 +2,16 @@
 using Arbiter.DAL;
 using Arbiter.DAL.Entities;
 using Hangfire;
+using Microsoft.Extensions.Options;
 
 namespace Arbiter.BLL.Services;
 
 public class RequestLoanChargeService {
     private readonly ArbiterDbContext _dbContext;
-    private readonly InternalApiQueries _options;
+    private readonly IOptions<InternalApiQueries> _options;
     private readonly IBackgroundJobClient _backgroundJobClient;
 
-    public RequestLoanChargeService(ArbiterDbContext dbContext, IBackgroundJobClient backgroundJobClient, InternalApiQueries options) {
+    public RequestLoanChargeService(ArbiterDbContext dbContext, IBackgroundJobClient backgroundJobClient, IOptions<InternalApiQueries> options) {
         _dbContext = dbContext;
         _backgroundJobClient = backgroundJobClient;
         _options = options;
