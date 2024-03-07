@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Common.Enum;
+using Common.Persistence;
 
 namespace Loan.DAL.Entities;
 
-public class Tariff {
+public class Tariff: BaseEntity {
     [Key]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     
     public string Name { get; set; }
     

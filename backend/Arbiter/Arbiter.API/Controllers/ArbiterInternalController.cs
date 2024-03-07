@@ -11,7 +11,7 @@ public class ArbiterInternalController: ControllerBase {
     /// Request Loan
     /// </summary>
     [HttpPost("loan")]
-    public Task RequestLoan([FromBody] RequestLoanDto dto) {
+    public async Task RequestLoan([FromBody] RequestLoanDto dto) {
         throw new NotImplementedException();
     }
     
@@ -19,7 +19,7 @@ public class ArbiterInternalController: ControllerBase {
     /// Request Loan Charge 
     /// </summary>
     [HttpPost("loan-charge")]
-    public Task RequestLoanCharge([FromBody] RequestLoanChargeDto dto) {
+    public async Task RequestLoanCharge([FromBody] RequestLoanChargeDto dto) {
         throw new NotImplementedException();
     }
 }

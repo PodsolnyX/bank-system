@@ -1,41 +1,54 @@
 ﻿using Loan.BLL.DataTransferObjects;
+using Loan.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Loan.API.Controllers;
 
+/// <summary>
+/// Controller for employee
+/// </summary>
 [Controller]
 [Route("tariff/employee")]
 public class TariffEmployeeController: ControllerBase {
-    
+    private readonly TariffService _tariffService;
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="tariffService"></param>
+    public TariffEmployeeController(TariffService tariffService) {
+        _tariffService = tariffService;
+    }
+
     /// <summary>
     /// Create tariff
     /// </summary>
     [HttpPost]
-    public Task<List<LoanDto>> CreateTariff(TariffCreateDto dto) {
-        throw new NotImplementedException();
+    public async Task CreateTariff(TariffCreateDto dto) {
+         await _tariffService.CreateTariff(dto);
     }
     
     /// <summary>
     /// Delete tariff
     /// </summary>
     [HttpDelete("{id:guid}")]
-    public Task<List<LoanDto>> DeleteTariff(Guid id) {
-        throw new NotImplementedException();
+    public async Task DeleteTariff(Guid id) {
+        await _tariffService.DeleteTariff(id);
     }
     
-    /// <summary>
+    /*/// <summary>
     /// Get tariff
     /// </summary>
     [HttpGet("{id:guid}")]
     public Task<List<LoanDto>> GetTariff(Guid id) {
         throw new NotImplementedException();
-    }
+    }*/
     
     /// <summary>
     /// Get tariffs
     /// </summary>
     [HttpGet]
-    public Task<List<LoanDto>> GetTariffs(SearchTariffDto dto) {
-        throw new NotImplementedException();
+    public async Task<List<TariffDto>> GetTariffs(SearchTariffDto dto) {
+       return await _tariffService.GetTariffs(dto);
     }
 }

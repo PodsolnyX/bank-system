@@ -8,6 +8,15 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.Enum\Common.Enum.csproj" />
+      <ProjectReference Include="..\Arbiter.DAL\Arbiter.DAL.csproj" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Hangfire.NetCore" Version="1.8.11" />
+      <PackageReference Include="Hangfire.PostgreSql" Version="1.20.8" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     </ItemGroup>
 
 </Project>

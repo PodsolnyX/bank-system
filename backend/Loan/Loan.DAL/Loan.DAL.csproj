@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.Enum\Common.Enum.csproj" />
+      <ProjectReference Include="..\..\Common\Common.Persistence\Common.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Common.Auth.ApiKeyAuthorization;
+using Loan.BLL.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,9 @@ builder.Services.AddCors(options => {
         });
 });
 
+builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddServices();
+
 builder.Services.AddControllers().AddJsonOptions(opts => {
     var enumConverter = new JsonStringEnumConverter();
     opts.JsonSerializerOptions.Converters.Add(enumConverter);
@@ -20,18 +25,25 @@ builder.Services.AddControllers().AddJsonOptions(opts => {
 
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(option => {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Loan", Version = "v1" });
+builder.Services.AddSwaggerGen(option =>
+{
+    option.UseApiKeyAuthorization();
+
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Core", Version = "v1" });
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 var app = builder.Build();
 
+await app.MigrateDbAsync();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
+app.UseApiKeyMiddleware();
 
 app.UseCors();
 
