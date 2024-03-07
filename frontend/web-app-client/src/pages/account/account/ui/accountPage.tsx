@@ -18,9 +18,11 @@ import {
 
 export const AccountPage = () => {
   const id = useParams()['id']!
-  const accQuery = useGetAccountQuery({ id })
   const histQuery = useGetHistoryQuery({ AccountIds: [id] })
+  const accQuery = useGetAccountQuery({ id })
+
   const isLoading = !accQuery.isSuccess || !histQuery.isSuccess
+
   if (accQuery.isError || histQuery.isError) {
     return (
       <ErrorMsg

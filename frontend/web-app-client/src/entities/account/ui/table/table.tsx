@@ -17,7 +17,7 @@ export const AccountsTable = ({ accounts, isLoading }: AccountsListProps) => {
         className='w-full md:w-2/3 border-[1px] border-slate-300 border-solid rounded-lg'
         columns={columns}
         dataSource={accounts}
-        pagination={{ pageSize: 7 }}
+        pagination={{ pageSize: 7, showSizeChanger: false }}
         locale={{
           emptyText: isLoading ? <Skeleton active={true} /> : <Empty />,
         }}

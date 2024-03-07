@@ -3,7 +3,7 @@ import { TransferForm, TransferFormValues } from 'features/transfer'
 import { useDepositMutation, useGetAccountQuery, useWithdrawMutation } from 'shared/api'
 import { toastError, toastSuccess } from 'shared/toast'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppRoutes, getAccountHistoryLink } from 'shared/const'
+import { AppRoutes } from 'shared/const'
 import { PageLoader } from 'widgets'
 import { ErrorMsg } from 'shared/ui'
 
@@ -33,7 +33,7 @@ export const OperationPage = (props: OperationPageProps) => {
           throw Error('Неизвестная операция')
       }
       toastSuccess('Запрос на операцию принят')
-      navigate(getAccountHistoryLink(id))
+      navigate(AppRoutes.MAIN)
     } catch {
       toastError('Произошла ошибка')
     }

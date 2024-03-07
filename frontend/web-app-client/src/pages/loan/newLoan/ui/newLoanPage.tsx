@@ -8,7 +8,6 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
 import { toastError, toastSuccess } from 'shared/toast'
-import { CurrencyType } from 'shared/entities'
 import { PageLoader } from 'widgets'
 
 export const NewLoanPage = () => {
@@ -32,7 +31,7 @@ export const NewLoanPage = () => {
     return (
       <ErrorMsg
         link={AppRoutes.LOANS}
-        linkText='Вернуться в меню кредитов'
+        linkText='Перейти в меню кредитов'
         text='Произошла ошибка при загрузке данных'
       />
     )
@@ -47,16 +46,8 @@ export const NewLoanPage = () => {
       <PageHeader text='Новый кредит' />
       <NewLoanForm
         onFinish={onFinish}
-        accounts={[{ amount: 32, id: '1', currencyType: CurrencyType.Eur, user: '1' }]}
-        tariffs={[
-          {
-            currencyTypes: [CurrencyType.Eur],
-            id: '11',
-            interestRate: 11.5,
-            name: 'тест',
-            periodInDays: 180,
-          },
-        ]}
+        accounts={accounts.data!}
+        tariffs={tariffs.data!}
       />
     </Center>
   )

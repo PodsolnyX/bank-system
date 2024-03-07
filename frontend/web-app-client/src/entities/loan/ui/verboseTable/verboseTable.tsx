@@ -17,7 +17,7 @@ export const VerboseLoanTable = (props: VerboseLoanTableProps) => {
       className='w-full md:w-2/3 border-[1px] border-slate-300 border-solid rounded-lg text-sm'
       columns={verboseLoanTableColumns}
       dataSource={operations}
-      pagination={{ pageSize: 7 }}
+      pagination={{ pageSize: 7, showSizeChanger: false }}
       locale={{
         emptyText: isLoading ? <Skeleton active={true} /> : <Empty />,
       }}
