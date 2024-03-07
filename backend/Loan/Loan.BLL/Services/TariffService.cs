@@ -50,7 +50,7 @@ public class TariffService {
     public async Task<List<TariffDto>> GetTariffs(SearchTariffDto dto) {
         var tariffs = await _dbContext.Tariffs
             .Where(t => !t.DeletedAt.HasValue
-                        && dto.TariffIds.Contains(t.Id)
+                        &&  (dto.TariffIds.Count == 0 || dto.TariffIds.Contains(t.Id))
                         && (string.IsNullOrEmpty(dto.Name) || t.Name.Contains(dto.Name))
                         && ((dto.PeriodInDays == null || dto.PeriodInDays == 0) || t.PeriodInDays == dto.PeriodInDays)
                         && ((dto.InterestRate == null || dto.InterestRate == 0)
@@ -74,7 +74,7 @@ public class TariffService {
     public async Task<List<TariffDto>> GetTariffsUser(SearchTariffDto dto) {
         var tariffs = await _dbContext.Tariffs
             .Where(t => !t.DeletedAt.HasValue
-                        && dto.TariffIds.Contains(t.Id)
+                        &&  (dto.TariffIds.Count == 0 || dto.TariffIds.Contains(t.Id))
                         && (string.IsNullOrEmpty(dto.Name) || t.Name.Contains(dto.Name))
                         && ((dto.PeriodInDays == null || dto.PeriodInDays == 0) || t.PeriodInDays == dto.PeriodInDays)
                         && ((dto.InterestRate == null || dto.InterestRate == 0)
