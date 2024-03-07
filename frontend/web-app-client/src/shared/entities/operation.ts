@@ -8,9 +8,9 @@ export enum OperationType {
 }
 
 export enum OperationStatus {
-  SUCCESS,
-  FAILURE,
-  PROCESSING,
+  SUCCESS = "Success",
+  FAILURE = "Failure",
+  PROCESSING = "Processing",
 }
 
 export type Operation = {

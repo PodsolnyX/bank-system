@@ -84,7 +84,7 @@ export const AccountPage = () => {
           <Property
             name='Статус счета'
             value={
-              accQuery.data!.closedAt ? `Закрыт ${accQuery.data!.closedAt}` : 'Открыт'
+              accQuery.data!.closedAt ? `Закрыт ${new Date(accQuery.data!.closedAt).toLocaleString()}` : 'Открыт'
             }
           />
         </>

@@ -3,9 +3,9 @@ import { TagProps } from 'antd/es/tag'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
-import { getOperationName } from '../../lib'
+import { getOperationName, getOperationStatusName } from '../../lib'
 import { getAccountHistoryLink, getLoanLink } from 'shared/const'
-import { Operation, OperationType } from 'shared/entities'
+import { Operation, OperationStatus, OperationType } from 'shared/entities'
 
 export const historyColumns: ColumnsType<Operation> = [
   {
@@ -13,6 +13,29 @@ export const historyColumns: ColumnsType<Operation> = [
     dataIndex: 'id',
     key: 'id',
     responsive: ['md'],
+  },
+  {
+    title: 'Статус',
+    dataIndex: 'status',
+    key: 'status',
+    render: (_rec, { status }) => getOperationStatusName(status),  
+    responsive: ['md'],
+    align: 'center',
+    filters: [
+      {
+        text: getOperationStatusName(OperationStatus.SUCCESS),
+        value: OperationStatus.SUCCESS,
+      },
+      {
+        text: getOperationStatusName(OperationStatus.PROCESSING),
+        value: OperationStatus.PROCESSING,
+      },
+      {
+        text: getOperationStatusName(OperationStatus.FAILURE),
+        value: OperationStatus.FAILURE,
+      },
+    ],
+    onFilter: (value, op) => op.status === value,
   },
   {
     title: 'Дата',

@@ -1,4 +1,4 @@
-import { OperationType } from 'shared/entities'
+import { OperationStatus, OperationType } from 'shared/entities'
 
 export function getOperationName(type: OperationType) {
   switch (type) {
@@ -12,5 +12,18 @@ export function getOperationName(type: OperationType) {
       return 'Кредит'
     default:
       return 'Неизвестная операция'
+  }
+}
+
+export function getOperationStatusName(type: OperationStatus) {
+  switch (type) {
+    case OperationStatus.SUCCESS:
+      return 'Успех'
+    case OperationStatus.FAILURE:
+      return 'Ошибка'
+    case OperationStatus.PROCESSING:
+      return 'В процессе'
+    default:
+      return 'Неизв.'
   }
 }
