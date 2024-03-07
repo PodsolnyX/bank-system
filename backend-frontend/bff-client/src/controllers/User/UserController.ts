@@ -33,7 +33,7 @@ class UserController {
 
   async Register(req: RegisterReq, res: Response) {
     const id = await this._UserService.Register(Extractor.ExtractBody(req))
-    res.cookie(CookieName, req.query.mail, {
+    res.cookie(CookieName, req.body.mail, {
       maxAge: this._CookieAuthTime,
     })
     res.status(200).send({ id })
