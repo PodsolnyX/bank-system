@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { PageHeader, Center } from 'shared/ui'
-import { MenuCard } from 'pages/main/ui/menuCard'
-import { MainMenuItems } from 'pages/main/config'
+import { MenuCard } from './menuCard'
+import { MainMenuItems } from '../config'
 
 export const MainPage = () => {
   return (

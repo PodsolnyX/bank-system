@@ -3,7 +3,7 @@ import { TagProps } from 'antd/es/tag'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
-import { getOperationName } from 'entities/operation/lib'
+import { getOperationName } from '../../lib'
 import { getAccountHistoryLink, getLoanLink } from 'shared/const'
 import { Operation, OperationType } from 'shared/entities'
 

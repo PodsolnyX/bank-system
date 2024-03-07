@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { VerboseLoanTable } from 'entities'
 import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 import { AppRoutes, getLoanRepayLink } from 'shared/const'
-import { needToPay } from 'entities/loan/lib'
+import { needToPay } from 'entities/loan'
 import { useGetHistoryQuery, useGetLoanQuery } from 'shared/api'
 import { OperationStatus } from 'shared/entities'
 

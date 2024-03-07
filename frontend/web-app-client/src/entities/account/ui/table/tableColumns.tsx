@@ -1,7 +1,7 @@
 import { Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { ColumnsType } from 'antd/lib/table'
-import { getAccountActions } from 'entities/account/config'
+import { getAccountActions } from '../../config'
 import { Account, CurrencyType } from 'shared/entities'
 import { Dropdown } from 'shared/ui'
 import { getAccountHistoryLink } from 'shared/const'

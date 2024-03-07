@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Image, Container } from 'shared/ui'
 import { OperationType } from 'shared/entities'
-import { getTransferAssets } from 'features/transfer/lib'
+import { getTransferAssets } from '../../lib'
 
 import cash from 'assets/cash.svg'
 

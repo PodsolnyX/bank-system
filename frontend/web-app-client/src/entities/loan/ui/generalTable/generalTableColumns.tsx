@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom'
 import { Dropdown } from 'shared/ui'
 import { CurrencyType, Loan } from 'shared/entities'
 import { getAccountHistoryLink, getLoanLink } from 'shared/const'
-import { getLoanActions } from 'entities/loan'
-import { needToPay } from 'entities/loan/lib'
+import { getLoanActions, needToPay } from 'entities/loan'
 
 export const generalLoanTableColumns: ColumnsType<Loan> = [
   {
