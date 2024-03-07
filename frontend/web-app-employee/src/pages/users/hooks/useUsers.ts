@@ -4,6 +4,7 @@ import {authQueryKeys} from "../../../services/auth/authQueryKeys.ts";
 import {useState} from "react";
 import {SearchUsersDto} from "../../../services/auth/models/SearchUsersDto.ts";
 import {Pagination} from "../../../services/common/Pagination.ts";
+import {UserCreateDto} from "../../../services/auth/models/UserCreateDto.ts";
 
 export function useUsers() {
 
@@ -21,6 +22,13 @@ export function useUsers() {
         select: ({data}) => data
     })
 
+    const createUser = useMutation({
+        mutationFn: (data: UserCreateDto) => authService.createUser(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: authQueryKeys.users({}) } )
+        }
+    })
+
     const banUser = useMutation({
         mutationFn: (id: string) => authService.banUser(id),
         onSuccess: () => {
@@ -31,6 +39,7 @@ export function useUsers() {
     return {
         getUsers,
         banUser,
+        createUser,
         params,
         setParams
     }

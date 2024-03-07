@@ -1,8 +1,9 @@
 import {Button, Input, Popconfirm, Segmented, Spin, Table, TableColumnsType, TableProps, Typography} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
-import React from "react";
+import React, {useState} from "react";
 import {useUsers} from "../hooks/useUsers.ts";
 import {UserDto} from "../../../services/auth/models/UserDto.ts";
+import AddUserModal from "./AddUserModal.tsx";
 
 const UsersPage = () => {
 
@@ -14,6 +15,8 @@ const UsersPage = () => {
     } = useUsers();
 
     const { data } = getUsers;
+
+    const [isOpen, setIsOpen] = useState(false);
     const onChange: TableProps<UserData>['onChange'] = (pagination, filters, sorter, extra) => {
         // console.log(pagination, filters, sorter, extra)
     };
@@ -60,7 +63,7 @@ const UsersPage = () => {
             <div className={"flex flex-col gap-3"}>
                 <div className={"flex justify-between"}>
                     <Typography.Text className={"text-2xl text-lime-500"} strong>Пользователи</Typography.Text>
-                    <Button icon={<PlusOutlined/>}>Добавить</Button>
+                    <Button icon={<PlusOutlined/>} onClick={() => setIsOpen(true)}>Добавить</Button>
                 </div>
                 <div className={"flex gap-2"}>
                     <Input.Search
@@ -97,6 +100,10 @@ const UsersPage = () => {
                         />
                 }
             </div>
+            <AddUserModal
+                open={isOpen}
+                onCancel={() => setIsOpen(false)}
+            />
         </div>
     )
 }

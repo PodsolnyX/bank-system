@@ -1,4 +1,4 @@
-import {Table, TableProps, Typography} from "antd";
+import {Table, TableProps, Tag, Typography} from "antd";
 import {convertNumberPriceToNormalString} from "../../../shared/helpers/stringHelpers.ts";
 import {ColumnsType} from "antd/es/table";
 import {generatePath, Link} from "react-router-dom";
@@ -45,7 +45,8 @@ const getData = (data?: AccountDto[]) => {
             userName: it.userName || "",
             id: it.id,
             amount: it.amount,
-            currencyType: it.currencyType
+            currencyType: it.currencyType,
+            isClosed: !!it.closedAt
         }
     })
 }
@@ -55,7 +56,8 @@ interface AccountData {
     userName: string;
     id: string;
     amount: number;
-    currencyType: string
+    currencyType: string,
+    isClosed: boolean
 }
 
 const columns: ColumnsType<AccountData> = [
@@ -71,6 +73,13 @@ const columns: ColumnsType<AccountData> = [
         key: 'id',
         sorter: (a, b) => a.id.localeCompare(b.id),
         render: (text: string) => <Link to={generatePath(Links.Account, {id:text})}>{text}</Link>
+    },
+    {
+        title: 'Статус',
+        dataIndex: 'isClosed',
+        key: 'isClosed',
+        width: "0px",
+        render: (text: boolean) => <Tag color={text ? "red" : "green"}>{text ? "Закрыт" : "Открыт"}</Tag>
     },
     {
         title: 'Баланс',
