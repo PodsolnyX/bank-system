@@ -1,4 +1,4 @@
-import {Spin, Table, Typography} from "antd";
+import {Table, TableProps, Typography} from "antd";
 import {convertNumberPriceToNormalString} from "../../../shared/helpers/stringHelpers.ts";
 import {ColumnsType} from "antd/es/table";
 import {generatePath, Link} from "react-router-dom";
@@ -9,6 +9,10 @@ import {AccountDto} from "../../../services/account/models/AccountDto.ts";
 const AccountsPage = () => {
 
     const {data, isLoading} = useAccounts();
+
+    const onChange: TableProps<AccountData>['onChange'] = (pagination, filters, sorter, extra) => {
+        // console.log(pagination, filters, sorter, extra)
+    };
 
     return (
         <div className={"w-full flex flex-col gap-5"}>
@@ -21,8 +25,12 @@ const AccountsPage = () => {
                     dataSource={getData(data)}
                     columns={columns}
                     bordered
+                    onChange={onChange}
                     size={"small"}
                     className={"w-full"}
+                    pagination={{
+                        pageSize: 20
+                    }}
                 />
             </div>
         </div>

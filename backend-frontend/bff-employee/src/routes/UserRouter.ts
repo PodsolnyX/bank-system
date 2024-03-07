@@ -31,6 +31,11 @@ RouterHelper.use(UserRouter, UserControllerInst, [
     path: '/create',
     handlers: [UserControllerInst.CreateUser],
   },
+  {
+    method: 'post',
+    path: '/:UserId/ban',
+    handlers: [UserControllerInst.BanUser],
+  },
 ])
 
 export default UserRouter

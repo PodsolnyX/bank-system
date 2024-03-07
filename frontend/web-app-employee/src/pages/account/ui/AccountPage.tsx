@@ -1,22 +1,18 @@
-import {Spin, Table, TableProps, Tag, Typography} from "antd";
+import {Spin, TableProps, Tag, Typography} from "antd";
 import {ColumnsType} from "antd/es/table";
-import {dataAccount} from "../mocks/dataAccount.ts";
 import {
     convertDateTimmeStringToNormalString,
     convertNumberPriceToNormalString
 } from "../../../shared/helpers/stringHelpers.ts";
 import {useAccount} from "../hooks/useAccount.ts";
+import {useHistory} from "../hooks/useHistory.ts";
 
 const AccountPage = () => {
 
-    const {
-        history,
-        id,
-        userName,
-        money
-    } = dataAccount;
+    const {data, isLoading} = useAccount();
+    const {data: history} = useHistory();
 
-    const {data} = useAccount();
+    console.log(history)
 
     const onChange: TableProps<AccountHistoryData>['onChange'] = (pagination, filters, sorter, extra) => {
         console.log(filters)
@@ -26,7 +22,7 @@ const AccountPage = () => {
         <div className={"w-full flex flex-col gap-5"}>
             <div className={"flex flex-col gap-3"}>
                 {
-                    !data ? <Spin/> :
+                    !data || isLoading ? <Spin/> :
                         <>
                             <Typography.Text className={"text-2xl text-lime-500"} strong>История операций</Typography.Text>
                             <div className={"grid grid-cols-2 gap-2"}>
@@ -49,7 +45,7 @@ const AccountPage = () => {
                             </div>
                         </>
                 }
-                <Table dataSource={history} columns={columns} bordered size={"small"} onChange={onChange}/>
+                {/*<Table dataSource={history} columns={columns} bordered size={"small"} onChange={onChange}/>*/}
             </div>
         </div>
     )
