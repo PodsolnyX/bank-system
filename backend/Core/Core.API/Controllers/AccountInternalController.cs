@@ -1,11 +1,13 @@
 ﻿using Core.BLL.DataTransferObjects;
 using Core.BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.API.Controllers;
 
 /// <inheritdoc/>
 [Controller]
+[AllowAnonymous]
 [Route("account/internal")]
 public class AccountInternalController : ControllerBase
 {

@@ -9,6 +9,7 @@ namespace OperationHistory.API.Controllers;
 /// Operation history controller for user
 /// </summary>
 [Controller]
+[ApiKeyAuthorization]
 [Route("operation-history/user")]
 public class OperationHistoryUserController : ControllerBase
 {

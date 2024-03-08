@@ -10,6 +10,7 @@ namespace Core.API.Controllers;
 /// Account controller for user
 /// </summary>
 [Controller]
+[ApiKeyAuthorization]
 [Route("account/user")]
 public class AccountUserController : ControllerBase
 {

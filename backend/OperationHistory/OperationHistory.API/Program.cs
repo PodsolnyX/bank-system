@@ -59,7 +59,6 @@ app.ConfigureJobs();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.UseApiKeyMiddleware();
 
 app.UseCors();
 
