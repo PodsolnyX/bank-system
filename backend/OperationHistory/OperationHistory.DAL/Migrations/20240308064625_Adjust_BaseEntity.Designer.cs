@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OperationHistory.DAL;
@@ -11,9 +12,11 @@ using OperationHistory.DAL;
 namespace OperationHistory.DAL.Migrations
 {
     [DbContext(typeof(OpHistoryDbContext))]
-    partial class OpHistoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308064625_Adjust_BaseEntity")]
+    partial class Adjust_BaseEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

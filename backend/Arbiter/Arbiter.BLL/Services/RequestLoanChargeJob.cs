@@ -2,12 +2,9 @@
 using Arbiter.BLL.DataTransferObjects;
 using Arbiter.DAL;
 using Arbiter.DAL.Entities;
-using Core.BLL.DataTransferObjects;
-using Loan.BLL.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using LoanChargeDto = Core.BLL.DataTransferObjects.LoanChargeDto;
 
 namespace Arbiter.BLL.Services;
 

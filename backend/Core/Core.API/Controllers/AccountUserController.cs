@@ -1,4 +1,5 @@
 ﻿using Common.Auth.ApiKeyAuthorization;
+using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ public class AccountUserController : ControllerBase
 {
     private readonly AccountExternalService _accountExternalService;
 
+    /// <inheritdoc/>
     public AccountUserController(AccountExternalService accountExternalService)
     {
         _accountExternalService = accountExternalService;
@@ -66,16 +68,32 @@ public class AccountUserController : ControllerBase
     public async Task Deposit(Guid accountId, DepositDto dto)
     {
         var userId = HttpContext.GetUserId();
-        await _accountExternalService.Deposit(userId, accountId, dto);
+
+        var modificationDto = new AccountModificationDto
+        {
+            Type = OperationType.Deposit,
+            Reason = OperationReason.Cash,
+            Amount = dto.Amount,
+            Message = dto.Message
+        };
+        await _accountExternalService.ModifyAccount(userId, accountId, modificationDto);
     }
 
     /// <summary>
     /// Withdraw money from account
     /// </summary>
     [HttpPost("{accountId:guid}/withdraw")]
-    public async Task Withdraw(Guid accountId, DepositDto dto)
+    public async Task Withdraw(Guid accountId, WithdrawDto dto)
     {
         var userId = HttpContext.GetUserId();
-        await _accountExternalService.Withdraw(userId, accountId, dto);
+
+        var modificationDto = new AccountModificationDto
+        {
+            Type = OperationType.Withdraw,
+            Reason = OperationReason.Cash,
+            Amount = dto.Amount,
+            Message = dto.Message
+        };
+        await _accountExternalService.ModifyAccount(userId, accountId, modificationDto);
     }
 }

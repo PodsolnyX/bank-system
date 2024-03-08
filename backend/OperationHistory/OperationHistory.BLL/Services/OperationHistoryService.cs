@@ -1,6 +1,5 @@
 ﻿using Common.DataTransfer;
 using Common.Enum;
-using Core.BLL.DataTransferObjects;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using OperationHistory.DAL;
@@ -27,20 +26,38 @@ public class OperationHistoryService
 
     public async Task AddOperationHistory(OperationHistoryMessage message)
     {
-        var entity = new Operation()
+        var existingOperation = await _dbContext
+            .Operations.OrderByDescending(x => x.CreatedAt)
+            .FirstOrDefaultAsync(x =>
+                x.TransactionId == message.TransactionId && x.Status == OperationStatus.Success
+            );
+
+        if (message.OperationStatus == OperationStatus.Failure && existingOperation != null)
         {
-            Id = message.Id,
-            UserId = message.UserId,
-            AccountId = message.AccountId,
-            LoanId = message.LoanId,
-            CurrencyType = message.CurrencyType,
-            Type = message.OperationType,
-            Status = message.OperationStatus,
-            Amount = message.Amount,
-            Message = message.Message,
-            DateTime = message.DateTime
-        };
-        await _dbContext.Operations.AddAsync(entity);
+            existingOperation.Status = OperationStatus.Failure;
+        }
+        else
+        {
+            var entity = new Operation()
+            {
+                UserId = message.UserId,
+                AccountId = message.AccountId,
+                LoanId = message.LoanId,
+                TransactionId = message.TransactionId,
+
+                Type = message.OperationType,
+                Reason = message.OperationReason,
+                Status = message.OperationStatus,
+
+                CurrencyType = message.CurrencyType,
+                Amount = message.Amount,
+
+                CreatedAt = DateTime.UtcNow,
+                Message = message.Message
+            };
+            _dbContext.Operations.Add(entity);
+        }
+
         await _dbContext.SaveChangesAsync();
     }
 
@@ -56,12 +73,12 @@ public class OperationHistoryService
         );
 
         var operationSum = await _dbContext
-            .Operations.Where(x => x.AccountId == accountId)
+            .Operations.Where(x => x.AccountId == accountId && x.Status == OperationStatus.Success)
             .SumAsync(x => x.Amount * (x.Type == OperationType.Deposit ? 1 : -1));
 
         var balance = operationAggregation?.CalculatedAmount ?? 0 + operationSum;
 
-        await _accountBalanceSender.SendCoreAccountBalanceMessage(
+        _accountBalanceSender.SendCoreAccountBalanceMessage(
             new UpdateAccountBalanceMessage
             {
                 AccountId = accountId,

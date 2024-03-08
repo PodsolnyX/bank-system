@@ -13,6 +13,7 @@ public class AccountEmployeeController : ControllerBase
 {
     private readonly AccountExternalService _accountExternalService;
 
+    /// <inheritdoc/>
     public AccountEmployeeController(AccountExternalService accountExternalService)
     {
         _accountExternalService = accountExternalService;

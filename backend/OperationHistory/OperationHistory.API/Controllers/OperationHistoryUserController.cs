@@ -5,12 +5,16 @@ using OperationHistory.BLL.Services;
 
 namespace OperationHistory.API.Controllers;
 
+/// <summary>
+/// Operation history controller for user
+/// </summary>
 [Controller]
 [Route("operation-history/user")]
 public class OperationHistoryUserController : ControllerBase
 {
     private readonly OperationHistoryReaderService _operationHistoryReaderService;
 
+    /// <inheritdoc/>
     public OperationHistoryUserController(OperationHistoryReaderService operationHistoryReaderService)
     {
         _operationHistoryReaderService = operationHistoryReaderService;

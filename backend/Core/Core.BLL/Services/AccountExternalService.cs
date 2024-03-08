@@ -89,49 +89,33 @@ public class AccountExternalService
         return accounts.Select(account => account.ToDto()).ToList();
     }
 
-    public async Task Deposit(Guid userId, Guid accountId, DepositDto dto)
+    public async Task ModifyAccount(Guid userId, Guid accountId, AccountModificationDto dto)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
         CheckAccount(account, userId);
 
-        await _accountBalanceService.LockAccount(accountId);
-
-        await _operationHistorySender.SendOperationHistoryMessage(
-            new OperationHistoryMessage
-            {
-                UserId = userId,
-                AccountId = accountId,
-                Amount = dto.Amount,
-                OperationType = OperationType.Deposit,
-                CurrencyType = account!.CurrencyType,
-                OperationStatus = OperationStatus.Success,
-                DateTime = DateTime.UtcNow,
-                Message = dto.Message
-            }
-        );
-    }
-
-    public async Task Withdraw(Guid userId, Guid accountId, DepositDto dto)
-    {
-        var account = await _dbContext.Accounts.FindAsync(accountId);
-        CheckAccount(account, userId);
-
-        if (account!.Amount - dto.Amount < 0)
+        if (dto.Type == OperationType.Withdraw && account!.Amount - dto.Amount < 0)
         {
             throw new InvalidOperationException("Not enough money on the account");
         }
 
         await _accountBalanceService.LockAccount(accountId);
 
-        await _operationHistorySender.SendOperationHistoryMessage(
+        _operationHistorySender.SendOperationHistoryMessage(
             new OperationHistoryMessage
             {
-                UserId = userId,
+                UserId = account!.UserId,
                 AccountId = accountId,
-                Amount = dto.Amount,
-                OperationType = OperationType.Withdraw,
-                CurrencyType = account.CurrencyType,
+                LoanId = dto.LoanId,
+                TransactionId = dto.TransactionId ?? Guid.NewGuid(),
+
+                OperationType = dto.Type,
+                OperationReason = dto.Reason,
                 OperationStatus = OperationStatus.Success,
+
+                Amount = dto.Amount,
+                CurrencyType = account.CurrencyType,
+
                 DateTime = DateTime.UtcNow,
                 Message = dto.Message
             }

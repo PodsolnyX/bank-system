@@ -3,6 +3,4 @@
 public enum OperationType {
     Deposit,
     Withdraw,
-    LoanCharge,
-    LoanIncome
 }

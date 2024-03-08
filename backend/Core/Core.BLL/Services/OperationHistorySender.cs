@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Common.Configuration;
 using Common.DataTransfer;
-using Core.BLL.DataTransferObjects;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
@@ -11,13 +11,18 @@ namespace Core.BLL.Services;
 public class OperationHistorySender
 {
     private readonly IOptions<RabbitMqConfiguration> _configuration;
+    private readonly ILogger<OperationHistorySender> _logger;
 
-    public OperationHistorySender(IOptions<RabbitMqConfiguration> configuration)
+    public OperationHistorySender(
+        IOptions<RabbitMqConfiguration> configuration,
+        ILogger<OperationHistorySender> logger
+    )
     {
         _configuration = configuration;
+        _logger = logger;
     }
 
-    public Task SendOperationHistoryMessage(OperationHistoryMessage messageDto)
+    public void SendOperationHistoryMessage(OperationHistoryMessage messageDto)
     {
         var factory = new ConnectionFactory() { HostName = _configuration.Value.HostName };
         try
@@ -41,8 +46,7 @@ public class OperationHistorySender
         }
         catch (Exception e)
         {
-            // TODO: log error
+            _logger.LogError(e, "Error while sending operation history message");
         }
-        return Task.CompletedTask;
     }
 }
