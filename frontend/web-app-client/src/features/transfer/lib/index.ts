@@ -18,16 +18,6 @@ export function getTransferAssets(type: OperationType) {
         title: 'Cнять деньги',
         route: getAccountWithdrawLink(),
       }
-    case OperationType.LOAN_CHARGE:
-      return {
-        title: 'Погашение кредита',
-        route: AppRoutes.LOANS,
-      }
-    case OperationType.LOAN_INCOME:
-      return {
-        title: 'Взятие кредита',
-        route: AppRoutes.LOAN_NEW,
-      }
     default:
       return {
         title: 'Неизвестная операция',

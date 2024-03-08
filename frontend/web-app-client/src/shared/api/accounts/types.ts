@@ -12,21 +12,21 @@ export type NewAccountReq = Pick<Account, 'currencyType'>
 export type NewAccountResp = Account
 
 export type CloseAccountReq = {
-  AccountId: string
+  accountId: string
 }
 
 export type CloseAccountResp = void
 
 export type DepositReq = {
-  AccountId: string
-  Amount: number
-  Message?: string
+  accountId: string
+  amount: number
+  message?: string
 }
 export type DepositResp = void
 
 export type WithdrawReq = {
-  AccountId: string
-  Amount: number
-  Message?: string
+  accountId: string
+  amount: number
+  message?: string
 }
 export type WithdrawResp = void

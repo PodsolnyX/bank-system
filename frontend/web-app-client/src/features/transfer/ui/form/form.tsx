@@ -18,11 +18,11 @@ export const TransferForm = (props: TransferFormProps) => {
         className='w-full md:w-1/3'
         onFinish={onFinish}
         initialValues={{
-          AccountId: account.id,
+          accountId: account.id,
         }}
         isLoading={isLoading}
       >
-        <Form.Item label='Счет' name='AccountId'>
+        <Form.Item label='Счет' name='accountId'>
           <Input
             className='text-black'
             suffix={<CreditCardOutlined />}
@@ -33,11 +33,11 @@ export const TransferForm = (props: TransferFormProps) => {
 
         <Form.Item
           label='Сумма'
-          name='Amount'
+          name='amount'
           rules={moneyRules.concat([
             {
               validator: (_rule, v) =>
-                account.amount >= v || type === OperationType.DEPOSIT
+                account.amount >= v * 100 || type === OperationType.DEPOSIT
                   ? Promise.resolve()
                   : Promise.reject('Недостаточно денег'),
             },
@@ -50,7 +50,7 @@ export const TransferForm = (props: TransferFormProps) => {
           />
         </Form.Item>
 
-        <Form.Item label='Сообщение' name='Message'>
+        <Form.Item label='Сообщение' name='message'>
           <Input.TextArea
             showCount
             maxLength={255}

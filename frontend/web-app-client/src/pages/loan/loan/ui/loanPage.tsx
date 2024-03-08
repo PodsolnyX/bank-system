@@ -4,30 +4,33 @@ import { VerboseLoanTable } from 'entities'
 import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 import { AppRoutes, getLoanRepayLink } from 'shared/const'
 import { needToPay } from 'entities/loan'
-import { useGetHistoryQuery, useGetLoanQuery } from 'shared/api'
-import { OperationStatus } from 'shared/entities'
+import { useGetHistoryQuery, useGetLoansQuery } from 'shared/api'
+import { OperationStatus, SortOrder } from 'shared/entities'
+import { format } from 'shared/utils/format'
 
 export const LoanPage = () => {
   const { id } = useParams()
   const {
-    data: loan,
+    data: loans,
     isFetching: loanIsFetching,
     isError: loanIsError,
-  } = useGetLoanQuery({ id: id! })
+  } = useGetLoansQuery({ accountIds: [id!] })
   const {
     data: history,
     isFetching: historyIsFetching,
     isError: historyIsError,
   } = useGetHistoryQuery({
-    LoanIds: [id!],
+    loanIds: [id!],
     limit: 100000,
     OperationStatuses: [OperationStatus.SUCCESS],
+    orderBy: 'createdAt',
+    sortOrder: SortOrder.DESC,
   })
 
-  const isLoading = loanIsFetching || historyIsFetching || !history || !loan
+  const isLoading = loanIsFetching || historyIsFetching || !history || !loans
   const isError = loanIsError || historyIsError
 
-  if (isError) {
+  if (isError || (!isLoading && loans.length === 0)) {
     return (
       <ErrorMsg
         link={AppRoutes.LOANS}
@@ -45,17 +48,17 @@ export const LoanPage = () => {
         <>
           <Property
             name='Кредит'
-            value={`${loan.id}, тариф ${loan.tariff.name}, ${loan.tariff.interestRate}%`}
+            value={`${loans[0].id}, тариф ${loans[0].tariff.name}, ${loans[0].tariff.interestRate}%`}
           />
           <Property
-            name='Долг / сумма'
-            value={`${loan.debt} / ${loan.sum} ${loan.currencyType}`}
+            name='Долг'
+            value={`${format(loans[0].debt)} ${loans[0].currencyType}`}
           />
           <Property
             name='Статус'
             value={
-              needToPay(loan.lastChargeDate) ? (
-                <Link to={getLoanRepayLink(loan.id)} className='text-red-500'>
+              needToPay(loans[0].lastChargeDate) ? (
+                <Link to={getLoanRepayLink(loans[0].id)} className='text-red-500'>
                   Нужна оплата
                 </Link>
               ) : (
@@ -63,7 +66,7 @@ export const LoanPage = () => {
               )
             }
           />
-          <Property name='Последняя оплата' value={loan.lastChargeDate || '—'} />
+          <Property name='Последняя оплата' value={loans[0].lastChargeDate || '—'} />
         </>
       )}
 

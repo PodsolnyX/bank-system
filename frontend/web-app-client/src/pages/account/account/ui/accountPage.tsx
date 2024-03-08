@@ -15,10 +15,16 @@ import {
   getAccountDepositLink,
   getAccountWithdrawLink,
 } from 'shared/const'
+import { SortOrder } from 'shared/entities'
+import { format } from 'shared/utils/format'
 
 export const AccountPage = () => {
   const id = useParams()['id']!
-  const histQuery = useGetHistoryQuery({ AccountIds: [id] })
+  const histQuery = useGetHistoryQuery({
+    accountIds: [id],
+    orderBy: 'createdAt',
+    sortOrder: SortOrder.DESC,
+  })
   const accQuery = useGetAccountQuery({ id })
 
   const isLoading = !accQuery.isSuccess || !histQuery.isSuccess
@@ -79,12 +85,14 @@ export const AccountPage = () => {
           <Property name='Номер счета' value={accQuery.data!.id} />
           <Property
             name='Текущая сумма'
-            value={`${accQuery.data!.amount} ${accQuery.data!.currencyType}`}
+            value={`${format(accQuery.data!.amount)} ${accQuery.data!.currencyType}`}
           />
           <Property
             name='Статус счета'
             value={
-              accQuery.data!.closedAt ? `Закрыт ${new Date(accQuery.data!.closedAt).toLocaleString()}` : 'Открыт'
+              accQuery.data!.closedAt
+                ? `Закрыт ${new Date(accQuery.data!.closedAt).toLocaleString()}`
+                : 'Открыт'
             }
           />
         </>

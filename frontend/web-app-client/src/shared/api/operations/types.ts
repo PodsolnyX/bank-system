@@ -7,8 +7,8 @@ import {
 } from 'shared/entities'
 
 export type GetHistoryReq = PaginationReq & {
-  AccountIds?: string[]
-  LoanIds?: string[]
+  accountIds?: string[]
+  loanIds?: string[]
   CurrencyTypes?: CurrencyType[]
   OperationTypes?: OperationType[]
   OperationStatuses?: OperationStatus[]

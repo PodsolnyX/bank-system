@@ -29,10 +29,6 @@ const _privateRoutes: RouteObject[] = [
     path: AppRoutes.ACCOUNTS,
     element: <AccountsPage />,
   },
-  /*  {
-    path: AppRoutes.OPERATIONS_MENU,
-    element: <AccountOperationPage />,
-  }, */
   {
     path: AppRoutes.WITHDRAW,
     element: <OperationPage type={OperationType.WITHDRAW} />,

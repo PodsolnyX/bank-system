@@ -25,10 +25,10 @@ export const loansApi = createApi({
       }),
     }),
     chargeLoan: builder.mutation<ChargeLoanResp, ChargeLoanReq>({
-      query: (data) => ({
+      query: (params) => ({
         url: '/charge',
         method: 'POST',
-        data,
+        params,
       }),
     }),
     getLoans: builder.query<GetLoansResp, GetLoansReq>({

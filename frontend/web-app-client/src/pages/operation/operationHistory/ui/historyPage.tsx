@@ -1,10 +1,14 @@
 import { HistoryTable } from 'entities'
 import { useGetHistoryQuery } from 'shared/api'
 import { AppRoutes } from 'shared/const'
+import { SortOrder } from 'shared/entities'
 import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 
 export const HistoryPage = () => {
-  const histQuery = useGetHistoryQuery({})
+  const histQuery = useGetHistoryQuery({
+    orderBy: 'createdAt',
+    sortOrder: SortOrder.DESC,
+  })
 
   if (histQuery.isError) {
     return (

@@ -1,18 +1,31 @@
-import { OperationStatus, OperationType } from 'shared/entities'
+import { OperationReason, OperationStatus, OperationType } from 'shared/entities'
 
-export function getOperationName(type: OperationType) {
-  switch (type) {
-    case OperationType.DEPOSIT:
-      return 'Перевод'
-    case OperationType.WITHDRAW:
-      return 'Снятие'
-    case OperationType.LOAN_CHARGE:
-      return 'Погашение'
-    case OperationType.LOAN_INCOME:
-      return 'Кредит'
-    default:
-      return 'Неизвестная операция'
+export function getOperationName(type: OperationType, reason: OperationReason) {
+  const names = {
+    [OperationType.DEPOSIT]: {
+      [OperationReason.CASH]: 'Пополнение',
+      [OperationReason.LOAN]: 'Займ',
+    },
+    [OperationType.WITHDRAW]: {
+      [OperationReason.CASH]: 'Снятие',
+      [OperationReason.LOAN]: 'Погашение',
+    },
   }
+  return names[type][reason] || 'Неизвестная операция'
+}
+
+export function getOperationCode(type: OperationType, reason: OperationReason) {
+  const names = {
+    [OperationType.DEPOSIT]: {
+      [OperationReason.CASH]: 0,
+      [OperationReason.LOAN]: 1,
+    },
+    [OperationType.WITHDRAW]: {
+      [OperationReason.CASH]: 2,
+      [OperationReason.LOAN]: 3,
+    },
+  }
+  return names[type][reason] || -1
 }
 
 export function getOperationStatusName(type: OperationStatus) {

@@ -3,9 +3,16 @@ import { TagProps } from 'antd/es/tag'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
-import { getOperationName, getOperationStatusName } from '../../lib'
+import { getOperationCode, getOperationName, getOperationStatusName } from '../../lib'
 import { getAccountHistoryLink, getLoanLink } from 'shared/const'
-import { Operation, OperationStatus, OperationType } from 'shared/entities'
+import {
+  CurrencyType,
+  Operation,
+  OperationReason,
+  OperationStatus,
+  OperationType,
+} from 'shared/entities'
+import { format } from 'shared/utils/format'
 
 export const historyColumns: ColumnsType<Operation> = [
   {
@@ -18,7 +25,7 @@ export const historyColumns: ColumnsType<Operation> = [
     title: 'Статус',
     dataIndex: 'status',
     key: 'status',
-    render: (_rec, { status }) => getOperationStatusName(status),  
+    render: (_rec, { status }) => getOperationStatusName(status),
     responsive: ['md'],
     align: 'center',
     filters: [
@@ -39,9 +46,15 @@ export const historyColumns: ColumnsType<Operation> = [
   },
   {
     title: 'Дата',
-    dataIndex: 'date',
-    key: 'number',
-    sorter: (a, b) => a.date.localeCompare(b.date),
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    sorter: (a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return a.createdAt.localeCompare(b.createdAt)
+      }
+      return 0
+    },
+    render: (_, rec) => (rec.createdAt ? new Date(rec.createdAt).toLocaleString() : '-'),
   },
   {
     title: 'Тип',
@@ -49,31 +62,31 @@ export const historyColumns: ColumnsType<Operation> = [
     key: 'type',
     filters: [
       {
-        text: getOperationName(OperationType.DEPOSIT),
-        value: OperationType.DEPOSIT,
+        text: getOperationName(OperationType.DEPOSIT, OperationReason.CASH),
+        value: getOperationCode(OperationType.DEPOSIT, OperationReason.CASH),
       },
       {
-        text: getOperationName(OperationType.WITHDRAW),
-        value: OperationType.WITHDRAW,
+        text: getOperationName(OperationType.DEPOSIT, OperationReason.LOAN),
+        value: getOperationCode(OperationType.DEPOSIT, OperationReason.LOAN),
       },
       {
-        text: getOperationName(OperationType.LOAN_CHARGE),
-        value: OperationType.LOAN_CHARGE,
+        text: getOperationName(OperationType.WITHDRAW, OperationReason.CASH),
+        value: getOperationCode(OperationType.WITHDRAW, OperationReason.CASH),
       },
       {
-        text: getOperationName(OperationType.LOAN_INCOME),
-        value: OperationType.LOAN_INCOME,
+        text: getOperationName(OperationType.WITHDRAW, OperationReason.LOAN),
+        value: getOperationCode(OperationType.WITHDRAW, OperationReason.LOAN),
       },
     ],
     render: (_, op) => (
       <>
-        <Tag color={getTagColor(op.type)}>{getOperationName(op.type)}</Tag>
-        {op.type === OperationType.LOAN_CHARGE && (
-          <Link to={getLoanLink('2')}>{`Кредит #${'2'}`}</Link>
-        )}
+        <Tag color={getTagColor(op.type, op.reason)}>
+          {getOperationName(op.type, op.reason)}
+        </Tag>
+        {op.loanId && <Link to={getLoanLink(op.loanId)}>{`Кредит ${op.loanId}`}</Link>}
       </>
     ),
-    onFilter: (value, acc) => acc.type === value,
+    onFilter: (value, acc) => getOperationCode(acc.type, acc.reason) === value,
     align: 'center',
   },
   {
@@ -83,10 +96,15 @@ export const historyColumns: ColumnsType<Operation> = [
     width: '10%',
     align: 'center',
     sorter: (a, b) => a.amount - b.amount,
-    render: (_, rec) => `${rec.amount} ${rec.currencyType}`,
+    render: (_, rec) => `${format(rec.amount)} ${rec.currencyType}`,
+    filters: Object.keys(CurrencyType).map((cur) => ({
+      text: cur,
+      value: cur,
+    })),
+    onFilter: (value, record) => record.currencyType === value,
   },
   {
-    title: `Сообщ.`,
+    title: `Примечание`,
     dataIndex: 'message',
     key: 'message',
     render: (msg) => msg || '-',
@@ -108,15 +126,19 @@ export const fullHistoryColumns: ColumnsType<Operation> = [
   ...historyColumns,
 ]
 
-const getTagColor = (type: OperationType): NonNullable<TagProps['color']> => {
-  switch (type) {
-    case OperationType.DEPOSIT:
-      return 'green'
-    case OperationType.WITHDRAW:
-      return 'blue'
-    case OperationType.LOAN_CHARGE:
-      return 'orange'
-    default:
-      return 'default'
+const getTagColor = (
+  type: OperationType,
+  reason: OperationReason
+): NonNullable<TagProps['color']> => {
+  const names = {
+    [OperationType.DEPOSIT]: {
+      [OperationReason.CASH]: 'green',
+      [OperationReason.LOAN]: 'blue',
+    },
+    [OperationType.WITHDRAW]: {
+      [OperationReason.CASH]: 'red',
+      [OperationReason.LOAN]: 'orange',
+    },
   }
+  return names[type][reason]
 }

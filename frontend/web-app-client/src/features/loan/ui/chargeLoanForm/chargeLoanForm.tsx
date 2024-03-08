@@ -6,15 +6,18 @@ import { ChargeLoanFormProps } from './types'
 import { useMemo } from 'react'
 import { AppRoutes } from 'shared/const'
 import { Link } from 'react-router-dom'
+import { format } from 'shared/utils/format'
 
 export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
-  const { loan, accounts, ...rest } = props
+  const { loan, accounts, isLoading, ...rest } = props
   const validAccounts = useMemo(() => {
     return accounts.filter(
       (acc) => !acc.closedAt && acc.currencyType === loan.currencyType
     )
   }, [accounts, loan.currencyType])
-
+  if (isLoading) {
+    return <h1>загр</h1>
+  }
   if (!validAccounts.length) {
     return (
       <Center>
@@ -26,8 +29,8 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   return (
     <Center>
       <h1>Погасить кредит</h1>
-      <Form className='w-full md:w-1/3' {...rest} initialValues={{ loan: loan.id }}>
-        <Form.Item label='Кредит' name='loan' rules={[{ required: true }]}>
+      <Form className='w-full md:w-1/3' {...rest} initialValues={{ loanId: loan.id }}>
+        <Form.Item label='Кредит' name='loanId' rules={[{ required: true }]}>
           <Input
             className='text-black'
             suffix={<WalletOutlined />}
@@ -37,7 +40,7 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
         </Form.Item>
         <Form.Item
           label='Счет'
-          name='account'
+          name='accountId'
           rules={[{ required: true, message: 'Пожалуйста, укажите счет' }]}
         >
           <Select
@@ -48,7 +51,7 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
             {validAccounts.map((acc) => (
               <Select.Option
                 key={acc.id}
-              >{`${acc.id}: ${acc.amount}${acc.currencyType}`}</Select.Option>
+              >{`${acc.id}: ${format(acc.amount)} ${acc.currencyType}`}</Select.Option>
             ))}
           </Select>
         </Form.Item>

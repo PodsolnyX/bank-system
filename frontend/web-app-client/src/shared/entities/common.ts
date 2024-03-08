@@ -1,8 +1,8 @@
 export type PaginationReq = {
-  offset?: number
-  limit?: number
-  orderBy?: string
-  sortOrder?: SortOrder
+  offset?: number | null
+  limit?: number | null
+  orderBy?: string | null
+  sortOrder?: SortOrder | null
 }
 
 export enum SortOrder {

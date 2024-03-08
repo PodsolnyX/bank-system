@@ -35,28 +35,28 @@ export const accountsApi = createApi({
       }),
     }),
     closeAccount: builder.mutation<CloseAccountResp, CloseAccountReq>({
-      query: ({ AccountId }) => ({
-        url: `/${AccountId}`,
+      query: ({ accountId }) => ({
+        url: `/${accountId}`,
         method: 'DELETE',
       }),
     }),
     deposit: builder.mutation<DepositResp, DepositReq>({
       query: (data) => ({
-        url: `/${data.AccountId}/deposit`,
+        url: `/${data.accountId}/deposit`,
         method: 'POST',
         params: {
-          Amount: data.Amount,
-          Message: data.Message,
+          amount: data.amount,
+          message: data.message,
         },
       }),
     }),
     withdraw: builder.mutation<WithdrawResp, WithdrawReq>({
       query: (data) => ({
-        url: `/${data.AccountId}/withdraw`,
+        url: `/${data.accountId}/withdraw`,
         method: 'POST',
         params: {
-          Amount: data.Amount,
-          Message: data.Message,
+          amount: data.amount,
+          message: data.message,
         },
       }),
     }),

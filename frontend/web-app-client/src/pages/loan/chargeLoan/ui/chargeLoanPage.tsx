@@ -1,17 +1,17 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { ChargeLoanForm, ChargeLoanFormValues } from 'features/loan'
-import { useChargeLoanMutation, useGetAccountsQuery, useGetLoanQuery } from 'shared/api'
+import { useChargeLoanMutation, useGetAccountsQuery, useGetLoansQuery } from 'shared/api'
 import { AppRoutes } from 'shared/const'
-import { CurrencyType } from 'shared/entities'
 import { toastError, toastSuccess } from 'shared/toast'
 import { ErrorMsg } from 'shared/ui'
+import { PageLoader } from 'widgets'
 
 export const ChargeLoanPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
   const [trigger, result] = useChargeLoanMutation()
-  const loan = useGetLoanQuery({ id: id! })
+  const loan = useGetLoansQuery({ accountIds: [id!] })
   const accounts = useGetAccountsQuery({})
 
   const onFinish = async (values: ChargeLoanFormValues) => {
@@ -23,7 +23,9 @@ export const ChargeLoanPage = () => {
       toastError('Произошла ошибка')
     }
   }
-
+  if (loan.isFetching || accounts.isFetching) {
+    return <PageLoader />
+  }
   if (loan.isError || accounts.isError) {
     return (
       <ErrorMsg
@@ -37,16 +39,9 @@ export const ChargeLoanPage = () => {
     <ChargeLoanForm
       isLoading={result.isLoading}
       onFinish={onFinish}
-      loan={{
-        currencyType: CurrencyType.Eur,
-        debt: 31,
-        id: '7820',
-      }}
+      loan={loan.data![0]}
       showSkeleton={!loan.isSuccess || !accounts.isSuccess}
-      accounts={[
-        { id: '3', currencyType: CurrencyType.Eur, amount: 13 },
-        { id: '4', currencyType: CurrencyType.Rub, amount: 15 },
-      ]}
+      accounts={accounts.data!}
     />
   )
 }

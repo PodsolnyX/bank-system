@@ -64,4 +64,9 @@ export const userApi = createApi({
   }),
 })
 
-export const { useLazyGetStatusQuery, useLazyGetProfileQuery, useLogoutMutation, useRegisterMutation } = userApi
+export const {
+  useLazyGetStatusQuery,
+  useLazyGetProfileQuery,
+  useLogoutMutation,
+  useRegisterMutation,
+} = userApi

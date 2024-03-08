@@ -2,8 +2,8 @@ import { CurrencyType } from 'shared/entities/currency'
 
 export type Account = {
   id: string
-  user: string
+  userId: string
   currencyType: CurrencyType
   amount: number
-  closedAt?: string
+  closedAt?: string | null
 }

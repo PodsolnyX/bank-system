@@ -6,6 +6,7 @@ import { Dropdown } from 'shared/ui'
 import { CurrencyType, Loan } from 'shared/entities'
 import { getAccountHistoryLink, getLoanLink } from 'shared/const'
 import { getLoanActions, needToPay } from 'entities/loan'
+import { format } from 'shared/utils/format'
 
 export const generalLoanTableColumns: ColumnsType<Loan> = [
   {
@@ -23,12 +24,12 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
     render: (_, { accountId: id }) => <Link to={getAccountHistoryLink(id)}>{id}</Link>,
   },
   {
-    title: 'Долг / сумма',
+    title: 'Долг',
     dataIndex: 'debt',
     key: 'debt',
     sorter: (a, b) => a.debt - b.debt,
     defaultSortOrder: 'descend',
-    render: (_, rec) => `${rec.debt} / ${rec.sum} ${rec.currencyType}`,
+    render: (_, rec) => `${format(rec.debt)} ${rec.currencyType}`,
     filters: Object.keys(CurrencyType).map((cur) => ({
       text: cur,
       value: cur,
@@ -40,7 +41,7 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
     key: 'needToPay',
     render: (_, cr) => (
       <Tag color={needToPay(cr.lastChargeDate) ? 'red' : 'green'}>
-        {cr.lastChargeDate}
+        {needToPay(cr.lastChargeDate) ? 'Не оплачен' : 'Оплачен'}
       </Tag>
     ),
     align: 'center',
@@ -60,7 +61,7 @@ export const generalLoanTableColumns: ColumnsType<Loan> = [
   {
     title: 'Тариф',
     dataIndex: 'tariff',
-    render: (_, { tariff: t }) => `${t.name}, ${t.interestRate}, ${t.periodInDays}`,
+    render: (_, { tariff: t }) => `${t.name}, ${t.interestRate}%, ${t.periodInDays} дн.`,
     responsive: ['md'],
   },
   {

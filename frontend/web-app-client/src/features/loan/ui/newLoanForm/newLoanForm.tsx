@@ -1,10 +1,6 @@
 import { useState } from 'react'
 import { Alert, Button, InputNumber, Select } from 'antd'
-import {
-  DollarOutlined,
-  AccountBookOutlined,
-  CreditCardOutlined,
-} from '@ant-design/icons'
+import { AccountBookOutlined, CreditCardOutlined } from '@ant-design/icons'
 import { Form, FormProps } from 'shared/ui'
 import { Account, Tariff } from 'shared/entities'
 import { RequestLoanReq } from 'shared/api'
@@ -34,7 +30,10 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
 
   const onFinishWrap = (data: NewLoanFormData) => {
     if (isValid) {
-      onFinish(data)
+      onFinish({
+        ...data,
+        currencyType: accountCurr,
+      })
     }
   }
 
@@ -55,7 +54,7 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
           {visibleTariffs.map((t) => (
             <Select.Option
               key={t.id}
-            >{`${t.name}, ${t.interestRate}%, ${t.periodInDays} дн, ${t.currencyTypes.join(',')}`}</Select.Option>
+            >{`${t.name}, ${t.interestRate}%, ${t.periodInDays} дн, ${t.currencyTypes.join(', ')}`}</Select.Option>
           ))}
         </Select>
       </Form.Item>
@@ -75,16 +74,15 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
           {visibleAccounts.map((acc) => (
             <Select.Option
               key={acc.id}
-            >{`${acc.id}: ${acc.amount}${acc.currencyType}`}</Select.Option>
+            >{`${acc.id}: ${acc.amount} ${acc.currencyType}`}</Select.Option>
           ))}
         </Select>
       </Form.Item>
 
-      <Form.Item name='moneyAmount' label='Сумма' rules={moneyRules}>
+      <Form.Item name='amount' label='Сумма' rules={moneyRules}>
         <InputNumber
           className='w-full'
           type='number'
-          suffix={<DollarOutlined />}
           placeholder='Сумма'
           addonAfter={displayCurr}
           controls={false}

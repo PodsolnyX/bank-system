@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
 import { PageLoader } from 'widgets'
 import { ErrorMsg } from 'shared/ui'
+import { convert } from 'shared/utils/format'
 
 export interface OperationPageProps {
   type: OperationType.WITHDRAW | OperationType.DEPOSIT
@@ -22,12 +23,13 @@ export const OperationPage = (props: OperationPageProps) => {
 
   const onFinish = async (values: TransferFormValues) => {
     try {
+      const convertedValues = convert(values)
       switch (type) {
         case OperationType.DEPOSIT:
-          await deposit(values).unwrap()
+          await deposit(convertedValues).unwrap()
           break
         case OperationType.WITHDRAW:
-          await withdraw(values).unwrap()
+          await withdraw(convertedValues).unwrap()
           break
         default:
           throw Error('Неизвестная операция')

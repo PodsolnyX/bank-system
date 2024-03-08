@@ -5,6 +5,7 @@ import { getAccountActions } from '../../config'
 import { Account, CurrencyType } from 'shared/entities'
 import { Dropdown } from 'shared/ui'
 import { getAccountHistoryLink } from 'shared/const'
+import { format } from 'shared/utils/format'
 
 export const columns: ColumnsType<Account> = [
   {
@@ -21,13 +22,7 @@ export const columns: ColumnsType<Account> = [
     sorter: (a, b) => a.amount - b.amount,
     responsive: ['md'],
     width: '15%',
-  },
-  {
-    title: 'Валюта',
-    dataIndex: 'currencyType',
-    key: 'currencyType',
-    responsive: ['md'],
-    width: '10%',
+    render: (_, acc) => `${format(acc.amount)} ${acc.currencyType}`,
     filters: Object.keys(CurrencyType).map((cur) => ({
       text: cur,
       value: cur,
