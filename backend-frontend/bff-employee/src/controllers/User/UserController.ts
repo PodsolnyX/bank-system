@@ -37,7 +37,7 @@ class UserController {
   }
 
   async CreateUser(req: CreateUserReq, res: Response) {
-    const id = await this._UserService.CreateUser(Extractor.ExtractParams(req))
+    const id = await this._UserService.CreateUser(Extractor.ExtractBody(req))
     res.status(200).send({ id })
   }
 

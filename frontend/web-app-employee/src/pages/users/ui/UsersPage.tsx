@@ -76,6 +76,11 @@ const UsersPage = () => {
                     />
                     <Segmented
                         options={['Клиенты', 'Сотрудники']}
+                        value={params.isEmployee ? 'Сотрудники' : "Клиенты"}
+                        onChange={(value) => setParams({
+                            ...params,
+                            isEmployee: value === "Сотрудники"
+                        })}
                     />
                     <Segmented
                         options={['Активные', 'Заблокированные']}

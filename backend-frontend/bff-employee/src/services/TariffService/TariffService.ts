@@ -21,9 +21,7 @@ class TariffService {
 
     async CreateTariff(Dto: WithUser<CreateTariffDto>) {
         return (
-            await LoanAPI.Req.post('/tariff/employee', {
-                params: Dto,
-            })
+            await LoanAPI.Req.post('/tariff/employee', Dto)
         ).data
     }
 

@@ -6,7 +6,7 @@ export interface OperationDto {
     type: OperationType
     status: OperationStatus
     amount: number
-    date: string
+    createdAt: string
     message?: string,
     currencyType: string
 }

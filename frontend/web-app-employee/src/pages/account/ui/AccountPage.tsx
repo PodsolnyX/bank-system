@@ -104,7 +104,7 @@ function getData(data?: OperationDto[]) {
         return {
             key: it.id,
             id: it.id,
-            date: it.date,
+            date: it.createdAt,
             type: it.type,
             status: it.status,
             sum: it.amount,

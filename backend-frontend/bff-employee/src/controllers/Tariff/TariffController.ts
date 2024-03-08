@@ -16,7 +16,7 @@ class TariffController {
   }
 
   async CreateTariff(req: CreateTariffReq, res: Response) {
-    const data = await this._TariffService.CreateTariff(Extractor.ExtractParams(req))
+    const data = await this._TariffService.CreateTariff(Extractor.ExtractBody(req))
     res.status(200).send(data)
   }
 

@@ -19,9 +19,7 @@ class AuthService {
     }
 
     async createUser(data: UserCreateDto) {
-        return instance.post('/auth/user/create', {}, {
-            params: data
-        })
+        return instance.post('/auth/user/create', data)
     }
     async logout() {
         return instance.post('/auth/user/logout')

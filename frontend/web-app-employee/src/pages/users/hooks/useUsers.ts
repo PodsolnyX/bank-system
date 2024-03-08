@@ -12,8 +12,7 @@ export function useUsers() {
 
     const [params, setParams]
         = useState<Pagination<SearchUsersDto>>({
-        isBanned: false,
-        Offset: 1
+        isBanned: false
     })
 
     const getUsers = useQuery({

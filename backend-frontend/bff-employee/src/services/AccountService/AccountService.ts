@@ -22,7 +22,7 @@ class AccountService {
       params: Dto,
     })
 
-    const userIds = accountsRes.data.map(it => it.userId)
+    const userIds = [...new Set(accountsRes.data.map(it => it.userId))]
 
     const usersRes = await AuthAPI.Req.get<User[]>('/auth/employee', {
       params: {

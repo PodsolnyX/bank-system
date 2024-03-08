@@ -7,10 +7,8 @@ class TariffService {
         return instance.get<TariffDto[]>(`/tariff/user`)
     }
 
-    async createTariff(params: CreateTariffDto) {
-        return instance.post(`/tariff/user`, {}, {
-            params
-        })
+    async createTariff(data: CreateTariffDto) {
+        return instance.post(`/tariff/user`, data)
     }
 
     async deleteTariff(id: string) {

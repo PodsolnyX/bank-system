@@ -1,11 +1,12 @@
-import {Button, Modal, Typography} from "antd";
+import {Button, Modal, Select, Typography} from "antd";
 import {useForm} from "react-hook-form";
 import InputControl from "../../../components/input/InputControl.tsx";
 import {validators} from "../../../shared/helpers/validators.ts";
-import React from "react";
+import React, {useState} from "react";
 import {useTariffs} from "../hooks/useTariffs.ts";
 import {CreateTariffDto} from "../../../services/tariff/models/CreateTariffDto.ts";
 import InputNumberControl from "../../../components/input/InputNumberControl.tsx";
+import {CurrencyType} from "../../../services/common/CurrencyType.ts";
 
 interface AddUserModal {
     open: boolean,
@@ -25,8 +26,10 @@ const AddUserModal = (props: AddUserModal) => {
     } = useForm<CreateTariffDto>();
 
     const {create} = useTariffs();
+
+    const [currency, setCurrency] = useState<CurrencyType[]>([CurrencyType.Rub]);
     const onSubmit = (data: CreateTariffDto) => {
-        create.mutateAsync(data)
+        create.mutateAsync({...data, currencyTypes: currency})
             .then(() => {
                 onCancel();
             })
@@ -47,26 +50,48 @@ const AddUserModal = (props: AddUserModal) => {
                                       required: validators.required,
                                   }}
                     />
-                    <Typography.Text>Период в днях</Typography.Text>
-                    <InputNumberControl name={"periodInDays"} control={control}
-                                  rules={{
-                                      required: validators.required,
-                                  }}
+                    <div className={"grid grid-cols-2 gap-3"}>
+                        <div>
+                            <Typography.Text>Период</Typography.Text>
+                            <InputNumberControl name={"periodInDays"} control={control}
+                                                className={"w-full"}
+                                                addonAfter="дней"
+                                                rules={{
+                                                    required: validators.required,
+                                                }}
+                            />
+                        </div>
+                        <div>
+                            <Typography.Text>Ставка</Typography.Text>
+                            <InputNumberControl name={"interestRate"} control={control}
+                                                className={"w-full"}
+                                                addonAfter="%"
+                                                rules={{
+                                                    required: validators.required,
+                                                }}
+                            />
+                        </div>
+                    </div>
+                    <Typography.Text>Валюты</Typography.Text>
+                    <Select
+                        mode={"tags"}
+                        onChange={value => setCurrency(value)}
+                        value={currency}
+                        options={[
+                            {
+                                value: CurrencyType.Rub,
+                                label: CurrencyType.Rub.toUpperCase()
+                            },
+                            {
+                                value: CurrencyType.Usd,
+                                label: CurrencyType.Usd.toUpperCase()
+                            },
+                            {
+                                value: CurrencyType.Eur,
+                                label: CurrencyType.Eur.toUpperCase()
+                            }
+                        ]}
                     />
-                    <Typography.Text>Ставка</Typography.Text>
-                    <InputNumberControl name={"interestRate"} control={control}
-                                        rules={{
-                                            required: validators.required,
-                                        }}
-                    />
-                    {/*<Segmented*/}
-                    {/*    options={['Клиент', 'Сотрудник']}*/}
-                    {/*    value={isEmployee ? 'Сотрудник' : "Клиент"}*/}
-                    {/*    onChange={(value) => setIsEmployee(*/}
-                    {/*        value === "Сотрудник"*/}
-                    {/*    )}*/}
-                    {/*    className={"w-max mt-3"}*/}
-                    {/*/>*/}
                     <Typography.Text type={"danger"}>{create.isError && "Ошибка"}</Typography.Text>
                 </div>
                 <Button htmlType={"submit"} className={"w-full"} type={"primary"} disabled={create.isPending}>Добавить</Button>

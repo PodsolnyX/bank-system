@@ -6,5 +6,5 @@ import {SearchUserDto} from "../../dto/User/SearchUserDto";
 export type GetUserReq = Request<{}, {}, {}, GetProfileDto>
 export type GetUsersReq = Request<{}, {}, {}, PaginationReq<SearchUserDto>>
 export type GetUserStatusReq = Request<{}, {}, {}, GetUserStatusDto>
-export type CreateUserReq = Request<{}, {}, {}, UserCreateDto>
+export type CreateUserReq = Request<{}, {}, UserCreateDto>
 export type BanUserReq = Request<UserBanDto>

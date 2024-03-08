@@ -43,9 +43,7 @@ class UserService {
 
     async CreateUser(Dto: UserCreateDto) {
         return (
-            await AuthAPI.Req.post<UserCreateResp>('/auth/employee', {
-                params: Dto,
-            })
+            await AuthAPI.Req.post<UserCreateResp>('/auth/employee', Dto)
         ).data
     }
 
