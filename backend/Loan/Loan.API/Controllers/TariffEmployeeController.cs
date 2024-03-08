@@ -1,4 +1,5 @@
-﻿using Loan.BLL.DataTransferObjects;
+﻿using Common.Auth.ApiKeyAuthorization;
+using Loan.BLL.DataTransferObjects;
 using Loan.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,8 @@ namespace Loan.API.Controllers;
 /// </summary>
 [Controller]
 [Route("tariff/employee")]
+[ApiKeyAuthorization]
+
 public class TariffEmployeeController: ControllerBase {
     private readonly TariffService _tariffService;
 

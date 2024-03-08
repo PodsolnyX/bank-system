@@ -1,4 +1,5 @@
-﻿using Loan.BLL.DataTransferObjects;
+﻿using Common.Auth.ApiKeyAuthorization;
+using Loan.BLL.DataTransferObjects;
 using Loan.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,8 @@ namespace Loan.API.Controllers;
 
 [Controller]
 [Route("loan/employee")]
+[ApiKeyAuthorization]
+
 public class LoanEmployeeController: ControllerBase {
     private readonly LoanService _loanService;
 

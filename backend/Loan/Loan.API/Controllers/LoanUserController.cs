@@ -7,6 +7,7 @@ namespace Loan.API.Controllers;
 
 [Controller]
 [Route("loan/user")]
+[ApiKeyAuthorization]
 public class LoanUserController: ControllerBase {
     private readonly LoanService _loanService;
 
