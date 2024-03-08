@@ -29,12 +29,15 @@ public class OperationHistoryService
         var existingOperation = await _dbContext
             .Operations.OrderByDescending(x => x.CreatedAt)
             .FirstOrDefaultAsync(x =>
-                x.TransactionId == message.TransactionId && x.Status == OperationStatus.Success
+                x.AccountId == message.AccountId
+                && x.TransactionId == message.TransactionId
+                && x.Status == OperationStatus.Success
             );
 
         if (message.OperationStatus == OperationStatus.Failure && existingOperation != null)
         {
             existingOperation.Status = OperationStatus.Failure;
+            existingOperation.ModifiedAt = DateTime.UtcNow;
         }
         else
         {
@@ -72,11 +75,17 @@ public class OperationHistoryService
             x.AccountId == accountId
         );
 
+        var date = operationAggregation?.LastOperationDate ?? DateTime.MinValue;
+
         var operationSum = await _dbContext
-            .Operations.Where(x => x.AccountId == accountId && x.Status == OperationStatus.Success)
+            .Operations.Where(x =>
+                x.AccountId == accountId
+                && x.Status == OperationStatus.Success
+                && (x.ModifiedAt ?? x.CreatedAt) > date
+            )
             .SumAsync(x => x.Amount * (x.Type == OperationType.Deposit ? 1 : -1));
 
-        var balance = operationAggregation?.CalculatedAmount ?? 0 + operationSum;
+        var balance = (operationAggregation?.CalculatedAmount ?? 0) + operationSum;
 
         _accountBalanceSender.SendCoreAccountBalanceMessage(
             new UpdateAccountBalanceMessage

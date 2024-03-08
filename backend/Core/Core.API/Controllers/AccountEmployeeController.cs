@@ -1,4 +1,5 @@
-﻿using Core.BLL.DataTransferObjects;
+﻿using Common.Auth.ApiKeyAuthorization;
+using Core.BLL.DataTransferObjects;
 using Core.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace Core.API.Controllers;
 /// Account controller for employee
 /// </summary>
 [Controller]
+[ApiKeyAuthorization]
 [Route("account/employee")]
 public class AccountEmployeeController : ControllerBase
 {
