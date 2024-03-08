@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(option =>
 {
     option.UseApiKeyAuthorization();
 
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Core", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Loan", Version = "v1" });
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });

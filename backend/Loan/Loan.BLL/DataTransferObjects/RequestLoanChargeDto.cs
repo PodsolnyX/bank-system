@@ -6,6 +6,8 @@ namespace Loan.BLL.DataTransferObjects;
 public class RequestLoanChargeDto {
     [Required]
     public int Amount { get; set; }
+    [Required]
+    public Guid LoanId { get; set; }
     
     [Required]
     public CurrencyType CurrencyType { get; set; }

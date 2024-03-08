@@ -19,6 +19,7 @@ public class RequestLoanChargeService {
     public async Task RequestLoanCharge(RequestLoanChargeDto dto) {
         var request = new ChargeLoanTransaction {
             UserId = dto.UserId,
+            LoanId = dto.LoanId,
             AccountId = dto.AccountId,
             TariffId = dto.TariffId,
             Amount = dto.Amount,

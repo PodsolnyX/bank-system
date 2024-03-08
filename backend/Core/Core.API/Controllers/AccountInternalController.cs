@@ -35,7 +35,7 @@ public class AccountInternalController : ControllerBase
     /// Modifies account
     /// </summary>
     [HttpPost("{accountId:guid}/modification")]
-    public async Task Modify(Guid accountId, AccountModificationDto dto)
+    public async Task Modify(Guid accountId,[FromBody] AccountModificationDto dto)
     {
         await _accountInternalService.ModifyAccount(accountId, dto);
     }
@@ -44,7 +44,7 @@ public class AccountInternalController : ControllerBase
     /// Cancel account modification
     /// </summary>
     [HttpDelete("{accountId:guid}/modification")]
-    public async Task ModifyCancel(Guid accountId, AccountModificationDto dto)
+    public async Task ModifyCancel(Guid accountId,[FromBody] AccountModificationDto dto)
     {
         await _accountInternalService.ModifyAccountCancel(accountId, dto);
     }

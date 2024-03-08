@@ -15,4 +15,5 @@ public class Tariff: BaseEntity {
     public double InterestRate { get; set; } 
 
     public List<CurrencyType> CurrencyTypes { get; set; } = [];
+    public List<Loan> Loans { get; set; } = [];
 }

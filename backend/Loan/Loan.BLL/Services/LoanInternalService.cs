@@ -1,7 +1,9 @@
 ﻿using Common.Enum;
+using Common.Exception;
 using Loan.BLL.DataTransferObjects;
 using Loan.DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Loan.BLL.Services;
 
@@ -12,23 +14,40 @@ public class LoanInternalService {
         _dbContext = dbContext;
     }
     
-    public Task TakeLoan(TakeLoanDto dto) {
-        /*var loan = new DAL.Entities.Loan {
+    public async Task<Guid> TakeLoan(TakeLoanDto dto) {
+        var tariff = await _dbContext.Tariffs.FirstOrDefaultAsync(t => t.Id == dto.TariffId);
+        if (tariff == null)
+            throw new NotFoundException("Tariff not found");
+        var loan = new DAL.Entities.Loan {
             UserId = dto.UserId,
             AccountId = dto.AccountId,
-            TariffId = dto.TariffId,
-            LastChargeDate = default,
+            Tariff = tariff,
             CurrencyType = dto.CurrencyType,
-            Debt = 
-        }*/
-        throw new NotImplementedException();
+            Debt = dto.Amount
+        };
+        _dbContext.Add(loan);
+        await _dbContext.SaveChangesAsync();
+        return loan.Id;
     }
     
-    public Task TakeLoanCancel(Guid loanId) {
-        throw new NotImplementedException();
+    public async Task TakeLoanCancel(Guid loanId) {
+        var loan = await _dbContext.Loans.FirstOrDefaultAsync(t => t.Id == loanId);
+        if (loan == null)
+            throw new NotFoundException("Loan not found");
+        _dbContext.Remove(loan);
+        await _dbContext.SaveChangesAsync();
     }
     
-    public Task ChargeLoanCancel(LoanChargeDto dto) {
-        throw new NotImplementedException();
+    public async Task ChargeLoan(LoanChargeDto dto, Guid loanId) {
+        var loan = await _dbContext.Loans.FirstOrDefaultAsync(t => t.Id == loanId);
+        if (loan == null)
+            throw new NotFoundException("Loan not found");
+        if (loan.CurrencyType != dto.CurrencyType)
+            throw new BadRequestException("Another CurrencyType");
+        if (loan.Debt < dto.Amount)
+            throw new BadRequestException("Too many money");
+        loan.Debt -= dto.Amount;
+        _dbContext.Update(loan);
+        await _dbContext.SaveChangesAsync();
     }
 }

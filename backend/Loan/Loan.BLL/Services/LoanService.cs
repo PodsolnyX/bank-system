@@ -1,9 +1,13 @@
 ﻿using System.Net.Http.Json;
+using System.Text;
+using Common.DataTransfer;
 using Common.Enum;
 using Common.Exception;
 using Loan.BLL.DataTransferObjects;
 using Loan.DAL;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Loan.BLL.Services;
 
@@ -15,16 +19,14 @@ public  class LoanService {
         _options = options;
     }
     public async Task RequestLoan(RequestLoanDto dto) {
-        var request = new RequestLoanDto {
-            UserId = default,
-            AccountId = default,
-            TariffId = default,
-            Amount = 0,
-            CurrencyType = CurrencyType.Rub
-        };
-        HttpClient httpClient = new HttpClient();
+        var tariff = await _dbContext.Tariffs.FirstOrDefaultAsync(t => t.Id == dto.TariffId);
+        if (tariff == null)
+            throw new NotFoundException("Tariff not found");
+        var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(_options.Value.BaseUrlArbiter);
-        var response = await httpClient.PostAsJsonAsync($"{_options.Value.BaseArbiterController}/loan", request);
+        var jsonDto = JsonConvert.SerializeObject(dto);
+        var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync($"{_options.Value.BaseArbiterController}loan", content);
         if (!response.IsSuccessStatusCode)
             throw new BadRequestException();
     }
@@ -32,11 +34,14 @@ public  class LoanService {
     public async Task ChargeLoan(LoanChargeDto dto) {
         var request = new RequestLoanChargeDto {
             Amount = dto.Amount,
+            LoanId = dto.LoanId,
             CurrencyType = dto.CurrencyType
         };
-        HttpClient httpClient = new HttpClient();
+        var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(_options.Value.BaseUrlArbiter);
-        var response = await httpClient.PostAsJsonAsync($"{_options.Value.BaseArbiterController}/loan-charge", request);
+        var jsonDto = JsonConvert.SerializeObject(dto);
+        var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync($"{_options.Value.BaseArbiterController}loan-charge", content);
         if (!response.IsSuccessStatusCode)
             throw new BadRequestException();
     }
@@ -47,10 +52,52 @@ public  class LoanService {
     }*/
     
 
-    public async Task<List<LoanDto>> GetLoans(SearchLoanUserDto dto, Guid userId) {
-        throw new NotImplementedException();
+    public async Task<List<LoanDto>> GetLoansUser(SearchLoanUserDto dto, Guid userId) {
+        var loans = await _dbContext.Loans
+            .Include(l=>l.Tariff)
+            .Where(l => l.UserId == userId
+                        && (dto.AccountIds.Count == 0 || dto.AccountIds.Contains(l.Id))
+                        && (dto.CurrencyTypes.Count == 0 || dto.CurrencyTypes.Contains(l.CurrencyType)))
+            .ToPagedList(dto);
+        return loans.Select(l =>
+            new LoanDto {
+                Id = l.Id,
+                UserId = l.UserId,
+                AccountId = l.AccountId,
+                Tariff = new TariffDto {
+                    Id = l.Tariff.Id,
+                    Name = l.Tariff.Name,
+                    PeriodInDays = l.Tariff.PeriodInDays,
+                    InterestRate = l.Tariff.InterestRate,
+                    CurrencyTypes = l.Tariff.CurrencyTypes
+                },
+                LastChargeDate = l.LastChargeDate,
+                CurrencyType = l.CurrencyType,
+                Debt = l.Debt
+            }).ToList();
     }
     public async Task<List<LoanDto>> GetLoans(SearchLoanEmployeeDto dto) {
-        throw new NotImplementedException();
+        var loans = await _dbContext.Loans
+            .Include(l=>l.Tariff)
+            .Where(l => (dto.UserIds.Count == 0 || dto.UserIds.Contains(l.UserId))
+                        && (dto.AccountIds.Count == 0 || dto.AccountIds.Contains(l.Id))
+                        && (dto.CurrencyTypes.Count == 0 || dto.CurrencyTypes.Contains(l.CurrencyType)))
+            .ToPagedList(dto);
+        return loans.Select(l =>
+            new LoanDto {
+                Id = l.Id,
+                UserId = l.UserId,
+                AccountId = l.AccountId,
+                Tariff = new TariffDto {
+                    Id = l.Tariff.Id,
+                    Name = l.Tariff.Name,
+                    PeriodInDays = l.Tariff.PeriodInDays,
+                    InterestRate = l.Tariff.InterestRate,
+                    CurrencyTypes = l.Tariff.CurrencyTypes
+                },
+                LastChargeDate = l.LastChargeDate,
+                CurrencyType = l.CurrencyType,
+                Debt = l.Debt
+            }).ToList();
     }
 }

@@ -14,8 +14,8 @@ public class LoanInternalController: ControllerBase {
     }
 
     [HttpPost("take")]
-    public async Task TakeLoan(TakeLoanDto dto) {
-        await _internalService.TakeLoan(dto);
+    public async Task<Guid> TakeLoan([FromBody]TakeLoanDto dto) {
+       return await _internalService.TakeLoan(dto);
     }
     
     [HttpDelete("{loanId:guid}/take-cancel")]
@@ -23,8 +23,8 @@ public class LoanInternalController: ControllerBase {
         await _internalService.TakeLoanCancel(loanId);
     }
     
-    [HttpDelete("{loanId:guid}/charge")]
-    public async Task ChargeLoanCancel(LoanChargeDto dto) {
-        await _internalService.ChargeLoanCancel(dto);
+    [HttpPost("{loanId:guid}/charge")]
+    public async Task ChargeLoanCancel(Guid loanId,[FromBody] LoanChargeDto dto) {
+        await _internalService.ChargeLoan(dto, loanId);
     }
 }

@@ -2,6 +2,9 @@
 using Arbiter.BLL.DataTransferObjects;
 using Arbiter.DAL;
 using Arbiter.DAL.Entities;
+using Common.Enum;
+using Core.BLL.DataTransferObjects;
+using Loan.BLL.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -22,12 +25,14 @@ public class RequestLoanChargeJob {
             .Take(100)
             .ToListAsync();
         HttpClient client = new HttpClient();
+        /*
         client.BaseAddress = new Uri(_options.Value.BaseUrlCore);
+        */
         client.DefaultRequestHeaders.Add("XApiKey", Guid.Empty.ToString());
         // Проверить существование счета
         foreach (var request in requests.Where(r=>
                      r.CheckAccountStatus is TransactionStatus.NotStarted or TransactionStatus.Failure)) {
-           var response = await client.GetAsync($"{_options.Value.BaseCoreController}{request.AccountId}");
+           var response = await client.GetAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}");
            if (response.IsSuccessStatusCode) {
                request.CheckAccountStatus = TransactionStatus.Success;
                _dbContext.ChargeLoanTransactions.Update(request);
@@ -50,13 +55,17 @@ public class RequestLoanChargeJob {
         foreach (var request in requests.Where(r=>
                      r is { CheckAccountStatus: TransactionStatus.Success, 
                          AccountLoanChargeStatus: TransactionStatus.NotStarted or TransactionStatus.Failure } )) {
-            var loanDto = new LoanChargeDto {
+            var loanDto = new AccountModificationDto {
+                Type = OperationType.Withdraw,
+                Reason = OperationReason.Loan,
                 LoanId = request.LoanId,
-                Amount = request.Amount
+                TransactionId = Guid.NewGuid(),
+                Amount = request.Amount,
+                Message = "Good evn"
             };
             var jsonDto = JsonConvert.SerializeObject(loanDto);
             var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
-           var response = await client.PostAsync($"{_options.Value.BaseUrlCore}/{request.AccountId}/loan-charge", 
+           var response = await client.PostAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}/modification", 
                content);
 
            if (response.IsSuccessStatusCode) {
@@ -84,14 +93,16 @@ public class RequestLoanChargeJob {
                          AccountLoanChargeStatus: TransactionStatus.Success,
                          LoanChargeStatus: TransactionStatus.NotStarted or TransactionStatus.Failure
                      } )) {
-            var loanDto = new LoanIncomeDto {
+            var loanDto = new LoanChargeDto {
+                CurrencyType = request.CurrencyType,
                 LoanId = request.LoanId,
                 Amount = request.Amount
             };
+
             var jsonDto = JsonConvert.SerializeObject(loanDto);
             var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
             
-            var response = await client.PostAsync($"{_options.Value.BaseLoanController}{request.AccountId}/charge",
+            var response = await client.PostAsync($"{_options.Value.BaseUrlLoan}{_options.Value.BaseLoanController}{request.LoanId}/charge",
                 content);
             if (response.IsSuccessStatusCode) {
                 request.LoanChargeStatus = TransactionStatus.Success;
@@ -99,9 +110,10 @@ public class RequestLoanChargeJob {
                 await _dbContext.SaveChangesAsync();
             }
             else {
+                // Отмена списания со счета
                 if (request.LoanChargeRetries >= 4) {
-                    var cancelResponse = await client.DeleteAsync($"{_options.Value.BaseCoreController}" +
-                                                            $"/accountId/{request.AccountId}?LoanId={request.LoanId}&Amount={request.Amount}");
+                    var cancelResponse = await client.DeleteAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}" +
+                                                                  $"/modification?Type=Withdraw&Reason=Loan&LoanId={request.LoanId}&TransactionId={Guid.NewGuid()}&Amount={request.Amount}");
                     if (cancelResponse.IsSuccessStatusCode) {
                         _dbContext.Remove(request);
                         await _dbContext.SaveChangesAsync();

@@ -51,7 +51,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHangfireDashboard();
 
-RecurringJob.AddOrUpdate<RequestLoanJob>("RequestLoanJob", x => x.RequestLoanTransactions(),"\"*/1 * * * * *\"");
+RecurringJob.AddOrUpdate<RequestLoanJob>("RequestLoanJob", x => x.RequestLoanTransactions(),"*/1 * * * *");
+RecurringJob.AddOrUpdate<RequestLoanChargeJob>("RequestLoanChargeJob", x => x.RequestLoanChargeTransactions(),"*/1 * * * *");
 
 app.UseHttpsRedirection();
 
