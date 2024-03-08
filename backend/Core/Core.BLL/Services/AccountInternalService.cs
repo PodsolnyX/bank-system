@@ -9,90 +9,79 @@ public class AccountInternalService
 {
     private readonly CoreDbContext _dbContext;
     private readonly OperationHistorySender _operationHistorySender;
+    private readonly AccountBalanceService _accountBalanceService;
 
     public AccountInternalService(
         CoreDbContext dbContext,
-        OperationHistorySender operationHistorySender
+        OperationHistorySender operationHistorySender,
+        AccountBalanceService accountBalanceService
     )
     {
         _dbContext = dbContext;
         _operationHistorySender = operationHistorySender;
+        _accountBalanceService = accountBalanceService;
     }
 
-    public async Task LoanCharge(Guid accountId, LoanChargeDto dto)
+    public async Task ModifyAccount(Guid accountId, AccountModificationDto dto)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
 
-        if (account!.Amount - dto.Amount < 0)
+        if (dto.Type == OperationType.Withdraw && account!.Amount - dto.Amount < 0)
         {
-            // Todo: Specify exception
-            throw new Exception();
+            throw new InvalidOperationException("Not enough money on the account");
         }
 
-        account.Amount -= dto.Amount;
-        account.ModifiedAt = DateTime.UtcNow;
+        await _accountBalanceService.LockAccount(accountId);
 
-        await _dbContext.SaveChangesAsync();
-
-        await _operationHistorySender.SendOperationHistoryMessage(
+        _operationHistorySender.SendOperationHistoryMessage(
             new OperationHistoryMessage
             {
-                UserId = account.UserId,
+                UserId = account!.UserId,
                 AccountId = accountId,
-                Amount = dto.Amount,
-                OperationType = OperationType.LoanCharge,
-                CurrencyType = account.CurrencyType,
+                LoanId = dto.LoanId,
+                TransactionId = dto.TransactionId ?? Guid.NewGuid(),
+
+                OperationType = dto.Type,
+                OperationReason = dto.Reason,
                 OperationStatus = OperationStatus.Success,
+
+                Amount = dto.Amount,
+                CurrencyType = account.CurrencyType,
+
                 DateTime = DateTime.UtcNow,
-                Message = "Loan charge operation"
+                Message = dto.Message
             }
         );
     }
 
-    public async Task LoanChargeCancel(Guid accountId, LoanChargeDto dto)
+    public async Task ModifyAccountCancel(Guid accountId, AccountModificationDto dto)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
 
-        account.Amount += dto.Amount;
-        account.ModifiedAt = DateTime.UtcNow;
+        if (dto.Type == OperationType.Deposit && account!.Amount - dto.Amount < 0)
+        {
+            throw new InvalidOperationException("Not enough money on the account");
+        }
 
-        await _dbContext.SaveChangesAsync();
+        await _accountBalanceService.LockAccount(accountId);
 
-        await _operationHistorySender.SendOperationHistoryMessage(
+        _operationHistorySender.SendOperationHistoryMessage(
             new OperationHistoryMessage
             {
-                UserId = account.UserId,
+                UserId = account!.UserId,
                 AccountId = accountId,
-                Amount = dto.Amount,
-                OperationType = OperationType.LoanCharge,
-                CurrencyType = account.CurrencyType,
+                LoanId = dto.LoanId,
+                TransactionId = dto.TransactionId ?? Guid.NewGuid(),
+
+                OperationType = dto.Type,
+                OperationReason = dto.Reason,
                 OperationStatus = OperationStatus.Failure,
-                DateTime = DateTime.UtcNow,
-                Message = "Loan charge operation cancel"
-            }
-        );
-    }
 
-    public async Task LoanIncome(Guid accountId, LoanIncomeDto dto)
-    {
-        var account = await _dbContext.Accounts.FindAsync(accountId);
-
-        account.Amount += dto.Amount;
-        account.ModifiedAt = DateTime.UtcNow;
-
-        await _dbContext.SaveChangesAsync();
-
-        await _operationHistorySender.SendOperationHistoryMessage(
-            new OperationHistoryMessage
-            {
-                UserId = account.UserId,
-                AccountId = accountId,
                 Amount = dto.Amount,
-                OperationType = OperationType.LoanIncome,
                 CurrencyType = account.CurrencyType,
-                OperationStatus = OperationStatus.Success,
+
                 DateTime = DateTime.UtcNow,
-                Message = "Loan income operation"
+                Message = dto.Message
             }
         );
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -12,19 +13,51 @@ public static class SwaggerExtension
             "ApiKey",
             new OpenApiSecurityScheme
             {
-                Description = "ApiKey must appear in header",
+                Description = "ApiKey is user UUID",
                 Type = SecuritySchemeType.ApiKey,
                 Name = Constants.ApiKeyName,
                 In = ParameterLocation.Header,
                 Scheme = "ApiKeyScheme"
             }
         );
-        var key = new OpenApiSecurityScheme()
+        options.OperationFilter<AuthorizationOperationFilter>();
+    }
+
+    private class AuthorizationOperationFilter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "ApiKey" },
-            In = ParameterLocation.Header
-        };
-        var requirement = new OpenApiSecurityRequirement { { key, new List<string>() } };
-        options.AddSecurityRequirement(requirement);
+            var actionMetadata = context.ApiDescription.ActionDescriptor.EndpointMetadata;
+            var isAuthorized = actionMetadata.Any(metadataItem =>
+                metadataItem is ApiKeyAuthorizationAttribute
+            );
+            var allowAnonymous = actionMetadata.Any(metadataItem =>
+                metadataItem is AllowAnonymousAttribute
+            );
+            if (!isAuthorized || allowAnonymous)
+            {
+                return;
+            }
+
+            operation.Parameters ??= new List<OpenApiParameter>();
+            operation.Security = new List<OpenApiSecurityRequirement>
+            {
+                new()
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "ApiKey"
+                            },
+                            In = ParameterLocation.Header
+                        },
+                        Array.Empty<string>()
+                    }
+                }
+            };
+        }
     }
 }

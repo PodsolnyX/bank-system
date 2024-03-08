@@ -31,6 +31,9 @@ namespace Core.DAL.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("CurrencyType")
                         .HasColumnType("integer");
 

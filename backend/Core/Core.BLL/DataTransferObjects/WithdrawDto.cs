@@ -1,6 +1,4 @@
-﻿using Common.Enum;
-
-namespace Core.BLL.DataTransferObjects;
+﻿namespace Core.BLL.DataTransferObjects;
 
 public class WithdrawDto {
     public int Amount { get; set; }

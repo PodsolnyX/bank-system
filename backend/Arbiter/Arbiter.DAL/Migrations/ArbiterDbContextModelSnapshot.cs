@@ -55,6 +55,9 @@ namespace Arbiter.DAL.Migrations
                     b.Property<int>("LoanChargeStatus")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("LoanId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("TariffId")
                         .HasColumnType("uuid");
 
@@ -92,6 +95,9 @@ namespace Arbiter.DAL.Migrations
 
                     b.Property<int>("CurrencyType")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("LoanId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("TakeLoanRetries")
                         .HasColumnType("integer");

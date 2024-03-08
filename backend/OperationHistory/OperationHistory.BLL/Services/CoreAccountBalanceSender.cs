@@ -22,7 +22,7 @@ public class CoreAccountBalanceSender
         _logger = logger;
     }
 
-    public Task SendCoreAccountBalanceMessage(UpdateAccountBalanceMessage messageDto)
+    public void SendCoreAccountBalanceMessage(UpdateAccountBalanceMessage messageDto)
     {
         var factory = new ConnectionFactory() { HostName = _configuration.Value.HostName };
         try
@@ -49,6 +49,5 @@ public class CoreAccountBalanceSender
         {
             _logger.LogError(e, "Error while sending message to Core");
         }
-        return Task.CompletedTask;
     }
 }

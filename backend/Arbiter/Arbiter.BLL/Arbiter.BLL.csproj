@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.Enum\Common.Enum.csproj" />
+      <ProjectReference Include="..\..\Core\Core.BLL\Core.BLL.csproj" />
+      <ProjectReference Include="..\..\Loan\Loan.BLL\Loan.BLL.csproj" />
       <ProjectReference Include="..\Arbiter.DAL\Arbiter.DAL.csproj" />
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
 

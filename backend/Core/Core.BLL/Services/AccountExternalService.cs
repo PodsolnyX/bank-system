@@ -3,6 +3,7 @@ using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.DAL;
 using Core.DAL.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace Core.BLL.Services;
 
@@ -11,16 +12,19 @@ public class AccountExternalService
     private readonly CoreDbContext _dbContext;
     private readonly OperationHistorySender _operationHistorySender;
     private readonly AccountBalanceService _accountBalanceService;
+    private readonly ILogger<AccountExternalService> _logger;
 
     public AccountExternalService(
         CoreDbContext dbContext,
         OperationHistorySender operationHistorySender,
-        AccountBalanceService accountBalanceService
+        AccountBalanceService accountBalanceService,
+        ILogger<AccountExternalService> logger
     )
     {
         _dbContext = dbContext;
         _operationHistorySender = operationHistorySender;
         _accountBalanceService = accountBalanceService;
+        _logger = logger;
     }
 
     public async Task<AccountDto> OpenAccount(Guid userId, OpenAccountDto dto)
@@ -89,53 +93,45 @@ public class AccountExternalService
         return accounts.Select(account => account.ToDto()).ToList();
     }
 
-    public async Task Deposit(Guid userId, Guid accountId, DepositDto dto)
+    public async Task ModifyAccount(Guid userId, Guid accountId, AccountModificationDto dto)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
         CheckAccount(account, userId);
 
-        await _accountBalanceService.LockAccount(accountId);
-
-        await _operationHistorySender.SendOperationHistoryMessage(
-            new OperationHistoryMessage
-            {
-                UserId = userId,
-                AccountId = accountId,
-                Amount = dto.Amount,
-                OperationType = OperationType.Deposit,
-                CurrencyType = account!.CurrencyType,
-                OperationStatus = OperationStatus.Success,
-                DateTime = DateTime.UtcNow,
-                Message = dto.Message
-            }
-        );
-    }
-
-    public async Task Withdraw(Guid userId, Guid accountId, DepositDto dto)
-    {
-        var account = await _dbContext.Accounts.FindAsync(accountId);
-        CheckAccount(account, userId);
-
-        if (account!.Amount - dto.Amount < 0)
+        if (dto.Type == OperationType.Withdraw && account!.Amount - dto.Amount < 0)
         {
             throw new InvalidOperationException("Not enough money on the account");
         }
 
         await _accountBalanceService.LockAccount(accountId);
 
-        await _operationHistorySender.SendOperationHistoryMessage(
-            new OperationHistoryMessage
-            {
-                UserId = userId,
-                AccountId = accountId,
-                Amount = dto.Amount,
-                OperationType = OperationType.Withdraw,
-                CurrencyType = account.CurrencyType,
-                OperationStatus = OperationStatus.Success,
-                DateTime = DateTime.UtcNow,
-                Message = dto.Message
-            }
-        );
+        try
+        {
+            _operationHistorySender.SendOperationHistoryMessage(
+                new OperationHistoryMessage
+                {
+                    UserId = account!.UserId,
+                    AccountId = accountId,
+                    LoanId = dto.LoanId,
+                    TransactionId = dto.TransactionId ?? Guid.NewGuid(),
+
+                    OperationType = dto.Type,
+                    OperationReason = dto.Reason,
+                    OperationStatus = OperationStatus.Success,
+
+                    Amount = dto.Amount,
+                    CurrencyType = account.CurrencyType,
+
+                    DateTime = DateTime.UtcNow,
+                    Message = dto.Message
+                }
+            );
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while sending operation history message");
+            await _accountBalanceService.UnlockAccount(accountId);
+        }
     }
 
     private void CheckAccount(Account? account, Guid? userId = null)

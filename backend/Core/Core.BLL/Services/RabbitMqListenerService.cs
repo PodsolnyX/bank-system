@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Common.Configuration;
 using Common.DataTransfer;
-using Core.BLL.DataTransferObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -78,7 +77,7 @@ public class RabbitMqListenerService : BackgroundService
             }
             catch (Exception ex)
             {
-                //TODO: log exception
+                _logger.LogError(ex, "Error while processing message");
             }
         };
 

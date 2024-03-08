@@ -24,13 +24,14 @@ public class OperationHistoryReaderService
                 && !e.DeletedAt.HasValue
                 && (searchDto.AccountIds.Count == 0 || searchDto.AccountIds.Contains(e.AccountId))
                 && (
+                    searchDto.LoanIds.Count == 0
+                    || (e.LoanId != null && searchDto.LoanIds.Contains(e.LoanId.Value))
+                )
+                && (
                     searchDto.OperationStatuses.Count == 0
                     || searchDto.OperationStatuses.Contains(e.Status)
                 )
-                && (
-                    searchDto.CurrencyTypes.Count == 0
-                    || searchDto.OperationTypes.Contains(e.Type)
-                )
+                && (searchDto.CurrencyTypes.Count == 0 || searchDto.OperationTypes.Contains(e.Type))
                 && (
                     searchDto.CurrencyTypes.Count == 0
                     || searchDto.CurrencyTypes.Contains(e.CurrencyType)
@@ -38,19 +39,7 @@ public class OperationHistoryReaderService
             )
             .ToPagedList(searchDto);
 
-        return operations
-            .Select(e => new OperationDto
-            {
-                Id = e.Id,
-                AccountId = e.AccountId,
-                LoanId = e.LoanId,
-                Type = e.Type,
-                Status = e.Status,
-                CurrencyType = e.CurrencyType,
-                Amount = e.Amount,
-                Message = e.Message
-            })
-            .ToList();
+        return operations.Select(e => e.ToDto()).ToList();
     }
 
     public async Task<List<OperationDto>> GetOperations(SearchOperationEmployeeDto searchDto)
@@ -59,6 +48,10 @@ public class OperationHistoryReaderService
             .Operations.Where(e =>
                 !e.DeletedAt.HasValue
                 && (searchDto.AccountIds.Count == 0 || searchDto.AccountIds.Contains(e.AccountId))
+                && (
+                    searchDto.LoanIds.Count == 0
+                    || (e.LoanId != null && searchDto.LoanIds.Contains(e.LoanId.Value))
+                )
                 && (searchDto.UserIds.Count == 0 || searchDto.UserIds.Contains(e.UserId))
                 && (
                     searchDto.OperationStatuses.Count == 0
@@ -72,18 +65,6 @@ public class OperationHistoryReaderService
             )
             .ToPagedList(searchDto);
 
-        return operations
-            .Select(e => new OperationDto
-            {
-                Id = e.Id,
-                AccountId = e.AccountId,
-                LoanId = e.LoanId,
-                Type = e.Type,
-                Status = e.Status,
-                CurrencyType = e.CurrencyType,
-                Amount = e.Amount,
-                Message = e.Message
-            })
-            .ToList();
+        return operations.Select(e => e.ToDto()).ToList();
     }
 }

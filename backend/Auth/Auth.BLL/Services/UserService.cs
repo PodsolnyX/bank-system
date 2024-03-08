@@ -45,6 +45,7 @@ public class UserService {
                 && (string.IsNullOrEmpty(dto.Mail) || u.Mail.Contains(dto.Mail))
                 && (string.IsNullOrEmpty(dto.Name) || u.Name.Contains(dto.Name))
                 && (dto.IsBanned ? u.BannedAt.HasValue : !u.BannedAt.HasValue)
+                && (dto.IsEmployee)
             )
             .ToPagedList(dto);
 

@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
 using Common.Configuration;
+using Common.Exception;
 using Core.BLL.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -42,7 +43,6 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
@@ -57,9 +57,10 @@ await app.MigrateDbAsync();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseErrorHandleMiddleware();
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.UseApiKeyMiddleware();
 
 app.UseCors();
 

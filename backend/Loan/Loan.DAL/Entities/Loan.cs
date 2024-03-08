@@ -11,7 +11,7 @@ public class Loan {
     
     public Guid AccountId { get; set; }
     
-    public Guid TariffId { get; set; }
+    public Tariff Tariff { get; set; }
     
     public DateTime LastChargeDate { get; set; }
     

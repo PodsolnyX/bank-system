@@ -48,6 +48,8 @@ namespace Loan.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TariffId");
+
                     b.ToTable("Loans");
                 });
 
@@ -56,6 +58,9 @@ namespace Loan.DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int[]>("CurrencyTypes")
                         .IsRequired()
@@ -80,6 +85,22 @@ namespace Loan.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tariffs");
+                });
+
+            modelBuilder.Entity("Loan.DAL.Entities.Loan", b =>
+                {
+                    b.HasOne("Loan.DAL.Entities.Tariff", "Tariff")
+                        .WithMany("Loans")
+                        .HasForeignKey("TariffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tariff");
+                });
+
+            modelBuilder.Entity("Loan.DAL.Entities.Tariff", b =>
+                {
+                    b.Navigation("Loans");
                 });
 #pragma warning restore 612, 618
         }

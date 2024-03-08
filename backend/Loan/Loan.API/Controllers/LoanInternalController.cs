@@ -1,4 +1,5 @@
 ﻿using Loan.BLL.DataTransferObjects;
+using Loan.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Loan.API.Controllers;
@@ -6,24 +7,24 @@ namespace Loan.API.Controllers;
 [Controller]
 [Route("loan/internal")]
 public class LoanInternalController: ControllerBase {
-    
+    private readonly LoanInternalService _internalService;
+
+    public LoanInternalController(LoanInternalService internalService) {
+        _internalService = internalService;
+    }
+
     [HttpPost("take")]
-    public Task<LoanDto> TakeLoan(TakeLoanDto dto) {
-        throw new NotImplementedException();
+    public async Task<Guid> TakeLoan([FromBody]TakeLoanDto dto) {
+       return await _internalService.TakeLoan(dto);
     }
     
-    [HttpPost("charge")]
-    public Task<LoanDto> ChargeLoan(LoanChargeDto dto) {
-        throw new NotImplementedException();
+    [HttpDelete("{loanId:guid}/take-cancel")]
+    public async Task TakeLoanCancel(Guid loanId) {
+        await _internalService.TakeLoanCancel(loanId);
     }
     
-    [HttpDelete("take/{loanId:guid}")]
-    public Task<LoanDto> TakeLoanCancel(Guid loanId) {
-        throw new NotImplementedException();
-    }
-    
-    [HttpDelete("charge")]
-    public Task<LoanDto> ChargeLoanCancel(LoanChargeDto dto) {
-        throw new NotImplementedException();
+    [HttpPost("{loanId:guid}/charge")]
+    public async Task ChargeLoanCancel(Guid loanId,[FromBody] LoanChargeDto dto) {
+        await _internalService.ChargeLoan(dto, loanId);
     }
 }
