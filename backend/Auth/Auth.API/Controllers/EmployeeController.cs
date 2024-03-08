@@ -32,7 +32,7 @@ public class EmployeeController: ControllerBase {
     /// Create user
     /// </summary>
     [HttpPost]
-    public async Task<Guid> CreateUser(UserCreateDto dto) {    
+    public async Task<Guid> CreateUser([FromBody] UserCreateDto dto) {    
         return await _userService.CreateUser(dto);
     }
     

@@ -27,7 +27,7 @@ public class TariffEmployeeController: ControllerBase {
     /// Create tariff
     /// </summary>
     [HttpPost]
-    public async Task CreateTariff(TariffCreateDto dto) {
+    public async Task CreateTariff([FromBody] TariffCreateDto dto) {
          await _tariffService.CreateTariff(dto);
     }
     
