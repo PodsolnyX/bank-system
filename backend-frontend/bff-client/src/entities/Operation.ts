@@ -1,8 +1,13 @@
+import { CurrencyType } from "entities/Currency"
+
 export enum OperationType {
   Deposit,
   Withdraw,
-  LoanCharge,
-  LoanIncome,
+}
+
+export enum OperationReason {
+  Cash,
+  Loan,
 }
 
 export enum OperationStatus {
@@ -14,10 +19,12 @@ export enum OperationStatus {
 export type Operation = {
   id: string
   accountId: string
-  loanId?: string
+  loanId?: string | null
   type: OperationType
+  reason: OperationReason
   status: OperationStatus
+  currencyType: CurrencyType
   amount: number
-  date: string
-  message?: string
+  message?: string | null
+  createdAt?: string | null
 }

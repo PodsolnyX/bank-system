@@ -21,7 +21,7 @@ class AccountRepo {
   }
 
   async CloseAccount(Dto: CloseAccountDto) {
-    await CoreAPI.Req.delete<Account>(`/account/user/${Dto.AccountId}`)
+    await CoreAPI.Req.delete<Account>(`/account/user/${Dto.accountId}`)
   }
 
   async GetAccounts(Dto: PaginationReq<SearchAccountDto>) {
@@ -33,23 +33,23 @@ class AccountRepo {
   }
 
   async GetAccount(Dto: GetAccountDto) {
-    return (await CoreAPI.Req.get<Account>(`/account/user/${Dto.AccountId}`)).data
+    return (await CoreAPI.Req.get<Account>(`/account/user/${Dto.accountId}`)).data
   }
 
   async Deposit(Dto: DepositDto) {
-    await CoreAPI.Req.post<Account>(`/account/user/${Dto.AccountId}/deposit`, null, {
+    await CoreAPI.Req.post<Account>(`/account/user/${Dto.accountId}/deposit`, null, {
       params: {
-        Message: Dto.Message,
-        Amount: Dto.Amount,
+        message: Dto.message,
+        amount: Dto.amount,
       },
     })
   }
 
   async Withdraw(Dto: WithdrawDto) {
-    await CoreAPI.Req.post<Account>(`/account/user/${Dto.AccountId}/withdraw`, null, {
+    await CoreAPI.Req.post<Account>(`/account/user/${Dto.accountId}/withdraw`, null, {
       params: {
-        Message: Dto.Message,
-        Amount: Dto.Amount,
+        message: Dto.message,
+        amount: Dto.amount,
       },
     })
   }

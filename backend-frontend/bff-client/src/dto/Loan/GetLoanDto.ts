@@ -1,3 +1,3 @@
 export type GetLoanDto = {
-  LoanId: string
+  loanId: string
 }

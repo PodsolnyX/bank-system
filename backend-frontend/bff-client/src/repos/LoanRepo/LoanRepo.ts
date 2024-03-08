@@ -32,7 +32,7 @@ class LoanRepo {
   }
 
   async GetLoan(Dto: GetLoanDto) {
-    return (await LoanAPI.Req.get<LoanDto>(`/loam/user/${Dto.LoanId}`)).data
+    return (await LoanAPI.Req.get<LoanDto>(`/loan/user/${Dto.loanId}`)).data
   }
 }
 

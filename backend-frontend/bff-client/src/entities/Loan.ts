@@ -6,8 +6,7 @@ export type Loan = {
   userId: string
   accountId: string
   tariff: Tariff
-  lastChargeDate?: string
+  lastChargeDate?: string | null
   currencyType: CurrencyType
-  sum: number
   debt: number
 }

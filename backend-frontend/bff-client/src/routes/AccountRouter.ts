@@ -18,22 +18,22 @@ RouterHelper.use(AccountRouter, AccountControllerInst, [
   },
   {
     method: 'delete',
-    path: '/:AccountId',
+    path: '/:accountId',
     handlers: [AccountControllerInst.CloseAccount],
   },
   {
     method: 'post',
-    path: '/:AccountId/withdraw',
+    path: '/:accountId/withdraw',
     handlers: [AccountControllerInst.Withdraw],
   },
   {
     method: 'post',
-    path: '/:AccountId/deposit',
+    path: '/:accountId/deposit',
     handlers: [AccountControllerInst.Deposit],
   },
   {
     method: 'get',
-    path: '/:AccountId',
+    path: '/:accountId',
     handlers: [AccountControllerInst.GetAccount],
   },
 ])

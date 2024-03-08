@@ -1,6 +1,9 @@
+import { CurrencyType } from "entities/Currency"
+
 export type Account = {
   id: string
-  user: string
+  userId: string
+  currencyType: CurrencyType
   amount: number
-  closedAt?: string
+  closedAt?: string | null
 }

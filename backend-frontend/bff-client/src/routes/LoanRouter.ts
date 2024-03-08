@@ -23,7 +23,7 @@ RouterHelper.use(LoanRouter, LoanControllerInst, [
   },
   {
     method: 'get',
-    path: '/:LoanId',
+    path: '/:loanId',
     handlers: [LoanControllerInst.GetLoan],
   },
 ])

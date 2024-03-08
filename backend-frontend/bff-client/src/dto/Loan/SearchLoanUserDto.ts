@@ -1,6 +1,6 @@
 import { CurrencyType } from 'entities/Currency'
 
 export type SearchLoanUserDto = {
-  AccountIds: string[]
+  accountIds: string[]
   CurrencyTypes: CurrencyType[]
 }

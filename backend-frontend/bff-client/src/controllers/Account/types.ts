@@ -14,14 +14,14 @@ export type CloseAccountReq = Request<{}, {}, CloseAccountDto>
 export type GetAccountsReq = Request<{}, {}, {}, PaginationReq<SearchAccountDto>>
 export type GetAccountReq = Request<GetAccountDto>
 export type DepositReq = Request<
-  Pick<DepositDto, 'AccountId'>,
+  Pick<DepositDto, 'accountId'>,
   {},
   {},
-  Omit<DepositDto, 'AccountId'>
+  Omit<DepositDto, 'accountId'>
 >
 export type WithdrawReq = Request<
-  Pick<WithdrawDto, 'AccountId'>,
+  Pick<WithdrawDto, 'accountId'>,
   {},
   {},
-  Omit<WithdrawDto, 'AccountId'>
+  Omit<WithdrawDto, 'accountId'>
 >

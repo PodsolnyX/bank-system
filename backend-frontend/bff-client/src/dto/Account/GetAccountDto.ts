@@ -1,3 +1,3 @@
 export type GetAccountDto = {
-  AccountId: string
+  accountId: string
 }

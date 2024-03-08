@@ -1,3 +1,3 @@
 export type CloseAccountDto = {
-  AccountId: string
+  accountId: string
 }
