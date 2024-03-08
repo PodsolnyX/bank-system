@@ -28,7 +28,7 @@ public  class LoanService {
         var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync($"{_options.Value.BaseArbiterController}loan", content);
         if (!response.IsSuccessStatusCode)
-            throw new BadRequestException();
+            throw new BadRequestException(response.ReasonPhrase +" ////// "+ response.RequestMessage);
     }
     
     public async Task ChargeLoan(LoanChargeDto dto) {
