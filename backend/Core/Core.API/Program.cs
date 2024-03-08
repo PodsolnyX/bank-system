@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
 using Common.Configuration;
+using Common.Exception;
 using Core.BLL.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -55,6 +56,8 @@ await app.MigrateDbAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseErrorHandleMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

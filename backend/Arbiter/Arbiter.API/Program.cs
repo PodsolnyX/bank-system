@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Arbiter.BLL.DataTransferObjects;
 using Arbiter.BLL.Extensions;
 using Arbiter.BLL.Services;
+using Common.Exception;
 using Hangfire;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -58,6 +59,7 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseErrorHandleMiddleware();
 
 app.MapControllers();
 app.Run();
