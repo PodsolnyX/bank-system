@@ -2,9 +2,9 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
 using Common.Configuration;
-using Hangfire;
 using Microsoft.OpenApi.Models;
 using OperationHistory.BLL.Extensions;
+using OperationHistory.BLL.Jobs;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,7 +55,7 @@ await app.MigrateDbAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseHangfireDashboard();
+app.ConfigureJobs();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

@@ -3,6 +3,7 @@ using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.DAL;
 using Core.DAL.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace Core.BLL.Services;
 
@@ -11,16 +12,19 @@ public class AccountExternalService
     private readonly CoreDbContext _dbContext;
     private readonly OperationHistorySender _operationHistorySender;
     private readonly AccountBalanceService _accountBalanceService;
+    private readonly ILogger<AccountExternalService> _logger;
 
     public AccountExternalService(
         CoreDbContext dbContext,
         OperationHistorySender operationHistorySender,
-        AccountBalanceService accountBalanceService
+        AccountBalanceService accountBalanceService,
+        ILogger<AccountExternalService> logger
     )
     {
         _dbContext = dbContext;
         _operationHistorySender = operationHistorySender;
         _accountBalanceService = accountBalanceService;
+        _logger = logger;
     }
 
     public async Task<AccountDto> OpenAccount(Guid userId, OpenAccountDto dto)
@@ -101,25 +105,33 @@ public class AccountExternalService
 
         await _accountBalanceService.LockAccount(accountId);
 
-        _operationHistorySender.SendOperationHistoryMessage(
-            new OperationHistoryMessage
-            {
-                UserId = account!.UserId,
-                AccountId = accountId,
-                LoanId = dto.LoanId,
-                TransactionId = dto.TransactionId ?? Guid.NewGuid(),
+        try
+        {
+            _operationHistorySender.SendOperationHistoryMessage(
+                new OperationHistoryMessage
+                {
+                    UserId = account!.UserId,
+                    AccountId = accountId,
+                    LoanId = dto.LoanId,
+                    TransactionId = dto.TransactionId ?? Guid.NewGuid(),
 
-                OperationType = dto.Type,
-                OperationReason = dto.Reason,
-                OperationStatus = OperationStatus.Success,
+                    OperationType = dto.Type,
+                    OperationReason = dto.Reason,
+                    OperationStatus = OperationStatus.Success,
 
-                Amount = dto.Amount,
-                CurrencyType = account.CurrencyType,
+                    Amount = dto.Amount,
+                    CurrencyType = account.CurrencyType,
 
-                DateTime = DateTime.UtcNow,
-                Message = dto.Message
-            }
-        );
+                    DateTime = DateTime.UtcNow,
+                    Message = dto.Message
+                }
+            );
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while sending operation history message");
+            await _accountBalanceService.UnlockAccount(accountId);
+        }
     }
 
     private void CheckAccount(Account? account, Guid? userId = null)

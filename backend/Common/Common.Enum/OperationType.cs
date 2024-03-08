@@ -1,6 +1,7 @@
 ﻿namespace Common.Enum;
 
-public enum OperationType {
+public enum OperationType
+{
     Deposit,
     Withdraw,
 }
