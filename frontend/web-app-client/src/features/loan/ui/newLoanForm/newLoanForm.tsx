@@ -5,6 +5,7 @@ import { Form, FormProps } from 'shared/ui'
 import { Account, Tariff } from 'shared/entities'
 import { RequestLoanReq } from 'shared/api'
 import { moneyRules } from 'shared/utils'
+import { format } from 'shared/utils/format'
 
 export type NewLoanFormProps = {
   onFinish: (data: NewLoanFormData) => void
@@ -74,7 +75,7 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
           {visibleAccounts.map((acc) => (
             <Select.Option
               key={acc.id}
-            >{`${acc.id}: ${acc.amount} ${acc.currencyType}`}</Select.Option>
+            >{`${acc.id}: ${format(acc.amount)} ${acc.currencyType}`}</Select.Option>
           ))}
         </Select>
       </Form.Item>

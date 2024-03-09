@@ -5,7 +5,7 @@ import { getOperationCode, getOperationName } from 'entities/operation/lib'
 import { Link } from 'react-router-dom'
 
 import { getAccountHistoryLink } from 'shared/const'
-import { CurrencyType, Operation, OperationReason, OperationType } from 'shared/entities'
+import { Operation, OperationReason, OperationType } from 'shared/entities'
 import { format } from 'shared/utils/format'
 
 export const verboseLoanTableColumns: ColumnsType<Operation> = [
@@ -64,11 +64,6 @@ export const verboseLoanTableColumns: ColumnsType<Operation> = [
     align: 'center',
     sorter: (a, b) => a.amount - b.amount,
     render: (_, rec) => `${format(rec.amount)} ${rec.currencyType}`,
-    filters: Object.keys(CurrencyType).map((cur) => ({
-      text: cur,
-      value: cur,
-    })),
-    onFilter: (value, record) => record.currencyType === value,
   },
 ]
 
