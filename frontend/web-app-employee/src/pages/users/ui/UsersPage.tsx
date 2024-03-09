@@ -4,6 +4,8 @@ import React, {useState} from "react";
 import {useUsers} from "../hooks/useUsers.ts";
 import {UserDto} from "../../../services/auth/models/UserDto.ts";
 import AddUserModal from "./AddUserModal.tsx";
+import {generatePath, Link} from "react-router-dom";
+import {Links} from "../../../constants/Links.ts";
 
 const UsersPage = () => {
 
@@ -28,6 +30,10 @@ const UsersPage = () => {
                 dataIndex: 'name',
                 defaultSortOrder: "ascend",
                 sorter: (a, b) => a.name.localeCompare(b.name),
+                render: (text, record) =>
+                    <Link to={generatePath(Links.UserInfo, {id: record.id})}>
+                        {text}
+                    </Link>
             },
             {
                 title: 'Почта',

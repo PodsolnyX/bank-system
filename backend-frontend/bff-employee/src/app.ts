@@ -23,7 +23,7 @@ app.use('/auth/user', UserRouter)
 app.use('*', AuthMiddlewareInst())
 
 app.use('/account/employee', AccountRouter)
-app.use('/loan/user', LoanRouter)
+app.use('/loan/employee', LoanRouter)
 app.use('/tariff/user', TariffRouter)
 app.use('/operation-history/employee', OperationHistoryRouter)
 

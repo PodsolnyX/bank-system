@@ -1,4 +1,5 @@
+import {SearchOperationDto} from "./models/SearchOperationDto.ts";
 
 export const operationHistoryQueryKeys = {
-    history: (id?: string) => ["GET_OPERATION_HISTORY", id]
+    history: (params: SearchOperationDto) => ["GET_OPERATION_HISTORY", params]
 }

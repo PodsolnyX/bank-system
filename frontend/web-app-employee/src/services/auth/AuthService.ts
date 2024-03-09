@@ -4,6 +4,7 @@ import {UserDto} from "./models/UserDto.ts";
 import {SearchUsersDto} from "./models/SearchUsersDto.ts";
 import {Pagination} from "../common/Pagination.ts";
 import {UserCreateDto} from "./models/UserCreateDto.ts";
+import {UserInfoDto} from "./models/UserInfoDto.ts";
 
 class AuthService {
     async getProfile(params: GetProfileParamsDto) {
@@ -16,6 +17,10 @@ class AuthService {
         return instance.get<UserDto[]>('/auth/user/users/', {
             params: params
         })
+    }
+
+    async getUserInfo(id: string) {
+        return instance.get<UserInfoDto>(`/auth/user/user/${id}`)
     }
 
     async createUser(data: UserCreateDto) {

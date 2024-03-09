@@ -1,16 +1,22 @@
-import {useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {operationHistoryQueryKeys} from "../../../services/operationHistory/operationHistoryQueryKeys.ts";
 import operationHistoryService from "../../../services/operationHistory/OperationHistoryService.ts";
+import {useState} from "react";
+import {SearchOperationDto} from "../../../services/operationHistory/models/SearchOperationDto.ts";
 
 export function useHistory() {
 
-    const {id} = useParams()
+    const [params, setParams] = useState<SearchOperationDto>({});
 
-    return useQuery({
-        queryKey: operationHistoryQueryKeys.history(id),
-        queryFn: () => operationHistoryService.getHistory(id || ""),
+    const history =  useQuery({
+        queryKey: operationHistoryQueryKeys.history(params),
+        queryFn: () => operationHistoryService.getHistory(params),
         select: ({data}) => data,
-        enabled: !!id
     })
+
+    return {
+        history,
+        params,
+        setParams
+    }
 }

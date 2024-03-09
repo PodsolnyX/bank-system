@@ -7,15 +7,14 @@ import TariffsPage from "../../pages/tariffs";
 import AccountPage from "../../pages/account";
 import LoginPage from "../../pages/login";
 import {useAuth} from "./auth";
+import UserInfoPage from "../../pages/userInfo";
+import LoanPage from "../../pages/loan";
 
 const Router = () => {
 
     const {isAuth} = useAuth();
 
-    return (
-        isAuth ? <AuthRoutes/> : <UnauthRoutes/>
-
-    )
+    return ( isAuth ? <AuthRoutes/> : <UnauthRoutes/> )
 }
 
 const AuthRoutes = () => {
@@ -25,7 +24,9 @@ const AuthRoutes = () => {
             <Route path={Links.Users} element={<UsersPage/>}/>
             <Route path={Links.Accounts} element={<AccountsPage/>}/>
             <Route path={Links.Account} element={<AccountPage/>}/>
+            <Route path={Links.Loan} element={<LoanPage/>}/>
             <Route path={Links.Tariffs} element={<TariffsPage/>}/>
+            <Route path={Links.UserInfo} element={<UserInfoPage/>}/>
             <Route path={"/*"} element={<Navigate to={Links.Main} />}/>
         </Routes>
     )
