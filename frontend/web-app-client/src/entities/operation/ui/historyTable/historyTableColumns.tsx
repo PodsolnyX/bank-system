@@ -14,7 +14,19 @@ import {
 } from 'shared/entities'
 import { format } from 'shared/utils/format'
 
-export const historyColumns: ColumnsType<Operation> = [
+const commonColumns: ColumnsType<Operation> = [
+  {
+    title: 'Дата',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    sorter: (a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return a.createdAt.localeCompare(b.createdAt)
+      }
+      return 0
+    },
+    render: (_, rec) => (rec.createdAt ? new Date(rec.createdAt).toLocaleString() : '-'),
+  },
   {
     title: 'Код',
     dataIndex: 'id',
@@ -43,18 +55,6 @@ export const historyColumns: ColumnsType<Operation> = [
       },
     ],
     onFilter: (value, op) => op.status === value,
-  },
-  {
-    title: 'Дата',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    sorter: (a, b) => {
-      if (a.createdAt && b.createdAt) {
-        return a.createdAt.localeCompare(b.createdAt)
-      }
-      return 0
-    },
-    render: (_, rec) => (rec.createdAt ? new Date(rec.createdAt).toLocaleString() : '-'),
   },
   {
     title: 'Тип',
@@ -90,6 +90,18 @@ export const historyColumns: ColumnsType<Operation> = [
     align: 'center',
   },
   {
+    title: `Примечание`,
+    dataIndex: 'message',
+    key: 'message',
+    render: (msg) => msg || '-',
+    className: 'wrap break-all',
+    responsive: ['md'],
+  },
+]
+
+export const historyColumns: ColumnsType<Operation> = [
+  ...commonColumns,
+  {
     title: `Сумма`,
     dataIndex: 'amount',
     key: 'amount',
@@ -97,19 +109,6 @@ export const historyColumns: ColumnsType<Operation> = [
     align: 'center',
     sorter: (a, b) => a.amount - b.amount,
     render: (_, rec) => `${format(rec.amount)} ${rec.currencyType}`,
-    filters: Object.keys(CurrencyType).map((cur) => ({
-      text: cur,
-      value: cur,
-    })),
-    onFilter: (value, record) => record.currencyType === value,
-  },
-  {
-    title: `Примечание`,
-    dataIndex: 'message',
-    key: 'message',
-    render: (msg) => msg || '-',
-    className: 'wrap break-all',
-    responsive: ['md'],
   },
 ]
 
@@ -123,7 +122,21 @@ export const fullHistoryColumns: ColumnsType<Operation> = [
       <Link to={getAccountHistoryLink(accountId)}>{accountId}</Link>
     ),
   },
-  ...historyColumns,
+  ...commonColumns,
+  {
+    title: `Сумма`,
+    dataIndex: 'amount',
+    key: 'amount',
+    width: '10%',
+    align: 'center',
+    sorter: (a, b) => a.amount - b.amount,
+    render: (_, rec) => `${format(rec.amount)} ${rec.currencyType}`,
+    filters: Object.keys(CurrencyType).map((cur) => ({
+      text: cur,
+      value: cur,
+    })),
+    onFilter: (value, record) => record.currencyType === value,
+  },
 ]
 
 const getTagColor = (

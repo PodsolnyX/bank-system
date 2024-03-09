@@ -52,7 +52,7 @@ export const AccountPage = () => {
         </>
       ) : (
         <>
-          <div className='flex flex-col md:flex-row w-1/3 justify-evenly text-center'>
+          <div className='flex flex-col lg:flex-row w-1/3 justify-evenly text-center'>
             <Link to={getAccountDepositLink(id)}>
               <Button
                 className='mb-2'

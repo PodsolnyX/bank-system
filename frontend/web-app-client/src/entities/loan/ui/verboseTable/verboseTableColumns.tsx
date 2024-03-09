@@ -22,10 +22,17 @@ export const verboseLoanTableColumns: ColumnsType<Operation> = [
     render: (_, rec) => (rec.createdAt ? new Date(rec.createdAt).toLocaleString() : '-'),
   },
   {
+    title: 'Код',
+    dataIndex: 'id',
+    key: 'id',
+  },
+  {
     title: 'Счет',
-    dataIndex: 'account',
-    key: 'account',
-    render: (_, acc) => <Link to={getAccountHistoryLink(acc.id)}>{acc.id}</Link>,
+    dataIndex: 'accountId',
+    key: 'accountId',
+    render: (_, op) => (
+      <Link to={getAccountHistoryLink(op.accountId)}>{op.accountId}</Link>
+    ),
   },
   {
     title: 'Тип',
@@ -33,16 +40,8 @@ export const verboseLoanTableColumns: ColumnsType<Operation> = [
     key: 'type',
     filters: [
       {
-        text: getOperationName(OperationType.DEPOSIT, OperationReason.CASH),
-        value: getOperationCode(OperationType.DEPOSIT, OperationReason.CASH),
-      },
-      {
         text: getOperationName(OperationType.DEPOSIT, OperationReason.LOAN),
         value: getOperationCode(OperationType.DEPOSIT, OperationReason.LOAN),
-      },
-      {
-        text: getOperationName(OperationType.WITHDRAW, OperationReason.CASH),
-        value: getOperationCode(OperationType.WITHDRAW, OperationReason.CASH),
       },
       {
         text: getOperationName(OperationType.WITHDRAW, OperationReason.LOAN),

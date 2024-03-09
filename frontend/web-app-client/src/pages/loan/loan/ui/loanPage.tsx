@@ -5,7 +5,7 @@ import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 import { AppRoutes, getLoanRepayLink } from 'shared/const'
 import { needToPay } from 'entities/loan'
 import { useGetHistoryQuery, useGetLoansQuery } from 'shared/api'
-import { OperationStatus, SortOrder } from 'shared/entities'
+import { SortOrder } from 'shared/entities'
 import { format } from 'shared/utils/format'
 
 export const LoanPage = () => {
@@ -22,7 +22,6 @@ export const LoanPage = () => {
   } = useGetHistoryQuery({
     loanIds: [id!],
     limit: 100000,
-    OperationStatuses: [OperationStatus.SUCCESS],
     orderBy: 'createdAt',
     sortOrder: SortOrder.DESC,
   })
@@ -48,7 +47,7 @@ export const LoanPage = () => {
         <>
           <Property
             name='Кредит'
-            value={`${loans[0].id}, тариф ${loans[0].tariff.name}, ${loans[0].tariff.interestRate}%`}
+            value={`${loans[0].id}, тариф ${loans[0].tariff.name}, ${loans[0].tariff.interestRate}%, ${loans[0].tariff.periodInDays} дн`}
           />
           <Property
             name='Долг'
@@ -57,7 +56,9 @@ export const LoanPage = () => {
           <Property
             name='Статус'
             value={
-              needToPay(loans[0].lastChargeDate) ? (
+              loans[0].debt <= 0 ? (
+                <span className='text-lime-800'>Погашен</span>
+              ) : needToPay(loans[0].lastChargeDate) ? (
                 <Link to={getLoanRepayLink(loans[0].id)} className='text-red-500'>
                   Нужна оплата
                 </Link>

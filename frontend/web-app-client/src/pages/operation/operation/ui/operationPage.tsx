@@ -41,7 +41,7 @@ export const OperationPage = (props: OperationPageProps) => {
     }
   }
 
-  if (account.isError) {
+  if (account.isError || account.data?.closedAt) {
     return (
       <ErrorMsg
         link={AppRoutes.ACCOUNTS}

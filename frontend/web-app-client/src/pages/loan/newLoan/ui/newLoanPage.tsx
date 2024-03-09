@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
 import { toastError, toastSuccess } from 'shared/toast'
 import { PageLoader } from 'widgets'
+import { convert } from 'shared/utils/format'
 
 export const NewLoanPage = () => {
   const navigate = useNavigate()
@@ -17,9 +18,8 @@ export const NewLoanPage = () => {
   const [trigger] = useRequestLoanMutation()
 
   const onFinish = async (values: NewLoanFormData) => {
-    console.log(values)
     try {
-      await trigger(values).unwrap()
+      await trigger(convert(values)).unwrap()
       toastSuccess('Ваша заявка принята, ждите')
       navigate(AppRoutes.MAIN)
     } catch {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 export const PageLoader = () => {
-  const [dots, setDots] = useState(0)
+  const [dots, setDots] = useState(3)
 
   useEffect(() => {
     const interval = setInterval(() => {

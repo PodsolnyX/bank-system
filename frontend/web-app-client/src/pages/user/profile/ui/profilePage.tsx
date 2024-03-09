@@ -29,8 +29,7 @@ export const ProfilePage = () => {
         </Card>
       ) : (
         <Card
-          title={data?.name || 'Нет имени'}
-          extra={<Link to={AppRoutes.LOGOUT}>Выйти</Link>}
+          title={<span className='text-pretty'>{data?.name || 'Нет имени'}</span>}
           className='w-full md:w-1/2'
         >
           <Property name='id' value={data?.id || '—'} className='m-0' />
@@ -40,6 +39,7 @@ export const ProfilePage = () => {
             className='m-0'
           />
           <Property name='Почта' value={data?.mail || '—'} className='m-0' />
+          <Link to={AppRoutes.LOGOUT}>Выйти</Link>
         </Card>
       )}
     </Center>

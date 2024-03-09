@@ -4,7 +4,7 @@ export function getOperationName(type: OperationType, reason: OperationReason) {
   const names = {
     [OperationType.DEPOSIT]: {
       [OperationReason.CASH]: 'Пополнение',
-      [OperationReason.LOAN]: 'Займ',
+      [OperationReason.LOAN]: 'Заём',
     },
     [OperationType.WITHDRAW]: {
       [OperationReason.CASH]: 'Снятие',

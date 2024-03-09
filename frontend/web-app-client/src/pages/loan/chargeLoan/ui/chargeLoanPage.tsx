@@ -5,6 +5,7 @@ import { AppRoutes } from 'shared/const'
 import { toastError, toastSuccess } from 'shared/toast'
 import { ErrorMsg } from 'shared/ui'
 import { PageLoader } from 'widgets'
+import { convert } from 'shared/utils/format'
 
 export const ChargeLoanPage = () => {
   const { id } = useParams()
@@ -16,7 +17,7 @@ export const ChargeLoanPage = () => {
 
   const onFinish = async (values: ChargeLoanFormValues) => {
     try {
-      await trigger(values).unwrap()
+      await trigger(convert(values)).unwrap()
       toastSuccess('Запрос на операцию принят')
       navigate(AppRoutes.HISTORY)
     } catch {
