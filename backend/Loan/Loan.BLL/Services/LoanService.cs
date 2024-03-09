@@ -32,11 +32,13 @@ public  class LoanService {
     }
     
     public async Task ChargeLoan(LoanChargeDto dto) {
-        var request = new RequestLoanChargeDto {
-            Amount = dto.Amount,
-            LoanId = dto.LoanId,
-            CurrencyType = dto.CurrencyType
-        };
+        var loan = await _dbContext.Loans
+            .FirstOrDefaultAsync(l => l.Id == dto.LoanId);
+        if (loan == null)
+            throw new NotFoundException("Loan not found");
+        if (dto.Amount > loan.Debt)
+            throw new BadRequestException("Loan debt < charge amount");
+        
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(_options.Value.BaseUrlArbiter);
         var jsonDto = JsonConvert.SerializeObject(dto);

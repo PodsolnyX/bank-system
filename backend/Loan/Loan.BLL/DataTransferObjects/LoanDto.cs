@@ -11,7 +11,7 @@ public class LoanDto {
     
     public TariffDto Tariff { get; set; }
     
-    public DateTime LastChargeDate { get; set; }
+    public DateTime? LastChargeDate { get; set; }
     
     public CurrencyType CurrencyType { get; set; }
     

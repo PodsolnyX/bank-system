@@ -13,7 +13,7 @@ public class Loan {
     
     public Tariff Tariff { get; set; }
     
-    public DateTime LastChargeDate { get; set; }
+    public DateTime? LastChargeDate { get; set; }
     
     public CurrencyType CurrencyType { get; set; }
     

@@ -23,7 +23,7 @@ public class LoanInternalService {
             AccountId = dto.AccountId,
             Tariff = tariff,
             CurrencyType = dto.CurrencyType,
-            Debt = dto.Amount
+            Debt = dto.Amount,
         };
         _dbContext.Add(loan);
         await _dbContext.SaveChangesAsync();
@@ -47,6 +47,7 @@ public class LoanInternalService {
         if (loan.Debt < dto.Amount)
             throw new BadRequestException("Too many money");
         loan.Debt -= dto.Amount;
+        loan.LastChargeDate = DateTime.UtcNow;
         _dbContext.Update(loan);
         await _dbContext.SaveChangesAsync();
     }
