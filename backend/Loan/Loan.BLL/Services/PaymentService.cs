@@ -22,7 +22,8 @@ public class PaymentService {
             .ToListAsync();
         
         return payments
-            .OrderBy(p=> dto.LoanIds.IndexOf(p.Id))         
+            .OrderBy(p=> dto.LoanIds.IndexOf(p.Id))
+            .ThenBy(p=>p.CreatedAt)
             .Select(p => new PaymentDto {
             Id = p.Id,
             Loan = new LoanDto {
@@ -44,7 +45,8 @@ public class PaymentService {
             IsActual = p.IsActual,
             AmountForPay = p.AmountForPay,
             AlreadyPaid = p.AlreadyPaid,
-            PaidAt = p.PaidAt
+            PaidAt = p.PaidAt,
+            CreatedAt = p.CreatedAt
         }).ToList();
     }
     
@@ -77,6 +79,7 @@ public class PaymentService {
                 AlreadyPaid = 0,
                 IsActual = true,
                 PenaltyFee = 0,
+                CreatedAt = DateTime.UtcNow
             };
             _dbContext.Add(payment);
         }

@@ -25,6 +25,7 @@ public class LoanInternalService {
             Tariff = tariff,
             CurrencyType = dto.CurrencyType,
             Debt = dto.Amount,
+            CreatedAt = DateTime.UtcNow
         };
         _dbContext.Add(loan);
         await _dbContext.SaveChangesAsync();
@@ -64,7 +65,8 @@ public class LoanInternalService {
                 AlreadyPaid = dto.Amount,
                 IsActual = false,
                 PenaltyFee = 0,
-                PaidAt = DateTime.UtcNow
+                PaidAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
             };
             _dbContext.Add(newPayment);
         }

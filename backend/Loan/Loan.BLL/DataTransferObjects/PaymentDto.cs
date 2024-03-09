@@ -8,4 +8,5 @@ public class PaymentDto {
     public DateTime? PaidAt { get; set; } // во сколько заплатил
     public bool IsActual { get; set; } // текущая заявка
     public int PenaltyFee { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

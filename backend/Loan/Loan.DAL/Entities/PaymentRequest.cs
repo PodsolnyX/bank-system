@@ -1,6 +1,8 @@
-﻿namespace Loan.DAL.Entities;
+﻿using Common.Persistence;
 
-public class PaymentRequest {
+namespace Loan.DAL.Entities;
+
+public class PaymentRequest : BaseEntity {
     public Guid Id { get; set; } = Guid.NewGuid();
     public Loan Loan { get; set; }
     public int CurrentDebt { get; set; } // сумма на момент создания ревеста
