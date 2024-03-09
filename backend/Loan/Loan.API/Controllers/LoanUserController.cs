@@ -10,9 +10,11 @@ namespace Loan.API.Controllers;
 [ApiKeyAuthorization]
 public class LoanUserController: ControllerBase {
     private readonly LoanService _loanService;
+    private readonly PaymentService _paymentService;
 
-    public LoanUserController(LoanService loanService) {
+    public LoanUserController(LoanService loanService, PaymentService paymentService) {
         _loanService = loanService;
+        _paymentService = paymentService;
     }
 
     /// <summary>
@@ -50,5 +52,20 @@ public class LoanUserController: ControllerBase {
     public async Task<List<LoanDto>> GetLoans(SearchLoanUserDto dto) {
         var userId = HttpContext.GetUserId();
         return await _loanService.GetLoansUser(dto, userId);
+    }
+    /// <summary>
+    /// Get user`s payments
+    /// </summary>
+    [HttpGet("payments")]
+    public async Task<List<PaymentDto>> GetLoanPayments( SearchPaymentDto dto) {
+        var userId = HttpContext.GetUserId();
+        return await _paymentService.GetPayments(dto, userId);
+    }
+    /// <summary>
+    /// Execute job
+    /// </summary>
+    [HttpPost]
+    public async Task ExecuteJob() {
+         await _paymentService.ExecutePayment();
     }
 }

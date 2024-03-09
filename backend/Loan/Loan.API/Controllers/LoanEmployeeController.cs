@@ -11,9 +11,11 @@ namespace Loan.API.Controllers;
 
 public class LoanEmployeeController: ControllerBase {
     private readonly LoanService _loanService;
+    private readonly PaymentService _paymentService;
 
-    public LoanEmployeeController(LoanService loanService) {
+    public LoanEmployeeController(LoanService loanService, PaymentService paymentService) {
         _loanService = loanService;
+        _paymentService = paymentService;
     }
 
     /*/// <summary>
@@ -30,5 +32,12 @@ public class LoanEmployeeController: ControllerBase {
     [HttpGet]
     public async Task<List<LoanDto>> GetLoans(SearchLoanEmployeeDto dto) {
         return await _loanService.GetLoans(dto);
+    }
+    /// <summary>
+    /// Get user`s payments
+    /// </summary>
+    [HttpGet("{userId}")]
+    public async Task<List<PaymentDto>> GetLoanPayments(SearchPaymentDto dto ,Guid userId) {
+        return await _paymentService.GetPayments(dto, userId);
     }
 }

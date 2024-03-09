@@ -2,6 +2,7 @@
 using Common.Exception;
 using Loan.BLL.DataTransferObjects;
 using Loan.DAL;
+using Loan.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,7 +40,9 @@ public class LoanInternalService {
     }
     
     public async Task ChargeLoan(LoanChargeDto dto, Guid loanId) {
-        var loan = await _dbContext.Loans.FirstOrDefaultAsync(t => t.Id == loanId);
+        var loan = await _dbContext.Loans
+            .Include(l=>l.Payments)
+            .FirstOrDefaultAsync(t => t.Id == loanId);
         if (loan == null)
             throw new NotFoundException("Loan not found");
         if (loan.CurrencyType != dto.CurrencyType)
@@ -47,6 +50,26 @@ public class LoanInternalService {
         if (loan.Debt < dto.Amount)
             throw new BadRequestException("Too many money");
         loan.Debt -= dto.Amount;
+        var payment = loan.Payments
+            .FirstOrDefault(p=>p.IsActual);
+        if (payment != null) {
+            payment.PaidAt = DateTime.UtcNow;
+            payment.AlreadyPaid = dto.Amount;
+            _dbContext.Update(payment);
+        }
+        else {
+            var newPayment = new PaymentRequest {
+                Loan = loan,
+                CurrentDebt = loan.Debt,
+                AlreadyPaid = dto.Amount,
+                IsActual = false,
+                PenaltyFee = 0,
+                PaidAt = DateTime.UtcNow
+            };
+            _dbContext.Add(newPayment);
+        }
+        if (loan.Debt == 0)
+            loan.IsClosed = true;
         loan.LastChargeDate = DateTime.UtcNow;
         _dbContext.Update(loan);
         await _dbContext.SaveChangesAsync();

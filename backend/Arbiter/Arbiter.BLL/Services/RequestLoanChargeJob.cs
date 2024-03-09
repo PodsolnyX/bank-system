@@ -61,7 +61,7 @@ public class RequestLoanChargeJob {
                 LoanId = request.LoanId,
                 TransactionId = Guid.NewGuid(),
                 Amount = request.Amount,
-                Message = "Good evn"
+                Message = "Списание по оплате кредита"
             };
             var jsonDto = JsonConvert.SerializeObject(loanDto);
             var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");

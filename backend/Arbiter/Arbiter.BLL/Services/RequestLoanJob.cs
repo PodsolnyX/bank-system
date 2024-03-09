@@ -101,7 +101,7 @@ public class RequestLoanJob {
                 LoanId = request.LoanId,
                 TransactionId = Guid.NewGuid(),
                 Amount = request.Amount,
-                Message = "Good moo"
+                Message = "Начисление по взятию кредита"
             };
 
             var jsonDto = JsonConvert.SerializeObject(loanDto);

@@ -2,8 +2,10 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
 using Common.Exception;
+using Hangfire;
 using Loan.BLL.DataTransferObjects;
 using Loan.BLL.Extensions;
+using Loan.BLL.Services;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -19,7 +21,7 @@ builder.Services.AddCors(options => {
 });
 
 builder.Services.AddDatabase(builder.Configuration);
-builder.Services.AddServices();
+builder.Services.AddServices(builder.Configuration);
 
 builder.Services.AddControllers().AddJsonOptions(opts => {
     var enumConverter = new JsonStringEnumConverter();
@@ -51,6 +53,10 @@ builder.Logging.AddSerilog(logger);
 var app = builder.Build();
 
 await app.MigrateDbAsync();
+
+app.UseHangfireDashboard();
+
+RecurringJob.AddOrUpdate<PaymentRequestJob>("PaymentRequestJob", x => x.ExecutePayment(),"0 12 * * *");
 
 app.UseSwagger();
 app.UseSwaggerUI();

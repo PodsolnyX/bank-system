@@ -1,4 +1,6 @@
-﻿using Loan.BLL.Services;
+﻿using Hangfire;
+using Hangfire.PostgreSql;
+using Loan.BLL.Services;
 using Loan.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,12 +28,28 @@ public static class ServiceDependencyExtension
     /// Add Backend BLL service dependencies
     /// </summary>
     public static IServiceCollection AddServices(
-        this IServiceCollection services
+        this IServiceCollection services,
+        IConfiguration configuration
     )
     {
         services.AddScoped<LoanService>();
         services.AddScoped<LoanInternalService>();
         services.AddScoped<TariffService>();
+        services.AddScoped<PaymentService>();
+        services.AddHangfireServer();
+        services.AddHangfire(x =>
+            x.UsePostgreSqlStorage(
+                s =>
+                {
+                    s.UseNpgsqlConnection(configuration.GetConnectionString("Database"));
+                },
+                new PostgreSqlStorageOptions()
+                {
+                    DistributedLockTimeout = TimeSpan.FromSeconds(1),
+                    PrepareSchemaIfNecessary = true,
+                }
+            )
+        );
         return services;
     }
 }
