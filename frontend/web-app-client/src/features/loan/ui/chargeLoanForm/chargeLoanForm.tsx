@@ -85,7 +85,7 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
               validator: (_rule, v) => {
                 const account = accounts.find((acc) => acc.id === chosenAcc)
                 if (!account) return Promise.reject('Ошибка')
-                if (account.amount <= v * 100)
+                if (account.amount < v * 100)
                   return Promise.reject('Недостаточно средств')
                 return Promise.resolve()
               },

@@ -41,6 +41,16 @@ export const NewLoanPage = () => {
     return <PageLoader />
   }
 
+  if (accounts.data?.filter((acc) => !acc.closedAt)?.length === 0) {
+    return (
+      <ErrorMsg
+        text='У вас еще нет активных счетов'
+        link={AppRoutes.ACCOUNTS}
+        linkText='В меню счетов'
+      />
+    )
+  }
+
   return (
     <Center>
       <PageHeader text='Новый кредит' />

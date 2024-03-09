@@ -67,7 +67,14 @@ export const LoanPage = () => {
               )
             }
           />
-          <Property name='Последняя оплата' value={loans[0].lastChargeDate || '—'} />
+          <Property
+            name='Последняя оплата'
+            value={
+              loans[0].lastChargeDate
+                ? new Date(loans[0].lastChargeDate).toLocaleString()
+                : '—'
+            }
+          />
         </>
       )}
 
