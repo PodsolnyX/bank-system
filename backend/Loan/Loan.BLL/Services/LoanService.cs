@@ -73,6 +73,7 @@ public  class LoanService {
                     InterestRate = l.Tariff.InterestRate,
                     CurrencyTypes = l.Tariff.CurrencyTypes
                 },
+                IsClosed = l.IsClosed,
                 LastChargeDate = l.LastChargeDate,
                 CurrencyType = l.CurrencyType,
                 Debt = l.Debt
@@ -97,6 +98,7 @@ public  class LoanService {
                     InterestRate = l.Tariff.InterestRate,
                     CurrencyTypes = l.Tariff.CurrencyTypes
                 },
+                IsClosed = l.IsClosed,
                 LastChargeDate = l.LastChargeDate,
                 CurrencyType = l.CurrencyType,
                 Debt = l.Debt

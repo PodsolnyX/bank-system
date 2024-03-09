@@ -14,6 +14,7 @@ public class LoanDto {
     public DateTime? LastChargeDate { get; set; }
     
     public CurrencyType CurrencyType { get; set; }
+    public bool IsClosed { get; set; } = false;
     
     public int Debt { get; set; }
 }
