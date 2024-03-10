@@ -28,7 +28,7 @@ public class CalculateOperationAggregationJob
         {
             var notAggregated = await _dbContext
                 .Operations.Where(operation =>
-                    (operation.ModifiedAt ?? operation.CreatedAt) > DateTime.UtcNow.AddDays(-1)
+                    (operation.ModifiedAt ?? operation.CreatedAt) < DateTime.UtcNow.AddDays(-1)
                     && operation.Status == OperationStatus.Success
                     && (
                         _dbContext.OperationAggregations.FirstOrDefault(aggregation =>

@@ -12,7 +12,7 @@ public static class ConfigureJobExtension
         RecurringJob.AddOrUpdate<CalculateOperationAggregationJob>(
             nameof(CalculateOperationAggregationJob),
             x => x.Execute(),
-            "1 * * * * *"
+            "5 0 * * * *"
         );
     }
 }
