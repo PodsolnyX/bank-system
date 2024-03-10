@@ -13,6 +13,16 @@ RouterHelper.use(UserRouter, UserControllerInst, [
   },
   {
     method: 'get',
+    path: '/users',
+    handlers: [UserControllerInst.GetUsers],
+  },
+  {
+    method: 'get',
+    path: '/user/:UserId',
+    handlers: [UserControllerInst.GetUserInfo],
+  },
+  {
+    method: 'get',
     path: '/status',
     handlers: [UserControllerInst.GetUserStatus],
   },
@@ -25,6 +35,11 @@ RouterHelper.use(UserRouter, UserControllerInst, [
     method: 'post',
     path: '/create',
     handlers: [UserControllerInst.CreateUser],
+  },
+  {
+    method: 'post',
+    path: '/:UserId/ban',
+    handlers: [UserControllerInst.BanUser],
   },
 ])
 

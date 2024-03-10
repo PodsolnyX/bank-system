@@ -1,5 +1,12 @@
 import { Request, Response } from 'express'
-import {BanUserReq, CreateUserReq, GetUserReq, GetUserStatusReq} from './types'
+import {
+  BanUserReq,
+  CreateUserReq,
+  GetUserInfoReq,
+  GetUserReq,
+  GetUsersReq,
+  GetUserStatusReq
+} from './types'
 import { CookieName } from 'config/Auth'
 import { UserService } from 'services/UserService'
 import { Extractor } from 'controllers/lib/Extractor'
@@ -21,6 +28,16 @@ class UserController {
     res.status(200).send(data)
   }
 
+  async GetUserInfo(req: GetUserInfoReq, res: Response) {
+    const data = await this._UserService.GetUserInfo(Extractor.ExtractParams(req))
+    res.status(200).send(data)
+  }
+
+  async GetUsers(req: GetUsersReq, res: Response) {
+    const data = await this._UserService.GetUsers(Extractor.ExtractParams(req))
+    res.status(200).send(data)
+  }
+
   async Logout(req: Request, res: Response) {
     if (!req.cookies[CookieName]) {
       res.sendStatus(401)
@@ -32,7 +49,7 @@ class UserController {
   }
 
   async CreateUser(req: CreateUserReq, res: Response) {
-    const id = await this._UserService.CreateUser(Extractor.ExtractParams(req))
+    const id = await this._UserService.CreateUser(Extractor.ExtractBody(req))
     res.status(200).send({ id })
   }
 

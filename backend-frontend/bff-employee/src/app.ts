@@ -22,10 +22,10 @@ app.use('/auth/user', UserRouter)
 
 app.use('*', AuthMiddlewareInst())
 
-app.use('/account/user', AccountRouter)
-app.use('/loan/user', LoanRouter)
+app.use('/account/employee', AccountRouter)
+app.use('/loan/employee', LoanRouter)
 app.use('/tariff/user', TariffRouter)
-app.use('/operation-history/user', OperationHistoryRouter)
+app.use('/operation-history/employee', OperationHistoryRouter)
 
 app.use((_req, res) => res.sendStatus(404))
 

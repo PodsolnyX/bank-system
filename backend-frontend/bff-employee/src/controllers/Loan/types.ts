@@ -1,15 +1,11 @@
 import { Request } from 'express'
 import { PaginationReq } from 'dto/Common'
 import {
-  ChargeLoanDto,
-  RequestLoanDto,
-  SearchTariffDto,
   SearchLoanUserDto,
   GetLoanDto,
 } from 'dto/Loan'
+import {GetUserPayments} from "../../dto/Loan/GetUserPayments";
 
-export type RequestLoanReq = Request<{}, {}, {}, RequestLoanDto>
-export type ChargeLoanReq = Request<{}, {}, {}, ChargeLoanDto>
-export type GetTariffsReq = Request<PaginationReq<SearchTariffDto>>
 export type GetLoansReq = Request<{}, {}, {}, PaginationReq<SearchLoanUserDto>>
+export type GetUserPaymentsReq = Request<GetUserPayments>
 export type GetLoanReq = Request<GetLoanDto>

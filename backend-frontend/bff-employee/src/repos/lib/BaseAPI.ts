@@ -4,7 +4,9 @@ import { AuthData } from 'config/Auth'
 export abstract class BaseReq {
   protected static BASE_URL: string
   private static readonly HEADER_NAME = 'XApiKey'
-  private static readonly _AxiosInst: AxiosInstance = axios.create({})
+  private static readonly _AxiosInst: AxiosInstance = axios.create({
+    paramsSerializer: { indexes: null }
+  })
 
   public static get Req(): AxiosInstance {
     this._AxiosInst.defaults.baseURL = this.BASE_URL

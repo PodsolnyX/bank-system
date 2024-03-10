@@ -11,6 +11,16 @@ RouterHelper.use(TariffRouter, TariffControllerInst, [
     path: '/',
     handlers: [TariffControllerInst.GetTariffs],
   },
+  {
+    method: 'post',
+    path: '/',
+    handlers: [TariffControllerInst.CreateTariff],
+  },
+  {
+    method: 'delete',
+    path: `/:tariffId`,
+    handlers: [TariffControllerInst.DeleteTariff],
+  },
 ])
 
 export default TariffRouter

@@ -1,33 +1,43 @@
 import { PaginationReq, WithUser } from 'dto/Common'
-import { ChargeLoanDto, RequestLoanDto, SearchLoanUserDto, GetLoanDto } from 'dto/Loan'
-import { LoanRepo } from 'repos/LoanRepo'
+import {SearchLoanUserDto, GetLoanDto, LoanDto} from 'dto/Loan'
+import {LoanAPI} from "../../repos/lib";
+import {GetUserPayments} from "../../dto/Loan/GetUserPayments";
+import {UserPaymentsDto} from "../../dto/Loan/UserPaymentsDto";
 
 class LoanService {
-  private _LoanRepo: LoanRepo
 
-  constructor(LoanRepo: LoanRepo) {
-    this._LoanRepo = LoanRepo
+  constructor() {
 
-    this.RequestLoan = this.RequestLoan.bind(this)
-    this.ChargeLoan = this.ChargeLoan.bind(this)
     this.GetLoans = this.GetLoans.bind(this)
     this.GetLoan = this.GetLoan.bind(this)
-  }
-
-  async RequestLoan(Dto: WithUser<RequestLoanDto>) {
-    return await this._LoanRepo.RequestLoan(Dto)
-  }
-
-  async ChargeLoan(Dto: WithUser<ChargeLoanDto>) {
-    return await this._LoanRepo.ChargeLoan(Dto)
+    this.GetUserPayments = this.GetUserPayments.bind(this)
   }
 
   async GetLoans(Dto: WithUser<PaginationReq<SearchLoanUserDto>>) {
-    return await this._LoanRepo.GetLoans(Dto)
+    return (
+        await LoanAPI.Req.get<LoanDto[]>('/loan/user', {
+          params: Dto,
+        })
+    ).data
   }
 
   async GetLoan(Dto: WithUser<GetLoanDto>) {
-    return await this._LoanRepo.GetLoan(Dto)
+    return (
+        await LoanAPI.Req.get<LoanDto[]>('/loan/employee', {
+          params: {
+            AccountIds: [Dto.LoanId]
+          },
+        })
+    ).data[0]
+  }
+
+  async GetUserPayments(Dto: WithUser<GetUserPayments>) {
+    return (await LoanAPI.Req.get<UserPaymentsDto[]>(`/loan/employee/${Dto.UserId}`, {
+      params: {
+        LoanIds: [Dto.LoanId],
+        OnlyActual: false
+      }
+    })).data
   }
 }
 

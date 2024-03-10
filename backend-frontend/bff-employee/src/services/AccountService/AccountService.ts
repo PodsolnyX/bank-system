@@ -1,10 +1,11 @@
 import {
   SearchAccountDto,
-  GetAccountDto, AccountDto,
+  GetAccountDto,
 } from 'dto/Account'
 import { PaginationReq, WithUser } from 'dto/Common'
-import {CoreAPI} from "../../repos/lib";
+import {AuthAPI, CoreAPI} from "../../repos/lib";
 import {Account} from "../../entities/Account";
+import {User} from "../../entities/User";
 
 class AccountService {
 
@@ -15,15 +16,32 @@ class AccountService {
   }
 
   async GetAllAccounts(Dto: WithUser<PaginationReq<SearchAccountDto>>) {
+
+    const accountsRes = await CoreAPI.Req.get<Account[]>(
+        '/account/employee', {
+      params: Dto,
+    })
+
+    const userIds = [...new Set(accountsRes.data.map(it => it.userId))]
+
+    const usersRes = await AuthAPI.Req.get<User[]>('/auth/employee', {
+      params: {
+        userIds: userIds
+      },
+    })
+
     return (
-        await CoreAPI.Req.get<AccountDto[]>('/account/employee', {
-          params: Dto,
+        accountsRes.data.map(it => {
+          return {
+            userName: usersRes.data.find(_it => _it.id === it.userId)?.name || null,
+            ...it,
+          }
         })
-    ).data
+    )
   }
 
   async GetAccount(Dto: WithUser<GetAccountDto>) {
-    return (await CoreAPI.Req.get<Account>(`/account/user/${Dto.AccountId}`)).data
+    return (await CoreAPI.Req.get<Account>(`/account/employee/${Dto.AccountId}`)).data
   }
 }
 

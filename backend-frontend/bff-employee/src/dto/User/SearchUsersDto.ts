@@ -1,5 +1,6 @@
 export type SearchUsersDto = {
     mail?: string,
     name?: string,
-    isBanned?: boolean
+    isBanned?: boolean,
+    isEmployee?: boolean,
 }
