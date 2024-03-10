@@ -9,4 +9,5 @@ export type Loan = {
   lastChargeDate?: string | null
   currencyType: CurrencyType
   debt: number
+  isClosed: boolean
 }

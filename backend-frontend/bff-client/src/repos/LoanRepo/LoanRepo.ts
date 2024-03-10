@@ -2,11 +2,10 @@ import { PaginationReq } from 'dto/Common'
 import {
   ChargeLoanDto,
   RequestLoanDto,
-  SearchTariffDto,
-  TariffDto,
   LoanDto,
   SearchLoanUserDto,
-  GetLoanDto,
+  UserPaymentDto,
+  GetPaymentsDto
 } from 'dto/Loan'
 import { LoanAPI } from 'repos/lib'
 
@@ -31,8 +30,16 @@ class LoanRepo {
     ).data
   }
 
-  async GetLoan(Dto: GetLoanDto) {
-    return (await LoanAPI.Req.get<LoanDto>(`/loan/user/${Dto.loanId}`)).data
+  async GetPayments(Dto: GetPaymentsDto) {
+    return (
+      await LoanAPI.Req.get<UserPaymentDto[]>('/loan/user/payments', {
+        params: Dto,
+      })
+    ).data
+  }
+
+  async ExecuteJob() {
+    await LoanAPI.Req.post('/loan/user')
   }
 }
 

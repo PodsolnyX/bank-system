@@ -23,8 +23,13 @@ RouterHelper.use(LoanRouter, LoanControllerInst, [
   },
   {
     method: 'get',
-    path: '/:loanId',
-    handlers: [LoanControllerInst.GetLoan],
+    path: '/payments',
+    handlers: [LoanControllerInst.GetPayments],
+  },
+  {
+    method: 'post',
+    path: '/',
+    handlers: [LoanControllerInst.ExecuteJob],
   },
 ])
 

@@ -1,5 +1,5 @@
-import { Response } from 'express'
-import { ChargeLoanReq, GetLoanReq, GetLoansReq, RequestLoanReq } from './types'
+import { Request, Response } from 'express'
+import { ChargeLoanReq, GetLoansReq, GetPaymentsReq, RequestLoanReq } from './types'
 import { Extractor } from '../lib/Extractor'
 import { LoanService } from 'services/LoanService'
 
@@ -25,8 +25,13 @@ class LoanController {
     res.status(200).send(data)
   }
 
-  async GetLoan(req: GetLoanReq, res: Response) {
-    const data = await this._LoanService.GetLoan(Extractor.ExtractParams(req))
+  async GetPayments(req: GetPaymentsReq, res: Response) {
+    const data = await this._LoanService.GetPayments(Extractor.ExtractParams(req))
+    res.status(200).send(data)
+  }
+
+  async ExecuteJob(_req: Request, res: Response) {
+    const data = await this._LoanService.ExecuteJob()
     res.status(200).send(data)
   }
 }

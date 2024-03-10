@@ -1,5 +1,5 @@
 import { PaginationReq, WithUser } from 'dto/Common'
-import { ChargeLoanDto, RequestLoanDto, SearchLoanUserDto, GetLoanDto } from 'dto/Loan'
+import { ChargeLoanDto, RequestLoanDto, SearchLoanUserDto, GetLoanDto, GetPaymentsDto } from 'dto/Loan'
 import { LoanRepo } from 'repos/LoanRepo'
 
 class LoanService {
@@ -11,7 +11,6 @@ class LoanService {
     this.RequestLoan = this.RequestLoan.bind(this)
     this.ChargeLoan = this.ChargeLoan.bind(this)
     this.GetLoans = this.GetLoans.bind(this)
-    this.GetLoan = this.GetLoan.bind(this)
   }
 
   async RequestLoan(Dto: WithUser<RequestLoanDto>) {
@@ -26,8 +25,12 @@ class LoanService {
     return await this._LoanRepo.GetLoans(Dto)
   }
 
-  async GetLoan(Dto: WithUser<GetLoanDto>) {
-    return await this._LoanRepo.GetLoan(Dto)
+  async GetPayments(Dto: WithUser<GetPaymentsDto>) {
+    return await this._LoanRepo.GetPayments(Dto)
+  }
+
+  async ExecuteJob() {
+    return await this._LoanRepo.ExecuteJob()
   }
 }
 
