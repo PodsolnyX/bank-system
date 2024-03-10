@@ -24,7 +24,11 @@ export const AccountPage = () => {
     accountIds: [id],
     orderBy: 'createdAt',
     sortOrder: SortOrder.DESC,
-    OperationStatuses: [OperationStatus.FAILURE, OperationStatus.PROCESSING, OperationStatus.SUCCESS]
+    OperationStatuses: [
+      OperationStatus.FAILURE,
+      OperationStatus.PROCESSING,
+      OperationStatus.SUCCESS,
+    ],
   })
   const accQuery = useGetAccountQuery({ id })
 

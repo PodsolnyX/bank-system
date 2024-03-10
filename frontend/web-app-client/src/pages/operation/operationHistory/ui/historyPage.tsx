@@ -8,7 +8,11 @@ export const HistoryPage = () => {
   const histQuery = useGetHistoryQuery({
     orderBy: 'createdAt',
     sortOrder: SortOrder.DESC,
-    OperationStatuses: [OperationStatus.FAILURE, OperationStatus.PROCESSING, OperationStatus.SUCCESS]
+    OperationStatuses: [
+      OperationStatus.FAILURE,
+      OperationStatus.PROCESSING,
+      OperationStatus.SUCCESS,
+    ],
   })
 
   if (histQuery.isError) {

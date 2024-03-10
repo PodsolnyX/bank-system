@@ -5,10 +5,13 @@ export enum PaymentStatus {
   Paid,
   NotPaid,
   Partial,
-  New
+  New,
 }
 
-export const getPaymentStatus = (loan: Loan | null | undefined, payment?: Payment | null  | undefined): PaymentStatus => {
+export const getPaymentStatus = (
+  loan: Loan | null | undefined,
+  payment?: Payment | null | undefined
+): PaymentStatus => {
   if (loan?.isClosed) {
     return PaymentStatus.Closed
   }
@@ -28,7 +31,7 @@ export type StatusDisplayInfo = {
 }
 
 export const getPaymentDisplayInfo = (
-  loan: Loan | null | undefined, 
+  loan: Loan | null | undefined,
   payment: Payment | null | undefined
 ): StatusDisplayInfo => {
   const status = getPaymentStatus(loan, payment)
@@ -58,12 +61,12 @@ export const getPaymentDisplayInfo = (
         text: 'ч / о',
         needToPay: true,
       }
-      case PaymentStatus.New:
-        return {
-          color: 'gray',
-          text: 'Новый',
-          needToPay: false,
-        }
+    case PaymentStatus.New:
+      return {
+        color: 'gray',
+        text: 'Новый',
+        needToPay: false,
+      }
     default:
       return {
         color: 'gray',

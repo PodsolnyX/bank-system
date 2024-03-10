@@ -9,7 +9,6 @@ import { AppRoutes, getLoanRepayLink } from 'shared/const'
 import { useGetHistoryQuery, useGetLoansQuery, useGetPaymentsQuery } from 'shared/api'
 import { format } from 'shared/utils/format'
 
-
 export const LoanPage = () => {
   const { id } = useParams()
   const {
@@ -26,7 +25,11 @@ export const LoanPage = () => {
     limit: 100000,
     orderBy: 'createdAt',
     sortOrder: SortOrder.DESC,
-    OperationStatuses: [OperationStatus.FAILURE, OperationStatus.PROCESSING, OperationStatus.SUCCESS]
+    OperationStatuses: [
+      OperationStatus.FAILURE,
+      OperationStatus.PROCESSING,
+      OperationStatus.SUCCESS,
+    ],
   })
   const {
     data: payments,

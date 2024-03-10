@@ -39,7 +39,7 @@ const commonColumns: ColumnsType<Payment> = [
     dataIndex: 'penaltyFee',
     key: 'penaltyFee',
     render: (_, rec) => format(rec.penaltyFee),
-    responsive: ['md']
+    responsive: ['md'],
   },
   {
     title: 'Актуален',
@@ -57,7 +57,7 @@ const commonColumns: ColumnsType<Payment> = [
       },
     ],
     onFilter: (value, rec) => rec.isActual === value,
-    responsive: ['md']
+    responsive: ['md'],
   },
 ]
 

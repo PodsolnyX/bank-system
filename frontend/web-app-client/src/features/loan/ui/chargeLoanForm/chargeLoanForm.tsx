@@ -10,7 +10,7 @@ import { format } from 'shared/utils/format'
 import { PageLoader } from 'widgets'
 
 export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
-  const { loan, accounts, isLoading, ...rest } = props
+  const { loan, accounts, isLoading, onFinish, ...rest } = props
   const validAccounts = useMemo(() => {
     return accounts.filter(
       (acc) => !acc.closedAt && acc.currencyType === loan.currencyType
@@ -43,7 +43,17 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   return (
     <Center>
       <h1>Погасить кредит</h1>
-      <Form className='w-full md:w-1/3' {...rest} initialValues={{ loanId: loan.id }}>
+      <Form
+        className='w-full md:w-1/3'
+        {...rest}
+        onFinish={(v) =>
+          onFinish({
+            ...v,
+            currencyType: loan.currencyType,
+          })
+        }
+        initialValues={{ loanId: loan.id }}
+      >
         <Form.Item label='Кредит' name='loanId' rules={[{ required: true }]}>
           <Input
             className='text-black'
