@@ -67,6 +67,7 @@ public class RabbitMqListenerService : BackgroundService
             {
                 _logger.LogInformation("Core received message");
                 var rawMessage = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+                _logger.LogInformation("Message: {name}", rawMessage);
                 var message = JsonSerializer.Deserialize<UpdateAccountBalanceMessage>(rawMessage);
                 if (message == null)
                     throw new InvalidOperationException();
@@ -74,6 +75,8 @@ public class RabbitMqListenerService : BackgroundService
                 using var scope = _serviceScopeFactory.CreateScope();
                 var service = scope.ServiceProvider.GetRequiredService<AccountBalanceService>();
                 await service.UpdateAccountBalance(message);
+                _channel.BasicAck(eventArgs.DeliveryTag, false);
+                _logger.LogInformation("Core processed message");
             }
             catch (Exception ex)
             {
@@ -83,7 +86,7 @@ public class RabbitMqListenerService : BackgroundService
 
         _channel.BasicConsume(
             queue: _configuration.Value.ReceiveQueueName,
-            autoAck: true,
+            autoAck: false,
             consumer: consumer
         );
 
