@@ -1,0 +1,13 @@
+.ant-select-arrow {
+    color: black !important;
+}
+
+.ant-table-cell {
+    padding: 6px !important;
+}
+
+@media (max-width: 500px) {
+    .ant-table table, .ant-tag { 
+        font-size: 10px;
+    }
+}
