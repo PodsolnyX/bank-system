@@ -1,15 +1,17 @@
-import { Button, Skeleton } from 'antd'
+import { Button, Skeleton, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, FieldTimeOutlined } from '@ant-design/icons'
 import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
-import { useGetLoansQuery } from 'shared/api'
-import { GeneralLoanTable } from 'entities'
+import { useExecuteJobMutation, useGetLoansQuery, useGetPaymentsQuery } from 'shared/api'
+import { GeneralLoanTable, PaymentsTable } from 'entities'
 
 export const LoansListPage = () => {
   const loans = useGetLoansQuery({ limit: 10000 })
+  const payments = useGetPaymentsQuery({ onlyActual: false })
+  const [trigger] = useExecuteJobMutation()
 
-  if (loans.isError) {
+  if (loans.isError || payments.isError) {
     return (
       <ErrorMsg
         text='Произошла ошибка при загрузке кредитов'
@@ -19,19 +21,60 @@ export const LoansListPage = () => {
     )
   }
 
+  const timeJump = async () => {
+    await trigger()
+    location.reload()
+  }
+
   return (
     <Center>
       <PageHeader text='Список кредитов' />
-      {loans.isFetching ? (
-        <Skeleton.Button className='mb-2' />
+      {loans.isFetching || payments.isFetching ? (
+        <div>
+          <Skeleton.Button className='mb-2 mx-1' />
+          <Skeleton.Button className='mb-2 mx-1' />
+        </div>
       ) : (
-        <Link to={AppRoutes.LOAN_NEW}>
-          <Button className='mb-2' icon={<PlusCircleOutlined />}>
-            Новый кредит
+        <div className='text-center'>
+          <Link to={AppRoutes.LOAN_NEW}>
+            <Button className='mb-2 mx-1' icon={<PlusCircleOutlined />}>
+              Новый кредит
+            </Button>
+          </Link>
+          <Button className='mb-2 mx-1' icon={<FieldTimeOutlined />} onClick={timeJump}>
+            Прыжок времени
           </Button>
-        </Link>
+        </div>
       )}
-      <GeneralLoanTable isLoading={loans.isFetching} loans={loans.data!} />
+      <Tabs
+        className='w-full md:w-2/3 flex justify-center align-center'
+        centered
+        defaultActiveKey='1'
+        items={[
+          {
+            label: 'Основное',
+            key: '1',
+            children: (
+              <GeneralLoanTable
+                isLoading={loans.isFetching || payments.isFetching}
+                loans={loans.data! || []}
+                payments={payments.data! || []}
+              />
+            ),
+          },
+          {
+            label: 'Отчет',
+            key: '2',
+            children: (
+              <PaymentsTable
+                full
+                payments={payments.data!}
+                isLoading={loans.isFetching || payments.isFetching}
+              />
+            ),
+          },
+        ]}
+      />
     </Center>
   )
 }

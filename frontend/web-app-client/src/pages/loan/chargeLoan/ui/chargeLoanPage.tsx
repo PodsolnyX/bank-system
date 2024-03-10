@@ -19,7 +19,7 @@ export const ChargeLoanPage = () => {
     try {
       await trigger(convert(values)).unwrap()
       toastSuccess('Запрос на операцию принят')
-      navigate(AppRoutes.HISTORY)
+      navigate(AppRoutes.MAIN)
     } catch {
       toastError('Произошла ошибка')
     }

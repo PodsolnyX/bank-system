@@ -1,4 +1,4 @@
-import { CurrencyType, Loan, PaginationReq } from 'shared/entities'
+import { CurrencyType, Loan, PaginationReq, Payment } from 'shared/entities'
 
 export type RequestLoanReq = {
   accountId: string
@@ -22,5 +22,8 @@ export type GetLoansReq = PaginationReq & {
 }
 export type GetLoansResp = Loan[]
 
-export type GetLoanReq = Pick<Loan, 'id'>
-export type GetLoanResp = Loan
+export type GetPaymentsReq = {
+  loanIds?: string[] | null
+  onlyActual?: boolean | null
+}
+export type GetPaymentsResp = Payment[]

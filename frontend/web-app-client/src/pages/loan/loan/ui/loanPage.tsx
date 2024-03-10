@@ -1,12 +1,14 @@
 import { Link, useParams } from 'react-router-dom'
+import { Tabs } from 'antd'
 
-import { VerboseLoanTable } from 'entities'
+import { VerboseLoanTable } from 'entities/loan'
+import { PaymentsTable, getPaymentDisplayInfo } from 'entities/payment'
+import { OperationStatus, SortOrder } from 'shared/entities'
 import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 import { AppRoutes, getLoanRepayLink } from 'shared/const'
-import { needToPay } from 'entities/loan'
-import { useGetHistoryQuery, useGetLoansQuery } from 'shared/api'
-import { SortOrder } from 'shared/entities'
+import { useGetHistoryQuery, useGetLoansQuery, useGetPaymentsQuery } from 'shared/api'
 import { format } from 'shared/utils/format'
+
 
 export const LoanPage = () => {
   const { id } = useParams()
@@ -24,10 +26,27 @@ export const LoanPage = () => {
     limit: 100000,
     orderBy: 'createdAt',
     sortOrder: SortOrder.DESC,
+    OperationStatuses: [OperationStatus.FAILURE, OperationStatus.PROCESSING, OperationStatus.SUCCESS]
   })
+  const {
+    data: payments,
+    isFetching: paymentsIsFetching,
+    isError: paymentsIsError,
+  } = useGetPaymentsQuery({
+    loanIds: [id!],
+    onlyActual: false,
+  })
+  const curPayment = payments?.find((payment) => payment.isActual)
+  const displayInfo = getPaymentDisplayInfo(loans?.[0], curPayment)
 
-  const isLoading = loanIsFetching || historyIsFetching || !history || !loans
-  const isError = loanIsError || historyIsError
+  const isLoading =
+    loanIsFetching ||
+    historyIsFetching ||
+    paymentsIsFetching ||
+    !history ||
+    !loans ||
+    !payments
+  const isError = loanIsError || historyIsError || paymentsIsError
 
   if (isError || (!isLoading && loans.length === 0)) {
     return (
@@ -56,14 +75,12 @@ export const LoanPage = () => {
           <Property
             name='Статус'
             value={
-              loans[0].debt <= 0 ? (
-                <span className='text-lime-800'>Погашен</span>
-              ) : needToPay(loans[0].lastChargeDate) ? (
+              displayInfo.needToPay ? (
                 <Link to={getLoanRepayLink(loans[0].id)} className='text-red-500'>
-                  Нужна оплата
+                  {displayInfo.text}
                 </Link>
               ) : (
-                <span className='text-lime-500'>Да</span>
+                <span style={{ color: displayInfo.color }}>{displayInfo.text}</span>
               )
             }
           />
@@ -77,8 +94,25 @@ export const LoanPage = () => {
           />
         </>
       )}
-
-      <VerboseLoanTable operations={history!} isLoading={isLoading} />
+      <Tabs
+        className='w-full md:w-2/3 flex justify-center align-center'
+        centered
+        defaultActiveKey='1'
+        items={[
+          {
+            label: 'Основное',
+            key: '1',
+            children: <VerboseLoanTable operations={history!} isLoading={isLoading} />,
+          },
+          {
+            label: 'Отчет',
+            key: '2',
+            children: (
+              <PaymentsTable payments={payments!} full={false} isLoading={isLoading} />
+            ),
+          },
+        ]}
+      />
     </Center>
   )
 }

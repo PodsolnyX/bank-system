@@ -15,7 +15,7 @@ import {
   getAccountDepositLink,
   getAccountWithdrawLink,
 } from 'shared/const'
-import { SortOrder } from 'shared/entities'
+import { OperationStatus, SortOrder } from 'shared/entities'
 import { format } from 'shared/utils/format'
 
 export const AccountPage = () => {
@@ -24,6 +24,7 @@ export const AccountPage = () => {
     accountIds: [id],
     orderBy: 'createdAt',
     sortOrder: SortOrder.DESC,
+    OperationStatuses: [OperationStatus.FAILURE, OperationStatus.PROCESSING, OperationStatus.SUCCESS]
   })
   const accQuery = useGetAccountQuery({ id })
 

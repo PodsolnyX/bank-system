@@ -6,8 +6,8 @@ import {
   RequestLoanReq,
   ChargeLoanResp,
   ChargeLoanReq,
-  GetLoanResp,
-  GetLoanReq,
+  GetPaymentsResp,
+  GetPaymentsReq,
 } from 'shared/api'
 import { API_LOANS } from 'shared/config'
 
@@ -38,18 +38,26 @@ export const loansApi = createApi({
         params,
       }),
     }),
-    getLoan: builder.query<GetLoanResp, GetLoanReq>({
-      query: ({ id }) => ({
-        url: `/${id}`,
+    getPayments: builder.query<GetPaymentsResp, GetPaymentsReq>({
+      query: (params) => ({
+        url: '/payments',
         method: 'GET',
+        params,
+      }),
+    }),
+    executeJob: builder.mutation<void, void>({
+      query: () => ({
+        url: '/',
+        method: 'POST',
       }),
     }),
   }),
 })
 
 export const {
+  useGetPaymentsQuery,
   useRequestLoanMutation,
   useChargeLoanMutation,
   useGetLoansQuery,
-  useGetLoanQuery,
+  useExecuteJobMutation,
 } = loansApi

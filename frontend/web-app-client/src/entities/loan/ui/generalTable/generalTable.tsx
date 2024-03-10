@@ -1,22 +1,46 @@
 import { Table, Skeleton, Empty } from 'antd'
-import { Loan } from 'shared/entities'
+import { Loan, Payment } from 'shared/entities'
 import { generalLoanTableColumns } from './generalTableColumns'
 
 export interface GeneralLoanTableProps {
   loans: Loan[]
+  payments: Payment[]
   isLoading: boolean
 }
 
+export type LoanInfo = {
+  loan: Loan
+  payment?: Payment | null
+}
+
 export const GeneralLoanTable = (props: GeneralLoanTableProps) => {
-  const { loans, isLoading } = props
+  const { loans, payments, isLoading } = props
+
+  const LoansInfo: LoanInfo[] = isLoading
+    ? []
+    : loans.map((loan) => ({ loan, payment: null }))
+
+  for (const payment of payments) {
+    if (isLoading || !payment.isActual) {
+      continue
+    }
+
+    const loanId = payment.loan.id
+
+    const infoRecord = LoansInfo.find((info) => info.loan.id === loanId)
+
+    if (infoRecord) {
+      infoRecord.payment = payment
+    }
+  }
 
   return (
     <Table
-      rowKey={(record) => record.id}
+      rowKey={({ loan }) => loan.id}
       bordered
-      className='w-full md:w-2/3 border-[1px] border-slate-300 border-solid rounded-lg text-sm'
+      className='w-full border-[1px] border-slate-300 border-solid rounded-lg text-sm'
       columns={generalLoanTableColumns}
-      dataSource={loans}
+      dataSource={LoansInfo}
       pagination={{ pageSize: 7, showSizeChanger: false }}
       locale={{
         emptyText: isLoading ? <Skeleton active={true} /> : <Empty />,

@@ -3,71 +3,86 @@ import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
 import { Dropdown } from 'shared/ui'
-import { CurrencyType, Loan } from 'shared/entities'
+import { CurrencyType } from 'shared/entities'
 import { getAccountHistoryLink, getLoanLink } from 'shared/const'
-import { getLoanActions, needToPay } from 'entities/loan'
+import { LoanInfo, getLoanActions } from 'entities/loan'
+import { getPaymentDisplayInfo, getPaymentStatus, PaymentStatus } from 'entities/payment'
 import { format } from 'shared/utils/format'
 
-export const generalLoanTableColumns: ColumnsType<Loan> = [
+export const generalLoanTableColumns: ColumnsType<LoanInfo> = [
   {
     title: 'Номер',
     dataIndex: 'id',
     key: 'id',
-    sorter: (a, b) => a.id.localeCompare(b.id),
-    render: (_, { id }) => <Link to={getLoanLink(id)}>{id}</Link>,
+    sorter: (a, b) => a.loan.id.localeCompare(b.loan.id),
+    render: (_, { loan: { id } }) => <Link to={getLoanLink(id)}>{id}</Link>,
   },
   {
     title: 'Счет',
     dataIndex: 'accountId',
     key: 'accountId',
     responsive: ['md'],
-    render: (_, { accountId: id }) => <Link to={getAccountHistoryLink(id)}>{id}</Link>,
+    render: (_, { loan: { accountId: id } }) => (
+      <Link to={getAccountHistoryLink(id)}>{id}</Link>
+    ),
   },
   {
     title: 'Долг',
     dataIndex: 'debt',
     key: 'debt',
-    sorter: (a, b) => a.debt - b.debt,
+    sorter: (a, b) => a.loan.debt - b.loan.debt,
     defaultSortOrder: 'descend',
-    render: (_, rec) => `${format(rec.debt)} ${rec.currencyType}`,
+    render: (_, rec) => `${format(rec.loan.debt)} ${rec.loan.currencyType}`,
     filters: Object.keys(CurrencyType).map((cur) => ({
       text: cur,
       value: cur,
     })),
-    onFilter: (value, record) => record.currencyType === value,
+    onFilter: (value, record) => record.loan.currencyType === value,
   },
   {
     title: 'Статус',
     key: 'needToPay',
-    render: (_, cr) => (
-      <Tag color={needToPay(cr.lastChargeDate) ? 'red' : 'green'}>
-        {needToPay(cr.lastChargeDate) ? 'Не оплачен' : 'Оплачен'}
-      </Tag>
-    ),
+    render: (_, { loan, payment }) => {
+      const info = getPaymentDisplayInfo(loan, payment)
+      return <Tag color={info.color}>{info.text}</Tag>
+    },
     align: 'center',
     filters: [
       {
         text: 'Оплачен',
-        value: false,
+        value: PaymentStatus.Paid,
       },
       {
         text: 'Не оплачен',
-        value: true,
+        value: PaymentStatus.NotPaid,
+      },
+      {
+        text: 'Ч / О',
+        value: PaymentStatus.Partial,
+      },
+      {
+        text: 'Закрыт',
+        value: PaymentStatus.Closed,
+      },
+      {
+        text: 'Новый',
+        value: PaymentStatus.New,
       },
     ],
-    onFilter: (value, cr) => needToPay(cr.lastChargeDate) === value,
+    onFilter: (value, { loan, payment }) => getPaymentStatus(loan, payment) === value,
     responsive: ['md'],
   },
   {
     title: 'Тариф',
     dataIndex: 'tariff',
-    render: (_, { tariff: t }) => `${t.name}, ${t.interestRate}%, ${t.periodInDays} дн.`,
+    render: (_, { loan: { tariff: t } }) =>
+      `${t.name}, ${t.interestRate}%, ${t.periodInDays} дн.`,
     responsive: ['md'],
   },
   {
     title: 'Действия',
     dataIndex: 'action',
-    render: (_, cr) => <Dropdown items={getLoanActions(cr)} />,
+    render: (_, { loan }) => <Dropdown items={getLoanActions(loan)} />,
     align: 'center',
     width: '10%',
   },
