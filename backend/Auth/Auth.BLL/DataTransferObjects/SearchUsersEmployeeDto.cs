@@ -7,5 +7,5 @@ public class SearchUsersEmployeeDto: PaginationRequest {
   public string? Mail { get; set; }
   public string? Name { get; set; }
   public bool? IsBanned { get; set; }
-  public bool IsEmployee { get; set; } = false;
+  public bool? IsEmployee { get; set; }
 }
