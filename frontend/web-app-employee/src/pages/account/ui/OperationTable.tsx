@@ -1,5 +1,10 @@
 import {Table, Tag} from "antd";
-import {OperationDto, OperationStatus, OperationType} from "../../../services/operationHistory/models/OperationDto.ts";
+import {
+    OperationDto,
+    OperationReason,
+    OperationStatus,
+    OperationType
+} from "../../../services/operationHistory/models/OperationDto.ts";
 import {ColumnsType} from "antd/es/table";
 import {
     convertDateTimmeStringToNormalString,
@@ -42,7 +47,8 @@ export interface AccountHistoryData {
     type: OperationType,
     status: OperationStatus,
     sum: number,
-    currencyType: string
+    currencyType: string,
+    reason: OperationReason
 }
 
 export const OperationStatusColor: Record<OperationStatus, string> = {
@@ -57,18 +63,26 @@ export const OperationStatusText: Record<OperationStatus, string> = {
     [OperationStatus.Processing]: "В процессе",
 }
 
-export const OperationTypeColor: Record<OperationType, string> = {
-    [OperationType.Withdraw]: "default",
-    [OperationType.Deposit]: "green",
-    [OperationType.LoanCharge]: "blue",
-    [OperationType.LoanIncome]: "blue",
+function getTypeText(reason: OperationReason, type: OperationType) {
+    if (reason === OperationReason.Loan && type === OperationType.Withdraw)
+        return "Оплата кредита"
+    if (reason === OperationReason.Loan && type === OperationType.Deposit)
+        return "Получение кредита"
+    if (reason === OperationReason.Cash && type === OperationType.Withdraw)
+        return "Снятие"
+    if (reason === OperationReason.Cash && type === OperationType.Deposit)
+        return "Пополнение"
 }
 
-export const OperationTypeText: Record<OperationType, string> = {
-    [OperationType.Withdraw]: "Снятие",
-    [OperationType.Deposit]: "Пополнение",
-    [OperationType.LoanCharge]: "Погашение кредита",
-    [OperationType.LoanIncome]: "blue",
+function getTypeColor(reason: OperationReason, type: OperationType) {
+    if (reason === OperationReason.Loan && type === OperationType.Withdraw)
+        return "blue"
+    if (reason === OperationReason.Loan && type === OperationType.Deposit)
+        return "purple"
+    if (reason === OperationReason.Cash && type === OperationType.Withdraw)
+        return "default"
+    if (reason === OperationReason.Cash && type === OperationType.Deposit)
+        return "green"
 }
 
 function getData(data?: OperationDto[]) {
@@ -82,7 +96,8 @@ function getData(data?: OperationDto[]) {
             status: it.status,
             sum: it.amount,
             message: it.message,
-            currencyType: it.currencyType
+            currencyType: it.currencyType,
+            reason: it.reason
         }
     })
 }
@@ -105,9 +120,9 @@ const columns: ColumnsType<AccountHistoryData> = [
         dataIndex: 'type',
         key: 'type',
         width: "0",
-        render: (text: OperationType) => (
-            <Tag color={OperationTypeColor[text]} className={"w-full text-center"}>
-                {OperationTypeText[text]}
+        render: (text: OperationType, record) => (
+            <Tag color={getTypeColor(record.reason, record.type)} className={"w-full text-center"}>
+                {getTypeText(record.reason, record.type)}
             </Tag>
         ),
         filterSearch: true,

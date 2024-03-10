@@ -3,14 +3,14 @@ import {useQuery} from "@tanstack/react-query";
 import {loanQueryKeys} from "../../../services/loan/loanQueryKeys.ts";
 import loanService from "../../../services/loan/LoanService.ts";
 
-export function useLoan() {
+export function useUserPayments() {
 
-    const {loanId} = useParams()
+    const {userId, loanId} = useParams()
 
     return useQuery({
-        queryKey: loanQueryKeys.loan(loanId),
-        queryFn: () => loanService.getLoan(loanId || ""),
+        queryKey: loanQueryKeys.payments(loanId),
+        queryFn: () => loanService.getUserPayments(userId || "", loanId || ""),
         select: ({data}) => data,
-        enabled: !!loanId
+        enabled: !!loanId && !!userId
     })
 }

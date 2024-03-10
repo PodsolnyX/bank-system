@@ -52,6 +52,7 @@ const getData = (data?: LoanDto[]) => {
             key: it.id,
             userName: it.userId,
             id: it.id,
+            userId: it.userId,
             debt: it.debt,
             currencyType: it.currencyType,
             lastChargeDate: it.lastChargeDate,
@@ -66,6 +67,7 @@ const getData = (data?: LoanDto[]) => {
 interface LoanData {
     key: string;
     userName: string;
+    userId: string,
     id: string;
     accountId: string,
     debt: number;
@@ -94,7 +96,7 @@ function getTableColumns(filter?: ColumnsFilter): ColumnsType<LoanData> {
             dataIndex: 'id',
             key: 'id',
             sorter: (a, b) => a.id.localeCompare(b.id),
-            render: text => <Link to={generatePath(Links.Loan, {id:text})}>{text}</Link>
+            render: (text, record) => <Link to={generatePath(Links.Loan, {loanId:text, userId: record.userId})}>{text}</Link>
         },
         {
             title: 'ID счета',

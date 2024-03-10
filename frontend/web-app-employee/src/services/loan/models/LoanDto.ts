@@ -10,4 +10,5 @@ export type LoanDto = {
     currencyType: CurrencyType
     sum: number
     debt: number
+    isClosed: boolean
 }

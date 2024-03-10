@@ -4,6 +4,6 @@ export function convertNumberPriceToNormalString(price?: number): string {
 }
 
 export function convertDateTimmeStringToNormalString(date?: string): string {
-    if (date === undefined) return " "
+    if (date === undefined || date === null) return " "
     return date.replace("T", " ").slice(0, 19)
 }

@@ -7,5 +7,5 @@ export const Links = {
     Account: `/account/:id`,
     Tariffs: '/tariffs',
     UserInfo: "/user/:id",
-    Loan: '/loan/:id'
+    Loan: '/loan/:loanId/user/:userId'
 }
