@@ -59,7 +59,7 @@ public class RequestLoanChargeJob {
                 Type = OperationType.Withdraw,
                 Reason = OperationReason.Loan,
                 LoanId = request.LoanId,
-                TransactionId = Guid.NewGuid(),
+                TransactionId = request.Id,
                 Amount = request.Amount,
                 Message = "Списание по оплате кредита"
             };
@@ -111,9 +111,23 @@ public class RequestLoanChargeJob {
             }
             else {
                 // Отмена списания со счета
+                
                 if (request.LoanChargeRetries >= 4) {
-                    var cancelResponse = await client.DeleteAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}" +
-                                                                  $"/modification?Type=Withdraw&Reason=Loan&LoanId={request.LoanId}&TransactionId={Guid.NewGuid()}&Amount={request.Amount}");
+                    var modificationDto = new AccountModificationDto {
+                        Type = OperationType.Withdraw,
+                        Reason = OperationReason.Loan,
+                        LoanId = request.LoanId,
+                        TransactionId = request.Id,
+                        Amount = request.Amount,
+                        Message = "Отмена списания по кредиту"
+                    };
+
+                    var httpRequest = new HttpRequestMessage {
+                        Method = HttpMethod.Delete,
+                        RequestUri = new Uri($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}/modification"),
+                        Content = new StringContent(JsonConvert.SerializeObject(modificationDto), Encoding.UTF8, "application/json")
+                    };
+                    var cancelResponse = await client.SendAsync(httpRequest);
                     if (cancelResponse.IsSuccessStatusCode) {
                         _dbContext.Remove(request);
                         await _dbContext.SaveChangesAsync();

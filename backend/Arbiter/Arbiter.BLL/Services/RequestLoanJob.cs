@@ -99,7 +99,7 @@ public class RequestLoanJob {
                 Type = OperationType.Deposit,
                 Reason = OperationReason.Loan,
                 LoanId = request.LoanId,
-                TransactionId = Guid.NewGuid(),
+                TransactionId = request.Id,
                 Amount = request.Amount,
                 Message = "Начисление по взятию кредита"
             };

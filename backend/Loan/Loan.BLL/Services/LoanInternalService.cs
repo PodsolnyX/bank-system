@@ -55,7 +55,7 @@ public class LoanInternalService {
             .FirstOrDefault(p=>p.IsActual);
         if (payment != null) {
             payment.PaidAt = DateTime.UtcNow;
-            payment.AlreadyPaid = dto.Amount;
+            payment.AlreadyPaid += dto.Amount;
             _dbContext.Update(payment);
         }
         else {
