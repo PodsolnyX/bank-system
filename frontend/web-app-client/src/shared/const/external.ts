@@ -2,19 +2,19 @@ import { AppRoutes } from "shared/const/router"
 
 const get_redirect_uri = () => window.location.origin + AppRoutes.FINISH_LOGIN
 const clientId = '1000'
-const OAuthURL = 'http://109.107.189.133:7001/oauth'
+const OAuthURL = 'http://109.107.189.133:7005/'
 
 export const getOAuthLoginLink = () => {
     const params = new URLSearchParams({
         clientId: clientId,
-        redirect_uri: get_redirect_uri()
+        returnUrl: get_redirect_uri()
     }).toString()
-    return `${OAuthURL}?${params}`
+    return `${OAuthURL}/account/login?${params}`
 }
 export const getOAuthRegisterLink = () => {
     const params = new URLSearchParams({
         clientId: clientId,
-        redirect_uri: get_redirect_uri()
+        returnUrl: get_redirect_uri()
     }).toString()
-    return `${OAuthURL}/register?${params}`
+    return `${OAuthURL}/account/register?${params}`
 }
