@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+
+@{ var authenticationResult = await Context.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme); }
+
+@if (authenticationResult.Principal?.Identity?.IsAuthenticated ?? false)
+{
+    <div>
+        <p>You are signed in as</p>
+        <h2>@authenticationResult.Principal?.Identity?.Name</h2>
+        <p><a class="btn btn-secondary btn-block mt-3" asp-controller="Account" asp-action="Logout">Sign out</a></p>
+    </div>
+}
+else
+{
+    <div>
+        <p><a class="btn btn-primary btn-block mt-3" asp-controller="Account" asp-action="Login" asp-route-returnUrl="/">Sign in</a></p>
+        <p><a class="btn btn-primary btn-block mt-3" asp-controller="Account" asp-action="Register" asp-route-returnUrl="/">Sign up</a></p>
+    </div>
+}

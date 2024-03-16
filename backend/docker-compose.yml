@@ -115,6 +115,22 @@ services:
     volumes:
       - /var/log/bank/operation-history:/app/logs
 
+  authorizationServer:
+    build:
+      context: .
+      dockerfile: AuthorizationServer/AuthorizationServer.API/Dockerfile
+    restart: always
+    environment:
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=authorization-server-db
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "7005:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - /var/log/bank/authorization-server:/app/logs
 
 
 volumes:
