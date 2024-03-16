@@ -1,17 +1,17 @@
 import { RouteObject } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
-import { LoginPage, RegisterPage } from 'pages'
+import { OldLoginPage, OldRegisterPage } from 'pages'
 
 import { publicWrapper } from 'app/router/lib'
 
 const _publicRoutes: RouteObject[] = [
   {
     path: AppRoutes.LOGIN,
-    element: <LoginPage />,
+    element: <OldLoginPage />,
   },
   {
     path: AppRoutes.REGISTER,
-    element: <RegisterPage />,
+    element: <OldRegisterPage />,
   },
 ]
 

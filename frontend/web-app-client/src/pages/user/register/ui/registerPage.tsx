@@ -1,13 +1,18 @@
 import { Input, Button } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRegisterMutation } from 'shared/api'
-import { AppRoutes } from 'shared/const'
+import { AppRoutes, getOAuthRegisterLink } from 'shared/const'
 import { useAppDispatch } from 'shared/store'
 import { setEmail } from 'shared/store'
 import { toastError, toastSuccess } from 'shared/toast'
 import { Form } from 'shared/ui'
 
 export const RegisterPage = () => {
+  window.location.replace(getOAuthRegisterLink());
+  return null;
+}
+
+export const OldRegisterPage = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 

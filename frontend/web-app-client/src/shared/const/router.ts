@@ -19,6 +19,8 @@ export enum AppRoutes {
   OPERATION_RESULT = 'operation_result/:id',
   DEPOSIT = '/deposit/:id',
   WITHDRAW = '/withdraw/:id',
+
+  FINISH_LOGIN = '/finish_login'
 }
 
 const route_rep =

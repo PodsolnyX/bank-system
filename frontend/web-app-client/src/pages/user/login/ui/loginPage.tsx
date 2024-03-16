@@ -1,13 +1,18 @@
 import { Input, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { useLazyGetProfileQuery } from 'shared/api'
-import { AppRoutes } from 'shared/const'
+import { AppRoutes, getOAuthLoginLink } from 'shared/const'
 import { useAppDispatch } from 'shared/store'
 import { setEmail } from 'shared/store'
 import { toastError, toastSuccess } from 'shared/toast'
 import { Form } from 'shared/ui'
 
 export const LoginPage = () => {
+  window.location.replace(getOAuthLoginLink());
+  return null;
+}
+
+export const OldLoginPage = () => {
   const dispatch = useAppDispatch()
 
   const [trigger, result] = useLazyGetProfileQuery()
