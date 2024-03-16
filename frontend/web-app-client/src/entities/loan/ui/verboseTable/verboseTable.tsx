@@ -14,7 +14,7 @@ export const VerboseLoanTable = (props: VerboseLoanTableProps) => {
     <Table
       rowKey={(record) => record.id}
       bordered
-      className='w-full border-[1px] border-slate-300 border-solid rounded-lg text-sm'
+      className='w-full border-[1px] border-border border-solid rounded-lg text-sm'
       columns={verboseLoanTableColumns}
       dataSource={operations}
       pagination={{ pageSize: 7, showSizeChanger: false }}

@@ -28,9 +28,9 @@ export const Title = (props: TitleProps) => {
       <Flex vertical>
         <span className='sm:text-xl md:text-2xl leading-none'>
           <span className='text-green-400'>Зеленый</span>
-          <span>&nbsp;Банк</span>
+          <span className='text-common'>&nbsp;Банк</span>
         </span>
-        <span className='text-sm leading-none'>Клиент</span>
+        <span className='text-common text-sm leading-none'>Клиент</span>
       </Flex>
     </div>
   )

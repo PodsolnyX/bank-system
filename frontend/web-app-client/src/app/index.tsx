@@ -8,9 +8,12 @@ import { useLazyGetStatusQuery } from 'shared/api'
 import { Spinner } from 'shared/ui'
 import { BanPage } from 'pages/ban'
 import { useEffect } from 'react'
+import { useTheme } from 'app/styles/lib'
 
 function App() {
+  useTheme()
   const mail = useAppSelector((store) => store.authReducer.mail)
+
   const [trigger, { isLoading, isError, data, isUninitialized }] = useLazyGetStatusQuery(
     {}
   )

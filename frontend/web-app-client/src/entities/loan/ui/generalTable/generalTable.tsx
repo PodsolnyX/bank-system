@@ -38,7 +38,7 @@ export const GeneralLoanTable = (props: GeneralLoanTableProps) => {
     <Table
       rowKey={({ loan }) => loan.id}
       bordered
-      className='w-full border-[1px] border-slate-300 border-solid rounded-lg text-sm'
+      className='w-full border-[1px] border-border border-solid rounded-lg text-sm'
       columns={generalLoanTableColumns}
       dataSource={LoansInfo}
       pagination={{ pageSize: 7, showSizeChanger: false }}

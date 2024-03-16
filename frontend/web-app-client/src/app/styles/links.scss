@@ -1,0 +1,13 @@
+a {
+  color: #79abf0;
+}
+
+a:hover {
+  color: #468def;
+}
+
+a.active {
+  color: #1677ff;
+  text-decoration: underline;
+  text-underline-offset: 12px;
+}

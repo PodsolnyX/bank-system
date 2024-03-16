@@ -9,7 +9,7 @@ export interface PageHeaderProps {
 export const PageHeader = (props: PageHeaderProps) => {
   const { text, className, ...rest } = props
   return (
-    <h1 {...rest} className={cs('my-3 text-lime-500 text-center', className)}>
+    <h1 {...rest} className={cs('my-3 text-heading text-center', className)}>
       {text}
     </h1>
   )

@@ -1,0 +1,23 @@
+@layer base {
+  body[data-theme='default'] {
+    --color-heading: 132, 204, 22;
+    --color-body: 255, 255, 255;
+    --color-navbar: 243, 244, 246;
+    --color-common: 0, 0, 0;
+    --color-border: 203, 213, 225;
+    --color-cardbg: 255, 255, 255;
+
+    --antd-filter: none;
+  }
+
+  body[data-theme='dark'] {
+    --color-heading: 32, 204, 22;
+    --color-body: 10, 0, 18;
+    --color-navbar: 28, 0, 58;
+    --color-common: 10, 255, 120;
+    --color-border: 32, 204, 22;
+    --color-cardbg: 28, 0, 28;
+
+    --antd-filter: invert(1);
+  }
+}

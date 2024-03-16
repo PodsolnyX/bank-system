@@ -1,0 +1,13 @@
+body,
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--color-body));
+}
+
+#root {
+  transition: color 1s, background-color 0.8s, filter 1s;
+}

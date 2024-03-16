@@ -1,12 +1,16 @@
 import { useEffect } from 'react'
-import { Card, Skeleton } from 'antd'
+import { Card, Skeleton, Switch } from 'antd'
+import { SunOutlined, MoonOutlined } from '@ant-design/icons'
 import { useLazyGetProfileQuery } from 'shared/api'
 import { useAppSelector } from 'shared/store'
 import { Center, PageHeader, Property } from 'shared/ui'
 import { Link } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
+import { Themes, useTheme } from 'app/styles/lib'
 
 export const ProfilePage = () => {
+  const {theme, setTheme} = useTheme()
+
   const [trigger, { data, isLoading }] = useLazyGetProfileQuery()
   const mail = useAppSelector((store) => store.authReducer.mail)
 
@@ -29,7 +33,18 @@ export const ProfilePage = () => {
         </Card>
       ) : (
         <Card
-          title={<span className='text-pretty'>{data?.name || 'Нет имени'}</span>}
+          title={
+            <div className='flex items-center'>
+              <span className='text-pretty'>{data?.name || 'Нет имени'}</span>
+              <Switch
+                className='ms-auto'
+                value={theme === Themes.Dark}
+                onChange={() => setTheme(theme === Themes.Dark ? Themes.Default : Themes.Dark)}
+                checkedChildren={<MoonOutlined />}
+                unCheckedChildren={<SunOutlined />}
+              />
+            </div>
+          }
           className='w-full md:w-1/2'
         >
           <Property name='id' value={data?.id || '—'} className='m-0' />
