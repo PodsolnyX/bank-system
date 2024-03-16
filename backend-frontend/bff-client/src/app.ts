@@ -8,6 +8,7 @@ import AccountRouter from 'routes/AccountRouter'
 import LoanRouter from 'routes/LoanRouter'
 import TariffRouter from 'routes/TariffRouter'
 import OperationHistoryRouter from 'routes/OperationHistoryRouter'
+import PreferencesRouter from 'routes/PreferencesRouter'
 
 import { AuthMiddlewareInst } from 'init/AuthMiddleware'
 
@@ -23,6 +24,7 @@ app.use('/auth/user', UserRouter)
 app.use('*', AuthMiddlewareInst())
 
 app.use('/account/user', AccountRouter)
+app.use('/preferences/user', PreferencesRouter)
 app.use('/loan/user', LoanRouter)
 app.use('/tariff/user', TariffRouter)
 app.use('/operation-history/user', OperationHistoryRouter)

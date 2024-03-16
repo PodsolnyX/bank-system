@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { ReqError } from 'common/ReqError'
 import { AuthData, CookieName } from 'config/Auth'
 import { NextFunction, Request, Response } from 'express'
 import { UserService } from 'services/UserService'

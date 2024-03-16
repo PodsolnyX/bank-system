@@ -1,5 +1,11 @@
 import { PaginationReq, WithUser } from 'dto/Common'
-import { ChargeLoanDto, RequestLoanDto, SearchLoanUserDto, GetLoanDto, GetPaymentsDto } from 'dto/Loan'
+import {
+  ChargeLoanDto,
+  RequestLoanDto,
+  SearchLoanUserDto,
+  GetLoanDto,
+  GetPaymentsDto,
+} from 'dto/Loan'
 import { LoanRepo } from 'repos/LoanRepo'
 
 class LoanService {

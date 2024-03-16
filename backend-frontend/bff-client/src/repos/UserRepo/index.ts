@@ -1,1 +1,1 @@
-export { default as UserRepo } from './UserRepository'
+export { default as UserRepo } from './UserRepo'

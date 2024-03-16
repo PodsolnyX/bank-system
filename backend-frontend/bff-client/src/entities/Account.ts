@@ -1,4 +1,4 @@
-import { CurrencyType } from "entities/Currency"
+import { CurrencyType } from 'entities/Currency'
 
 export type Account = {
   id: string

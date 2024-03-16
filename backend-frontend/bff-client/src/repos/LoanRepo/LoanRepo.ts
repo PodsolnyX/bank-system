@@ -5,7 +5,7 @@ import {
   LoanDto,
   SearchLoanUserDto,
   UserPaymentDto,
-  GetPaymentsDto
+  GetPaymentsDto,
 } from 'dto/Loan'
 import { LoanAPI } from 'repos/lib'
 

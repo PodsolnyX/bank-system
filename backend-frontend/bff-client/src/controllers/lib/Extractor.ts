@@ -18,4 +18,8 @@ export class Extractor {
       [CookieName]: req.cookies[CookieName]?.toString() || '',
     }
   }
+
+  static ExtractCookie(req: Request) {
+    return { [CookieName]: req.cookies[CookieName]?.toString() || '' }
+  }
 }
