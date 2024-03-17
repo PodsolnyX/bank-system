@@ -84,8 +84,6 @@ app.UseSwaggerUI(c =>
     c.OAuthScopes("api", "openid");
 });
 
-app.UseForwardedHeaders();
-app.UseHttpsRedirection();
 app.UseCors();
 app.UseStaticFiles();
 
