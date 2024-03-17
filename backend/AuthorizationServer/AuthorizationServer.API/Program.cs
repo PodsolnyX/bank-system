@@ -39,7 +39,7 @@ builder.Services.AddSwaggerGen(c =>
                     },
                 },
             },
-            OpenIdConnectUrl = new Uri($"http://coto-dev.ru/.well-known/openid-configuration"),
+            OpenIdConnectUrl = new Uri($"https://coto-dev.ru/.well-known/openid-configuration"),
         }
     );
 
