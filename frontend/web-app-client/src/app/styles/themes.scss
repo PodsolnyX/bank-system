@@ -1,5 +1,5 @@
 @layer base {
-  body[data-theme='default'] {
+  body[data-theme='Default'] {
     --color-heading: 132, 204, 22;
     --color-body: 255, 255, 255;
     --color-navbar: 243, 244, 246;
@@ -10,7 +10,7 @@
     --antd-filter: none;
   }
 
-  body[data-theme='dark'] {
+  body[data-theme='Dark'] {
     --color-heading: 32, 204, 22;
     --color-body: 10, 0, 18;
     --color-navbar: 28, 0, 58;

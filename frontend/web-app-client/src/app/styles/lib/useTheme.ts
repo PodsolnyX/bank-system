@@ -1,15 +1,21 @@
-import { useState } from "react"
-
-export enum Themes {
-    Default = "default",
-    Dark = "dark"
-}
+import { useGetThemeQuery, useUpdateThemeMutation } from 'shared/api/preferences'
 
 export const dataAttributeName = 'theme'
 
 export const useTheme = () => {
-    const [theme, setTheme] = useState<Themes>(Themes.Default);
-    document.body.dataset[dataAttributeName] = theme;
+  const { isLoading, isError, data: preferences } = useGetThemeQuery()
+  const [setTheme, themeUpdateResult] = useUpdateThemeMutation()
 
-    return {theme, setTheme};
+  const theme = themeUpdateResult.data?.theme || preferences?.theme
+
+  if (theme) {
+    document.body.dataset[dataAttributeName] = theme
+  }
+
+  return {
+    isLoading,
+    isError,
+    theme,
+    setTheme,
+  }
 }

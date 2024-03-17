@@ -6,10 +6,11 @@ import { useAppSelector } from 'shared/store'
 import { Center, PageHeader, Property } from 'shared/ui'
 import { Link } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
-import { Themes, useTheme } from 'app/styles/lib'
+import { useTheme } from 'app/styles/lib'
+import { Theme } from 'shared/entities'
 
 export const ProfilePage = () => {
-  const {theme, setTheme} = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const [trigger, { data, isLoading }] = useLazyGetProfileQuery()
   const mail = useAppSelector((store) => store.authReducer.mail)
@@ -38,8 +39,10 @@ export const ProfilePage = () => {
               <span className='text-pretty'>{data?.name || 'Нет имени'}</span>
               <Switch
                 className='ms-auto'
-                value={theme === Themes.Dark}
-                onChange={() => setTheme(theme === Themes.Dark ? Themes.Default : Themes.Dark)}
+                value={theme === Theme.Dark}
+                onChange={() =>
+                  setTheme({ theme: theme === Theme.Dark ? Theme.Default : Theme.Dark })
+                }
                 checkedChildren={<MoonOutlined />}
                 unCheckedChildren={<SunOutlined />}
               />
