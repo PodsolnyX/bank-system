@@ -6,4 +6,5 @@ export type Account = {
   currencyType: CurrencyType
   amount: number
   closedAt?: string | null
+  hidden: boolean
 }

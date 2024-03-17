@@ -14,25 +14,21 @@ import {
 export const preferencesApi = createApi({
   reducerPath: 'preferencesApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_PREFERENCES, credentials: 'include' }),
-  tagTypes: ['Theme', 'HiddenAccounts'],
   endpoints: (builder) => ({
     getPreferences: builder.query<GetPreferencesResp, GetPreferencesReq>({
       query: () => ({
         url: '/',
       }),
-      providesTags: ['Theme', 'HiddenAccounts'],
     }),
     getTheme: builder.query<GetPreferencesResp, GetPreferencesReq>({
       query: () => ({
         url: '/theme',
       }),
-      providesTags: ['Theme'],
     }),
     getHiddenAccounts: builder.query<GetPreferencesResp, GetPreferencesReq>({
       query: () => ({
         url: '/accounts',
       }),
-      providesTags: ['HiddenAccounts'],
     }),
     updateTheme: builder.mutation<UpdateThemeResp, UpdateThemeReq>({
       query: (body) => ({
@@ -40,7 +36,6 @@ export const preferencesApi = createApi({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['Theme'],
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         const { data: updatedTheme } = await queryFulfilled
         dispatch(
@@ -56,7 +51,6 @@ export const preferencesApi = createApi({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['HiddenAccounts'],
     }),
     showAccount: builder.mutation<ShowAccountResp, ShowAccountReq>({
       query: (body) => ({
@@ -64,7 +58,6 @@ export const preferencesApi = createApi({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['HiddenAccounts'],
     }),
   }),
 })

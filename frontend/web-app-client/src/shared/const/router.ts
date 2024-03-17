@@ -9,6 +9,7 @@ export enum AppRoutes {
   LOANS = '/loans',
   LOAN = '/loan/:id',
   REPAY = '/repay/:id',
+  RATING = 'loan_rating',
 
   ACCOUNTS = '/accounts',
   ACCOUNT_NEW = '/account/new',

@@ -16,6 +16,7 @@ import {
   NewLoanPage,
   CloseAccountPage,
   ChargeLoanPage,
+  RatingPage,
 } from 'pages'
 
 import { privateWrapper } from 'app/router/lib'
@@ -44,6 +45,10 @@ const _privateRoutes: RouteObject[] = [
   {
     path: AppRoutes.LOANS,
     element: <LoansListPage />,
+  },
+  {
+    path: AppRoutes.RATING,
+    element: <RatingPage />,
   },
   {
     path: AppRoutes.REPAY,

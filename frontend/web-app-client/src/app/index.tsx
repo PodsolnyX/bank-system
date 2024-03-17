@@ -9,14 +9,19 @@ import { Spinner } from 'shared/ui'
 import { BanPage } from 'pages/ban'
 import { useEffect } from 'react'
 import { useTheme } from 'app/styles/lib'
+import { useGetHiddenAccountsQuery } from 'shared/api/preferences'
 
 function App() {
   useTheme()
   const mail = useAppSelector((store) => store.authReducer.mail)
 
-  const [trigger, { isLoading, isError, data, isUninitialized }] = useLazyGetStatusQuery(
-    {}
-  )
+  const [trigger, status] = useLazyGetStatusQuery()
+  const hiddenAccounts = useGetHiddenAccountsQuery(undefined, {
+    skip: !mail,
+  })
+
+  const isLoading = hiddenAccounts.isFetching || status.isFetching
+  const isError = hiddenAccounts.isError || status.isError
 
   useEffect(() => {
     if (mail) {
@@ -24,7 +29,7 @@ function App() {
     }
   }, [mail, trigger])
 
-  if (isLoading || (isUninitialized && mail)) {
+  if (isLoading || (status.isUninitialized && mail)) {
     return <Spinner />
   }
 
@@ -38,8 +43,8 @@ function App() {
     )
   }
 
-  if (data?.bannedAt) {
-    return <BanPage bannedAt={data?.bannedAt} />
+  if (status.data?.bannedAt) {
+    return <BanPage bannedAt={status.data?.bannedAt} />
   }
 
   return (
