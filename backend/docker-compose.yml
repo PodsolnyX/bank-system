@@ -127,7 +127,6 @@ services:
       - internal-network
     ports:
       - "7005:8080"
-      - "8005:8081"
     depends_on:
       - postgres
     volumes:

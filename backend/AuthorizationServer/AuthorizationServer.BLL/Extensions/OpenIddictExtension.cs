@@ -32,6 +32,7 @@ public static class OpenIddictExtension
 
                 options
                     .UseAspNetCore()
+                    .DisableTransportSecurityRequirement()
                     .EnableTokenEndpointPassthrough()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableUserinfoEndpointPassthrough();
