@@ -27,6 +27,11 @@ internal class ClientSeeder : IHostedService
                     ClientId = "client",
                     ClientSecret = "client-secret",
                     DisplayName = "Client",
+                    RedirectUris =
+                    {
+                        new Uri("https://coto-dev.ru/account/login"),
+                        new Uri("https://localhost/account/login")
+                    },
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Authorization,

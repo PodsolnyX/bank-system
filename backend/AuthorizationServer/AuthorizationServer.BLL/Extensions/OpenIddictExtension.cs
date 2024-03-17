@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AuthorizationServer.BLL.Extensions;
 
@@ -26,8 +27,6 @@ public static class OpenIddictExtension
                     .SetTokenEndpointUris("/connect/token")
                     .SetUserinfoEndpointUris("/connect/userinfo");
 
-                options.AddEphemeralEncryptionKey().AddEphemeralSigningKey();
-
                 options.RegisterScopes("api");
 
                 options
@@ -36,9 +35,10 @@ public static class OpenIddictExtension
                     .EnableTokenEndpointPassthrough()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableUserinfoEndpointPassthrough();
+
                 options
-                    .AddEphemeralEncryptionKey()
-                    .AddEphemeralSigningKey()
+                    .AddSigningKey(new SymmetricSecurityKey(Convert.FromHexString("Hello")))
+                    .AddEncryptionKey(new SymmetricSecurityKey(Convert.FromHexString("Hello")))
                     .DisableAccessTokenEncryption();
             });
 
