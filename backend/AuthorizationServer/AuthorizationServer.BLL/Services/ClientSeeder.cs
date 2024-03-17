@@ -30,7 +30,8 @@ internal class ClientSeeder : IHostedService
                     RedirectUris =
                     {
                         new Uri("https://coto-dev.ru/account/login"),
-                        new Uri("https://localhost/account/login")
+                        new Uri("https://localhost/account/login"),
+                        new Uri("http://localhost:7005/swagger/oauth2-redirect.html")
                     },
                     Permissions =
                     {

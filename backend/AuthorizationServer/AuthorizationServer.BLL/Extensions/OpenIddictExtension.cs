@@ -15,6 +15,11 @@ public static class OpenIddictExtension
             {
                 options.UseEntityFrameworkCore().UseDbContext<IdentityDbContext>();
             })
+            .AddValidation(options =>
+            {
+                options.UseLocalServer();
+                options.UseAspNetCore();
+            })
             .AddServer(options =>
             {
                 options
@@ -38,9 +43,15 @@ public static class OpenIddictExtension
                     .EnableUserinfoEndpointPassthrough();
 
                 options
-                    .AddSigningKey(new RsaSecurityKey(RSA.Create(2048)))
-                    .AddEncryptionKey(new RsaSecurityKey(RSA.Create(2048)))
-                    .DisableAccessTokenEncryption();
+                    .AddDevelopmentSigningCertificate()
+                    .AddEncryptionKey(
+                        new SymmetricSecurityKey(
+                            Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")
+                        )
+                    )
+                    .DisableAccessTokenEncryption()
+                    .SetAccessTokenLifetime(TimeSpan.FromHours(1))
+                    .SetRefreshTokenLifetime(TimeSpan.FromHours(24));
             });
 
         return services;

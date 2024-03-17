@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -52,10 +53,18 @@ public class UserService
         if (await _userManager.CheckPasswordAsync(user, password))
         {
             _logger.LogInformation("User logged in");
+
+            var claims = new List<Claim> { new(OpenIddictConstants.Claims.Subject, user.Id), };
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             await _signInManager.SignInWithClaimsAsync(
                 user,
-                null,
-                new List<Claim> { new(OpenIddictConstants.Claims.Subject, user.Id), }
+                new AuthenticationProperties() { ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1) },
+                claims
             );
             return;
         }

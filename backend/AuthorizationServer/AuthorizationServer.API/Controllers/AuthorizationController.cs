@@ -20,6 +20,7 @@ public class AuthorizationController : Controller
     }
 
     [HttpPost("~/connect/token")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> Exchange()
     {
         var request =
@@ -72,6 +73,7 @@ public class AuthorizationController : Controller
     [HttpGet("~/connect/authorize")]
     [HttpPost("~/connect/authorize")]
     [IgnoreAntiforgeryToken]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> Authorize()
     {
         var request =
