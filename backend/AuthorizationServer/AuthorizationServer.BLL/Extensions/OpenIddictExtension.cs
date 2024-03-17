@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Security.Cryptography;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -37,8 +38,8 @@ public static class OpenIddictExtension
                     .EnableUserinfoEndpointPassthrough();
 
                 options
-                    .AddSigningKey(new SymmetricSecurityKey(Convert.FromHexString("Hello")))
-                    .AddEncryptionKey(new SymmetricSecurityKey(Convert.FromHexString("Hello")))
+                    .AddSigningKey(new RsaSecurityKey(RSA.Create(2048)))
+                    .AddEncryptionKey(new RsaSecurityKey(RSA.Create(2048)))
                     .DisableAccessTokenEncryption();
             });
 
