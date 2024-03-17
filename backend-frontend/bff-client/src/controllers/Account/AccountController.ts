@@ -9,6 +9,7 @@ import {
 } from 'controllers/Account/types'
 import { Extractor } from '../lib/Extractor'
 import { AccountService } from 'services/AccountService'
+import { PreferencesService } from 'services/PreferencesService'
 
 class AccountController {
   private _AccountService: AccountService

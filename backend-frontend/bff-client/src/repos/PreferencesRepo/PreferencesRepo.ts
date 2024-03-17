@@ -1,6 +1,8 @@
 import { WithUser } from 'dto/Common'
 import {
+  GetHiddenAccountsDto,
   GetPreferencesDto,
+  GetThemeDto,
   HideAccountDto,
   ShowAccountDto,
   UpdateThemeDto,
@@ -66,11 +68,11 @@ class PreferencesRepo {
     return await this._FetchPreferences(mail)
   }
 
-  async GetTheme(mail: string): Promise<GetPreferencesDto> {
+  async GetTheme(mail: string): Promise<GetThemeDto> {
     return await this._FetchPreferences(mail, { theme: 1, _id: 0 })
   }
 
-  async GetHiddenAccounts(mail: string): Promise<GetPreferencesDto> {
+  async GetHiddenAccounts(mail: string): Promise<GetHiddenAccountsDto> {
     return await this._FetchPreferences(mail, { hiddenAccounts: 1, _id: 0 })
   }
 

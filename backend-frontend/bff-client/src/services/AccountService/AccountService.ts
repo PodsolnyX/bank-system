@@ -7,13 +7,17 @@ import {
   GetAccountDto,
 } from 'dto/Account'
 import { PaginationReq, WithUser } from 'dto/Common'
+import { Account, FullAccount } from 'entities/Account'
 import { AccountRepo } from 'repos/AccountRepo'
+import { PreferencesRepo } from 'repos/PreferencesRepo'
 
 class AccountService {
   private _AccountRepo: AccountRepo
+  private _PreferencesRepo: PreferencesRepo
 
-  constructor(AccountRepo: AccountRepo) {
+  constructor(AccountRepo: AccountRepo, PreferencesRepo: PreferencesRepo) {
     this._AccountRepo = AccountRepo
+    this._PreferencesRepo = PreferencesRepo
 
     this.OpenAccount = this.OpenAccount.bind(this)
     this.CloseAccount = this.CloseAccount.bind(this)
@@ -21,6 +25,15 @@ class AccountService {
     this.GetAccount = this.GetAccount.bind(this)
     this.Deposit = this.Deposit.bind(this)
     this.Withdraw = this.Withdraw.bind(this)
+  }
+
+  private async _TransformAccounts(mail: string, accounts: Account[]) {
+    const { hiddenAccounts } = await this._PreferencesRepo.GetHiddenAccounts(mail)
+    const FullAccounts: FullAccount[] = accounts.map(account => ({
+      ...account,
+      hidden: hiddenAccounts.some(id => id === account.id)
+    }))
+    return FullAccounts;
   }
 
   async OpenAccount(Dto: WithUser<OpenAccountDto>) {
@@ -32,11 +45,13 @@ class AccountService {
   }
 
   async GetAccounts(Dto: WithUser<PaginationReq<SearchAccountDto>>) {
-    return await this._AccountRepo.GetAccounts(Dto)
+    const accounts = await this._AccountRepo.GetAccounts(Dto)
+    return await this._TransformAccounts(Dto.MailCookie, accounts)
   }
 
   async GetAccount(Dto: WithUser<GetAccountDto>) {
-    return await this._AccountRepo.GetAccount(Dto)
+    const accounts = [await this._AccountRepo.GetAccount(Dto)]
+    return (await this._TransformAccounts(Dto.MailCookie, accounts))[0]
   }
 
   async Deposit(Dto: WithUser<DepositDto>) {

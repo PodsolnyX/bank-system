@@ -7,3 +7,7 @@ export type Account = {
   amount: number
   closedAt?: string | null
 }
+
+export type FullAccount = Account & {
+  hidden: boolean
+}
