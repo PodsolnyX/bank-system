@@ -6,7 +6,7 @@ import {
   UpdateThemeDto,
 } from 'dto/Preferences'
 import { Preferences, Theme } from 'entities/Preferences'
-import { MongoClient, Db, Collection } from 'mongodb'
+import { MongoClient, Db, Collection, Document } from 'mongodb'
 import { PreferencesDocument } from 'repos/PreferencesRepo/types'
 
 class PreferencesRepo {
@@ -47,11 +47,14 @@ class PreferencesRepo {
     })
   }
 
-  private async _FetchPreferences(mail: string): Promise<GetPreferencesDto> {
+  private async _FetchPreferences(
+    mail: string,
+    projection?: Document | undefined
+  ): Promise<GetPreferencesDto> {
     await this._Init()
     const preferences = await this._Collection?.findOne(
       { mail },
-      { projection: { theme: 1, hiddenAccounts: 1, _id: 0 } }
+      { projection: projection || { theme: 1, hiddenAccounts: 1, _id: 0 } }
     )
     if (!preferences) {
       await this._InsertDefaultPreferences(mail)
@@ -61,6 +64,14 @@ class PreferencesRepo {
 
   async GetPreferences(mail: string): Promise<GetPreferencesDto> {
     return await this._FetchPreferences(mail)
+  }
+
+  async GetTheme(mail: string): Promise<GetPreferencesDto> {
+    return await this._FetchPreferences(mail, { theme: 1, _id: 0 })
+  }
+
+  async GetHiddenAccounts(mail: string): Promise<GetPreferencesDto> {
+    return await this._FetchPreferences(mail, { hiddenAccounts: 1, _id: 0 })
   }
 
   async UpdateTheme(theme: WithUser<UpdateThemeDto>): Promise<GetPreferencesDto> {

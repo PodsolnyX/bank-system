@@ -11,6 +11,8 @@ class PreferencesService {
     this._PreferencesRepo = PreferencesRepo
 
     this.GetPreferences = this.GetPreferences.bind(this)
+    this.GetTheme = this.GetTheme.bind(this)
+    this.GetHiddenAccounts = this.GetHiddenAccounts.bind(this)
     this.UpdateTheme = this.UpdateTheme.bind(this)
     this.HideAccount = this.HideAccount.bind(this)
     this.ShowAccount = this.ShowAccount.bind(this)
@@ -18,6 +20,14 @@ class PreferencesService {
 
   async GetPreferences(mail: string) {
     return await this._PreferencesRepo.GetPreferences(mail)
+  }
+
+  async GetTheme(mail: string) {
+    return await this._PreferencesRepo.GetTheme(mail)
+  }
+
+  async GetHiddenAccounts(mail: string) {
+    return await this._PreferencesRepo.GetHiddenAccounts(mail)
   }
 
   async UpdateTheme(themeData: WithUser<UpdateThemeDto>) {

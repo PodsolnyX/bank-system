@@ -12,6 +12,16 @@ RouterHelper.use(PreferencesRouter, PreferencesControllerInst, [
     handlers: [PreferencesControllerInst.GetPreferences],
   },
   {
+    method: 'get',
+    path: '/theme',
+    handlers: [PreferencesControllerInst.GetTheme],
+  },
+  {
+    method: 'get',
+    path: '/accounts',
+    handlers: [PreferencesControllerInst.GetHiddenAccounts],
+  },
+  {
     method: 'put',
     path: '/theme',
     handlers: [PreferencesControllerInst.UpdateTheme],
