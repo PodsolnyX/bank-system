@@ -30,8 +30,8 @@ builder.Services.AddSwaggerGen(c =>
             {
                 AuthorizationCode = new OpenApiOAuthFlow
                 {
-                    AuthorizationUrl = new Uri($"https://localhost:7005/connect/authorize"),
-                    TokenUrl = new Uri($"https://localhost:7005/connect/token"),
+                    AuthorizationUrl = new Uri($"https://coto-dev.ru/connect/authorize"),
+                    TokenUrl = new Uri($"https://coto-dev.ru/connect/token"),
                     Scopes = new Dictionary<string, string>
                     {
                         { "openid", "openid" },
@@ -39,7 +39,7 @@ builder.Services.AddSwaggerGen(c =>
                     },
                 },
             },
-            OpenIdConnectUrl = new Uri($"http://localhost:7005/.well-known/openid-configuration"),
+            OpenIdConnectUrl = new Uri($"http://coto-dev.ru/.well-known/openid-configuration"),
         }
     );
 
