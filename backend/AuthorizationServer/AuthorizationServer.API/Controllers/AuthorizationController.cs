@@ -128,7 +128,8 @@ public class AuthorizationController : Controller
             new
             {
                 Name = claimsPrincipal.GetClaim(OpenIddictConstants.Claims.Subject),
-                Roles = roles
+                Roles = roles,
+                Sub = claimsPrincipal.GetClaim(OpenIddictConstants.Claims.Subject)
             }
         );
     }
