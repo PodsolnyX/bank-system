@@ -1,3 +1,4 @@
+import { parseBoolean } from 'common'
 import {
   CloseAccountDto,
   DepositDto,
@@ -29,11 +30,17 @@ class AccountService {
 
   private async _TransformAccounts(mail: string, accounts: Account[]) {
     const { hiddenAccounts } = await this._PreferencesRepo.GetHiddenAccounts(mail)
-    const FullAccounts: FullAccount[] = accounts.map(account => ({
+    const FullAccounts: FullAccount[] = accounts.map((account) => ({
       ...account,
-      hidden: hiddenAccounts.some(id => id === account.id)
+      hidden: hiddenAccounts.some((id) => id === account.id),
     }))
-    return FullAccounts;
+
+    return FullAccounts.sort((first, second) => {
+      const isFirstClosed = !!first.closedAt
+      const isSecondClose = !!second.closedAt
+
+      return isFirstClosed === isSecondClose ? 0 : isFirstClosed ? 1 : -1
+    })
   }
 
   async OpenAccount(Dto: WithUser<OpenAccountDto>) {
@@ -46,12 +53,14 @@ class AccountService {
 
   async GetAccounts(Dto: WithUser<PaginationReq<SearchAccountDto>>) {
     const accounts = await this._AccountRepo.GetAccounts(Dto)
-    return await this._TransformAccounts(Dto.MailCookie, accounts)
+    const FullAccounts = await this._TransformAccounts(Dto.authId, accounts)
+    const hidden = parseBoolean(Dto.hidden)
+    return FullAccounts.filter((acc) => hidden === undefined || acc.hidden === hidden)
   }
 
   async GetAccount(Dto: WithUser<GetAccountDto>) {
     const accounts = [await this._AccountRepo.GetAccount(Dto)]
-    return (await this._TransformAccounts(Dto.MailCookie, accounts))[0]
+    return (await this._TransformAccounts(Dto.authId, accounts))[0]
   }
 
   async Deposit(Dto: WithUser<DepositDto>) {

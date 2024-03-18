@@ -1,4 +1,4 @@
-import { CookieName } from 'config/Auth'
+import { HeaderName } from 'config/Auth'
 import { WithUser } from 'dto/Common'
 import { Request } from 'express'
 
@@ -7,7 +7,7 @@ export class Extractor {
     return {
       ...req.params,
       ...req.body,
-      [CookieName]: req.cookies[CookieName]?.toString() || '',
+      authId: req.headers[HeaderName]?.toString() || '',
     }
   }
 
@@ -15,11 +15,11 @@ export class Extractor {
     return {
       ...req.params,
       ...req.query,
-      [CookieName]: req.cookies[CookieName]?.toString() || '',
+      authId: req.headers[HeaderName]?.toString() || '',
     }
   }
 
-  static ExtractCookie(req: Request) {
-    return { [CookieName]: req.cookies[CookieName]?.toString() || '' }
+  static ExtractHeader(req: Request) {
+    return { authId: req.headers[HeaderName]?.toString() || '' }
   }
 }

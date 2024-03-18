@@ -1,3 +1,5 @@
+import { MongoClient, Db, Collection, Document } from 'mongodb'
+
 import { WithUser } from 'dto/Common'
 import {
   GetHiddenAccountsDto,
@@ -8,7 +10,6 @@ import {
   UpdateThemeDto,
 } from 'dto/Preferences'
 import { Preferences, Theme } from 'entities/Preferences'
-import { MongoClient, Db, Collection, Document } from 'mongodb'
 import { PreferencesDocument } from 'repos/PreferencesRepo/types'
 
 class PreferencesRepo {
@@ -41,63 +42,68 @@ class PreferencesRepo {
     }
   }
 
-  private async _InsertDefaultPreferences(mail: string) {
+  private async _InsertDefaultPreferences(id: string) {
     await this._Init()
-    await this._Collection?.insertOne({
-      mail,
-      ...this._DefaultPreferences,
-    })
+    try {
+      await this._Collection?.insertOne({
+        userid: id,
+        ...this._DefaultPreferences,
+      })
+    } catch {}
   }
 
   private async _FetchPreferences(
-    mail: string,
+    id: string,
     projection?: Document | undefined
   ): Promise<GetPreferencesDto> {
     await this._Init()
     const preferences = await this._Collection?.findOne(
-      { mail },
+      { userid: id },
       { projection: projection || { theme: 1, hiddenAccounts: 1, _id: 0 } }
     )
     if (!preferences) {
-      await this._InsertDefaultPreferences(mail)
+      await this._InsertDefaultPreferences(id)
     }
     return preferences || this._DefaultPreferences
   }
 
-  async GetPreferences(mail: string): Promise<GetPreferencesDto> {
-    return await this._FetchPreferences(mail)
+  async GetPreferences(id: string): Promise<GetPreferencesDto> {
+    return await this._FetchPreferences(id)
   }
 
-  async GetTheme(mail: string): Promise<GetThemeDto> {
-    return await this._FetchPreferences(mail, { theme: 1, _id: 0 })
+  async GetTheme(id: string): Promise<GetThemeDto> {
+    return await this._FetchPreferences(id, { theme: 1, _id: 0 })
   }
 
-  async GetHiddenAccounts(mail: string): Promise<GetHiddenAccountsDto> {
-    return await this._FetchPreferences(mail, { hiddenAccounts: 1, _id: 0 })
+  async GetHiddenAccounts(id: string): Promise<GetHiddenAccountsDto> {
+    return await this._FetchPreferences(id, { hiddenAccounts: 1, _id: 0 })
   }
 
   async UpdateTheme(theme: WithUser<UpdateThemeDto>): Promise<GetPreferencesDto> {
     await this._Init()
-    const { MailCookie: mail, theme: newTheme } = theme
-    await this._Collection?.updateOne({ mail }, { $set: { theme: newTheme } })
-    return this._FetchPreferences(mail)
+    const { authId: id, theme: newTheme } = theme
+    await this._Collection?.updateOne({ userid: id }, { $set: { theme: newTheme } })
+    return this._FetchPreferences(id)
   }
 
   async HideAccount(account: WithUser<HideAccountDto>): Promise<GetPreferencesDto> {
     await this._Init()
-    const { MailCookie: mail, accountId } = account
+    const { authId: id, accountId } = account
     await this._Collection?.updateOne(
-      { mail },
+      { userid: id },
       { $addToSet: { hiddenAccounts: accountId } }
     )
-    return this._FetchPreferences(mail)
+    return this._FetchPreferences(id)
   }
 
   async ShowAccount(account: WithUser<ShowAccountDto>): Promise<GetPreferencesDto> {
     await this._Init()
-    const { MailCookie: mail, accountId } = account
-    await this._Collection?.updateOne({ mail }, { $pull: { hiddenAccounts: accountId } })
-    return this._FetchPreferences(mail)
+    const { authId: id, accountId } = account
+    await this._Collection?.updateOne(
+      { userid: id },
+      { $pull: { hiddenAccounts: accountId } }
+    )
+    return this._FetchPreferences(id)
   }
 }
 

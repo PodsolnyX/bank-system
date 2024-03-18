@@ -1,29 +1,28 @@
 import { AxiosError } from 'axios'
-import { ReqError } from 'common/ReqError'
-import { AuthData, CookieName } from 'config/Auth'
+import { AuthData, HeaderName } from 'config/Auth'
 import { NextFunction, Request, Response } from 'express'
 import { UserService } from 'services/UserService'
 
 export const AuthMiddleware =
   (UserService: UserService) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    const User = req.cookies[CookieName]
-    if (!User) {
+    const UserId = req.headers[HeaderName]
+    if (!UserId) {
       res.sendStatus(401)
       return
     }
 
     try {
-      const profile = await UserService.GetProfile({
-        mail: User,
+      /*const profile = await UserService.GetProfile({
+        mail: 'string',
       })
 
       if (profile.bannedAt) {
         res.sendStatus(403)
         return
-      }
+      }*/
 
-      AuthData.Header = profile.id
+      AuthData.Header = UserId
 
       next()
     } catch (err) {

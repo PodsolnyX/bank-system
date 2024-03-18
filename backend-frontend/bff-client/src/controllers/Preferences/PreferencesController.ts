@@ -19,21 +19,21 @@ class PreferencesController {
 
   async GetPreferences(req: GetPreferencesReq, res: Response) {
     const data = await this._PreferencesService.GetPreferences(
-      Extractor.ExtractCookie(req).MailCookie
+      Extractor.ExtractHeader(req).authId
     )
     res.status(200).send(data)
   }
 
   async GetTheme(req: GetThemeReq, res: Response) {
     const data = await this._PreferencesService.GetTheme(
-      Extractor.ExtractCookie(req).MailCookie
+      Extractor.ExtractHeader(req).authId
     )
     res.status(200).send(data)
   }
 
   async GetHiddenAccounts(req: GetHiddenAccountsReq, res: Response) {
     const data = await this._PreferencesService.GetHiddenAccounts(
-      Extractor.ExtractCookie(req).MailCookie
+      Extractor.ExtractHeader(req).authId
     )
     res.status(200).send(data)
   }

@@ -1,5 +1,5 @@
-import { CookieName } from 'config/Auth'
+import { HeaderName } from 'config/Auth'
 
 export type WithUser<T> = T & {
-  [CookieName]: string
+  authId: string
 }

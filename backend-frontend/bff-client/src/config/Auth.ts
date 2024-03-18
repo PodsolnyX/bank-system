@@ -1,4 +1,4 @@
-export const CookieName = 'MailCookie'
+export const HeaderName = 'authorization'
 
 export type AuthInfo = {
   UserId: undefined | string
