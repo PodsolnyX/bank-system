@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { API_PREFERENCES } from 'shared/config'
 import {
   GetPreferencesReq,
@@ -11,9 +11,11 @@ import {
   ShowAccountResp,
 } from './types'
 
+import { baseQueryWithAuth } from '../baseQueryWithAuth'
+
 export const preferencesApi = createApi({
   reducerPath: 'preferencesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_PREFERENCES, credentials: 'include' }),
+  baseQuery: baseQueryWithAuth({ baseUrl: API_PREFERENCES, credentials: 'include' }),
   endpoints: (builder) => ({
     getPreferences: builder.query<GetPreferencesResp, GetPreferencesReq>({
       query: () => ({

@@ -7,7 +7,7 @@ export const apiReducers = {
   [tariffsApi.reducerPath]: tariffsApi.reducer,
   [operationsApi.reducerPath]: operationsApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
-  [preferencesApi.reducerPath]: preferencesApi.reducer
+  [preferencesApi.reducerPath]: preferencesApi.reducer,
 }
 
 export const apiMiddleware = [
@@ -16,5 +16,5 @@ export const apiMiddleware = [
   tariffsApi.middleware,
   operationsApi.middleware,
   userApi.middleware,
-  preferencesApi.middleware
+  preferencesApi.middleware,
 ]

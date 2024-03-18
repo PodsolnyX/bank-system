@@ -66,6 +66,7 @@ export const userApi = createApi({
 
 export const {
   useLazyGetStatusQuery,
+  useGetStatusQuery,
   useLazyGetProfileQuery,
   useLogoutMutation,
   useRegisterMutation,

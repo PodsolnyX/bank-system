@@ -1,21 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ID_LS_NAME } from 'shared/const'
 
 const initialState = {
-  mail: localStorage.getItem('email'),
+  id: localStorage.getItem(ID_LS_NAME),
 }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setEmail(state, action: PayloadAction<string>) {
-      state.mail = action.payload
+    setId(state, action: PayloadAction<string>) {
+      state.id = action.payload
     },
-    unsetEmail(state) {
-      state.mail = null
+    unsetId(state) {
+      state.id = null
     },
   },
 })
 
-export const { setEmail, unsetEmail } = authSlice.actions
+export const { setId, unsetId } = authSlice.actions
 export const authReducer = authSlice.reducer

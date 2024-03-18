@@ -1,11 +1,11 @@
+import { useAuth } from 'oidc-react'
 import { useGetThemeQuery, useUpdateThemeMutation } from 'shared/api/preferences'
 import { Theme } from 'shared/entities'
-import { useAppSelector } from 'shared/store'
 
 export const dataAttributeName = 'theme'
 
 export const useTheme = () => {
-  const isAuth = useAppSelector((store) => store.authReducer.mail)
+  const isAuth = !!useAuth().userData
   const {
     isLoading,
     isError,

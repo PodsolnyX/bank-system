@@ -23,4 +23,3 @@ export type ShowAccountReq = {
   accountId: string
 }
 export type ShowAccountResp = Preferences
-

@@ -1,64 +1,45 @@
-import ruRU from 'antd/locale/ru_RU'
-import { ConfigProvider, Result } from 'antd'
+import { useAuth } from 'oidc-react'
 
-import { StoreProvider, useAppSelector } from 'shared/store'
-import { ApplicationRouter } from './router'
-import { Toaster } from './toast'
-import { useLazyGetStatusQuery } from 'shared/api'
+import { StoreProvider } from 'shared/store'
 import { Spinner } from 'shared/ui'
-import { BanPage } from 'pages/ban'
-import { useEffect } from 'react'
-import { useTheme } from 'app/styles/lib'
-import { useGetHiddenAccountsQuery } from 'shared/api/preferences'
+import { useGetStatusQuery, useGetHiddenAccountsQuery } from 'shared/api'
+import { ErrorPage, BanPage } from 'pages'
+
+import { ApplicationRouter } from './router'
+import { Toaster, AppAuthProvider, AntdProvider } from './providers'
+import { useTheme } from './styles/lib'
 
 function App() {
   useTheme()
-  const mail = useAppSelector((store) => store.authReducer.mail)
+  const { isLoading: isAuthLoading, userData } = useAuth()
+  const status = useGetStatusQuery('string', { skip: !userData })
+  const hiddenAccs = useGetHiddenAccountsQuery(undefined, { skip: !userData })
 
-  const [trigger, status] = useLazyGetStatusQuery()
-  const hiddenAccounts = useGetHiddenAccountsQuery(undefined, {
-    skip: !mail,
-  })
+  const isLoading = isAuthLoading || hiddenAccs.isFetching || status.isFetching
+  const isError = hiddenAccs.isError || status.isError
 
-  const isLoading = hiddenAccounts.isFetching || status.isFetching
-  const isError = hiddenAccounts.isError || status.isError
-
-  useEffect(() => {
-    if (mail) {
-      trigger(mail, true)
-    }
-  }, [mail, trigger])
-
-  if (isLoading || (status.isUninitialized && mail)) {
-    return <Spinner />
-  }
-
-  if (isError) {
-    return (
-      <Result
-        status='error'
-        title='Что-то пошло не так'
-        subTitle='Произошла непредвиденная ошибка'
-      />
-    )
-  }
-
-  if (status.data?.bannedAt) {
-    return <BanPage bannedAt={status.data?.bannedAt} />
-  }
-
-  return (
-    <ConfigProvider locale={ruRU}>
+  return isLoading ? (
+    <Spinner />
+  ) : isError ? (
+    <ErrorPage />
+  ) : status.data?.bannedAt ? (
+    <BanPage bannedAt={status.data?.bannedAt} />
+  ) : (
+    <>
       <Toaster />
       <ApplicationRouter />
-    </ConfigProvider>
+    </>
   )
 }
 
 const WrappedApp = () => {
   return (
     <StoreProvider>
-      <App />
+      <AppAuthProvider>
+        <AntdProvider>
+          <App />
+        </AntdProvider>
+      </AppAuthProvider>
     </StoreProvider>
   )
 }

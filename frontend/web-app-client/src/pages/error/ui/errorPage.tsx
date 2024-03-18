@@ -1,15 +1,8 @@
 import { Result, Button } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import { Center } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
+import { Center } from 'shared/ui'
 
 export const ErrorPage = () => {
-  const navigate = useNavigate()
-
-  const onClick = () => {
-    navigate(AppRoutes.MAIN)
-  }
-
   return (
     <Center>
       <Result
@@ -17,7 +10,7 @@ export const ErrorPage = () => {
         title='Что-то пошло не так'
         subTitle='Произошла непредвиденная ошибка'
         extra={[
-          <Button type='primary' onClick={onClick}>
+          <Button type='primary' onClick={() => (location.href = AppRoutes.MAIN)} key='1'>
             Главная
           </Button>,
         ]}

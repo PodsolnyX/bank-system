@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import {
   GetLoansResp,
   GetLoansReq,
@@ -11,11 +11,13 @@ import {
 } from 'shared/api'
 import { API_LOANS } from 'shared/config'
 
+import { baseQueryWithAuth } from '../baseQueryWithAuth'
+
 export const loansApi = createApi({
   reducerPath: 'loansApi',
   keepUnusedDataFor: 0,
   refetchOnMountOrArgChange: true,
-  baseQuery: fetchBaseQuery({ baseUrl: API_LOANS, credentials: 'include' }),
+  baseQuery: baseQueryWithAuth({ baseUrl: API_LOANS, credentials: 'include' }),
   endpoints: (builder) => ({
     requestLoan: builder.mutation<RequestLoanResp, RequestLoanReq>({
       query: (params) => ({

@@ -4,6 +4,7 @@ export type GetAccountReq = Pick<Account, 'id'>
 export type GetAccountResp = Account
 
 export type GetAccountsReq = PaginationReq & {
+  hidden?: boolean
   currencyTypes?: CurrencyType[]
 }
 export type GetAccountsResp = Account[]

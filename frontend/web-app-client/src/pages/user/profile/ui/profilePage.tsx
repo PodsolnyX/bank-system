@@ -13,13 +13,13 @@ export const ProfilePage = () => {
   const { theme, setTheme } = useTheme()
 
   const [trigger, { data, isLoading }] = useLazyGetProfileQuery()
-  const mail = useAppSelector((store) => store.authReducer.mail)
+  const id = useAppSelector((store) => store.authReducer.id)
 
   useEffect(() => {
-    if (mail) {
-      trigger(mail, true)
+    if (id) {
+      trigger(id, true)
     }
-  }, [trigger, mail])
+  }, [trigger, id])
 
   if (isLoading) {
     return
@@ -57,7 +57,7 @@ export const ProfilePage = () => {
             className='m-0'
           />
           <Property name='Почта' value={data?.mail || '—'} className='m-0' />
-          <Link to={AppRoutes.LOGOUT}>Выйти</Link>
+          <Link to={AppRoutes.MAIN}>Выйти</Link>
         </Card>
       )}
     </Center>

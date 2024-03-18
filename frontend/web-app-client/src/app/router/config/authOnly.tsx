@@ -8,7 +8,6 @@ import {
   LoanPage,
   LoansListPage,
   HistoryPage,
-  LogoutPage,
   MainPage,
   NewAccountPage,
   OperationPage,
@@ -77,10 +76,6 @@ const _privateRoutes: RouteObject[] = [
   {
     path: AppRoutes.PROFILE,
     element: <ProfilePage />,
-  },
-  {
-    path: AppRoutes.LOGOUT,
-    element: <LogoutPage />,
   },
 ]
 

@@ -6,8 +6,12 @@ import { Account, CurrencyType } from 'shared/entities'
 import { Dropdown } from 'shared/ui'
 import { getAccountHistoryLink } from 'shared/const'
 import { format } from 'shared/utils/format'
+import { ShowAccountReq } from 'shared/api/preferences'
 
-export const columns: ColumnsType<Account> = [
+export const getAccountColumns = (
+  show: (data: ShowAccountReq) => any,
+  hide: (data: ShowAccountReq) => any
+): ColumnsType<Account> => [
   {
     title: 'Номер',
     dataIndex: 'id',
@@ -33,24 +37,27 @@ export const columns: ColumnsType<Account> = [
     title: 'Статус',
     dataIndex: 'closedAt',
     key: 'closedAt',
-    render: (closed) => (
-      <Tag color={closed ? 'red' : 'blue'}>{closed ? 'Закрыт' : 'Открыт'}</Tag>
+    render: (closed, acc) => (
+      <>
+        <Tag color={closed ? 'red' : 'blue'}>{closed ? 'Закрыт' : 'Открыт'}</Tag>
+        {acc.hidden && <Tag color='error'>Скрытый</Tag>}
+      </>
     ),
     width: '15%',
     align: 'center',
     filters: [
       {
-        text: 'Показать закрытые',
+        text: 'Показать скрытые',
         value: true,
       },
     ],
-    onFilter: (_value, acc) => !!acc.closedAt === _value,
+    onFilter: (_value, acc) => !!acc.hidden === _value,
     defaultFilteredValue: [false],
   },
   {
     title: 'Действие',
     dataIndex: '',
-    render: (_, acc) => <Dropdown items={getAccountActions(acc)} />,
+    render: (_, acc) => <Dropdown items={getAccountActions(acc, show, hide)} />,
     width: '10%',
     align: 'center',
   },

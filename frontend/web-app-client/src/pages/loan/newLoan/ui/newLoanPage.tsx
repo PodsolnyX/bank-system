@@ -14,7 +14,7 @@ import { convert } from 'shared/utils/format'
 export const NewLoanPage = () => {
   const navigate = useNavigate()
   const tariffs = useGetTariffsQuery({})
-  const accounts = useGetAccountsQuery({})
+  const accounts = useGetAccountsQuery({ hidden: false })
   const [trigger] = useRequestLoanMutation()
 
   const onFinish = async (values: NewLoanFormData) => {

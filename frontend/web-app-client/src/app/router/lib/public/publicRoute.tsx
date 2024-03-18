@@ -1,10 +1,12 @@
+import { useAuth } from 'oidc-react'
 import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
-import { useAppSelector } from 'shared/store'
+import { Spinner } from 'shared/ui'
 
 export const PublicRoute = ({ elem }: { elem: ReactNode }) => {
-  const isAuth = useAppSelector((state) => state.authReducer.mail)
+  const { userData } = useAuth()
 
-  return isAuth ? <Navigate to={AppRoutes.MAIN} /> : elem
+  if (userData === null) return <Spinner />
+  return userData ? <Navigate to={AppRoutes.MAIN} /> : elem
 }

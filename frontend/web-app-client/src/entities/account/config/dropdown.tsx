@@ -8,8 +8,13 @@ import {
   getAccountDepositLink,
   getAccountWithdrawLink,
 } from 'shared/const'
+import { HideAccountReq, ShowAccountReq } from 'shared/api/preferences'
 
-export const getAccountActions = (account: Account): ItemType[] => [
+export const getAccountActions = (
+  account: Account,
+  show: (id: ShowAccountReq) => any,
+  hide: (id: HideAccountReq) => any
+): ItemType[] => [
   {
     label: <Link to={getAccountHistoryLink(account.id)}>История</Link>,
     disabled: false,
@@ -29,5 +34,11 @@ export const getAccountActions = (account: Account): ItemType[] => [
     label: <Link to={getAccountCloseLink(account.id)}>Закрыть</Link>,
     disabled: !!account.closedAt || account.amount > 0,
     key: 'close',
+  },
+  {
+    label: <div>{account.hidden ? 'Показывать' : 'Не показывать'}</div>,
+    key: 'show',
+    onClick: () =>
+      account.hidden ? show({ accountId: account.id }) : hide({ accountId: account.id }),
   },
 ]

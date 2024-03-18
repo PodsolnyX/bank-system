@@ -1,8 +1,5 @@
 export enum AppRoutes {
   MAIN = '/',
-  LOGIN = '/login',
-  LOGOUT = '/logout',
-  REGISTER = '/register',
   PROFILE = '/profile',
 
   LOAN_NEW = '/new_loan',
@@ -21,7 +18,7 @@ export enum AppRoutes {
   DEPOSIT = '/deposit/:id',
   WITHDRAW = '/withdraw/:id',
 
-  FINISH_LOGIN = '/finish_login'
+  FINISH_LOGIN = '/finish_login',
 }
 
 const route_rep =

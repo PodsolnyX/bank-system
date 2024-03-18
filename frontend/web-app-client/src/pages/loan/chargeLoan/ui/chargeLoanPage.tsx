@@ -13,7 +13,7 @@ export const ChargeLoanPage = () => {
 
   const [trigger, result] = useChargeLoanMutation()
   const loan = useGetLoansQuery({ accountIds: [id!] })
-  const accounts = useGetAccountsQuery({})
+  const accounts = useGetAccountsQuery({ hidden: false })
 
   const onFinish = async (values: ChargeLoanFormValues) => {
     try {

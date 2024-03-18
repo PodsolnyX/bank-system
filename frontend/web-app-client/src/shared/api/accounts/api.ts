@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { API_ACCOUNTS } from 'shared/config'
 import {
   CloseAccountReq,
@@ -15,9 +15,11 @@ import {
   WithdrawReq,
 } from './types'
 
+import { baseQueryWithAuth } from '../baseQueryWithAuth'
+
 export const accountsApi = createApi({
   reducerPath: 'accountsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_ACCOUNTS, credentials: 'include' }),
+  baseQuery: baseQueryWithAuth({ baseUrl: API_ACCOUNTS, credentials: 'include' }),
   keepUnusedDataFor: 0,
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
