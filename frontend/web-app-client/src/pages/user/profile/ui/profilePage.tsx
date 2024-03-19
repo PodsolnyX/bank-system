@@ -5,7 +5,7 @@ import { SunOutlined, MoonOutlined } from '@ant-design/icons'
 
 import { Center, PageHeader, Property } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
-import { useTheme } from 'app/styles/lib'
+import { useTheme } from 'shared/theme'
 import { Theme } from 'shared/entities'
 
 export const ProfilePage = () => {
@@ -15,7 +15,7 @@ export const ProfilePage = () => {
   const roles = profile?.['roles']
 
   if (isLoading) {
-    return null;
+    return null
   }
 
   return (
@@ -46,7 +46,7 @@ export const ProfilePage = () => {
           <Property name='id' value={profile?.sub || '—'} className='m-0' />
           <Property
             name='Роль'
-            value={roles === 'Client' ? 'Клиент' : 'Клиент, сотрудник' }
+            value={roles === 'Client' ? 'Клиент' : 'Клиент, сотрудник'}
             className='m-0'
           />
           <Property name='Почта' value={profile?.email || '—'} className='m-0' />

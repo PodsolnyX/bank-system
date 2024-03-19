@@ -3,11 +3,11 @@ import { useAuth } from 'oidc-react'
 import { StoreProvider } from 'shared/store'
 import { Spinner } from 'shared/ui'
 import { useGetStatusQuery, useGetHiddenAccountsQuery } from 'shared/api'
+import { useTheme } from 'shared/theme'
 import { ErrorPage, BanPage } from 'pages'
 
 import { ApplicationRouter } from './router'
 import { Toaster, AppAuthProvider, AntdProvider } from './providers'
-import { useTheme } from './styles/lib'
 
 function App() {
   useTheme()

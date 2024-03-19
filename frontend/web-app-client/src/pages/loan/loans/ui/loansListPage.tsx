@@ -1,6 +1,10 @@
 import { Button, Skeleton, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
-import { PlusCircleOutlined, FieldTimeOutlined, PieChartOutlined } from '@ant-design/icons'
+import {
+  PlusCircleOutlined,
+  FieldTimeOutlined,
+  PieChartOutlined,
+} from '@ant-design/icons'
 import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
 import { useExecuteJobMutation, useGetLoansQuery, useGetPaymentsQuery } from 'shared/api'
