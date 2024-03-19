@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Center, Image } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
 
-import logo from 'assets/logo.svg'
+import logo from 'shared/assets/logo.svg'
 
 export const NotFoundPage = () => {
   const navigate = useNavigate()

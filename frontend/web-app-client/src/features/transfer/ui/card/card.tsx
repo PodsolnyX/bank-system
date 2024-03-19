@@ -3,7 +3,7 @@ import { Image, Container } from 'shared/ui'
 import { OperationType } from 'shared/entities'
 import { getTransferAssets } from '../../lib'
 
-import cash from 'assets/cash.svg'
+import cash from 'shared/assets/cash.svg'
 
 export interface TransferProps {
   type: OperationType
