@@ -1,6 +1,6 @@
 import { Button, Skeleton, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
-import { PlusCircleOutlined, FieldTimeOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, FieldTimeOutlined, PieChartOutlined } from '@ant-design/icons'
 import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
 import { useExecuteJobMutation, useGetLoansQuery, useGetPaymentsQuery } from 'shared/api'
@@ -33,6 +33,7 @@ export const LoansListPage = () => {
         <div>
           <Skeleton.Button className='mb-2 mx-1' />
           <Skeleton.Button className='mb-2 mx-1' />
+          <Skeleton.Button className='mb-2 mx-1' />
         </div>
       ) : (
         <div className='text-center'>
@@ -44,6 +45,11 @@ export const LoansListPage = () => {
           <Button className='mb-2 mx-1' icon={<FieldTimeOutlined />} onClick={timeJump}>
             Прыжок времени
           </Button>
+          <Link to={AppRoutes.RATING}>
+            <Button className='mb-2 mx-1' icon={<PieChartOutlined />}>
+              Рейтинг
+            </Button>
+          </Link>
         </div>
       )}
       <Tabs

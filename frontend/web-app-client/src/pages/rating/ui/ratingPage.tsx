@@ -1,30 +1,24 @@
-import { Result, Button } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import { Center, Image } from 'shared/ui'
+import { Button } from 'antd'
+import { Link } from 'react-router-dom'
+import { Center } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
 
-import logo from 'assets/logo.svg'
+import { RatingWidget } from 'entities/loan'
+import { getRatingText } from '../lib'
 
 export const RatingPage = () => {
-  const navigate = useNavigate()
-
-  const onClick = () => {
-    navigate(AppRoutes.MAIN)
-  }
+  const max = 2000
+  const current = 300
+  const text = getRatingText(current)
 
   return (
     <Center>
-      <Result
-        className='shimmer'
-        icon={<Image src={logo} className='img-shadow w-[150px] md:w-[200px]' />}
-        title='Страница не найдена!'
-        subTitle='Извините, запрашиваемая Вами страница не существует.'
-        extra={
-          <Button type='primary' onClick={onClick}>
-            Домой
-          </Button>
-        }
-      />
+      <h1>Рейтинг</h1>
+      <h3 className='my-3'>{text}</h3>
+      <RatingWidget max={max} current={current} />
+      <Link to={AppRoutes.LOANS} className='my-1'>
+        <Button>В меню кредитов</Button>
+      </Link>
     </Center>
   )
 }
