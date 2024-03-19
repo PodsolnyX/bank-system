@@ -3,7 +3,6 @@ import { Card, Skeleton, Switch } from 'antd'
 import { useAuth } from 'oidc-react'
 import { SunOutlined, MoonOutlined } from '@ant-design/icons'
 
-import { useAppSelector } from 'shared/store'
 import { Center, PageHeader, Property } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
 import { useTheme } from 'app/styles/lib'
