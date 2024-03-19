@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { GetUserReq, GetUserStatusReq, RegisterReq } from './types'
 import { UserService } from 'services/UserService'
-import { Extractor } from 'controllers/lib/Extractor'
+import { Extractor } from 'common'
 
 class UserController {
   private _UserService: UserService

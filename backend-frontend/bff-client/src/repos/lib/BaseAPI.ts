@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { AuthData } from 'config/Auth'
+import { AuthData } from 'common/Auth'
 
 export abstract class BaseReq {
   protected static BASE_URL: string

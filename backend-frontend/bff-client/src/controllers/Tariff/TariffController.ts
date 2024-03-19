@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { GetTariffsReq } from './types'
-import { Extractor } from '../lib/Extractor'
+import { Extractor } from 'common'
 import { TariffService } from 'services/TariffService'
 
 class TariffController {

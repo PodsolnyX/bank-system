@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ChargeLoanReq, GetLoansReq, GetPaymentsReq, RequestLoanReq } from './types'
-import { Extractor } from '../lib/Extractor'
+import { Extractor } from 'common'
 import { LoanService } from 'services/LoanService'
 
 class LoanController {

@@ -2,9 +2,9 @@
   "name": "bff-client",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "app/index.ts",
   "scripts": {
-    "start": "nodemon src/app.ts --watch src/**/*.ts",
+    "start": "nodemon src/app/index.ts --watch src/**/*.ts",
     "build": "tsc -p .",
     "prettier": "npx prettier --write **/*.ts"
   },
@@ -24,6 +24,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.19",
+    "@types/ws": "^8.5.10",
     "nodemon": "^3.0.3",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",

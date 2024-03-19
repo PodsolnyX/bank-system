@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { GetOperationHistoryReq } from './types'
-import { Extractor } from '../lib/Extractor'
+import { Extractor } from 'common'
 import { OperationHistoryService } from 'services/OperationHistoryService'
 
 class OperationHistoryController {

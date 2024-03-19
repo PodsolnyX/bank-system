@@ -1,13 +1,14 @@
-import { HeaderName } from 'config/Auth'
 import { WithUser } from 'dto/Common'
 import { Request } from 'express'
 
 export class Extractor {
+  private static readonly _HeaderName = 'authorization'
+
   static ExtractBody<T>(req: Request<any, any, T>): WithUser<T> {
     return {
       ...req.params,
       ...req.body,
-      authId: req.headers[HeaderName]?.toString() || '',
+      authId: req.headers[Extractor._HeaderName]?.toString() || '',
     }
   }
 
@@ -15,11 +16,11 @@ export class Extractor {
     return {
       ...req.params,
       ...req.query,
-      authId: req.headers[HeaderName]?.toString() || '',
+      authId: req.headers[Extractor._HeaderName]?.toString() || '',
     }
   }
 
-  static ExtractHeader(req: Request) {
-    return { authId: req.headers[HeaderName]?.toString() || '' }
+  static ExtractAuthHeader(req: Request) {
+    return { authId: req.headers[Extractor._HeaderName]?.toString() || '' }
   }
 }
