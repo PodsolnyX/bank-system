@@ -1,11 +1,11 @@
 import { Tag } from 'antd'
 import { TagProps } from 'antd/lib'
 import { ColumnsType } from 'antd/lib/table'
-import { getOperationCode, getOperationName } from 'entities/operation/lib'
 import { Link } from 'react-router-dom'
+import { getOperationCode, getOperationName } from 'entities/operation/@x/loan'
 
-import { getAccountHistoryLink } from 'shared/config'
 import { Operation, OperationReason, OperationType } from 'entities/operation/@x/loan'
+import { getAccountHistoryLink } from 'shared/config'
 import { format } from 'shared/lib/format'
 
 export const verboseLoanTableColumns: ColumnsType<Operation> = [

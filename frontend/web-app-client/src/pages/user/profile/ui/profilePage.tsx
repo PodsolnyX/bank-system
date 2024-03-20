@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom'
+import { SunOutlined, MoonOutlined } from '@ant-design/icons'
 import { Card, Skeleton, Switch } from 'antd'
 import { useAuth } from 'oidc-react'
-import { SunOutlined, MoonOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
-import { Center, PageHeader, Property } from 'shared/ui'
-import { AppRoutes } from 'shared/config'
 import { useTheme } from 'features/preferences'
 import { Theme } from 'entities/preferences'
+import { AppRoutes } from 'shared/config'
+import { Center, PageHeader, Property } from 'shared/ui'
 import { PageLoader } from 'shared/ui'
 
 export const ProfilePage = () => {

@@ -1,15 +1,15 @@
-import { Button, Skeleton, Tabs } from 'antd'
-import { Link } from 'react-router-dom'
 import {
   PlusCircleOutlined,
   FieldTimeOutlined,
   PieChartOutlined,
 } from '@ant-design/icons'
-import { Center, ErrorMsg, PageHeader } from 'shared/ui'
-import { AppRoutes } from 'shared/config'
-import { useGetLoansQuery, useGetPaymentsQuery } from 'entities/loan'
+import { Button, Skeleton, Tabs } from 'antd'
+import { Link } from 'react-router-dom'
 import { useExecuteJobMutation } from 'features/loan'
+import { useGetLoansQuery, useGetPaymentsQuery } from 'entities/loan'
 import { GeneralLoanTable, PaymentsTable } from 'entities/loan'
+import { AppRoutes } from 'shared/config'
+import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 
 export const LoansListPage = () => {
   const loans = useGetLoansQuery({ limit: 10000 })

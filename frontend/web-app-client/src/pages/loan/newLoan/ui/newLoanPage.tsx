@@ -1,13 +1,13 @@
-import { Center, ErrorMsg, PageHeader } from 'shared/ui'
+import { useNavigate } from 'react-router-dom'
 import { NewLoanForm, NewLoanFormData } from 'features/loan'
+import { useRequestLoanMutation } from 'features/loan'
 import { useGetAccountsQuery } from 'entities/account'
 import { useGetTariffsQuery } from 'entities/tariff'
-import { useRequestLoanMutation } from 'features/loan'
-import { useNavigate } from 'react-router-dom'
 import { AppRoutes } from 'shared/config'
 import { toastError, toastSuccess } from 'shared/lib'
-import { PageLoader } from 'shared/ui'
 import { convert } from 'shared/lib/format'
+import { PageLoader } from 'shared/ui'
+import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 
 export const NewLoanPage = () => {
   const navigate = useNavigate()

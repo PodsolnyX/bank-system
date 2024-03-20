@@ -1,6 +1,6 @@
 import { useAuth } from 'oidc-react'
-import { useUpdateThemeMutation } from '../api'
 import { Theme, useGetThemeQuery } from 'entities/preferences'
+import { useUpdateThemeMutation } from '../api'
 
 export const dataAttributeName = 'theme'
 

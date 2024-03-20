@@ -1,4 +1,5 @@
 import { preferencesQueryEndpoints } from 'entities/preferences'
+import { preferencesApi } from 'shared/api'
 import {
   UpdateThemeReq,
   UpdateThemeResp,
@@ -7,7 +8,6 @@ import {
   ShowAccountReq,
   ShowAccountResp,
 } from './types'
-import { preferencesApi } from 'shared/api'
 
 const endpoints = preferencesApi.injectEndpoints({
   endpoints: (builder) => ({

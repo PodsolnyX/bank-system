@@ -1,3 +1,4 @@
+import { preferencesApi } from 'shared/api'
 import {
   GetPreferencesReq,
   GetPreferencesResp,
@@ -8,7 +9,6 @@ import {
   ShowAccountReq,
   ShowAccountResp,
 } from './types'
-import { preferencesApi } from 'shared/api'
 
 export const preferencesQueryEndpoints = preferencesApi.injectEndpoints({
   endpoints: (builder) => ({

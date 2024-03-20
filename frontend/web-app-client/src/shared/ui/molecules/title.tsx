@@ -1,9 +1,9 @@
 import { Flex } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import cs from 'classnames'
+import { useNavigate } from 'react-router-dom'
 
-import { Logo } from 'shared/ui'
 import { AppRoutes } from 'shared/config'
+import { Logo } from 'shared/ui'
 
 export interface TitleProps {
   [x: string]: any

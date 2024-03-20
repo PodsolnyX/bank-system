@@ -1,7 +1,7 @@
-import { ChargeLoanReq } from '../../api'
 import { Account } from 'entities/account'
 import { Loan } from 'entities/loan'
 import { FormProps } from 'shared/ui'
+import { ChargeLoanReq } from '../../api'
 
 export type ChargeLoanFormProps = {
   onFinish: (values: ChargeLoanFormValues) => void

@@ -1,7 +1,5 @@
 import { RouteObject } from 'react-router-dom'
-import { OperationType } from 'entities/operation'
-import { AppRoutes } from 'shared/config'
-
+import { privateWrapper } from 'app/router/lib'
 import {
   AccountPage,
   AccountsPage,
@@ -17,8 +15,8 @@ import {
   ChargeLoanPage,
   RatingPage,
 } from 'pages'
-
-import { privateWrapper } from 'app/router/lib'
+import { OperationType } from 'entities/operation'
+import { AppRoutes } from 'shared/config'
 
 const _privateRoutes: RouteObject[] = [
   {

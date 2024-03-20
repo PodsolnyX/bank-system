@@ -1,9 +1,9 @@
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
-import { Center } from 'shared/ui'
-import { AppRoutes } from 'shared/config'
-
 import { RatingWidget } from 'entities/loan'
+import { AppRoutes } from 'shared/config'
+import { Center } from 'shared/ui'
+
 import { getRatingText } from '../lib'
 
 export const RatingPage = () => {

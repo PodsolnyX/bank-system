@@ -1,14 +1,14 @@
 import { Table, Skeleton, Empty } from 'antd'
 import { useEffect, useState } from 'react'
-import { Account } from 'entities/account'
-import { Center } from 'shared/ui'
-import { getAccountColumns } from './tableColumns'
 import {
   HideAccountReq,
   ShowAccountReq,
   useHideAccountMutation,
   useShowAccountMutation,
 } from 'features/preferences/@x/account'
+import { Account } from 'entities/account'
+import { Center } from 'shared/ui'
+import { getAccountColumns } from './tableColumns'
 
 export interface AccountsListProps {
   accounts: Account[]

@@ -1,13 +1,13 @@
 import { Tag } from 'antd'
-import { Link } from 'react-router-dom'
 import { ColumnsType } from 'antd/lib/table'
-import { getAccountActions } from '../../config'
+import { Link } from 'react-router-dom'
 import { Account } from 'entities/account'
-import { CurrencyType } from 'shared/lib'
-import { Dropdown } from 'shared/ui'
-import { getAccountHistoryLink } from 'shared/config'
-import { format } from 'shared/lib/format'
 import { ShowAccountReq } from 'entities/preferences'
+import { getAccountHistoryLink } from 'shared/config'
+import { CurrencyType } from 'shared/lib'
+import { format } from 'shared/lib/format'
+import { Dropdown } from 'shared/ui'
+import { getAccountActions } from '../../config'
 
 export const getAccountColumns = (
   show: (data: ShowAccountReq) => any,

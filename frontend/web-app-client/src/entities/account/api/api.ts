@@ -1,3 +1,4 @@
+import { accountsApi } from 'shared/api'
 import {
   CloseAccountReq,
   CloseAccountResp,
@@ -13,7 +14,6 @@ import {
   WithdrawReq,
 } from './types'
 
-import { accountsApi } from 'shared/api'
 export const endpoints = accountsApi.injectEndpoints({
   endpoints: (builder) => ({
     getAccounts: builder.query<GetAccountsResp, GetAccountsReq>({

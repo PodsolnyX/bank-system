@@ -2,8 +2,8 @@ import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 import { getLoanLink } from 'shared/config'
 
-import { Payment } from '../../../../model'
 import { format, CurrencyType } from 'shared/lib'
+import { Payment } from '../../../../model'
 
 const commonColumns: ColumnsType<Payment> = [
   {

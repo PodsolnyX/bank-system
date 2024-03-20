@@ -1,7 +1,7 @@
-import { Payment } from '../model'
-import { CurrencyType } from 'shared/lib'
-import { Loan } from '../model'
 import { PaginationReq } from 'shared/api'
+import { CurrencyType } from 'shared/lib'
+import { Payment } from '../model'
+import { Loan } from '../model'
 
 export type GetLoansReq = PaginationReq & {
   accountIds?: string[]

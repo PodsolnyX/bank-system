@@ -1,6 +1,6 @@
-import { Account } from '../model'
-import { CurrencyType } from 'shared/lib'
 import { PaginationReq } from 'shared/api'
+import { CurrencyType } from 'shared/lib'
+import { Account } from '../model'
 
 export type GetAccountReq = Pick<Account, 'id'>
 export type GetAccountResp = Account

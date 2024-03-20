@@ -1,5 +1,5 @@
-import { RequestLoanResp, RequestLoanReq, ChargeLoanResp, ChargeLoanReq } from './types'
 import { loansApi } from 'shared/api'
+import { RequestLoanResp, RequestLoanReq, ChargeLoanResp, ChargeLoanReq } from './types'
 
 const endpoints = loansApi.injectEndpoints({
   endpoints: (builder) => ({

@@ -1,13 +1,13 @@
-import { Select, InputNumber, Button, Input } from 'antd'
 import { CreditCardOutlined, WalletOutlined } from '@ant-design/icons'
-import { Center, ErrorMsg, Form } from 'shared/ui'
-import { moneyRules } from 'shared/lib'
-import { ChargeLoanFormProps } from './types'
+import { Select, InputNumber, Button, Input } from 'antd'
 import { useMemo, useState } from 'react'
-import { AppRoutes } from 'shared/config'
 import { Link } from 'react-router-dom'
+import { AppRoutes } from 'shared/config'
+import { moneyRules } from 'shared/lib'
 import { format } from 'shared/lib/format'
+import { Center, ErrorMsg, Form } from 'shared/ui'
 import { PageLoader } from 'shared/ui'
+import { ChargeLoanFormProps } from './types'
 
 export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   const { loan, accounts, isLoading, onFinish, ...rest } = props

@@ -1,10 +1,10 @@
+import { PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Skeleton } from 'antd'
 import { Link } from 'react-router-dom'
-import { PlusCircleOutlined } from '@ant-design/icons'
-import { Center, ErrorMsg, PageHeader } from 'shared/ui'
-import { AppRoutes } from 'shared/config'
-import { useGetAccountsQuery } from 'entities/account'
 import { AccountsTable } from 'features/account'
+import { useGetAccountsQuery } from 'entities/account'
+import { AppRoutes } from 'shared/config'
+import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 
 export const AccountsPage = () => {
   const accounts = useGetAccountsQuery({ limit: 10000 })

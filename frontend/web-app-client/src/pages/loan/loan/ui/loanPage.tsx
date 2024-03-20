@@ -1,15 +1,15 @@
-import { Link, useParams } from 'react-router-dom'
 import { Tabs } from 'antd'
+import { Link, useParams } from 'react-router-dom'
 
 import { VerboseLoanTable } from 'entities/loan'
 import { PaymentsTable, getPaymentDisplayInfo } from 'entities/loan'
-import { SortOrder } from 'shared/api'
-import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
-import { AppRoutes, getLoanRepayLink } from 'shared/config'
-import { useGetHistoryQuery, OperationStatus } from 'entities/operation'
 import { useGetLoansQuery } from 'entities/loan'
 import { useGetPaymentsQuery } from 'entities/loan'
+import { useGetHistoryQuery, OperationStatus } from 'entities/operation'
+import { SortOrder } from 'shared/api'
+import { AppRoutes, getLoanRepayLink } from 'shared/config'
 import { format } from 'shared/lib/format'
+import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 
 export const LoanPage = () => {
   const { id } = useParams()

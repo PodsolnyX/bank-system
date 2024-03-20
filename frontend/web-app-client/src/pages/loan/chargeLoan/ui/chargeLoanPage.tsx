@@ -8,9 +8,9 @@ import { useGetAccountsQuery } from 'entities/account'
 import { useGetLoansQuery } from 'entities/loan'
 import { AppRoutes } from 'shared/config'
 import { toastError, toastSuccess } from 'shared/lib'
+import { convert } from 'shared/lib/format'
 import { ErrorMsg } from 'shared/ui'
 import { PageLoader } from 'shared/ui'
-import { convert } from 'shared/lib/format'
 
 export const ChargeLoanPage = () => {
   const { id } = useParams()

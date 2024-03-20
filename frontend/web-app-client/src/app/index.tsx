@@ -1,13 +1,13 @@
 import { useAuth } from 'oidc-react'
 
-import { Spinner } from 'shared/ui'
-import { useGetHiddenAccountsQuery } from 'entities/preferences'
-import { useTheme } from 'features/preferences'
-import { ErrorPage } from 'pages/error'
 import { BanPage } from 'pages/ban'
+import { ErrorPage } from 'pages/error'
+import { useTheme } from 'features/preferences'
+import { useGetHiddenAccountsQuery } from 'entities/preferences'
+import { Spinner } from 'shared/ui'
 
-import { ApplicationRouter } from './router'
 import { StoreProvider, Toaster, AppAuthProvider, AntdProvider } from './providers'
+import { ApplicationRouter } from './router'
 
 import './styles/index.scss'
 

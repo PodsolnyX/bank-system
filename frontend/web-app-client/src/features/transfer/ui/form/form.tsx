@@ -1,11 +1,11 @@
-import { Button, Input, InputNumber } from 'antd'
 import { CreditCardOutlined } from '@ant-design/icons'
+import { Button, Input, InputNumber } from 'antd'
 
-import { Center, Form } from 'shared/ui'
 import { getTransferAssets } from 'features/transfer'
-import { moneyRules } from 'shared/lib'
-import { TransferFormProps } from './types'
 import { OperationType } from 'entities/operation'
+import { moneyRules } from 'shared/lib'
+import { Center, Form } from 'shared/ui'
+import { TransferFormProps } from './types'
 
 export const TransferForm = (props: TransferFormProps) => {
   const { type, account, onFinish, isLoading } = props

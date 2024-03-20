@@ -1,23 +1,23 @@
-import { Link, useParams } from 'react-router-dom'
-import { Button, Skeleton } from 'antd'
 import {
   PlusCircleOutlined,
   MinusCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons'
+import { Button, Skeleton } from 'antd'
+import { Link, useParams } from 'react-router-dom'
 
-import { HistoryTable } from 'entities/operation'
-import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 import { useGetAccountQuery } from 'entities/account'
+import { HistoryTable } from 'entities/operation'
+import { OperationStatus, useGetHistoryQuery } from 'entities/operation'
+import { SortOrder } from 'shared/api'
 import {
   AppRoutes,
   getAccountCloseLink,
   getAccountDepositLink,
   getAccountWithdrawLink,
 } from 'shared/config'
-import { SortOrder } from 'shared/api'
-import { OperationStatus, useGetHistoryQuery } from 'entities/operation'
 import { format } from 'shared/lib/format'
+import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
 
 export const AccountPage = () => {
   const id = useParams()['id']!

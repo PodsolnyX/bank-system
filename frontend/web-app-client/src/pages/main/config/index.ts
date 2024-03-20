@@ -1,10 +1,9 @@
+import accountsIcon from 'shared/assets/card.svg'
+import historyIcon from 'shared/assets/history.svg'
+import loanIcon from 'shared/assets/loan.svg'
+import profileIcon from 'shared/assets/user.svg'
 import { AppRoutes } from 'shared/config'
 import { MenuCardProps } from '../ui/menuCard'
-
-import accountsIcon from 'shared/assets/card.svg'
-import loanIcon from 'shared/assets/loan.svg'
-import historyIcon from 'shared/assets/history.svg'
-import profileIcon from 'shared/assets/user.svg'
 
 export const MainMenuItems: MenuCardProps[] = [
   {

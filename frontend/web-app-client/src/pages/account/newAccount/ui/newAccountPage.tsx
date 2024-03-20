@@ -1,12 +1,12 @@
-import { Center, PageHeader } from 'shared/ui'
+import { useNavigate } from 'react-router-dom'
 import {
   NewAccountForm,
   NewAccountFormData,
   useNewAccountMutation,
 } from 'features/account'
-import { useNavigate } from 'react-router-dom'
 import { getAccountHistoryLink } from 'shared/config'
 import { toastError, toastSuccess } from 'shared/lib'
+import { Center, PageHeader } from 'shared/ui'
 
 export const NewAccountPage = () => {
   const [trigger, result] = useNewAccountMutation()

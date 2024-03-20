@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
+import { Link } from 'react-router-dom'
 
+import { HideAccountReq, ShowAccountReq } from 'features/preferences/@x/account'
 import { Account } from 'entities/account'
 import {
   getAccountCloseLink,
@@ -8,7 +9,6 @@ import {
   getAccountDepositLink,
   getAccountWithdrawLink,
 } from 'shared/config'
-import { HideAccountReq, ShowAccountReq } from 'features/preferences/@x/account'
 
 export const getAccountActions = (
   account: Account,

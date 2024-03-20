@@ -1,5 +1,5 @@
-import { AppRoutes, getAccountDepositLink, getAccountWithdrawLink } from 'shared/config'
 import { OperationType } from 'entities/operation'
+import { AppRoutes, getAccountDepositLink, getAccountWithdrawLink } from 'shared/config'
 
 export interface TransferAssets {
   title: string

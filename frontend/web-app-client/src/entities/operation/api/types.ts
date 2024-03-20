@@ -1,6 +1,6 @@
-import { Operation, OperationStatus, OperationType } from '../model'
-import { CurrencyType } from 'shared/lib'
 import { PaginationReq } from 'shared/api'
+import { CurrencyType } from 'shared/lib'
+import { Operation, OperationStatus, OperationType } from '../model'
 
 export type GetHistoryReq = PaginationReq & {
   accountIds?: string[]

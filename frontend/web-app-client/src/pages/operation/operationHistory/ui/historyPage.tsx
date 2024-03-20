@@ -1,6 +1,6 @@
 import { HistoryTable, useGetHistoryQuery, OperationStatus } from 'entities/operation'
-import { AppRoutes } from 'shared/config'
 import { SortOrder } from 'shared/api'
+import { AppRoutes } from 'shared/config'
 import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 
 export const HistoryPage = () => {

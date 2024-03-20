@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { NotFoundPage, ErrorPage } from 'pages'
-import { Layout } from './ui'
 import { privateRoutes } from './config/authOnly'
+import { Layout } from './ui'
 
 export const ApplicationRouter = () => {
   const router = createBrowserRouter([

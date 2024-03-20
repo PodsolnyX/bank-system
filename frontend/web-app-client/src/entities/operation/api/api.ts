@@ -1,5 +1,5 @@
-import { GetHistoryReq, GetHistoryResp } from './types'
 import { operationsApi } from 'shared/api'
+import { GetHistoryReq, GetHistoryResp } from './types'
 
 const endpoints = operationsApi.injectEndpoints({
   endpoints: (builder) => ({

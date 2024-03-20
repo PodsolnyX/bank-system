@@ -1,5 +1,5 @@
-import { GetTariffsResp, GetTariffsReq } from './types'
 import { tariffsApi } from 'shared/api'
+import { GetTariffsResp, GetTariffsReq } from './types'
 
 const endpoints = tariffsApi.injectEndpoints({
   endpoints: (builder) => ({
