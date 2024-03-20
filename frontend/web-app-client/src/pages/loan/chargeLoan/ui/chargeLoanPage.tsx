@@ -4,7 +4,7 @@ import { useChargeLoanMutation, useGetAccountsQuery, useGetLoansQuery } from 'sh
 import { AppRoutes } from 'shared/const'
 import { toastError, toastSuccess } from 'shared/toast'
 import { ErrorMsg } from 'shared/ui'
-import { PageLoader } from 'widgets'
+import { PageLoader } from 'shared/ui'
 import { convert } from 'shared/utils/format'
 
 export const ChargeLoanPage = () => {

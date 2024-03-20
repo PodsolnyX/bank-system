@@ -29,6 +29,17 @@
   padding: 6px !important;
 }
 
+.ant-spin-dot {
+  width: 64px !important;
+  height: 64px !important;
+}
+
+.ant-spin-dot-item {
+  width: 30px !important;
+  height: 30px !important;
+  background-color: limegreen !important;
+}
+
 @media (max-width: 500px) {
   .ant-table table,
   .ant-tag {

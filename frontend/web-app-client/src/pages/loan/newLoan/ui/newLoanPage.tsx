@@ -8,7 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
 import { toastError, toastSuccess } from 'shared/toast'
-import { PageLoader } from 'widgets'
+import { PageLoader } from 'shared/ui'
 import { convert } from 'shared/utils/format'
 
 export const NewLoanPage = () => {

@@ -4,7 +4,7 @@ import { useDepositMutation, useGetAccountQuery, useWithdrawMutation } from 'sha
 import { toastError, toastSuccess } from 'shared/toast'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppRoutes } from 'shared/const'
-import { PageLoader } from 'widgets'
+import { PageLoader } from 'shared/ui'
 import { ErrorMsg } from 'shared/ui'
 import { convert } from 'shared/utils/format'
 

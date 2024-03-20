@@ -7,6 +7,7 @@ import { Center, PageHeader, Property } from 'shared/ui'
 import { AppRoutes } from 'shared/const'
 import { useTheme } from 'shared/theme'
 import { Theme } from 'shared/entities'
+import { PageLoader } from 'shared/ui'
 
 export const ProfilePage = () => {
   const { theme, setTheme } = useTheme()
@@ -15,7 +16,7 @@ export const ProfilePage = () => {
   const roles = profile?.['roles']
 
   if (isLoading) {
-    return null
+    return <PageLoader />
   }
 
   return (

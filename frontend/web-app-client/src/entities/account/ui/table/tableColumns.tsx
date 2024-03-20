@@ -40,7 +40,7 @@ export const getAccountColumns = (
     render: (closed, acc) => (
       <>
         <Tag color={closed ? 'red' : 'blue'}>{closed ? 'Закрыт' : 'Открыт'}</Tag>
-        {acc.hidden && <Tag color='error'>Скрытый</Tag>}
+        {acc.hidden && <Tag className='mt-1' color='cyan'>Скрытый</Tag>}
       </>
     ),
     width: '15%',

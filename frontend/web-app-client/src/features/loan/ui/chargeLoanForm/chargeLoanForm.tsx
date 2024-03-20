@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react'
 import { AppRoutes } from 'shared/const'
 import { Link } from 'react-router-dom'
 import { format } from 'shared/utils/format'
-import { PageLoader } from 'widgets'
+import { PageLoader } from 'shared/ui'
 
 export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   const { loan, accounts, isLoading, onFinish, ...rest } = props
