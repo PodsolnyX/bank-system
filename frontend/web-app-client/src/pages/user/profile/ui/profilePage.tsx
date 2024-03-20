@@ -4,9 +4,9 @@ import { useAuth } from 'oidc-react'
 import { SunOutlined, MoonOutlined } from '@ant-design/icons'
 
 import { Center, PageHeader, Property } from 'shared/ui'
-import { AppRoutes } from 'shared/const'
-import { useTheme } from 'shared/theme'
-import { Theme } from 'shared/entities'
+import { AppRoutes } from 'shared/config'
+import { useTheme } from 'features/preferences'
+import { Theme } from 'entities/preferences'
 import { PageLoader } from 'shared/ui'
 
 export const ProfilePage = () => {

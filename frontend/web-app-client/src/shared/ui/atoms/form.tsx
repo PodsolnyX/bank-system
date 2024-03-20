@@ -1,6 +1,6 @@
 import { Form as AntdForm, FormProps as AntdFormProps, Skeleton } from 'antd'
 import cs from 'classnames'
-import { CommonProps } from 'shared/utils'
+import { CommonProps } from 'shared/lib'
 
 export type FormProps = AntdFormProps &
   CommonProps & {

@@ -1,1 +1,1 @@
-export * from './table'
+export const test = 2

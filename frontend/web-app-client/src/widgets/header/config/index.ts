@@ -1,4 +1,4 @@
-import { AppRoutes } from 'shared/const'
+import { AppRoutes } from 'shared/config'
 
 export type MenuLinkDescription = {
   label: string

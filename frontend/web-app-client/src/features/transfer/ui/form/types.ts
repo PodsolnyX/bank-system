@@ -1,4 +1,5 @@
-import { Account, OperationType } from 'shared/entities'
+import { Account } from 'entities/account'
+import { OperationType } from 'entities/operation'
 
 export type TransferFormProps = {
   isLoading: boolean

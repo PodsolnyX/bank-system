@@ -1,5 +1,6 @@
-import { ChargeLoanReq } from 'shared/api'
-import { Account, Loan } from 'shared/entities'
+import { ChargeLoanReq } from '../../api'
+import { Account } from 'entities/account'
+import { Loan } from 'entities/loan'
 import { FormProps } from 'shared/ui'
 
 export type ChargeLoanFormProps = {

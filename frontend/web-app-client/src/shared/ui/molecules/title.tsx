@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import cs from 'classnames'
 
 import { Logo } from 'shared/ui'
-import { AppRoutes } from 'shared/const'
+import { AppRoutes } from 'shared/config'
 
 export interface TitleProps {
   [x: string]: any

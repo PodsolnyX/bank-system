@@ -1,5 +1,5 @@
 import { Result, Button } from 'antd'
-import { AppRoutes } from 'shared/const'
+import { AppRoutes } from 'shared/config'
 import { Center } from 'shared/ui'
 
 export const ErrorPage = () => {

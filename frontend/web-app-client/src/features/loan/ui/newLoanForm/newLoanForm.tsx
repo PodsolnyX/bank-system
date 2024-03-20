@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Alert, Button, InputNumber, Select } from 'antd'
 import { AccountBookOutlined, CreditCardOutlined } from '@ant-design/icons'
 import { Form, FormProps } from 'shared/ui'
-import { Account, Tariff } from 'shared/entities'
-import { RequestLoanReq } from 'shared/api'
-import { moneyRules } from 'shared/utils'
-import { format } from 'shared/utils/format'
+import { Account } from 'entities/account'
+import { Tariff } from 'entities/tariff'
+import { RequestLoanReq } from '../../api'
+import { moneyRules } from 'shared/lib'
+import { format } from 'shared/lib/format'
 
 export type NewLoanFormProps = {
   onFinish: (data: NewLoanFormData) => void

@@ -1,12 +1,13 @@
-import { OperationType } from 'shared/entities'
+import { OperationType } from 'entities/operation'
 import { TransferForm, TransferFormValues } from 'features/transfer'
-import { useDepositMutation, useGetAccountQuery, useWithdrawMutation } from 'shared/api'
-import { toastError, toastSuccess } from 'shared/toast'
+import { useGetAccountQuery } from 'entities/account'
+import { useDepositMutation, useWithdrawMutation } from 'entities/account'
+import { toastError, toastSuccess } from 'shared/lib'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppRoutes } from 'shared/const'
+import { AppRoutes } from 'shared/config'
 import { PageLoader } from 'shared/ui'
 import { ErrorMsg } from 'shared/ui'
-import { convert } from 'shared/utils/format'
+import { convert } from 'shared/lib/format'
 
 export interface OperationPageProps {
   type: OperationType.WITHDRAW | OperationType.DEPOSIT

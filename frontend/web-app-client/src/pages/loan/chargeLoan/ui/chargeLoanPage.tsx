@@ -1,11 +1,16 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { ChargeLoanForm, ChargeLoanFormValues } from 'features/loan'
-import { useChargeLoanMutation, useGetAccountsQuery, useGetLoansQuery } from 'shared/api'
-import { AppRoutes } from 'shared/const'
-import { toastError, toastSuccess } from 'shared/toast'
+import {
+  ChargeLoanForm,
+  ChargeLoanFormValues,
+  useChargeLoanMutation,
+} from 'features/loan'
+import { useGetAccountsQuery } from 'entities/account'
+import { useGetLoansQuery } from 'entities/loan'
+import { AppRoutes } from 'shared/config'
+import { toastError, toastSuccess } from 'shared/lib'
 import { ErrorMsg } from 'shared/ui'
 import { PageLoader } from 'shared/ui'
-import { convert } from 'shared/utils/format'
+import { convert } from 'shared/lib/format'
 
 export const ChargeLoanPage = () => {
   const { id } = useParams()

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
-import { Loan } from 'shared/entities'
-import { getLoanLink, getLoanRepayLink } from 'shared/const'
+import { Loan } from '../model'
+import { getLoanLink, getLoanRepayLink } from 'shared/config'
 
 export const getLoanActions = (loan: Loan): ItemType[] => [
   {

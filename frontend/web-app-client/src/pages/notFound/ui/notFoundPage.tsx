@@ -1,7 +1,7 @@
 import { Result, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { Center, Image } from 'shared/ui'
-import { AppRoutes } from 'shared/const'
+import { AppRoutes } from 'shared/config'
 
 import logo from 'shared/assets/logo.svg'
 

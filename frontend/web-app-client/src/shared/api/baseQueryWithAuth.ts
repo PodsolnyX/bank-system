@@ -1,6 +1,5 @@
 import { FetchBaseQueryArgs } from '@reduxjs/toolkit/dist/query/fetchBaseQuery'
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
-import { RootState } from 'shared/store'
 
 export const baseQueryWithAuth = (args: FetchBaseQueryArgs) =>
   fetchBaseQuery({

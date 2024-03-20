@@ -3,11 +3,11 @@ import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
 import { Dropdown } from 'shared/ui'
-import { CurrencyType } from 'shared/entities'
-import { getAccountHistoryLink, getLoanLink } from 'shared/const'
+import { CurrencyType } from 'shared/lib'
+import { getAccountHistoryLink, getLoanLink } from 'shared/config'
 import { LoanInfo, getLoanActions } from 'entities/loan'
-import { getPaymentDisplayInfo, getPaymentStatus, PaymentStatus } from 'entities/payment'
-import { format } from 'shared/utils/format'
+import { getPaymentDisplayInfo, getPaymentStatus, PaymentStatus } from '../payment'
+import { format } from 'shared/lib/format'
 
 export const generalLoanTableColumns: ColumnsType<LoanInfo> = [
   {

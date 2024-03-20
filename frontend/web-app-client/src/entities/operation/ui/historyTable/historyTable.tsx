@@ -1,5 +1,5 @@
 import { Table, Skeleton, Empty } from 'antd'
-import { Operation } from 'shared/entities'
+import { Operation } from '../../model'
 import { fullHistoryColumns, historyColumns } from './historyTableColumns'
 
 export interface HistoryTableProps {

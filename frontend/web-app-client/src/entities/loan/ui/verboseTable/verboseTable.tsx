@@ -1,5 +1,5 @@
 import { Empty, Skeleton, Table } from 'antd'
-import { Operation } from 'shared/entities'
+import { Operation } from 'entities/operation/@x/loan'
 import { verboseLoanTableColumns } from './verboseTableColumns'
 
 export interface VerboseLoanTableProps {

@@ -1,7 +1,7 @@
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { Center } from 'shared/ui'
-import { AppRoutes } from 'shared/const'
+import { AppRoutes } from 'shared/config'
 
 import { RatingWidget } from 'entities/loan'
 import { getRatingText } from '../lib'

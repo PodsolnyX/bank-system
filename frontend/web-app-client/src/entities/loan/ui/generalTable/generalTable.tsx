@@ -1,5 +1,5 @@
 import { Table, Skeleton, Empty } from 'antd'
-import { Loan, Payment } from 'shared/entities'
+import { Loan, Payment } from '../../model'
 import { generalLoanTableColumns } from './generalTableColumns'
 
 export interface GeneralLoanTableProps {

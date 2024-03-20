@@ -6,9 +6,10 @@ import {
   PieChartOutlined,
 } from '@ant-design/icons'
 import { Center, ErrorMsg, PageHeader } from 'shared/ui'
-import { AppRoutes } from 'shared/const'
-import { useExecuteJobMutation, useGetLoansQuery, useGetPaymentsQuery } from 'shared/api'
-import { GeneralLoanTable, PaymentsTable } from 'entities'
+import { AppRoutes } from 'shared/config'
+import { useGetLoansQuery, useGetPaymentsQuery } from 'entities/loan'
+import { useExecuteJobMutation } from 'features/loan'
+import { GeneralLoanTable, PaymentsTable } from 'entities/loan'
 
 export const LoansListPage = () => {
   const loans = useGetLoansQuery({ limit: 10000 })

@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom'
-import { OperationType } from 'shared/entities'
-import { AppRoutes } from 'shared/const'
+import { OperationType } from 'entities/operation'
+import { AppRoutes } from 'shared/config'
 
 import {
   AccountPage,

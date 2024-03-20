@@ -1,6 +1,6 @@
 import { AuthProviderProps } from 'oidc-react'
-import { ID_LS_NAME } from 'shared/const'
-import { setId, store, unsetId } from 'shared/store'
+import { ID_LS_NAME } from 'shared/config'
+import { setId, store, unsetId } from '../store'
 
 export const oidcConfig: AuthProviderProps = {
   onSignIn: (userData) => {

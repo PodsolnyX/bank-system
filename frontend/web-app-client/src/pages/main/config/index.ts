@@ -1,4 +1,4 @@
-import { AppRoutes } from 'shared/const'
+import { AppRoutes } from 'shared/config'
 import { MenuCardProps } from '../ui/menuCard'
 
 import accountsIcon from 'shared/assets/card.svg'

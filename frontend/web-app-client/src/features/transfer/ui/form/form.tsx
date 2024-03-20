@@ -3,9 +3,9 @@ import { CreditCardOutlined } from '@ant-design/icons'
 
 import { Center, Form } from 'shared/ui'
 import { getTransferAssets } from 'features/transfer'
-import { moneyRules } from 'shared/utils'
+import { moneyRules } from 'shared/lib'
 import { TransferFormProps } from './types'
-import { OperationType } from 'shared/entities'
+import { OperationType } from 'entities/operation'
 
 export const TransferForm = (props: TransferFormProps) => {
   const { type, account, onFinish, isLoading } = props

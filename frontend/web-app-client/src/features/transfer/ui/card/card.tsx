@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Image, Container } from 'shared/ui'
-import { OperationType } from 'shared/entities'
+import { OperationType } from 'entities/operation'
 import { getTransferAssets } from '../../lib'
 
 import cash from 'shared/assets/cash.svg'

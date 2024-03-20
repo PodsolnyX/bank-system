@@ -4,9 +4,9 @@ import { ColumnsType } from 'antd/lib/table'
 import { getOperationCode, getOperationName } from 'entities/operation/lib'
 import { Link } from 'react-router-dom'
 
-import { getAccountHistoryLink } from 'shared/const'
-import { Operation, OperationReason, OperationType } from 'shared/entities'
-import { format } from 'shared/utils/format'
+import { getAccountHistoryLink } from 'shared/config'
+import { Operation, OperationReason, OperationType } from 'entities/operation/@x/loan'
+import { format } from 'shared/lib/format'
 
 export const verboseLoanTableColumns: ColumnsType<Operation> = [
   {

@@ -6,17 +6,18 @@ import {
   CloseCircleOutlined,
 } from '@ant-design/icons'
 
-import { HistoryTable } from 'entities'
+import { HistoryTable } from 'entities/operation'
 import { Center, ErrorMsg, PageHeader, Property } from 'shared/ui'
-import { useGetHistoryQuery, useGetAccountQuery } from 'shared/api'
+import { useGetAccountQuery } from 'entities/account'
 import {
   AppRoutes,
   getAccountCloseLink,
   getAccountDepositLink,
   getAccountWithdrawLink,
-} from 'shared/const'
-import { OperationStatus, SortOrder } from 'shared/entities'
-import { format } from 'shared/utils/format'
+} from 'shared/config'
+import { SortOrder } from 'shared/api'
+import { OperationStatus, useGetHistoryQuery } from 'entities/operation'
+import { format } from 'shared/lib/format'
 
 export const AccountPage = () => {
   const id = useParams()['id']!

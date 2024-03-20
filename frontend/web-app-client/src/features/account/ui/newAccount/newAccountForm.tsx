@@ -1,8 +1,8 @@
 import { Button, Select } from 'antd'
 import { DollarOutlined } from '@ant-design/icons'
 import { Form, FormProps } from 'shared/ui'
-import { Account } from 'shared/entities'
-import { CurrencyType } from 'shared/entities/currency'
+import { Account } from 'entities/account'
+import { CurrencyType } from 'shared/lib'
 
 export type NewAccountFormProps = {
   onFinish: (data: NewAccountFormData) => void
