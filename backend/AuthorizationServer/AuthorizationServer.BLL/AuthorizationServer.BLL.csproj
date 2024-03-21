@@ -17,4 +17,9 @@
         <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
+      <ProjectReference Include="..\..\Common\Common.Exception\Common.Exception.csproj" />
+    </ItemGroup>
+
 </Project>
