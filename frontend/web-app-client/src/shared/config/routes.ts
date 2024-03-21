@@ -17,6 +17,7 @@ export enum AppRoutes {
   OPERATION_RESULT = 'operation_result/:id',
   DEPOSIT = '/deposit/:id',
   WITHDRAW = '/withdraw/:id',
+  TRANSFER = '/transfer/:id',
 
   FINISH_LOGIN = '/finish_login',
 }

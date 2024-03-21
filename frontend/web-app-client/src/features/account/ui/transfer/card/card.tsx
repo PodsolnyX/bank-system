@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { OperationType } from 'entities/operation'
 import cash from 'shared/assets/cash.svg'
 import { Image, Container } from 'shared/ui'
-import { getTransferAssets } from '../../lib'
+import { getTransferAssets } from '../../../lib'
 
 export interface TransferProps {
   type: OperationType

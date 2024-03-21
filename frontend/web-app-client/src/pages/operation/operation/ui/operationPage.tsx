@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { TransferForm, TransferFormValues } from 'features/transfer'
+import { TransferForm, TransferFormValues } from 'features/account'
 import { useGetAccountQuery } from 'entities/account'
 import { useDepositMutation, useWithdrawMutation } from 'entities/account'
 import { OperationType } from 'entities/operation'

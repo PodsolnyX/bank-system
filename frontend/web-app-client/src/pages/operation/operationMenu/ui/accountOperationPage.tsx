@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import { Transfer } from 'features/transfer'
+import { Transfer } from 'features/account'
 import { OperationType } from 'entities/operation'
 import { Center, PageHeader } from 'shared/ui'
 
