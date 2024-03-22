@@ -8,12 +8,13 @@ import {
   HistoryPage,
   MainPage,
   NewAccountPage,
-  OperationPage,
+  TransferPage,
   ProfilePage,
   NewLoanPage,
   CloseAccountPage,
   ChargeLoanPage,
   RatingPage,
+  OperationPage,
 } from 'pages'
 import { OperationType } from 'entities/operation'
 import { AppRoutes } from 'shared/config'
@@ -70,6 +71,14 @@ const _privateRoutes: RouteObject[] = [
   {
     path: AppRoutes.ACCOUNT_CLOSE,
     element: <CloseAccountPage />,
+  },
+  {
+    path: AppRoutes.TRANSFER_SELF,
+    element: <TransferPage type='self' />,
+  },
+  {
+    path: AppRoutes.TRANSFER_ANOTHER,
+    element: <TransferPage type='external' />,
   },
   {
     path: AppRoutes.PROFILE,

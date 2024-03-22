@@ -1,19 +1,28 @@
-import { CreditCardOutlined } from '@ant-design/icons'
-import { Button, Input, InputNumber } from 'antd'
+import { CreditCardOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Input, InputNumber, Select } from 'antd'
 
-import { OperationType } from 'entities/operation'
-import { moneyRules } from 'shared/lib'
+import { useState } from 'react'
+import { useGetAccountsQuery } from 'entities/account'
+import { format, moneyRules } from 'shared/lib'
 import { Center, Form } from 'shared/ui'
-import { getTransferAssets } from '../../../lib'
 import { TransferFormProps } from './types'
 
 export const TransferForm = (props: TransferFormProps) => {
   const { type, account, onFinish, isLoading } = props
-  const { title } = getTransferAssets(type)
+  const [chosenAcc, setChosenAcc] = useState<string | null>(null)
+  const accounts = useGetAccountsQuery(
+    {},
+    {
+      skip: type === 'external',
+    }
+  )
+  const validAccounts = accounts.data?.filter(
+    (acc) => acc.id !== account.id && !acc.hidden && !acc.closedAt
+  )
 
   return (
     <Center>
-      <h1>{title}</h1>
+      <h1>Перевод</h1>
       <Form
         className='w-full md:w-1/3'
         onFinish={onFinish}
@@ -22,7 +31,7 @@ export const TransferForm = (props: TransferFormProps) => {
         }}
         isLoading={isLoading}
       >
-        <Form.Item label='Счет' name='accountId'>
+        <Form.Item label='Со счета' name='accountId'>
           <Input
             className='text-black'
             suffix={<CreditCardOutlined />}
@@ -30,6 +39,35 @@ export const TransferForm = (props: TransferFormProps) => {
             readOnly
           />
         </Form.Item>
+        {type === 'external' ? (
+          <Form.Item label='ID клиента' name='clientId'>
+            <Input
+              className='text-black'
+              suffix={<UserOutlined />}
+              placeholder='ID клиента'
+            />
+          </Form.Item>
+        ) : (
+          <Form.Item
+            label='Счет'
+            name='toAccountId'
+            rules={[{ required: true, message: 'Пожалуйста, укажите счет' }]}
+          >
+            <Select
+              className='text-black'
+              suffixIcon={<CreditCardOutlined />}
+              placeholder='Номер счета'
+              onChange={(v) => setChosenAcc(v)}
+              value={chosenAcc}
+            >
+              {validAccounts?.map((acc) => (
+                <Select.Option
+                  key={acc.id}
+                >{`${acc.id}: ${format(acc.amount)} ${acc.currencyType}`}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        )}
 
         <Form.Item
           label='Сумма'
@@ -37,7 +75,7 @@ export const TransferForm = (props: TransferFormProps) => {
           rules={moneyRules.concat([
             {
               validator: (_rule, v) =>
-                account.amount >= v * 100 || type === OperationType.DEPOSIT
+                account.amount >= v * 100
                   ? Promise.resolve()
                   : Promise.reject('Недостаточно денег'),
             },

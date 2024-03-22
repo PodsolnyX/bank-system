@@ -1,1 +1,1 @@
-export * from './operationPage'
+export * from './transferPage'

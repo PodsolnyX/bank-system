@@ -17,8 +17,8 @@ export enum AppRoutes {
   OPERATION_RESULT = 'operation_result/:id',
   DEPOSIT = '/deposit/:id',
   WITHDRAW = '/withdraw/:id',
-  TRANSFER = '/transfer/:id',
-
+  TRANSFER_SELF = '/transfer/self/:id',
+  TRANSFER_ANOTHER = '/transfer/:id',
   FINISH_LOGIN = '/finish_login',
 }
 
@@ -31,6 +31,8 @@ export const getAccountHistoryLink = route_rep(AppRoutes.ACCOUNT_HISTORY)
 export const getAccountCloseLink = route_rep(AppRoutes.ACCOUNT_CLOSE)
 export const getAccountDepositLink = route_rep(AppRoutes.DEPOSIT)
 export const getAccountWithdrawLink = route_rep(AppRoutes.WITHDRAW)
+export const getAccountTransferSelfLink = route_rep(AppRoutes.TRANSFER_SELF)
+export const getAccountTransferAnotherLink = route_rep(AppRoutes.TRANSFER_ANOTHER)
 
 export const getLoanLink = route_rep(AppRoutes.LOAN)
 export const getLoanRepayLink = route_rep(AppRoutes.REPAY)

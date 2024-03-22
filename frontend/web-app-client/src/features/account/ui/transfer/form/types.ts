@@ -1,9 +1,8 @@
 import { Account } from 'entities/account'
-import { OperationType } from 'entities/operation'
 
 export type TransferFormProps = {
   isLoading: boolean
-  type: OperationType.DEPOSIT | OperationType.WITHDRAW
+  type: 'self' | 'external'
   onFinish: (values: TransferFormValues) => void
   account: Account
 }

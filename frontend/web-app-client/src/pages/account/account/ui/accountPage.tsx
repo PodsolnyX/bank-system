@@ -2,8 +2,10 @@ import {
   PlusCircleOutlined,
   MinusCircleOutlined,
   CloseCircleOutlined,
+  DownOutlined,
+  BankOutlined,
 } from '@ant-design/icons'
-import { Button, Skeleton } from 'antd'
+import { Button, Dropdown, Skeleton, Space } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 
 import { useGetAccountQuery } from 'entities/account'
@@ -14,6 +16,8 @@ import {
   AppRoutes,
   getAccountCloseLink,
   getAccountDepositLink,
+  getAccountTransferAnotherLink,
+  getAccountTransferSelfLink,
   getAccountWithdrawLink,
 } from 'shared/config'
 import { format } from 'shared/lib/format'
@@ -50,7 +54,8 @@ export const AccountPage = () => {
       <PageHeader text='Страница счета' />
       {isLoading ? (
         <>
-          <div className='flex flex-col md:flex-row w-1/3 justify-evenly text-center'>
+          <div className='flex flex-col md:flex-row w-2/5 justify-evenly text-center'>
+            <Skeleton.Button className='mb-2 w-1/3' />
             <Skeleton.Button className='mb-2 w-1/3' />
             <Skeleton.Button className='mb-2 w-1/3' />
             <Skeleton.Button className='mb-2 w-1/3' />
@@ -58,7 +63,30 @@ export const AccountPage = () => {
         </>
       ) : (
         <>
-          <div className='flex flex-col lg:flex-row w-1/3 justify-evenly text-center'>
+          <div className='flex flex-col lg:flex-row w-2/5 justify-evenly text-center'>
+            <Dropdown
+              disabled={!!accQuery.data!.closedAt}
+              menu={{
+                items: [
+                  {
+                    label: <Link to={getAccountTransferSelfLink(id)}>Себе</Link>,
+                    key: '1',
+                  },
+                  {
+                    label: <Link to={getAccountTransferAnotherLink(id)}>Другому</Link>,
+                    key: '2',
+                  },
+                ],
+              }}
+            >
+              <Button>
+                <Space>
+                  <BankOutlined />
+                  Перевод
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
             <Link to={getAccountDepositLink(id)}>
               <Button
                 className='mb-2'
