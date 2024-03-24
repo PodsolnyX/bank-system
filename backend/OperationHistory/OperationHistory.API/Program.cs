@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
+using Common.Auth.Jwt;
 using Common.Configuration;
 using Microsoft.OpenApi.Models;
 using OperationHistory.API;
@@ -30,7 +31,7 @@ builder
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.UseApiKeyAuthorization();
+    option.UseJwtAuthorization();
 
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Operation History", Version = "v1" });
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

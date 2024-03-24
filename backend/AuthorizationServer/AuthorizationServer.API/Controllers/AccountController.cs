@@ -98,6 +98,7 @@ public class AccountController : Controller
     }
 
     [HttpPost("logout")]
+    [HttpGet("logout")]
     public async Task<IActionResult> Logout()
     {
         await _userService.Logout();

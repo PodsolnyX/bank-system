@@ -1,9 +1,12 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
+using Common.Auth.Jwt;
 using Common.Configuration;
 using Common.Exception;
 using Core.BLL.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -18,6 +21,24 @@ builder.Services.AddCors(options =>
 });
 
 builder
+    .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidIssuer = "http://localhost:7005",
+            ValidateAudience = false,
+            ValidAudiences = new[] { "client" },
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")
+            ),
+            ValidateIssuerSigningKey = true,
+        };
+    });
+
+builder
     .Services.AddControllers()
     .AddJsonOptions(opts =>
     {
@@ -29,7 +50,7 @@ builder
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.UseApiKeyAuthorization();
+    option.UseJwtAuthorization();
 
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Core", Version = "v1" });
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

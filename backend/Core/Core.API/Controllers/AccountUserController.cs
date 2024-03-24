@@ -1,7 +1,10 @@
-﻿using Common.Auth.ApiKeyAuthorization;
+﻿using System.Security.Claims;
+using Common.Auth.ApiKeyAuthorization;
 using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.BLL.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.API.Controllers;
@@ -10,7 +13,7 @@ namespace Core.API.Controllers;
 /// Account controller for user
 /// </summary>
 [Controller]
-[ApiKeyAuthorization]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("account/user")]
 public class AccountUserController : ControllerBase
 {
@@ -48,7 +51,10 @@ public class AccountUserController : ControllerBase
     [HttpGet]
     public async Task<List<AccountDto>> GetAccounts(SearchAccountUserDto searchDto)
     {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
         return await _accountExternalService.GetAccounts(userId, searchDto);
     }
 
@@ -58,7 +64,10 @@ public class AccountUserController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<AccountDto> GetAccount(Guid id)
     {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
         return await _accountExternalService.GetAccount(userId, id);
     }
 
@@ -68,7 +77,10 @@ public class AccountUserController : ControllerBase
     [HttpPost("{accountId:guid}/deposit")]
     public async Task Deposit(Guid accountId, DepositDto dto)
     {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
 
         var modificationDto = new AccountModificationDto
         {
@@ -86,7 +98,10 @@ public class AccountUserController : ControllerBase
     [HttpPost("{accountId:guid}/withdraw")]
     public async Task Withdraw(Guid accountId, WithdrawDto dto)
     {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
 
         var modificationDto = new AccountModificationDto
         {
@@ -97,13 +112,17 @@ public class AccountUserController : ControllerBase
         };
         await _accountExternalService.ModifyAccount(userId, accountId, modificationDto);
     }
+
     /// <summary>
     /// Transfer from account to account
     /// </summary>
     [HttpPost("{fromAccountId:guid}/transfer/{toAccountId:guid}")]
     public async Task TransferMoney(Guid fromAccountId, Guid toAccountId, int amount)
     {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
         await _accountExternalService.TransferMoney(fromAccountId, toAccountId, amount, userId);
     }
 }

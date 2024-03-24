@@ -10,14 +10,17 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+        <PackageReference Include="OpenIddict" Version="5.3.0" />
+        <PackageReference Include="OpenIddict.Abstractions" Version="5.3.0" />
         <PackageReference Include="OpenIddict.AspNetCore" Version="5.3.0" />
         <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.3.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Common\Common.Auth\Common.Auth.csproj" />
       <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
       <ProjectReference Include="..\..\Common\Common.Exception\Common.Exception.csproj" />
     </ItemGroup>

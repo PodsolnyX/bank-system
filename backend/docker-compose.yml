@@ -40,23 +40,6 @@ services:
     volumes:
       - /var/log/bank/arbiter:/app/logs
   
-  auth:
-    build:
-      context: .
-      dockerfile: Auth/Auth.API/Dockerfile
-    restart: always
-    environment:
-      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-auth-db
-    networks:
-      - external-network
-      - internal-network
-    ports:
-      - "7001:8080"
-    depends_on:
-      - postgres
-    volumes:
-      - /var/log/bank/auth:/app/logs
-  
   core:
     build:
       context: .
