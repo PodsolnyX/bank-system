@@ -104,4 +104,16 @@ public  class LoanService {
                 Debt = l.Debt
             }).ToList();
     }
+
+    public async Task<int> GetCreditRating(Guid userId) {
+        double expiredPayments = await _dbContext.Payments
+            .CountAsync(p => p.PenaltyFee != 0 
+                        &&  p.Loan.UserId == userId);
+        double allPayments = await _dbContext.Payments
+            .CountAsync(p => p.Loan.UserId == userId);
+        var rating = (allPayments == 0 || expiredPayments == 0)
+            ? 1000
+            : expiredPayments / allPayments * 1000;
+        return (int)Math.Round(rating);
+    }
 }

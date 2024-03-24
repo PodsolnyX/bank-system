@@ -1,13 +1,16 @@
-﻿using Common.Auth.ApiKeyAuthorization;
+﻿using System.Security.Claims;
+using Common.Auth.ApiKeyAuthorization;
 using Loan.BLL.DataTransferObjects;
 using Loan.BLL.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Loan.API.Controllers;
 
 [Controller]
 [Route("loan/user")]
-[ApiKeyAuthorization]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class LoanUserController: ControllerBase {
     private readonly LoanService _loanService;
     private readonly PaymentService _paymentService;
@@ -22,7 +25,10 @@ public class LoanUserController: ControllerBase {
     /// </summary>
     [HttpPost("request")]
     public async Task RequestLoan(RequestLoanDto dto) {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
         dto.UserId = userId;
         await _loanService.RequestLoan(dto);
     }
@@ -32,7 +38,10 @@ public class LoanUserController: ControllerBase {
     /// </summary>
     [HttpPost("charge")]
     public async Task ChargeLoan(LoanChargeDto dto) {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
         dto.UserId = userId;
         await _loanService.ChargeLoan(dto);
     }
@@ -50,15 +59,32 @@ public class LoanUserController: ControllerBase {
     /// </summary>
     [HttpGet]
     public async Task<List<LoanDto>> GetLoans(SearchLoanUserDto dto) {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
         return await _loanService.GetLoansUser(dto, userId);
+    }
+    /// <summary>
+    /// Get user`s credit rating (0 - 1000)
+    /// </summary>
+    [HttpGet("rating")]
+    public async Task<int> GetCreditRating() {
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
+        return await _loanService.GetCreditRating(userId);
     }
     /// <summary>
     /// Get user`s payments
     /// </summary>
     [HttpGet("payments")]
     public async Task<List<PaymentDto>> GetLoanPayments( SearchPaymentDto dto) {
-        var userId = HttpContext.GetUserId();
+        var userId = HttpContext
+            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => Guid.Parse(c.Value))
+            .FirstOrDefault();
         return await _paymentService.GetPayments(dto, userId);
     }
     /// <summary>

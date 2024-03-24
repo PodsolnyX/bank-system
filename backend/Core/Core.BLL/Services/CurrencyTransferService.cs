@@ -18,11 +18,11 @@ public class CurrencyTransferService {
             if (response is not { result: "success" }) 
                 throw new InvalidOperationException();
             
-            double fromRate = Math.Round(GetConversionRate(fromCurrency, response), 4);
-            double toRate = Math.Round(GetConversionRate(toCurrency, response), 4);
+            var fromRate = Math.Round(GetConversionRate(fromCurrency, response), 2);
+            var toRate = Math.Round(GetConversionRate(toCurrency, response), 2);
             
             double convertedAmount = ((amount/ 100.0) / fromRate) * toRate;
-            return (int)(convertedAmount*100);
+            return (int)Math.Round(convertedAmount * 100, 2);
     }
     static double GetConversionRate(CurrencyType currencyType, CurrencyApiDto currencyData)
     {
