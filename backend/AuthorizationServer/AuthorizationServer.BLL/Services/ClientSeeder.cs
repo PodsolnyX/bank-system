@@ -47,7 +47,8 @@ internal class ClientSeeder : IHostedService
                         OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
                         OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
                         OpenIddictConstants.Permissions.Prefixes.Scope + "api",
-                        OpenIddictConstants.Permissions.ResponseTypes.Code
+                        OpenIddictConstants.Permissions.ResponseTypes.Code,
+                        OpenIddictConstants.Permissions.Scopes.Roles
                     }
                 },
                 cancellationToken

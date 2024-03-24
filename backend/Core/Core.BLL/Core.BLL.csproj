@@ -10,6 +10,7 @@
         <ProjectReference Include="..\..\Common\Common.Configuration\Common.Configuration.csproj" />
         <ProjectReference Include="..\..\Common\Common.DataTransfer\Common.DataTransfer.csproj" />
         <ProjectReference Include="..\..\Common\Common.Enum\Common.Enum.csproj" />
+        <ProjectReference Include="..\..\Common\Common.Exception\Common.Exception.csproj" />
         <ProjectReference Include="..\Core.DAL\Core.DAL.csproj" />
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>

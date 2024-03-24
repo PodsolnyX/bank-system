@@ -35,6 +35,7 @@ public static class ServiceDependencyExtension
         services.AddScoped<AccountInternalService>();
         services.AddScoped<AccountBalanceService>();
         services.AddScoped<OperationHistorySender>();
+        services.AddScoped<CurrencyTransferService>();
         services.AddHostedService<RabbitMqListenerService>();
         return services;
     }

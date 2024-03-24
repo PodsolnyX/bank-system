@@ -35,6 +35,7 @@ public static class ServiceDependencyExtension
         services.AddScoped<OperationHistoryReaderService>();
         services.AddScoped<OperationHistoryService>();
         services.AddScoped<CoreAccountBalanceSender>();
+        services.AddSingleton<SignalRUserIdProvider>();
         services.AddHostedService<RabbitMqListenerService>();
         services.AddHangfireServer();
         services.AddHangfire(x =>

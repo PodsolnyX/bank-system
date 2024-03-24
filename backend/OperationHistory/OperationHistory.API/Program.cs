@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
 using Common.Configuration;
 using Microsoft.OpenApi.Models;
+using OperationHistory.API;
 using OperationHistory.BLL.Extensions;
 using OperationHistory.BLL.Jobs;
 using Serilog;
@@ -37,6 +38,7 @@ builder.Services.AddSwaggerGen(option =>
 });
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddSignalR();
 
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -61,6 +63,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors();
+app.UseWebSockets();
 
 app.MapControllers();
 app.Run();

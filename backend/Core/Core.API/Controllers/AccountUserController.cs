@@ -97,4 +97,13 @@ public class AccountUserController : ControllerBase
         };
         await _accountExternalService.ModifyAccount(userId, accountId, modificationDto);
     }
+    /// <summary>
+    /// Transfer from account to account
+    /// </summary>
+    [HttpPost("{fromAccountId:guid}/transfer/{toAccountId:guid}")]
+    public async Task TransferMoney(Guid fromAccountId, Guid toAccountId, int amount)
+    {
+        var userId = HttpContext.GetUserId();
+        await _accountExternalService.TransferMoney(fromAccountId, toAccountId, amount, userId);
+    }
 }

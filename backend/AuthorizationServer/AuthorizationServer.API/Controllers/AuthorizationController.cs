@@ -48,11 +48,40 @@ public class AuthorizationController : Controller
         }
         else if (request.IsAuthorizationCodeGrantType())
         {
+           
             claimsPrincipal = (
                 await HttpContext.AuthenticateAsync(
                     OpenIddictServerAspNetCoreDefaults.AuthenticationScheme
                 )
             ).Principal!;
+            claimsPrincipal.SetDestinations(static claim => claim.Type switch
+            {
+                // If the "profile" scope was granted, allow the "name" claim to be
+                // added to the access and identity tokens derived from the principal.
+                OpenIddictConstants.Claims.Name when claim.Subject.HasScope(OpenIddictConstants.Permissions.Scopes.Profile) => new[]
+                {
+                    OpenIddictConstants.Destinations.AccessToken,
+                    OpenIddictConstants.Destinations.IdentityToken
+                },
+
+                // Never add the "secret_value" claim to access or identity tokens.
+                // In this case, it will only be added to authorization codes,
+                // refresh tokens and user/device codes, that are always encrypted.
+                "secret_value" => Array.Empty<string>(),
+
+                // Otherwise, add the claim to the access tokens only.
+                _ => new[]
+                {
+                    OpenIddictConstants.Destinations.AccessToken
+                }
+            });
+            // var roles = await _userService.GetRoles(
+            //     claimsPrincipal.GetClaim(OpenIddictConstants.Claims.Subject));
+            //
+            // foreach (var role in roles)
+            // {
+            //     ((ClaimsIdentity)claimsPrincipal.Identity).AddClaim(new Claim(ClaimTypes.Role, role));
+            // }
         }
         else if (request.IsRefreshTokenGrantType())
         {
