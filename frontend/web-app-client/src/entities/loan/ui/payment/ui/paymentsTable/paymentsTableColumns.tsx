@@ -40,6 +40,13 @@ const commonColumns: ColumnsType<Payment> = [
     key: 'penaltyFee',
     render: (_, rec) => format(rec.penaltyFee),
     responsive: ['md'],
+    filters: [
+      {
+        text: 'Только неоплаченные',
+        value: true,
+      },
+    ],
+    onFilter: (isFilter, rec) => !isFilter || rec.penaltyFee > 0,
   },
   {
     title: 'Актуален',

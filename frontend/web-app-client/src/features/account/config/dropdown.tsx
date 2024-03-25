@@ -8,6 +8,8 @@ import {
   getAccountHistoryLink,
   getAccountDepositLink,
   getAccountWithdrawLink,
+  getAccountTransferSelfLink,
+  getAccountTransferAnotherLink,
 } from 'shared/config'
 
 export const getAccountActions = (
@@ -29,6 +31,16 @@ export const getAccountActions = (
     label: <Link to={getAccountWithdrawLink(account.id)}>Снять</Link>,
     disabled: !!account.closedAt || account.amount <= 0,
     key: 'withdraw',
+  },
+  {
+    label: <Link to={getAccountTransferSelfLink(account.id)}>Перевод себе</Link>,
+    disabled: !!account.closedAt,
+    key: 'transferSelf',
+  },
+  {
+    label: <Link to={getAccountTransferAnotherLink(account.id)}>Перевод другому</Link>,
+    disabled: !!account.closedAt || account.amount <= 0,
+    key: 'transfer',
   },
   {
     label: <Link to={getAccountCloseLink(account.id)}>Закрыть</Link>,
