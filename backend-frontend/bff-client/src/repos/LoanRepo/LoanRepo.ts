@@ -6,6 +6,7 @@ import {
   SearchLoanUserDto,
   UserPaymentDto,
   GetPaymentsDto,
+  LoanRatingDto,
 } from 'dto/Loan'
 import { LoanAPI } from 'repos/lib'
 
@@ -40,6 +41,10 @@ class LoanRepo {
 
   async ExecuteJob() {
     await LoanAPI.Req.post('/loan/user')
+  }
+
+  async GetRating() {
+    return (await LoanAPI.Req.get<LoanRatingDto>('/loan/user/rating')).data
   }
 }
 

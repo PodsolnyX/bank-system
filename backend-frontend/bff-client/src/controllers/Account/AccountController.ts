@@ -7,7 +7,7 @@ import {
   OpenAccountReq,
   WithdrawReq,
 } from 'controllers/Account/types'
-import { Extractor } from 'common'
+
 import { AccountService } from 'services/AccountService'
 
 class AccountController {
@@ -18,32 +18,38 @@ class AccountController {
   }
 
   async OpenAccount(req: OpenAccountReq, res: Response) {
-    const data = await this._AccountService.OpenAccount(Extractor.ExtractParams(req))
+    const data = await this._AccountService.OpenAccount(req.query)
     res.status(200).send(data)
   }
 
   async CloseAccount(req: CloseAccountReq, res: Response) {
-    const data = await this._AccountService.CloseAccount(Extractor.ExtractBody(req))
+    const data = await this._AccountService.CloseAccount(req.body)
     res.status(200).send(data)
   }
 
   async GetAccounts(req: GetAccountsReq, res: Response) {
-    const data = await this._AccountService.GetAccounts(Extractor.ExtractParams(req))
+    const data = await this._AccountService.GetAccounts(req.query)
     res.status(200).send(data)
   }
 
   async GetAccount(req: GetAccountReq, res: Response) {
-    const data = await this._AccountService.GetAccount(Extractor.ExtractParams(req))
+    const data = await this._AccountService.GetAccount(req.params)
     res.status(200).send(data)
   }
 
   async Deposit(req: DepositReq, res: Response) {
-    const data = await this._AccountService.Deposit(Extractor.ExtractParams(req))
+    const data = await this._AccountService.Deposit({
+      ...req.query,
+      ...req.params,
+    })
     res.status(200).send(data)
   }
 
   async Withdraw(req: WithdrawReq, res: Response) {
-    const data = await this._AccountService.Withdraw(Extractor.ExtractParams(req))
+    const data = await this._AccountService.Withdraw({
+      ...req.query,
+      ...req.params,
+    })
     res.status(200).send(data)
   }
 }

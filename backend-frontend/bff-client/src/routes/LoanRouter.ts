@@ -27,6 +27,11 @@ RouterHelper.use(LoanRouter, LoanControllerInst, [
     handlers: [LoanControllerInst.GetPayments],
   },
   {
+    method: 'get',
+    path: '/rating',
+    handlers: [LoanControllerInst.GetRating],
+  },
+  {
     method: 'post',
     path: '/',
     handlers: [LoanControllerInst.ExecuteJob],

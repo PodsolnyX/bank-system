@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { GetTariffsReq } from './types'
-import { Extractor } from 'common'
+
 import { TariffService } from 'services/TariffService'
 
 class TariffController {
@@ -11,7 +11,7 @@ class TariffController {
   }
 
   async GetTariffs(req: GetTariffsReq, res: Response) {
-    const data = await this._TariffService.GetTariffs(Extractor.ExtractParams(req))
+    const data = await this._TariffService.GetTariffs(req.body)
     res.status(200).send(data)
   }
 }

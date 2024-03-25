@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { GetOperationHistoryReq } from './types'
-import { Extractor } from 'common'
+
 import { OperationHistoryService } from 'services/OperationHistoryService'
 
 class OperationHistoryController {
@@ -11,9 +11,7 @@ class OperationHistoryController {
   }
 
   async GetOperationHistory(req: GetOperationHistoryReq, res: Response) {
-    const data = await this._OperationHistoryService.GetOperationHistory(
-      Extractor.ExtractParams(req)
-    )
+    const data = await this._OperationHistoryService.GetOperationHistory(req.body)
     res.status(200).send(data)
   }
 }

@@ -6,9 +6,6 @@ class UserService {
 
   constructor(UserRepo: UserRepo) {
     this._UserRepo = UserRepo
-
-    this.GetProfile = this.GetProfile.bind(this)
-    this.Register = this.Register.bind(this)
   }
 
   async GetProfile(Dto: GetProfileDto) {

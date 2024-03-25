@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from 'express'
-import { AuthData, Extractor } from 'common'
+import { AuthData } from 'common'
 
 const AuthMiddlewareFn =
   () => async (req: Request, res: Response, next: NextFunction) => {
-    const { authId } = Extractor.ExtractAuthHeader(req)
-    if (!authId) {
+    const token = req.headers.authorization
+    if (!token) {
       res.sendStatus(401)
       return
     }
 
-    AuthData.Header = authId
+    AuthData.Data = token
 
     next()
   }
