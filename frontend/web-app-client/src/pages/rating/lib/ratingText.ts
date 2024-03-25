@@ -1,17 +1,17 @@
-export const getRatingText = (rating: number | null | undefined) => {
+export const getRatingText = (max: number, rating: number | null | undefined) => {
   if (rating == undefined) {
     return 'Ваш рейтинг не определен'
   }
 
-  if (rating < 200) {
+  if (rating < max * 0.2) {
     return 'У Вас низкий рейтинг'
   }
 
-  if (rating < 500) {
+  if (rating < max * 0.4) {
     return 'У Вас средний рейтинг'
   }
 
-  if (rating < 1000) {
+  if (rating < max * 0.6) {
     return 'У Вас хороший рейтинг'
   }
 

@@ -1,1 +1,1 @@
-export const ID_LS_NAME = 'id'
+export const TOKEN_LS_NAME = 'access_token'

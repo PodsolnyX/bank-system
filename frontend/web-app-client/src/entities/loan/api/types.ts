@@ -14,3 +14,8 @@ export type GetPaymentsReq = {
   onlyActual?: boolean | null
 }
 export type GetPaymentsResp = Payment[]
+
+export type GetRatingReq = void
+export type GetRatingResp = {
+  rating: number
+}

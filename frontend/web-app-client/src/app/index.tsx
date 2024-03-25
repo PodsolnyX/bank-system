@@ -11,9 +11,11 @@ import { ApplicationRouter } from './router'
 
 import './styles/index.scss'
 
+
 function App() {
   useTheme()
   const { isLoading: isAuthLoading, userData } = useAuth()
+  console.log(userData)
 
   const hiddenAccs = useGetHiddenAccountsQuery(undefined, { skip: !userData })
 

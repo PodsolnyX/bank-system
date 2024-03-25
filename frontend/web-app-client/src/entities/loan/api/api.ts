@@ -1,5 +1,12 @@
 import { loansApi } from 'shared/api'
-import { GetLoansResp, GetLoansReq, GetPaymentsResp, GetPaymentsReq } from './types'
+import {
+  GetLoansResp,
+  GetLoansReq,
+  GetPaymentsResp,
+  GetPaymentsReq,
+  GetRatingReq,
+  GetRatingResp,
+} from './types'
 
 const endpoints = loansApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,7 +24,13 @@ const endpoints = loansApi.injectEndpoints({
         params,
       }),
     }),
+    getRating: builder.query<GetRatingResp, GetRatingReq>({
+      query: () => ({
+        url: '/rating',
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
-export const { useGetPaymentsQuery, useGetLoansQuery } = endpoints
+export const { useGetPaymentsQuery, useGetLoansQuery, useGetRatingQuery } = endpoints
