@@ -20,23 +20,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder
-    .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidIssuer = "http://localhost:7005",
-            ValidateAudience = false,
-            ValidAudiences = new[] { "client" },
-            ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")
-            ),
-            ValidateIssuerSigningKey = true,
-        };
-    });
+builder.Services.AddJwtAuthorization();
 
 builder
     .Services.AddControllers()

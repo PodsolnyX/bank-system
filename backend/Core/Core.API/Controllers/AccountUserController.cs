@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Common.Auth.ApiKeyAuthorization;
+using Common.Auth.Jwt;
 using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.BLL.Services;
@@ -51,10 +51,7 @@ public class AccountUserController : ControllerBase
     [HttpGet]
     public async Task<List<AccountDto>> GetAccounts(SearchAccountUserDto searchDto)
     {
-        var userId = HttpContext
-            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => Guid.Parse(c.Value))
-            .FirstOrDefault();
+        var userId = HttpContext.GetUserId();
         return await _accountExternalService.GetAccounts(userId, searchDto);
     }
 
@@ -64,10 +61,7 @@ public class AccountUserController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<AccountDto> GetAccount(Guid id)
     {
-        var userId = HttpContext
-            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => Guid.Parse(c.Value))
-            .FirstOrDefault();
+        var userId = HttpContext.GetUserId();
         return await _accountExternalService.GetAccount(userId, id);
     }
 
@@ -77,10 +71,7 @@ public class AccountUserController : ControllerBase
     [HttpPost("{accountId:guid}/deposit")]
     public async Task Deposit(Guid accountId, DepositDto dto)
     {
-        var userId = HttpContext
-            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => Guid.Parse(c.Value))
-            .FirstOrDefault();
+        var userId = HttpContext.GetUserId();
 
         var modificationDto = new AccountModificationDto
         {
@@ -98,10 +89,7 @@ public class AccountUserController : ControllerBase
     [HttpPost("{accountId:guid}/withdraw")]
     public async Task Withdraw(Guid accountId, WithdrawDto dto)
     {
-        var userId = HttpContext
-            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => Guid.Parse(c.Value))
-            .FirstOrDefault();
+        var userId = HttpContext.GetUserId();
 
         var modificationDto = new AccountModificationDto
         {
@@ -119,10 +107,7 @@ public class AccountUserController : ControllerBase
     [HttpPost("{fromAccountId:guid}/transfer/{toAccountId:guid}")]
     public async Task TransferMoney(Guid fromAccountId, Guid toAccountId, int amount)
     {
-        var userId = HttpContext
-            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => Guid.Parse(c.Value))
-            .FirstOrDefault();
+        var userId = HttpContext.GetUserId();
         await _accountExternalService.TransferMoney(fromAccountId, toAccountId, amount, userId);
     }
 }

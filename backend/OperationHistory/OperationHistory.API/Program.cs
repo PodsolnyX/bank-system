@@ -27,6 +27,8 @@ builder
         opts.JsonSerializerOptions.Converters.Add(enumConverter);
     });
 
+builder.Services.AddJwtAuthorization();
+
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>

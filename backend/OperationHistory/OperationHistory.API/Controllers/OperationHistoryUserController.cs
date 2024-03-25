@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Common.Auth.ApiKeyAuthorization;
+﻿using Common.Auth.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,10 +31,7 @@ public class OperationHistoryUserController : ControllerBase
     [HttpGet]
     public async Task<List<OperationDto>> GetOperations(SearchOperationUserDto dto)
     {
-        var userId = HttpContext
-            .User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => Guid.Parse(c.Value))
-            .FirstOrDefault();
+        var userId = HttpContext.GetUserId();
         return await _operationHistoryReaderService.GetOperations(userId, dto);
     }
 }
