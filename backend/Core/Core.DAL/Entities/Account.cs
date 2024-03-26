@@ -16,4 +16,5 @@ public class Account : BaseEntity
     public int Amount { get; set; }
 
     public bool IsLockedForTransaction { get; set; }
+    public bool IsPriority { get; set; } = false;
 }

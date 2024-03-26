@@ -4,6 +4,7 @@ using Common.Exception;
 using Core.BLL.DataTransferObjects;
 using Core.DAL;
 using Core.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Core.BLL.Services;
@@ -150,7 +151,44 @@ public class AccountExternalService
             throw new InvalidOperationException("Not enough rights to access the account");
         }
     }
-    public async Task TransferMoney(Guid fromAccountId, Guid toAccountId, int amount, Guid? userId = null) {
+
+    public async Task MakeAccountPriority(Guid accountId, Guid userId) {
+        var accounts = await _dbContext.Accounts
+            .Where(a=>a.UserId == userId
+            && (a.IsPriority || a.Id == accountId))
+            .ToListAsync();
+        
+        if (accounts.All(a => a.Id != accountId))
+            throw new NotFoundException("Account not found");
+        
+        foreach (var account in accounts) {
+            if (account.IsPriority)
+                account.IsPriority = false;
+            if (account.Id == accountId)
+                account.IsPriority = true;
+        }
+        _dbContext.UpdateRange(accounts);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task TransferMoneyToUser(Guid fromAccountId, Guid toUserId, int amount, Guid? userId = null) {
+        if (amount < 100)
+            throw new BadRequestException("Minimum amount is 100");
+        var fromAccount = await _dbContext.Accounts.FindAsync(fromAccountId);
+        CheckAccount(fromAccount, userId);
+        if (fromAccount!.Amount < amount)
+            throw new InvalidOperationException("Not enough money");
+        if (fromAccount.IsLockedForTransaction)
+            throw new InvalidOperationException("Account is locked");
+        var toAccount = await _dbContext.Accounts
+            .FirstOrDefaultAsync(a=>a.IsPriority
+            && a.UserId == toUserId);
+        if (toAccount == null)
+            throw new NotFoundException("Account to transfer not found, may be choose priority account");
+        await TransferMoney(amount, fromAccount, toAccount);
+    }
+
+    public async Task TransferMoneyBetweenMyAccounts(Guid fromAccountId, Guid toAccountId, int amount, Guid? userId = null) {
         if (amount < 100)
             throw new BadRequestException("Minimum amount is 100");
         
@@ -163,6 +201,10 @@ public class AccountExternalService
         var toAccount = await _dbContext.Accounts.FindAsync(toAccountId);
         if (toAccount == null)
             throw new NotFoundException("Account to transfer not found");
+        await TransferMoney(amount, fromAccount, toAccount);
+    }
+
+    private async Task TransferMoney(int amount, Account fromAccount, Account toAccount) {
         var transferredAmount = 
             await _transferService.TransferMoney(fromAccount!.CurrencyType, toAccount.CurrencyType, amount);
         var fromAccountModification = new AccountModificationDto {
@@ -172,7 +214,7 @@ public class AccountExternalService
             Amount = amount,
             Message = "Перевод"
         };
-        await _internalService.ModifyAccount(fromAccountId, fromAccountModification);
+        await _internalService.ModifyAccount(fromAccount.Id, fromAccountModification);
         var toAccountModification = new AccountModificationDto {
             Type = OperationType.Deposit,
             Reason = OperationReason.Cash,
@@ -181,7 +223,7 @@ public class AccountExternalService
             Message = "Перевод"
         };
         try {
-            await _internalService.ModifyAccount(toAccountId, toAccountModification);
+            await _internalService.ModifyAccount(toAccount.Id, toAccountModification);
         }
         catch (Exception e) {
             var cancelWithdraw = new AccountModificationDto {
@@ -191,7 +233,7 @@ public class AccountExternalService
                 Amount = amount,
                 Message = "Отмена перевода"
             };
-            await _internalService.ModifyAccountCancel(fromAccountId, cancelWithdraw);
+            await _internalService.ModifyAccountCancel(fromAccount.Id, cancelWithdraw);
         }
     }
 }
