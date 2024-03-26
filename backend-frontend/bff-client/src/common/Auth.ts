@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import { jwtDecode } from 'jwt-decode'
 
 export type AuthInfo = {
@@ -5,27 +6,17 @@ export type AuthInfo = {
   token: string
 }
 
-export class AuthData {
-  private static _AuthData: AuthInfo = {
-    id: '',
-    token: '',
-  }
-
-  public static get Id() {
-    return this._AuthData.id
-  }
-
-  public static get Token() {
-    return this._AuthData.token
-  }
-
-  public static set Data(token: string) {
-    console.log(AuthData.Token.length)
-    this._AuthData.token = token
-    try {
-      this._AuthData.id = JSON.parse(jwtDecode(token)).sub
-    } catch {
-      this._AuthData.id = ''
+export class AuthHelper {
+  public static Data(req: Request<any, any, any, any>) {
+    const token = req.headers.authorization || ''
+    const info: AuthInfo = {
+      token,
+      id: '',
     }
+    try {
+      info.id = JSON.parse(jwtDecode(token)).sub
+    } catch {}
+
+    return info
   }
 }

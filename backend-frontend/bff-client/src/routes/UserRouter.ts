@@ -16,16 +16,6 @@ RouterHelper.use(UserRouter, UserControllerInst, [
     path: '/status',
     handlers: [UserControllerInst.GetUserStatus],
   },
-  {
-    method: 'post',
-    path: '/logout',
-    handlers: [UserControllerInst.Logout],
-  },
-  {
-    method: 'post',
-    path: '/',
-    handlers: [UserControllerInst.Register],
-  },
 ])
 
 export default UserRouter

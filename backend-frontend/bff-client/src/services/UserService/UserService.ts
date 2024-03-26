@@ -1,3 +1,4 @@
+import { AuthInfo } from 'common'
 import { GetProfileDto, GetUserStatusDto, RegisterDto } from 'dto/User'
 import { UserRepo } from 'repos/UserRepo'
 
@@ -8,16 +9,12 @@ class UserService {
     this._UserRepo = UserRepo
   }
 
-  async GetProfile(Dto: GetProfileDto) {
-    return await this._UserRepo.GetProfile(Dto)
+  async GetProfile(Dto: GetProfileDto, AuthInfo: AuthInfo) {
+    return await this._UserRepo.GetProfile(Dto, AuthInfo)
   }
 
-  async GetStatus(Dto: GetUserStatusDto) {
-    return await this._UserRepo.GetStatus(Dto)
-  }
-
-  async Register(Dto: RegisterDto) {
-    return await this._UserRepo.Register(Dto)
+  async GetStatus(Dto: GetUserStatusDto, AuthInfo: AuthInfo) {
+    return await this._UserRepo.GetStatus(Dto, AuthInfo)
   }
 }
 

@@ -10,7 +10,7 @@ import {
 } from 'dto/Preferences'
 import { Preferences, Theme } from 'entities/Preferences'
 import { PreferencesDocument } from 'repos/PreferencesRepo/types'
-import { AuthData } from 'common'
+import { AuthInfo } from 'common'
 
 class PreferencesRepo {
   private _MongoURL = 'mongodb://localhost:27017'
@@ -60,30 +60,36 @@ class PreferencesRepo {
     return preferences || this._DefaultPreferences
   }
 
-  async GetPreferences(): Promise<GetPreferencesDto> {
-    return await this._FetchPreferences(AuthData.Id)
+  async GetPreferences(AuthInfo: AuthInfo): Promise<GetPreferencesDto> {
+    return await this._FetchPreferences(AuthInfo.id)
   }
 
-  async GetTheme(): Promise<GetThemeDto> {
-    return await this._FetchPreferences(AuthData.Id, { theme: 1, _id: 0 })
+  async GetTheme(AuthInfo: AuthInfo): Promise<GetThemeDto> {
+    return await this._FetchPreferences(AuthInfo.id, { theme: 1, _id: 0 })
   }
 
-  async GetHiddenAccounts(): Promise<GetHiddenAccountsDto> {
-    return await this._FetchPreferences(AuthData.Id, { hiddenAccounts: 1, _id: 0 })
+  async GetHiddenAccounts(AuthInfo: AuthInfo): Promise<GetHiddenAccountsDto> {
+    return await this._FetchPreferences(AuthInfo.id, { hiddenAccounts: 1, _id: 0 })
   }
 
-  async UpdateTheme(theme: UpdateThemeDto): Promise<GetPreferencesDto> {
+  async UpdateTheme(
+    theme: UpdateThemeDto,
+    AuthInfo: AuthInfo
+  ): Promise<GetPreferencesDto> {
     await this._Init()
     const { theme: newTheme } = theme
-    const id = AuthData.Id
+    const id = AuthInfo.id
     await this._Collection?.updateOne({ userid: id }, { $set: { theme: newTheme } })
     return this._FetchPreferences(id)
   }
 
-  async HideAccount(account: HideAccountDto): Promise<GetPreferencesDto> {
+  async HideAccount(
+    account: HideAccountDto,
+    AuthInfo: AuthInfo
+  ): Promise<GetPreferencesDto> {
     await this._Init()
     const { accountId } = account
-    const id = AuthData.Id
+    const id = AuthInfo.id
     await this._Collection?.updateOne(
       { userid: id },
       { $addToSet: { hiddenAccounts: accountId } }
@@ -91,10 +97,13 @@ class PreferencesRepo {
     return this._FetchPreferences(id)
   }
 
-  async ShowAccount(account: ShowAccountDto): Promise<GetPreferencesDto> {
+  async ShowAccount(
+    account: ShowAccountDto,
+    AuthInfo: AuthInfo
+  ): Promise<GetPreferencesDto> {
     await this._Init()
     const { accountId } = account
-    const id = AuthData.Id
+    const id = AuthInfo.id
     await this._Collection?.updateOne(
       { userid: id },
       { $pull: { hiddenAccounts: accountId } }

@@ -6,6 +6,7 @@ import {
   GetPaymentsDto,
 } from 'dto/Loan'
 import { LoanRepo } from 'repos/LoanRepo'
+import { AuthInfo } from 'common'
 
 class LoanService {
   private _LoanRepo: LoanRepo
@@ -14,28 +15,28 @@ class LoanService {
     this._LoanRepo = LoanRepo
   }
 
-  async RequestLoan(Dto: RequestLoanDto) {
-    return await this._LoanRepo.RequestLoan(Dto)
+  async RequestLoan(Dto: RequestLoanDto, AuthInfo: AuthInfo) {
+    return await this._LoanRepo.RequestLoan(Dto, AuthInfo)
   }
 
-  async ChargeLoan(Dto: ChargeLoanDto) {
-    return await this._LoanRepo.ChargeLoan(Dto)
+  async ChargeLoan(Dto: ChargeLoanDto, AuthInfo: AuthInfo) {
+    return await this._LoanRepo.ChargeLoan(Dto, AuthInfo)
   }
 
-  async GetLoans(Dto: PaginationReq<SearchLoanUserDto>) {
-    return await this._LoanRepo.GetLoans(Dto)
+  async GetLoans(Dto: PaginationReq<SearchLoanUserDto>, AuthInfo: AuthInfo) {
+    return await this._LoanRepo.GetLoans(Dto, AuthInfo)
   }
 
-  async GetPayments(Dto: GetPaymentsDto) {
-    return await this._LoanRepo.GetPayments(Dto)
+  async GetPayments(Dto: GetPaymentsDto, AuthInfo: AuthInfo) {
+    return await this._LoanRepo.GetPayments(Dto, AuthInfo)
   }
 
-  async ExecuteJob() {
-    return await this._LoanRepo.ExecuteJob()
+  async ExecuteJob(AuthInfo: AuthInfo) {
+    return await this._LoanRepo.ExecuteJob(AuthInfo)
   }
 
-  async GetRating() {
-    return await this._LoanRepo.GetRating()
+  async GetRating(AuthInfo: AuthInfo) {
+    return await this._LoanRepo.GetRating(AuthInfo)
   }
 }
 

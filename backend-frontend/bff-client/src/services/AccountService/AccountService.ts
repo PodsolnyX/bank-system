@@ -1,4 +1,4 @@
-import { parseBoolean } from 'common'
+import { AuthInfo, parseBoolean } from 'common'
 import {
   CloseAccountDto,
   DepositDto,
@@ -23,8 +23,8 @@ class AccountService {
     this._PreferencesRepo = PreferencesRepo
   }
 
-  private async _TransformAccounts(accounts: Account[]) {
-    const { hiddenAccounts } = await this._PreferencesRepo.GetHiddenAccounts()
+  private async _TransformAccounts(accounts: Account[], AuthInfo: AuthInfo) {
+    const { hiddenAccounts } = await this._PreferencesRepo.GetHiddenAccounts(AuthInfo)
     const FullAccounts: FullAccount[] = accounts.map((account) => ({
       ...account,
       hidden: hiddenAccounts.some((id) => id === account.id),
@@ -38,40 +38,40 @@ class AccountService {
     })
   }
 
-  async OpenAccount(Dto: OpenAccountDto) {
-    return await this._AccountRepo.OpenAccount(Dto)
+  async OpenAccount(Dto: OpenAccountDto, AuthInfo: AuthInfo) {
+    return await this._AccountRepo.OpenAccount(Dto, AuthInfo)
   }
 
-  async CloseAccount(Dto: CloseAccountDto) {
-    return await this._AccountRepo.CloseAccount(Dto)
+  async CloseAccount(Dto: CloseAccountDto, AuthInfo: AuthInfo) {
+    return await this._AccountRepo.CloseAccount(Dto, AuthInfo)
   }
 
-  async GetAccounts(Dto: PaginationReq<SearchAccountDto>) {
-    const accounts = await this._AccountRepo.GetAccounts(Dto)
-    const FullAccounts = await this._TransformAccounts(accounts)
+  async GetAccounts(Dto: PaginationReq<SearchAccountDto>, AuthInfo: AuthInfo) {
+    const accounts = await this._AccountRepo.GetAccounts(Dto, AuthInfo)
+    const FullAccounts = await this._TransformAccounts(accounts, AuthInfo)
     const hidden = parseBoolean(Dto.hidden)
     return FullAccounts.filter((acc) => hidden === undefined || acc.hidden === hidden)
   }
 
-  async GetAccount(Dto: GetAccountDto) {
-    const accounts = [await this._AccountRepo.GetAccount(Dto)]
-    return (await this._TransformAccounts(accounts))[0]
+  async GetAccount(Dto: GetAccountDto, AuthInfo: AuthInfo) {
+    const accounts = [await this._AccountRepo.GetAccount(Dto, AuthInfo)]
+    return (await this._TransformAccounts(accounts, AuthInfo))[0]
   }
 
-  async Deposit(Dto: DepositDto) {
-    return await this._AccountRepo.Deposit(Dto)
+  async Deposit(Dto: DepositDto, AuthInfo: AuthInfo) {
+    return await this._AccountRepo.Deposit(Dto, AuthInfo)
   }
 
-  async Withdraw(Dto: WithdrawDto) {
-    return await this._AccountRepo.Withdraw(Dto)
+  async Withdraw(Dto: WithdrawDto, AuthInfo: AuthInfo) {
+    return await this._AccountRepo.Withdraw(Dto, AuthInfo)
   }
 
-  async TransferSelf(Dto: TransferSelfDto) {
-    return await this._AccountRepo.TransferSelf(Dto)
+  async TransferSelf(Dto: TransferSelfDto, AuthInfo: AuthInfo) {
+    return await this._AccountRepo.TransferSelf(Dto, AuthInfo)
   }
 
-  async TransferUser(Dto: TransferUserDto) {
-    return await this._AccountRepo.TransferUser(Dto)
+  async TransferUser(Dto: TransferUserDto, AuthInfo: AuthInfo) {
+    return await this._AccountRepo.TransferUser(Dto, AuthInfo)
   }
 }
 

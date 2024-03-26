@@ -1,19 +1,25 @@
 import axios, { AxiosInstance } from 'axios'
-import { AuthData } from 'common/Auth'
+import { AuthInfo } from 'common/Auth'
 
 export abstract class BaseReq {
   protected static BASE_URL: string
   private static readonly API_HEADER_NAME = 'Authorization'
   private static readonly PREFERENCES_HEADER_NAME = 'XUserId'
   private static readonly SERIALIZER_INDEXES = null
-  private static readonly _AxiosInst: AxiosInstance = axios.create({})
 
-  public static get Req(): AxiosInstance {
-    this._AxiosInst.defaults.baseURL = this.BASE_URL
-    this._AxiosInst.defaults.headers[this.API_HEADER_NAME] = `Bearer ${AuthData.Token}`
-    this._AxiosInst.defaults.headers[this.PREFERENCES_HEADER_NAME] = AuthData.Id
-    this._AxiosInst.defaults.paramsSerializer = { indexes: this.SERIALIZER_INDEXES }
+  public static Req(AuthInfo: AuthInfo | null): AxiosInstance {
+    const headers = AuthInfo
+      ? {
+          [this.API_HEADER_NAME]: `Bearer ${AuthInfo.token}`,
+          [this.PREFERENCES_HEADER_NAME]: AuthInfo.id,
+        }
+      : {}
+    const AxiosInst = axios.create({
+      baseURL: this.BASE_URL,
+      headers,
+      paramsSerializer: { indexes: this.SERIALIZER_INDEXES },
+    })
 
-    return this._AxiosInst
+    return AxiosInst
   }
 }
