@@ -1,8 +1,15 @@
-import { useParams } from 'react-router-dom'
-import { TransferForm } from 'features/account'
+import { useNavigate, useParams } from 'react-router-dom'
+import {
+  TransferForm,
+  TransferFormValues,
+  TransferSelfReq,
+  TransferUserReq,
+  useTransferSelfMutation,
+  useTransferUserMutation,
+} from 'features/account'
 import { useGetAccountQuery } from 'entities/account'
-import { useWithdrawMutation } from 'entities/account'
 import { AppRoutes } from 'shared/config'
+import { convert, toastError, toastSuccess } from 'shared/lib'
 import { PageLoader } from 'shared/ui'
 import { ErrorMsg } from 'shared/ui'
 
@@ -13,11 +20,28 @@ export interface TransferPageProps {
 export const TransferPage = (props: TransferPageProps) => {
   const { type } = props
   const { id } = useParams()
-  const [triggerTransfer] = useWithdrawMutation()
+  const navigate = useNavigate()
+  const [triggerTransferSelf] = useTransferSelfMutation()
+  const [triggerTransferUser] = useTransferUserMutation()
 
-  const onFinish = async () => {}
+  const onFinish = async (values: TransferFormValues) => {
+    try {
+      const formattedValues = convert(values)
+      if (type === 'self') {
+        await triggerTransferSelf(formattedValues as TransferSelfReq)
+      } else if (type === 'external') {
+        await triggerTransferUser(formattedValues as TransferUserReq)
+      }
+      toastSuccess('Запрос на операцию принят')
+    } catch (e) {
+      toastError('Произошла ошибка')
+    } finally {
+      navigate(AppRoutes.MAIN)
+    }
+  }
 
   const account = useGetAccountQuery({ id: id! })
+
   if (account.isError || account.data?.closedAt) {
     return (
       <ErrorMsg
@@ -28,7 +52,7 @@ export const TransferPage = (props: TransferPageProps) => {
     )
   }
 
-  if (!account.isSuccess) {
+  if (account.isFetching) {
     return <PageLoader />
   }
 

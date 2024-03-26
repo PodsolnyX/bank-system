@@ -14,7 +14,7 @@ export const HistoryTable = (props: HistoryTableProps) => {
     <Table
       rowKey={(record) => record.id}
       bordered
-      className='w-full md:w-2/3 border-[1px] border-border border-solid rounded-lg text-sm'
+      className='w-full md:w-2/3 mt-2 border-[1px] border-border border-solid rounded-lg text-sm'
       columns={full ? fullHistoryColumns : historyColumns}
       dataSource={history}
       pagination={{ pageSize: 7, showSizeChanger: false }}

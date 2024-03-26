@@ -3,8 +3,9 @@ import { Button, Input, InputNumber, Select } from 'antd'
 
 import { useState } from 'react'
 import { useGetAccountsQuery } from 'entities/account'
+import { AppRoutes } from 'shared/config'
 import { format, moneyRules } from 'shared/lib'
-import { Center, Form } from 'shared/ui'
+import { Center, ErrorMsg, Form } from 'shared/ui'
 import { TransferFormProps } from './types'
 
 export const TransferForm = (props: TransferFormProps) => {
@@ -20,36 +21,63 @@ export const TransferForm = (props: TransferFormProps) => {
     (acc) => acc.id !== account.id && !acc.hidden && !acc.closedAt
   )
 
+  const mono = type === 'deposit' || type === 'withdraw'
+  const bi = !mono
+
+  if (accounts.isSuccess && !validAccounts?.length) {
+    return (
+      <ErrorMsg
+        link={AppRoutes.ACCOUNT_NEW}
+        linkText='Создать счет'
+        text='Нет подходящих счетов'
+      />
+    )
+  }
+
   return (
     <Center>
-      <h1>Перевод</h1>
+      <h1>{bi ? 'Перевод' : type === 'withdraw' ? 'Снятие' : 'Пополнение'}</h1>
       <Form
         className='w-full md:w-1/3'
         onFinish={onFinish}
         initialValues={{
           accountId: account.id,
+          fromAccountId: account.id
         }}
         isLoading={isLoading}
       >
-        <Form.Item label='Со счета' name='accountId'>
-          <Input
-            className='text-black'
-            suffix={<CreditCardOutlined />}
-            placeholder='Номер счета'
-            readOnly
-          />
-        </Form.Item>
-        {type === 'external' ? (
-          <Form.Item label='ID клиента' name='clientId'>
+        {mono && (
+          <Form.Item label='Счет' name='accountId'>
+            <Input
+              className='text-black'
+              suffix={<CreditCardOutlined />}
+              placeholder='Номер счета'
+              readOnly
+            />
+          </Form.Item>
+        )}
+        {bi && (
+          <Form.Item label='Со счета' name='fromAccountId'>
+            <Input
+              className='text-black'
+              suffix={<CreditCardOutlined />}
+              placeholder='Номер счета'
+              readOnly
+            />
+          </Form.Item>
+        )}
+        {type === 'external' && (
+          <Form.Item label='ID клиента' name='userId'>
             <Input
               className='text-black'
               suffix={<UserOutlined />}
               placeholder='ID клиента'
             />
           </Form.Item>
-        ) : (
+        )}
+        {type === 'self' && (
           <Form.Item
-            label='Счет'
+            label='На счет'
             name='toAccountId'
             rules={[{ required: true, message: 'Пожалуйста, укажите счет' }]}
           >
@@ -75,7 +103,7 @@ export const TransferForm = (props: TransferFormProps) => {
           rules={moneyRules.concat([
             {
               validator: (_rule, v) =>
-                account.amount >= v * 100
+                account.amount >= v * 100 || type === 'deposit'
                   ? Promise.resolve()
                   : Promise.reject('Недостаточно денег'),
             },
@@ -88,13 +116,15 @@ export const TransferForm = (props: TransferFormProps) => {
           />
         </Form.Item>
 
-        <Form.Item label='Сообщение' name='message'>
-          <Input.TextArea
-            showCount
-            maxLength={255}
-            placeholder='Введите сообщение (опционально)'
-          />
-        </Form.Item>
+        {mono && (
+          <Form.Item label='Сообщение' name='message'>
+            <Input.TextArea
+              showCount
+              maxLength={255}
+              placeholder='Введите сообщение (опционально)'
+            />
+          </Form.Item>
+        )}
 
         <Button type='primary' className='float-right' htmlType='submit'>
           Подтвердить

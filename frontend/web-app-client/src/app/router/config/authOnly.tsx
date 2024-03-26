@@ -1,5 +1,4 @@
 import { RouteObject } from 'react-router-dom'
-import { privateWrapper } from 'app/router/lib'
 import {
   AccountPage,
   AccountsPage,
@@ -16,8 +15,8 @@ import {
   RatingPage,
   OperationPage,
 } from 'pages'
-import { OperationType } from 'entities/operation'
 import { AppRoutes } from 'shared/config'
+import { privateWrapper } from '../lib'
 
 const _privateRoutes: RouteObject[] = [
   {
@@ -30,11 +29,11 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.WITHDRAW,
-    element: <OperationPage type={OperationType.WITHDRAW} />,
+    element: <OperationPage type={'withdraw'} />,
   },
   {
     path: AppRoutes.DEPOSIT,
-    element: <OperationPage type={OperationType.DEPOSIT} />,
+    element: <OperationPage type={'deposit'} />,
   },
   {
     path: AppRoutes.HISTORY,

@@ -22,3 +22,17 @@ export type WithdrawReq = {
   message?: string
 }
 export type WithdrawResp = void
+
+export type TransferSelfReq = {
+  fromAccountId: string
+  toAccountId: string
+  amount: number
+}
+export type TransferSelfResp = void
+
+export type TransferUserReq = {
+  fromAccountId: string
+  userId: string
+  amount: number
+}
+export type TransferUserResp = void

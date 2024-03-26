@@ -1,16 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { TransferForm, TransferFormValues } from 'features/account'
-import { useGetAccountQuery } from 'entities/account'
-import { useDepositMutation, useWithdrawMutation } from 'entities/account'
-import { OperationType } from 'entities/operation'
+import { useGetAccountQuery, useDepositMutation, useWithdrawMutation } from 'entities/account'
 import { AppRoutes } from 'shared/config'
-import { toastError, toastSuccess } from 'shared/lib'
-import { convert } from 'shared/lib/format'
-import { PageLoader } from 'shared/ui'
-import { ErrorMsg } from 'shared/ui'
+import { toastError, toastSuccess, convert } from 'shared/lib'
+import { PageLoader, ErrorMsg } from 'shared/ui'
 
 export interface OperationPageProps {
-  type: OperationType.WITHDRAW | OperationType.DEPOSIT
+  type: 'withdraw' | 'deposit'
 }
 
 export const OperationPage = (props: OperationPageProps) => {
@@ -26,10 +22,10 @@ export const OperationPage = (props: OperationPageProps) => {
     try {
       const convertedValues = convert(values)
       switch (type) {
-        case OperationType.DEPOSIT:
+        case 'deposit':
           await deposit(convertedValues).unwrap()
           break
-        case OperationType.WITHDRAW:
+        case 'withdraw':
           await withdraw(convertedValues).unwrap()
           break
         default:

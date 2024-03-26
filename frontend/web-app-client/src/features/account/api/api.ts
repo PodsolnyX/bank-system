@@ -8,6 +8,10 @@ import {
   DepositReq,
   WithdrawResp,
   WithdrawReq,
+  TransferSelfResp,
+  TransferSelfReq,
+  TransferUserResp,
+  TransferUserReq,
 } from './types'
 
 export const endpoints = accountsApi.injectEndpoints({
@@ -45,6 +49,24 @@ export const endpoints = accountsApi.injectEndpoints({
         },
       }),
     }),
+    transferSelf: builder.mutation<TransferSelfResp, TransferSelfReq>({
+      query: (data) => ({
+        url: `/${data.fromAccountId}/transfer/${data.toAccountId}`,
+        method: 'POST',
+        params: {
+          amount: data.amount,
+        },
+      }),
+    }),
+    transferUser: builder.mutation<TransferUserResp, TransferUserReq>({
+      query: (data) => ({
+        url: `/${data.fromAccountId}/transfer/${data.userId}`,
+        method: 'POST',
+        params: {
+          amount: data.amount,
+        },
+      }),
+    }),
   }),
 })
 
@@ -53,4 +75,6 @@ export const {
   useCloseAccountMutation,
   useDepositMutation,
   useWithdrawMutation,
+  useTransferSelfMutation,
+  useTransferUserMutation
 } = endpoints
