@@ -7,9 +7,11 @@ import {
   SearchAccountDto,
   GetAccountDto,
   AccountDto,
+  TransferUserDto,
 } from 'dto/Account'
 import { PaginationReq } from 'dto/Common'
 import { CoreAPI } from 'repos/lib'
+import { TransferSelfDto } from 'dto/Account/TransferSelfDto'
 
 class AccountRepo {
   async OpenAccount(Dto: OpenAccountDto) {
@@ -37,7 +39,7 @@ class AccountRepo {
   }
 
   async Deposit(Dto: DepositDto) {
-    await CoreAPI.Req.post<Account>(`/account/user/${Dto.accountId}/deposit`, null, {
+    await CoreAPI.Req.post(`/account/user/${Dto.accountId}/deposit`, null, {
       params: {
         message: Dto.message,
         amount: Dto.amount,
@@ -46,12 +48,36 @@ class AccountRepo {
   }
 
   async Withdraw(Dto: WithdrawDto) {
-    await CoreAPI.Req.post<Account>(`/account/user/${Dto.accountId}/withdraw`, null, {
+    await CoreAPI.Req.post(`/account/user/${Dto.accountId}/withdraw`, null, {
       params: {
         message: Dto.message,
         amount: Dto.amount,
       },
     })
+  }
+
+  async TransferSelf(Dto: TransferSelfDto) {
+    await CoreAPI.Req.post(
+      `/account/user/${Dto.fromAccountId}/transfer/${Dto.toAccountId}`,
+      null,
+      {
+        params: {
+          amount: Dto.amount,
+        },
+      }
+    )
+  }
+
+  async TransferUser(Dto: TransferUserDto) {
+    await CoreAPI.Req.post(
+      `/account/user/${Dto.fromAccountId}/transfer/${Dto.userId}`,
+      null,
+      {
+        params: {
+          amount: Dto.amount,
+        },
+      }
+    )
   }
 }
 

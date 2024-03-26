@@ -11,7 +11,7 @@ class OperationHistoryController {
   }
 
   async GetOperationHistory(req: GetOperationHistoryReq, res: Response) {
-    const data = await this._OperationHistoryService.GetOperationHistory(req.body)
+    const data = await this._OperationHistoryService.GetOperationHistory(req.query)
     res.status(200).send(data)
   }
 }

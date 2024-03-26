@@ -6,6 +6,8 @@ import {
   WithdrawDto,
   SearchAccountDto,
   GetAccountDto,
+  TransferSelfDto,
+  TransferUserDto,
 } from 'dto/Account'
 import { PaginationReq } from 'dto/Common'
 
@@ -24,4 +26,17 @@ export type WithdrawReq = Request<
   {},
   {},
   Omit<WithdrawDto, 'accountId'>
+>
+export type TransferSelfReq = Request<
+  Omit<TransferSelfDto, 'amount'>,
+  {},
+  {},
+  Pick<TransferSelfDto, 'amount'>
+>
+
+export type TransferUserReq = Request<
+  Omit<TransferUserDto, 'amount'>,
+  {},
+  {},
+  Pick<TransferUserDto, 'amount'>
 >

@@ -5,6 +5,8 @@ import {
   GetAccountReq,
   GetAccountsReq,
   OpenAccountReq,
+  TransferSelfReq,
+  TransferUserReq,
   WithdrawReq,
 } from 'controllers/Account/types'
 
@@ -47,6 +49,22 @@ class AccountController {
 
   async Withdraw(req: WithdrawReq, res: Response) {
     const data = await this._AccountService.Withdraw({
+      ...req.query,
+      ...req.params,
+    })
+    res.status(200).send(data)
+  }
+
+  async TransferSelf(req: TransferSelfReq, res: Response) {
+    const data = await this._AccountService.TransferSelf({
+      ...req.query,
+      ...req.params,
+    })
+    res.status(200).send(data)
+  }
+
+  async TransferUser(req: TransferUserReq, res: Response) {
+    const data = await this._AccountService.TransferUser({
       ...req.query,
       ...req.params,
     })

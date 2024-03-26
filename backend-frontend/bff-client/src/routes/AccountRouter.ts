@@ -36,6 +36,16 @@ RouterHelper.use(AccountRouter, AccountControllerInst, [
     path: '/:accountId',
     handlers: [AccountControllerInst.GetAccount],
   },
+  {
+    method: 'post',
+    path: '/:fromAccountId/transfer/:toAccountId',
+    handlers: [AccountControllerInst.TransferSelf],
+  },
+  {
+    method: 'post',
+    path: '/:fromAccountId/transfer/:userId',
+    handlers: [AccountControllerInst.TransferUser],
+  },
 ])
 
 export default AccountRouter

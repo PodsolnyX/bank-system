@@ -6,7 +6,9 @@ import {
   WithdrawDto,
   SearchAccountDto,
   GetAccountDto,
+  TransferUserDto,
 } from 'dto/Account'
+import { TransferSelfDto } from 'dto/Account/TransferSelfDto'
 import { PaginationReq } from 'dto/Common'
 import { Account, FullAccount } from 'entities/Account'
 import { AccountRepo } from 'repos/AccountRepo'
@@ -62,6 +64,14 @@ class AccountService {
 
   async Withdraw(Dto: WithdrawDto) {
     return await this._AccountRepo.Withdraw(Dto)
+  }
+
+  async TransferSelf(Dto: TransferSelfDto) {
+    return await this._AccountRepo.TransferSelf(Dto)
+  }
+
+  async TransferUser(Dto: TransferUserDto) {
+    return await this._AccountRepo.TransferUser(Dto)
   }
 }
 
