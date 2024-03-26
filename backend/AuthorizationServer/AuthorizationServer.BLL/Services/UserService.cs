@@ -24,7 +24,8 @@ public class UserService
         ILogger<UserService> logger,
         SignInManager<IdentityUser> signInManager,
         IdentityDbContext dbContext
-    ) {
+    )
+    {
         _dbContext = dbContext;
         _userManager = userManager;
         _logger = logger;
@@ -40,6 +41,7 @@ public class UserService
         if (result.Succeeded)
         {
             await _userManager.AddToRoleAsync(user, "Client");
+            await _userManager.SetLockoutEnabledAsync(user, true);
             await Login(email, password);
             return;
         }
@@ -90,52 +92,64 @@ public class UserService
         var user = await _userManager.FindByIdAsync(userId);
         return user == null ? [] : (await _userManager.GetRolesAsync(user)).ToList();
     }
-    
-    public async Task<List<UserDto>> GetUserProfile(SearchUsersEmployeeDto dto) {
 
+    public async Task<List<UserDto>> GetUserProfile(SearchUsersEmployeeDto dto)
+    {
         var empRole = _dbContext.Roles.FirstOrDefault(e => e.Name == "Employee");
 
         var users = await _dbContext
-            .Users.Where( u=>
+            .Users.Where(u =>
                 (dto.UserIds.Count == 0 || dto.UserIds.Contains(new Guid(u.Id)))
                 && (string.IsNullOrEmpty(dto.Mail) || u.Email!.Contains(dto.Mail))
-                && (string.IsNullOrEmpty(dto.Name) || (u.UserName != null && u.UserName.Contains(dto.Name)))
+                && (
+                    string.IsNullOrEmpty(dto.Name)
+                    || (u.UserName != null && u.UserName.Contains(dto.Name))
+                )
                 && (dto.IsBanned == null || (dto.IsBanned == u.LockoutEnd.HasValue))
-                && (dto.IsEmployee == null || (dto.IsEmployee.Value && 
-                                               _dbContext.UserRoles.Any(e => e.RoleId == empRole.Id && e.UserId == u.Id)))
+                && (
+                    dto.IsEmployee == null
+                    || (
+                        dto.IsEmployee.Value
+                        && _dbContext.UserRoles.Any(e => e.RoleId == empRole.Id && e.UserId == u.Id)
+                    )
+                )
             )
             .ToPagedList(dto);
 
-        return users.Select(user => new UserDto {
-            Id = new Guid(user.Id),
-            Mail = user.Email,
-            Name = user.UserName,
-            IsEmployee =  _userManager.IsInRoleAsync(user, "Employee").Result,
-            BannedAt = user.LockoutEnd
-        }).ToList();
+        return users
+            .Select(user => new UserDto
+            {
+                Id = new Guid(user.Id),
+                Mail = user.Email,
+                Name = user.UserName,
+                IsEmployee = _userManager.IsInRoleAsync(user, "Employee").Result,
+                BannedAt = user.LockoutEnd
+            })
+            .ToList();
     }
-    
-    public async Task<Guid> CreateUser(UserCreateDto dto) {    
-        var user = new IdentityUser() {
-            Email = dto.Mail,
-            UserName = dto.Name,
-        };
+
+    public async Task<Guid> CreateUser(UserCreateDto dto)
+    {
+        var user = new IdentityUser() { Email = dto.Mail, UserName = dto.Name, };
         await _userManager.CreateAsync(user, "12345");
         await _userManager.AddToRoleAsync(user, "Client");
         if (dto.IsEmployee)
             await _userManager.AddToRoleAsync(user, "Employee");
         return new Guid(user.Id);
     }
-    
-    public async Task BanUser(Guid id) {    
+
+    public async Task BanUser(Guid id)
+    {
         var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null)
             throw new NotFoundException("User not found");
         if (await _userManager.IsLockedOutAsync(user))
             throw new ForbiddenException("Already banned");
         await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
-    }    
-    public async Task UnBanUser(Guid id) {    
+    }
+
+    public async Task UnBanUser(Guid id)
+    {
         var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null)
             throw new NotFoundException("User not found");
@@ -143,5 +157,21 @@ public class UserService
             throw new ForbiddenException("Not banned");
         user.LockoutEnd = null;
         await _userManager.UpdateAsync(user);
+    }
+
+    public async Task<UserPublicInfo> GetUserPublicInfo(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            _logger.LogError("User not found");
+            throw new NotFoundException("User not found");
+        }
+
+        return new UserPublicInfo
+        {
+            IsEmployee = await _userManager.IsInRoleAsync(user, "Employee"),
+            BannedAt = user.LockoutEnd
+        };
     }
 }

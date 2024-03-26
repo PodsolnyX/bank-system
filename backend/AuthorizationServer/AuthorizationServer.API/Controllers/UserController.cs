@@ -1,11 +1,8 @@
 ﻿using Auth.BLL.DataTransferObjects;
 using AuthorizationServer.BLL.DataTransferObjects;
 using AuthorizationServer.BLL.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OpenIddict.Abstractions;
-using OpenIddict.Server.AspNetCore;
 using OpenIddict.Validation.AspNetCore;
 
 namespace AuthorizationServer.MVC.Controllers;
@@ -17,6 +14,7 @@ public class UserController: Controller {
     public UserController(UserService userService) {
         _userService = userService;
     }
+    
     /// <summary>
     /// Get user profiles
     /// </summary>
@@ -26,6 +24,7 @@ public class UserController: Controller {
     public async Task<List<UserDto>> GetUserProfile(SearchUsersEmployeeDto dto) {
         return await _userService.GetUserProfile(dto);
     }
+    
     /// <summary>
     /// Create user
     /// </summary>
