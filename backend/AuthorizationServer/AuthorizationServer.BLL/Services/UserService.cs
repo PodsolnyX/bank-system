@@ -72,7 +72,11 @@ public class UserService
 
             await _signInManager.SignInWithClaimsAsync(
                 user,
-                new AuthenticationProperties() { ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1) },
+                new AuthenticationProperties()
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+                    IsPersistent = true
+                },
                 claims
             );
             return;
