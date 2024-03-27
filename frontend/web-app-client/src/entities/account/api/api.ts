@@ -18,9 +18,11 @@ export const endpoints = accountsApi.injectEndpoints({
   endpoints: (builder) => ({
     getAccounts: builder.query<GetAccountsResp, GetAccountsReq>({
       query: (params) => ({ url: '/', params }),
+      providesTags: ['accounts']
     }),
     getAccount: builder.query<GetAccountResp, GetAccountReq>({
       query: ({ id }) => ({ url: `/${id}` }),
+      providesTags: ['account']
     }),
     newAccount: builder.mutation<NewAccountResp, NewAccountReq>({
       query: (params) => ({

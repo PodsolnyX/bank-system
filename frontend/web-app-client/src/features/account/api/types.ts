@@ -36,3 +36,8 @@ export type TransferUserReq = {
   amount: number
 }
 export type TransferUserResp = void
+
+export type MakePriorityReq = {
+  accountId: string
+}
+export type MakePriorityResp = void

@@ -4,10 +4,12 @@ import {
   CloseCircleOutlined,
   DownOutlined,
   BankOutlined,
+  DollarCircleOutlined,
 } from '@ant-design/icons'
 import { Button, Dropdown, Space } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 
+import { useMakePriorityMutation } from 'features/account'
 import { useGetAccountQuery } from 'entities/account'
 import { HistoryTable } from 'entities/operation'
 import { OperationStatus, useGetHistoryQuery } from 'entities/operation'
@@ -20,6 +22,7 @@ import {
   getAccountTransferSelfLink,
   getAccountWithdrawLink,
 } from 'shared/config'
+import { toastError, toastSuccess } from 'shared/lib'
 import { format } from 'shared/lib/format'
 import { Center, ErrorMsg, PageHeader, PageLoader, Property } from 'shared/ui'
 
@@ -36,6 +39,15 @@ export const AccountPage = () => {
     ],
   })
   const accQuery = useGetAccountQuery({ id })
+  const [makePriority] = useMakePriorityMutation()
+  const priorityBtnClick = async () => {
+    try {
+      await makePriority({ accountId: id })
+      toastSuccess('Успешно')
+    } catch (err) {
+      toastError('Произошла ошибка')
+    }
+  }
 
   const isLoading = accQuery.isFetching || histQuery.isFetching
 
@@ -57,7 +69,7 @@ export const AccountPage = () => {
     <Center>
       <PageHeader text='Страница счета' />
 
-      <div className='flex flex-col lg:flex-row w-2/5 justify-evenly text-center'>
+      <div className='flex flex-col lg:flex-row justify-evenly text-center'>
         <Dropdown
           disabled={!!accQuery.data!.closedAt}
           menu={{
@@ -73,7 +85,7 @@ export const AccountPage = () => {
             ],
           }}
         >
-          <Button className='mb-2'>
+          <Button className='m-2'>
             <Space>
               <BankOutlined />
               Перевод
@@ -81,9 +93,18 @@ export const AccountPage = () => {
             </Space>
           </Button>
         </Dropdown>
+        {!accQuery.data?.isPriority && (
+            <Button
+              className='m-2'
+              icon={<DollarCircleOutlined />}
+              onClick={priorityBtnClick}
+            >
+              Приоритет
+            </Button>
+          )}
         <Link to={getAccountDepositLink(id)}>
           <Button
-            className='mb-2'
+            className='m-2'
             icon={<PlusCircleOutlined />}
             disabled={!!accQuery.data!.closedAt}
           >
@@ -92,7 +113,7 @@ export const AccountPage = () => {
         </Link>
         <Link to={getAccountWithdrawLink(id)}>
           <Button
-            className='mb-2'
+            className='m-2'
             icon={<MinusCircleOutlined />}
             disabled={!!accQuery.data!.closedAt || accQuery.data!.amount <= 0}
           >
@@ -102,7 +123,7 @@ export const AccountPage = () => {
         <Link to={getAccountCloseLink(id)}>
           <Button
             danger
-            className='mb-2'
+            className='m-2'
             icon={<CloseCircleOutlined />}
             disabled={!!accQuery.data!.closedAt || accQuery.data!.amount > 0}
           >

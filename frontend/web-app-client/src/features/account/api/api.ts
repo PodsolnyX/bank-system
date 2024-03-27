@@ -12,6 +12,8 @@ import {
   TransferSelfReq,
   TransferUserResp,
   TransferUserReq,
+  MakePriorityResp,
+  MakePriorityReq,
 } from './types'
 
 export const endpoints = accountsApi.injectEndpoints({
@@ -67,6 +69,13 @@ export const endpoints = accountsApi.injectEndpoints({
         },
       }),
     }),
+    makePriority: builder.mutation<MakePriorityResp, MakePriorityReq>({
+      query: (data) => ({
+        url: `/${data.accountId}/priority`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['account', 'accounts']
+    }),
   }),
 })
 
@@ -76,5 +85,6 @@ export const {
   useDepositMutation,
   useWithdrawMutation,
   useTransferSelfMutation,
-  useTransferUserMutation
+  useTransferUserMutation,
+  useMakePriorityMutation
 } = endpoints

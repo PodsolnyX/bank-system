@@ -1,6 +1,7 @@
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
 import { Link } from 'react-router-dom'
 
+import { MakePriorityReq } from 'features/account/api'
 import { HideAccountReq, ShowAccountReq } from 'features/preferences/@x/account'
 import { Account } from 'entities/account'
 import {
@@ -14,9 +15,16 @@ import {
 
 export const getAccountActions = (
   account: Account,
-  show: (id: ShowAccountReq) => any,
-  hide: (id: HideAccountReq) => any
+  show: (data: ShowAccountReq) => any,
+  hide: (data: HideAccountReq) => any,
+  makePriority: (data: MakePriorityReq) => any
 ): ItemType[] => [
+  {
+    label: 'Сделать приоритетным',
+    key: 'priority',
+    disabled: !!account.closedAt || account.isPriority,
+    onClick: () => makePriority({accountId: account.id})
+  },
   {
     label: <Link to={getAccountHistoryLink(account.id)}>История</Link>,
     disabled: false,

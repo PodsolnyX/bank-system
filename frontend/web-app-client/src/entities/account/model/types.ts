@@ -7,4 +7,5 @@ export type Account = {
   amount: number
   closedAt?: string | null
   hidden: boolean
+  isPriority: boolean
 }

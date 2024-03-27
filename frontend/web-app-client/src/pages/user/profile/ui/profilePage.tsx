@@ -5,15 +5,14 @@ import { Link } from 'react-router-dom'
 
 import { useTheme } from 'features/preferences'
 import { Theme } from 'entities/preferences'
-import { AppRoutes } from 'shared/config'
-import { Center, PageHeader, Property } from 'shared/ui'
-import { PageLoader } from 'shared/ui'
+import { extractFromJWT } from 'entities/user'
+import { Center, PageHeader, Property, PageLoader } from 'shared/ui'
 
 export const ProfilePage = () => {
   const { theme, setTheme } = useTheme()
   const { isLoading, userData } = useAuth()
-  const profile = userData?.profile
-  const roles = profile?.['roles']
+  const token = userData?.access_token
+  const data = extractFromJWT(token)
 
   if (isLoading) {
     return <PageLoader />
@@ -30,7 +29,7 @@ export const ProfilePage = () => {
         <Card
           title={
             <div className='flex items-center'>
-              <span className='text-pretty'>{profile?.name || 'Нет имени'}</span>
+              <span className='text-pretty'>{data.name}</span>
               <Switch
                 className='ms-auto'
                 value={theme === Theme.Dark}
@@ -44,14 +43,9 @@ export const ProfilePage = () => {
           }
           className='w-full md:w-1/2'
         >
-          <Property name='id' value={profile?.sub || '—'} className='m-0' />
-          <Property
-            name='Роль'
-            value={roles === 'Client' ? 'Клиент' : 'Клиент, сотрудник'}
-            className='m-0'
-          />
-          <Property name='Почта' value={profile?.email || '—'} className='m-0' />
-          <Link to={AppRoutes.MAIN}>Выйти</Link>
+          <Property name='id' value={data.id} className='m-0' />
+          <Property name='Почта' value={data.mail} className='m-0' />
+          <Link to={'https://coto-dev.ru/'}>Выйти</Link>
         </Card>
       )}
     </Center>

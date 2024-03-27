@@ -1,6 +1,6 @@
 import { Rule } from 'antd/es/form'
 
-const MIN = 0
+const MIN = 1
 const MAX = 10000000
 const requiredMsg = 'Пожалуйста, введите сумму!'
 const minMsg = `Сумма должна быть больше ${MIN}!`
