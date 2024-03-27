@@ -1,4 +1,4 @@
 export type AccessDto = {
-    isEmployee: boolean
-    bannedAt: string | null
+  isEmployee: boolean
+  bannedAt: string | null
 }

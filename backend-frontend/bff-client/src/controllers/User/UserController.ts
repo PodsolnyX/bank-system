@@ -1,14 +1,17 @@
 import { Response } from 'express'
-import { GetUserReq, GetUserStatusReq, RegisterReq } from './types'
+import { GetAccessInfoReq } from './types'
 import { UserService } from 'services/UserService'
-import { AuthHelper } from 'common'
 
-// deprecated
 class UserController {
   private _UserService: UserService
 
   constructor(UserService: UserService) {
     this._UserService = UserService
+  }
+
+  async GetAccessInfoById(req: GetAccessInfoReq, res: Response) {
+    const data = await this._UserService.GetAccessInfoById(req.params.userid)
+    res.status(200).send(data)
   }
 }
 

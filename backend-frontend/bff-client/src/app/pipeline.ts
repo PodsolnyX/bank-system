@@ -12,8 +12,8 @@ type PipelineItem = AppRoute | AppMiddleware
 export const pipeline: PipelineItem[] = [
   [cors(CORS_CONFIG)],
   [bodyParser.json()],
-  ['/auth/user', ROUTER.USER],
   [AuthMiddleware()],
+  ['/auth/user', ROUTER.USER],
   ['/account/user', ROUTER.ACCOUNT],
   ['/preferences/user', ROUTER.PREFERENCES],
   ['/loan/user', ROUTER.LOAN],

@@ -1,3 +1,3 @@
 export type AccountPriorityDto = {
-    accountId: string
+  accountId: string
 }

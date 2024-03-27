@@ -84,8 +84,7 @@ class AccountRepo {
   }
 
   async MakePriority(Dto: AccountPriorityDto, AuthInfo: AuthInfo) {
-    await CoreAPI.Req(AuthInfo).post(
-      `/account/user/${Dto.accountId}/priority`)
+    await CoreAPI.Req(AuthInfo).post(`/account/user/${Dto.accountId}/priority`)
   }
 }
 
