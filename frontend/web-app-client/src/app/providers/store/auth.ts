@@ -3,6 +3,7 @@ import { TOKEN_LS_NAME } from 'shared/config'
 
 const initialState = {
   token: localStorage.getItem(TOKEN_LS_NAME),
+  redirected: false
 }
 
 const authSlice = createSlice({
@@ -15,8 +16,11 @@ const authSlice = createSlice({
     unsetToken(state) {
       state.token = null
     },
+    finishRedirect(state) {
+      state.redirected = true
+    }
   },
 })
 
-export const { setToken, unsetToken } = authSlice.actions
+export const { setToken, unsetToken, finishRedirect } = authSlice.actions
 export const authReducer = authSlice.reducer

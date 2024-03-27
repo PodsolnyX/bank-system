@@ -1,3 +1,4 @@
+import { WebStorageStateStore } from 'oidc-client-ts'
 import { AuthProviderProps, UserManager } from 'oidc-react'
 import { TOKEN_LS_NAME } from 'shared/config'
 import { setToken, store, unsetToken } from '../store'
@@ -17,6 +18,9 @@ export const oidcConfig: AuthProviderProps = {
       //empty
     }
   },
+  onBeforeSignIn() {
+    return location.pathname;
+  },
   userManager: new UserManager({
     authority: 'https://coto-dev.ru',
     client_id: 'client',
@@ -28,5 +32,6 @@ export const oidcConfig: AuthProviderProps = {
     includeIdTokenInSilentSignout: true,
     revokeTokensOnSignout: true,
     revokeTokenTypes: ['access_token', 'refresh_token'],
+    userStore: new WebStorageStateStore({ store: window.localStorage }),
   }),
 }

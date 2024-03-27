@@ -25,7 +25,6 @@ function App() {
   const isLoading = isAuthLoading || hiddenAccs.isFetching || accessQuery.isFetching
   const isError = hiddenAccs.isError || accessQuery.isError
   const isBanned = accessQuery.data?.bannedAt !== null
-
   return isLoading ? (
     <Spinner />
   ) : isError ? (

@@ -1,9 +1,16 @@
 import { Flex } from 'antd'
-import { PageHeader, Center } from 'shared/ui'
+import { useAppSelector } from 'shared/lib'
+import { PageHeader, Center, PageLoader } from 'shared/ui'
 import { MainMenuItems } from '../config'
 import { MenuCard } from './menuCard'
 
 export const MainPage = () => {
+  const redirected = useAppSelector(store => store.authReducer.redirected)
+  
+  if (!redirected) {
+    return <PageLoader />
+  }
+
   return (
     <Center>
       <PageHeader text='Добро пожаловать' />
