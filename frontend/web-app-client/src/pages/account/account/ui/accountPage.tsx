@@ -94,14 +94,14 @@ export const AccountPage = () => {
           </Button>
         </Dropdown>
         {!accQuery.data?.isPriority && (
-            <Button
-              className='m-2'
-              icon={<DollarCircleOutlined />}
-              onClick={priorityBtnClick}
-            >
-              Приоритет
-            </Button>
-          )}
+          <Button
+            className='m-2'
+            icon={<DollarCircleOutlined />}
+            onClick={priorityBtnClick}
+          >
+            Приоритет
+          </Button>
+        )}
         <Link to={getAccountDepositLink(id)}>
           <Button
             className='m-2'

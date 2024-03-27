@@ -4,6 +4,7 @@ import {
   operationsApi,
   tariffsApi,
   preferencesApi,
+  userApi,
 } from 'shared/api'
 
 export const apiReducers = {
@@ -12,6 +13,7 @@ export const apiReducers = {
   [tariffsApi.reducerPath]: tariffsApi.reducer,
   [operationsApi.reducerPath]: operationsApi.reducer,
   [preferencesApi.reducerPath]: preferencesApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
 }
 
 export const apiMiddleware = [
@@ -20,4 +22,5 @@ export const apiMiddleware = [
   tariffsApi.middleware,
   operationsApi.middleware,
   preferencesApi.middleware,
+  userApi.middleware,
 ]

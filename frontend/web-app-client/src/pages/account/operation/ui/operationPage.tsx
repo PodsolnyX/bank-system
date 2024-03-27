@@ -1,6 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { TransferForm, TransferFormValues } from 'features/account'
-import { useGetAccountQuery, useDepositMutation, useWithdrawMutation } from 'entities/account'
+import {
+  useGetAccountQuery,
+  useDepositMutation,
+  useWithdrawMutation,
+} from 'entities/account'
 import { AppRoutes } from 'shared/config'
 import { toastError, toastSuccess, convert } from 'shared/lib'
 import { PageLoader, ErrorMsg } from 'shared/ui'

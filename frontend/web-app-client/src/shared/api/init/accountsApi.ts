@@ -9,5 +9,5 @@ export const accountsApi = createApi({
   keepUnusedDataFor: 0,
   refetchOnMountOrArgChange: true,
   endpoints: () => ({}),
-  tagTypes: ['account', 'accounts']
+  tagTypes: ['account', 'accounts'],
 })

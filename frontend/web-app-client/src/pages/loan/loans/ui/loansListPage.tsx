@@ -38,22 +38,22 @@ export const LoansListPage = () => {
   return (
     <Center>
       <PageHeader text='Список кредитов' />
-      
-        <div className='text-center'>
-          <Link to={AppRoutes.LOAN_NEW}>
-            <Button className='mb-2 mx-1' icon={<PlusCircleOutlined />}>
-              Новый кредит
-            </Button>
-          </Link>
-          <Button className='mb-2 mx-1' icon={<FieldTimeOutlined />} onClick={timeJump}>
-            Прыжок времени
+
+      <div className='text-center'>
+        <Link to={AppRoutes.LOAN_NEW}>
+          <Button className='mb-2 mx-1' icon={<PlusCircleOutlined />}>
+            Новый кредит
           </Button>
-          <Link to={AppRoutes.RATING}>
-            <Button className='mb-2 mx-1' icon={<PieChartOutlined />}>
-              Рейтинг
-            </Button>
-          </Link>
-        </div>
+        </Link>
+        <Button className='mb-2 mx-1' icon={<FieldTimeOutlined />} onClick={timeJump}>
+          Прыжок времени
+        </Button>
+        <Link to={AppRoutes.RATING}>
+          <Button className='mb-2 mx-1' icon={<PieChartOutlined />}>
+            Рейтинг
+          </Button>
+        </Link>
+      </div>
       <Tabs
         className='w-full md:w-2/3 flex justify-center align-center'
         centered

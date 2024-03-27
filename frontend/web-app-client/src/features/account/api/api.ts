@@ -74,7 +74,7 @@ export const endpoints = accountsApi.injectEndpoints({
         url: `/${data.accountId}/priority`,
         method: 'POST',
       }),
-      invalidatesTags: ['account', 'accounts']
+      invalidatesTags: ['account', 'accounts'],
     }),
   }),
 })
@@ -86,5 +86,5 @@ export const {
   useWithdrawMutation,
   useTransferSelfMutation,
   useTransferUserMutation,
-  useMakePriorityMutation
+  useMakePriorityMutation,
 } = endpoints

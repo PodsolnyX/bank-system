@@ -26,11 +26,11 @@ export const AccountsPage = () => {
   return (
     <Center>
       <PageHeader text='Список счетов' />
-        <Link to={AppRoutes.ACCOUNT_NEW}>
-          <Button className='mb-2' icon={<PlusCircleOutlined />}>
-            Новый счет
-          </Button>
-        </Link>
+      <Link to={AppRoutes.ACCOUNT_NEW}>
+        <Button className='mb-2' icon={<PlusCircleOutlined />}>
+          Новый счет
+        </Button>
+      </Link>
       <AccountsTable isLoading={accounts.isFetching} accounts={accounts.data!} />
     </Center>
   )

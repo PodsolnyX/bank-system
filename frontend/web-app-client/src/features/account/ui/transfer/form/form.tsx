@@ -42,7 +42,7 @@ export const TransferForm = (props: TransferFormProps) => {
         onFinish={onFinish}
         initialValues={{
           accountId: account.id,
-          fromAccountId: account.id
+          fromAccountId: account.id,
         }}
         isLoading={isLoading}
       >

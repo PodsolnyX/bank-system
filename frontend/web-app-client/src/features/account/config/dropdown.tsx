@@ -23,7 +23,7 @@ export const getAccountActions = (
     label: 'Сделать приоритетным',
     key: 'priority',
     disabled: !!account.closedAt || account.isPriority,
-    onClick: () => makePriority({accountId: account.id})
+    onClick: () => makePriority({ accountId: account.id }),
   },
   {
     label: <Link to={getAccountHistoryLink(account.id)}>История</Link>,
