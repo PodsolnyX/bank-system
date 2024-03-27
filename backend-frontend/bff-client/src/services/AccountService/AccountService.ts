@@ -7,6 +7,7 @@ import {
   SearchAccountDto,
   GetAccountDto,
   TransferUserDto,
+  AccountPriorityDto,
 } from 'dto/Account'
 import { TransferSelfDto } from 'dto/Account/TransferSelfDto'
 import { PaginationReq } from 'dto/Common'
@@ -72,6 +73,10 @@ class AccountService {
 
   async TransferUser(Dto: TransferUserDto, AuthInfo: AuthInfo) {
     return await this._AccountRepo.TransferUser(Dto, AuthInfo)
+  }
+
+  async MakePriority(Dto: AccountPriorityDto, AuthInfo: AuthInfo) {
+    return await this._AccountRepo.MakePriority(Dto, AuthInfo)
   }
 }
 

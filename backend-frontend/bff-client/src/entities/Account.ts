@@ -6,6 +6,7 @@ export type Account = {
   currencyType: CurrencyType
   amount: number
   closedAt?: string | null
+  isPriority: boolean
 }
 
 export type FullAccount = Account & {

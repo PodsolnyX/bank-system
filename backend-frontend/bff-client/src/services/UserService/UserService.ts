@@ -9,12 +9,8 @@ class UserService {
     this._UserRepo = UserRepo
   }
 
-  async GetProfile(Dto: GetProfileDto, AuthInfo: AuthInfo) {
-    return await this._UserRepo.GetProfile(Dto, AuthInfo)
-  }
-
-  async GetStatus(Dto: GetUserStatusDto, AuthInfo: AuthInfo) {
-    return await this._UserRepo.GetStatus(Dto, AuthInfo)
+  async GetAccessInfoById(id: string) {
+    return await this._UserRepo.GetAccessInfoById(id)
   }
 }
 

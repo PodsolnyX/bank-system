@@ -4,6 +4,7 @@ import {
   DepositReq,
   GetAccountReq,
   GetAccountsReq,
+  MakePriorityReq,
   OpenAccountReq,
   TransferSelfReq,
   TransferUserReq,
@@ -81,6 +82,11 @@ class AccountController {
       },
       AuthHelper.Data(req)
     )
+    res.status(200).send(data)
+  }
+
+  async MakePriority(req: MakePriorityReq, res: Response) {
+    const data = await this._AccountService.MakePriority(req.params, AuthHelper.Data(req))
     res.status(200).send(data)
   }
 }

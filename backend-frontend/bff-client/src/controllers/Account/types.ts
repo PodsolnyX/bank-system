@@ -8,6 +8,7 @@ import {
   GetAccountDto,
   TransferSelfDto,
   TransferUserDto,
+  AccountPriorityDto,
 } from 'dto/Account'
 import { PaginationReq } from 'dto/Common'
 
@@ -40,3 +41,5 @@ export type TransferUserReq = Request<
   {},
   Pick<TransferUserDto, 'amount'>
 >
+
+export type MakePriorityReq = Request<AccountPriorityDto>

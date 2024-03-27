@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import type { Response, Router, Request, NextFunction } from 'express'
-import { AuthMiddleware } from 'middleware/Auth'
+import { AuthMiddleware } from 'init/AuthMiddleware'
 import { ROUTER } from 'routes'
 import { CORS_CONFIG } from './config'
 

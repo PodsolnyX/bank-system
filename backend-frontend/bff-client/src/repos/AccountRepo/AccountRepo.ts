@@ -8,6 +8,7 @@ import {
   GetAccountDto,
   AccountDto,
   TransferUserDto,
+  AccountPriorityDto,
 } from 'dto/Account'
 import { PaginationReq } from 'dto/Common'
 import { CoreAPI } from 'repos/lib'
@@ -72,7 +73,7 @@ class AccountRepo {
 
   async TransferUser(Dto: TransferUserDto, AuthInfo: AuthInfo) {
     await CoreAPI.Req(AuthInfo).post(
-      `/account/user/${Dto.fromAccountId}/transfer/${Dto.userId}`,
+      `/account/user/${Dto.fromAccountId}/transfer/${Dto.userId}/toUser`,
       null,
       {
         params: {
@@ -80,6 +81,11 @@ class AccountRepo {
         },
       }
     )
+  }
+
+  async MakePriority(Dto: AccountPriorityDto, AuthInfo: AuthInfo) {
+    await CoreAPI.Req(AuthInfo).post(
+      `/account/user/${Dto.accountId}/priority`)
   }
 }
 

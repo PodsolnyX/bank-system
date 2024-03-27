@@ -1,20 +1,10 @@
-import { User } from 'entities/User'
-import { GetProfileDto, GetUserStatusDto, GetUserStatusResp } from 'dto/User'
+import { AccessDto } from 'dto/User/AccessDto'
 import { AuthAPI } from 'repos/lib'
-import { AuthInfo } from 'common'
 
 class UserRepo {
-  async GetProfile(Dto: GetProfileDto, AuthInfo: AuthInfo) {
+  async GetAccessInfoById(id: string) {
     return (
-      await AuthAPI.Req(AuthInfo).get<User>('/auth/user', {
-        params: Dto,
-      })
-    ).data
-  }
-
-  async GetStatus(Dto: GetUserStatusDto, AuthInfo: AuthInfo) {
-    return (
-      await AuthAPI.Req(AuthInfo).get<GetUserStatusResp>('/auth/user', { params: Dto })
+      await AuthAPI.Req(null).get<AccessDto>(`/public/${id}`)
     ).data
   }
 }
