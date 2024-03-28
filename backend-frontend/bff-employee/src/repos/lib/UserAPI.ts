@@ -1,5 +1,5 @@
 import { BaseReq } from './BaseAPI'
 
-export class AuthAPI extends BaseReq {
+export class UserAPI extends BaseReq {
   protected static BASE_URL = 'http://109.107.189.133:7005'
 }

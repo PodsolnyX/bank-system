@@ -4,14 +4,14 @@ import {Link} from "react-router-dom";
 import {Links} from "../../../constants/Links.ts";
 import {DownOutlined, LoginOutlined} from "@ant-design/icons";
 import {MenuLinks} from "../constants/MenuLinks.ts";
-import {useAuth} from "../../../app/providers/auth";
+import {useAuth} from "oidc-react";
 
 const Header = () => {
 
-    const {signOut, isAuth} = useAuth()
+    const {userData} = useAuth()
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
-        if (key === "logout") signOut()
+        if (key === "logout") {}
     };
 
 
@@ -31,7 +31,7 @@ const Header = () => {
                     </div>
                 </Link>
                 {
-                    isAuth &&
+                    userData &&
                     <div className={"flex flex-wrap justify-between flex-1"}>
                         <div className={"flex gap-3"}>
                             {

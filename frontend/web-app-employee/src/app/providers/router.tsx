@@ -6,15 +6,15 @@ import MainPage from "../../pages/main";
 import TariffsPage from "../../pages/tariffs";
 import AccountPage from "../../pages/account";
 import LoginPage from "../../pages/login";
-import {useAuth} from "./auth";
 import UserInfoPage from "../../pages/userInfo";
 import LoanPage from "../../pages/loan";
+import {useAuth} from "oidc-react";
 
 const Router = () => {
 
-    const {isAuth} = useAuth();
+    const {userData} = useAuth();
 
-    return ( isAuth ? <AuthRoutes/> : <UnauthRoutes/> )
+    return ( !!userData ? <AuthRoutes/> : <UnauthRoutes/> )
 }
 
 const AuthRoutes = () => {

@@ -1,5 +1,5 @@
 import {GetProfileParamsDto} from "./models/GetProfileParamsDto.ts";
-import {instance} from "../../api/instance.ts";
+import {instance} from "../../shared/api/instance.ts";
 import {UserDto} from "./models/UserDto.ts";
 import {SearchUsersDto} from "./models/SearchUsersDto.ts";
 import {Pagination} from "../common/Pagination.ts";

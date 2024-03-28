@@ -2,10 +2,11 @@ import {
   SearchAccountDto,
   GetAccountDto,
 } from 'dto/Account'
-import { PaginationReq, WithUser } from 'dto/Common'
+import { PaginationReq } from 'dto/Common'
 import {AuthAPI, CoreAPI} from "../../repos/lib";
 import {Account} from "../../entities/Account";
 import {User} from "../../entities/User";
+import {AuthInfo} from "common/Auth";
 
 class AccountService {
 
@@ -15,16 +16,18 @@ class AccountService {
     this.GetAllAccounts = this.GetAllAccounts.bind(this)
   }
 
-  async GetAllAccounts(Dto: WithUser<PaginationReq<SearchAccountDto>>) {
+  async GetAllAccounts(Dto: PaginationReq<SearchAccountDto>, AuthInfo: AuthInfo) {
 
-    const accountsRes = await CoreAPI.Req.get<Account[]>(
+    const accountsRes = await CoreAPI.Req(AuthInfo).get<Account[]>(
         '/account/employee', {
       params: Dto,
     })
 
+    console.log(accountsRes.data, 4444)
+
     const userIds = [...new Set(accountsRes.data.map(it => it.userId))]
 
-    const usersRes = await AuthAPI.Req.get<User[]>('/auth/employee', {
+    const usersRes = await AuthAPI.Req(AuthInfo).get<User[]>('/user/profiles', {
       params: {
         userIds: userIds
       },
@@ -40,8 +43,8 @@ class AccountService {
     )
   }
 
-  async GetAccount(Dto: WithUser<GetAccountDto>) {
-    return (await CoreAPI.Req.get<Account>(`/account/employee/${Dto.AccountId}`)).data
+  async GetAccount(Dto: GetAccountDto, AuthInfo: AuthInfo) {
+    return (await CoreAPI.Req(AuthInfo).get<Account>(`/account/employee/${Dto.AccountId}`)).data
   }
 }
 

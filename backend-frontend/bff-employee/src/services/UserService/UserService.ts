@@ -8,10 +8,13 @@ import {
     UserBanDto, SearchUsersDto
 } from 'dto/User'
 import {AuthAPI, CoreAPI, LoanAPI} from "repos/lib";
-import {PaginationReq, WithUser} from "../../dto/Common";
+import {PaginationReq} from "../../dto/Common";
 import {GetUserInfoDto} from "../../dto/Account/GetUserInfoDto";
 import {Account} from "../../entities/Account";
 import {Loan} from "../../entities/Loan";
+import {UserAPI} from "../../repos/lib/UserAPI";
+import {AccessDto} from "../../dto/User/AccessDto";
+import {AuthInfo} from "common/Auth";
 
 class UserService {
 
@@ -23,33 +26,38 @@ class UserService {
         this.CreateUser = this.CreateUser.bind(this)
         this.BanUser = this.BanUser.bind(this)
         this.GetUserInfo = this.GetUserInfo.bind(this)
+        this.GetAccessInfoById = this.GetAccessInfoById.bind(this)
     }
 
-    async GetStatus(Dto: GetUserStatusDto) {
-        return (await AuthAPI.Req.get<GetUserStatusResp>('/auth/user', {params: Dto})).data
+    async GetAccessInfoById(id: string) {
+        return (await UserAPI.Req(null).get<AccessDto>(`/public/${id}`)).data
     }
 
-    async GetProfile(Dto: GetProfileDto) {
+    async GetStatus(Dto: GetUserStatusDto, AuthInfo: AuthInfo) {
+        return (await AuthAPI.Req(AuthInfo).get<GetUserStatusResp>('/user/profiles', {params: Dto})).data
+    }
+
+    async GetProfile(Dto: GetProfileDto, AuthInfo: AuthInfo) {
         return (
-            await AuthAPI.Req.get<UserDto>('/auth/user', {
+            await AuthAPI.Req(AuthInfo).get<UserDto>('/user/profiles', {
                 params: Dto,
             })
         ).data
     }
 
-    async GetUserInfo(Dto: WithUser<GetUserInfoDto>) {
+    async GetUserInfo(Dto: GetUserInfoDto, AuthInfo: AuthInfo) {
 
-        const userRes = await AuthAPI.Req.get<UserDto[]>(
-            '/auth/employee', {
+        const userRes = await AuthAPI.Req(AuthInfo).get<UserDto[]>(
+            '/user/profiles', {
                 params: { userIds: [Dto.UserId] }
             })
 
-        const accountsRes = await CoreAPI.Req.get<Account[]>(
+        const accountsRes = await CoreAPI.Req(AuthInfo).get<Account[]>(
             '/account/employee', {
                 params: { userIds: [Dto.UserId] }
             })
 
-        const loansRes = await LoanAPI.Req.get<Loan[]>(
+        const loansRes = await LoanAPI.Req(AuthInfo).get<Loan[]>(
             '/loan/employee', {
                 params: { userIds: [Dto.UserId] }
             })
@@ -62,22 +70,22 @@ class UserService {
 
     }
 
-    async GetUsers(Dto: WithUser<PaginationReq<SearchUsersDto>>) {
+    async GetUsers(Dto: PaginationReq<SearchUsersDto>, AuthInfo: AuthInfo) {
         return (
-            await AuthAPI.Req.get<UserDto[]>('/auth/employee', {
+            await AuthAPI.Req(AuthInfo).get<UserDto[]>('/user/profiles', {
                 params: Dto,
             })
         ).data
     }
 
-    async CreateUser(Dto: UserCreateDto) {
+    async CreateUser(Dto: UserCreateDto, AuthInfo: AuthInfo) {
         return (
-            await AuthAPI.Req.post<UserCreateResp>('/auth/employee', Dto)
+            await AuthAPI.Req(AuthInfo).post<UserCreateResp>('/user/create', Dto)
         ).data
     }
 
-    async BanUser(Dto: UserBanDto) {
-        return (await AuthAPI.Req.post(`/auth/employee/${Dto.UserId}`)).data
+    async BanUser(Dto: UserBanDto, AuthInfo: AuthInfo) {
+        return (await AuthAPI.Req(AuthInfo).post(`/user/ban/${Dto.UserId}`)).data
     }
 }
 

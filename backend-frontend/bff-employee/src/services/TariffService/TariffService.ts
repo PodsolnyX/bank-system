@@ -1,8 +1,9 @@
-import { PaginationReq, WithUser } from 'dto/Common'
+import { PaginationReq } from 'dto/Common'
 import {SearchTariffDto, TariffDto} from 'dto/Loan'
 import {LoanAPI} from "../../repos/lib";
 import {DeleteTariffDto} from "../../dto/Loan/DeleteTariffDto";
 import {CreateTariffDto} from "../../dto/Loan/CreateTariffDto";
+import {AuthInfo} from "common/Auth";
 
 class TariffService {
 
@@ -11,23 +12,23 @@ class TariffService {
     this.GetTariffs = this.GetTariffs.bind(this)
   }
 
-  async GetTariffs(Dto: WithUser<PaginationReq<SearchTariffDto>>) {
+  async GetTariffs(Dto: PaginationReq<SearchTariffDto>, AuthInfo: AuthInfo) {
     return (
-        await LoanAPI.Req.get<TariffDto[]>('/tariff/employee', {
+        await LoanAPI.Req(AuthInfo).get<TariffDto[]>('/tariff/employee', {
           params: Dto,
         })
     ).data
   }
 
-    async CreateTariff(Dto: WithUser<CreateTariffDto>) {
+    async CreateTariff(Dto: CreateTariffDto, AuthInfo: AuthInfo) {
         return (
-            await LoanAPI.Req.post('/tariff/employee', Dto)
+            await LoanAPI.Req(AuthInfo).post('/tariff/employee', Dto)
         ).data
     }
 
-    async DeleteTariff(Dto: WithUser<DeleteTariffDto>) {
+    async DeleteTariff(Dto: DeleteTariffDto, AuthInfo: AuthInfo) {
         return (
-            await LoanAPI.Req.delete(`/tariff/employee/${Dto.tariffId}`)
+            await LoanAPI.Req(AuthInfo).delete(`/tariff/employee/${Dto.tariffId}`)
         ).data
     }
 }

@@ -1,4 +1,4 @@
-import {instance} from "../../api/instance.ts";
+import {instance} from "../../shared/api/instance.ts";
 import {AccountDto} from "./models/AccountDto.ts";
 
 class AccountService {

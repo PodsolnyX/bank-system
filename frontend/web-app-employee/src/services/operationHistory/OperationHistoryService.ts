@@ -1,4 +1,4 @@
-import {instance} from "../../api/instance.ts";
+import {instance} from "../../shared/api/instance.ts";
 import {OperationDto} from "./models/OperationDto.ts";
 import {SearchOperationDto} from "./models/SearchOperationDto.ts";
 
