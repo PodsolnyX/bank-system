@@ -4,7 +4,6 @@ import {
   AccountsPage,
   LoanPage,
   LoansListPage,
-  HistoryPage,
   MainPage,
   NewAccountPage,
   TransferPage,
@@ -34,10 +33,6 @@ const _privateRoutes: RouteObject[] = [
   {
     path: AppRoutes.DEPOSIT,
     element: <OperationPage type={'deposit'} />,
-  },
-  {
-    path: AppRoutes.HISTORY,
-    element: <HistoryPage />,
   },
   {
     path: AppRoutes.LOANS,

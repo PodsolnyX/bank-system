@@ -9,4 +9,5 @@ export const operationsApi = createApi({
   refetchOnMountOrArgChange: true,
   baseQuery: baseQueryWithAuth({ baseUrl: API_OPERATIONS, credentials: 'include' }),
   endpoints: () => ({}),
+  tagTypes: ['history'],
 })

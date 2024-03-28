@@ -14,10 +14,10 @@ const leftLinks: MenuLinkDescription[] = [
     label: 'Кредиты',
     to: AppRoutes.LOANS,
   },
-  {
+  /*{
     label: 'История',
     to: AppRoutes.HISTORY,
-  },
+  },*/
 ]
 
 const rightLinks: MenuLinkDescription[] = [

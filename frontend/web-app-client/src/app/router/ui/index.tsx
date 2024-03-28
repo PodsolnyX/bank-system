@@ -1,8 +1,8 @@
 import { useAuth } from 'oidc-react'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { finishRedirect } from 'app/providers'
 import { Header } from 'widgets/header'
+import { finishRedirect } from 'features/auth'
 import { useAppDispatch, useAppSelector } from 'shared/lib'
 
 export const Layout = () => {

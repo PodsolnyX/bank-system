@@ -19,7 +19,7 @@ export const AccountsPage = () => {
     )
   }
 
-  if (accounts.isFetching) {
+  if (accounts.isLoading) {
     return <PageLoader />
   }
 

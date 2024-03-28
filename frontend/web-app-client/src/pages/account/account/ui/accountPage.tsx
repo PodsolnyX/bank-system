@@ -50,7 +50,7 @@ export const AccountPage = () => {
     }
   }
 
-  const isLoading = accQuery.isFetching || histQuery.isFetching
+  const isLoading = accQuery.isLoading || histQuery.isLoading
 
   if (isLoading) {
     return <PageLoader />
@@ -68,7 +68,9 @@ export const AccountPage = () => {
 
   return (
     <Center>
-      <PageHeader text={accQuery.data?.isPriority ? 'Страница счета (приор.)' : 'Страница счета'} />
+      <PageHeader
+        text={accQuery.data?.isPriority ? 'Страница счета (приор.)' : 'Страница счета'}
+      />
       <div className='flex flex-col lg:flex-row justify-evenly mb-2 text-center'>
         <Dropdown
           disabled={!!accQuery.data!.closedAt}
