@@ -36,7 +36,7 @@ export const TransferForm = (props: TransferFormProps) => {
   const mono = type === 'deposit' || type === 'withdraw'
   const bi = !mono
 
-  if (accounts.isSuccess && !validAccounts?.length) {
+  if (accounts.isSuccess && type === 'self' && !validAccounts?.length) {
     return (
       <ErrorMsg
         link={AppRoutes.ACCOUNT_NEW}

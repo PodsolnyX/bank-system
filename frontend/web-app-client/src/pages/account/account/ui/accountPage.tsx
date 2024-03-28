@@ -40,6 +40,7 @@ export const AccountPage = () => {
   })
   const accQuery = useGetAccountQuery({ id })
   const [makePriority] = useMakePriorityMutation()
+
   const priorityBtnClick = async () => {
     try {
       await makePriority({ accountId: id })
@@ -67,9 +68,8 @@ export const AccountPage = () => {
 
   return (
     <Center>
-      <PageHeader text='Страница счета' />
-
-      <div className='flex flex-col lg:flex-row justify-evenly text-center'>
+      <PageHeader text={accQuery.data?.isPriority ? 'Страница счета (приор.)' : 'Страница счета'} />
+      <div className='flex flex-col lg:flex-row justify-evenly mb-2 text-center'>
         <Dropdown
           disabled={!!accQuery.data!.closedAt}
           menu={{
@@ -93,15 +93,14 @@ export const AccountPage = () => {
             </Space>
           </Button>
         </Dropdown>
-        {!accQuery.data?.isPriority && (
-          <Button
-            className='m-2'
-            icon={<DollarCircleOutlined />}
-            onClick={priorityBtnClick}
-          >
-            Приоритет
-          </Button>
-        )}
+        <Button
+          className='m-2'
+          icon={<DollarCircleOutlined />}
+          onClick={priorityBtnClick}
+          disabled={!!accQuery.data?.isPriority || !!accQuery.data?.closedAt}
+        >
+          Приоритет
+        </Button>
         <Link to={getAccountDepositLink(id)}>
           <Button
             className='m-2'
