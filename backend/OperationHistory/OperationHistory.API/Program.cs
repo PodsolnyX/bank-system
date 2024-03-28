@@ -6,19 +6,22 @@ using Common.Configuration;
 using Microsoft.OpenApi.Models;
 using OperationHistory.API;
 using OperationHistory.BLL.Extensions;
+using OperationHistory.BLL.Hubs;
 using OperationHistory.BLL.Jobs;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(
+        policy => {
+            policy.WithOrigins("null")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowed(_ => true);
+        });
 });
-
 builder
     .Services.AddControllers()
     .AddJsonOptions(opts =>
@@ -26,7 +29,6 @@ builder
         var enumConverter = new JsonStringEnumConverter();
         opts.JsonSerializerOptions.Converters.Add(enumConverter);
     });
-
 builder.Services.AddJwtAuthorization();
 
 // Add services to the container.
@@ -62,11 +64,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.ConfigureJobs();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors();
 app.UseWebSockets();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/api/notifications");
+
 app.Run();

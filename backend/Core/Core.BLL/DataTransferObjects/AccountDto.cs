@@ -10,6 +10,8 @@ public class AccountDto
     public CurrencyType CurrencyType { get; set; }
     public int Amount { get; set; }
     public DateTime? ClosedAt { get; set; }
+    public bool IsPriority { get; set; } = false;
+
 }
 
 public static class AccountDtoExtensions
@@ -22,7 +24,8 @@ public static class AccountDtoExtensions
             UserId = account.UserId,
             CurrencyType = account.CurrencyType,
             Amount = account.Amount,
-            ClosedAt = account.DeletedAt
+            ClosedAt = account.DeletedAt,
+            IsPriority = account.IsPriority
         };
     }
 }
