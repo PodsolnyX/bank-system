@@ -1,4 +1,4 @@
-import { HideAccountDto, ShowAccountDto, UpdateThemeDto } from 'dto/Preferences'
+import { HideAccountDto, ShowAccountDto, UpdateThemeDto } from 'dto/Preferences/req'
 import { PreferencesRepo } from 'repos/PreferencesRepo'
 import { Theme } from 'entities/Preferences'
 import { ReqError } from 'common/ReqError'

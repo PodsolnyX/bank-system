@@ -1,13 +1,11 @@
 import { MongoClient, Db, Collection, Document } from 'mongodb'
 
+import { HideAccountDto, ShowAccountDto, UpdateThemeDto } from 'dto/Preferences/req'
 import {
   GetHiddenAccountsDto,
   GetPreferencesDto,
   GetThemeDto,
-  HideAccountDto,
-  ShowAccountDto,
-  UpdateThemeDto,
-} from 'dto/Preferences'
+} from 'dto/Preferences/resp'
 import { Preferences, Theme } from 'entities/Preferences'
 import { PreferencesDocument } from 'repos/PreferencesRepo/types'
 import { AuthInfo } from 'common'

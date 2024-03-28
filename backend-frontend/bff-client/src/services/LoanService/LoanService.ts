@@ -1,10 +1,10 @@
-import { PaginationReq } from 'dto/Common'
+import { PaginationReq } from 'dto/Common/req'
 import {
   ChargeLoanDto,
   RequestLoanDto,
   SearchLoanUserDto,
   GetPaymentsDto,
-} from 'dto/Loan'
+} from 'dto/Loan/req'
 import { LoanRepo } from 'repos/LoanRepo'
 import { AuthInfo } from 'common'
 

@@ -1,6 +1,6 @@
 import { AuthInfo } from 'common'
-import { PaginationReq } from 'dto/Common'
-import { SearchTariffDto } from 'dto/Loan'
+import { PaginationReq } from 'dto/Common/req'
+import { SearchTariffDto } from 'dto/Tariff/req'
 import { TariffRepo } from 'repos/TariffRepo'
 
 class TariffService {

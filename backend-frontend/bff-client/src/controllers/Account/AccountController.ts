@@ -27,7 +27,7 @@ class AccountController {
   }
 
   async CloseAccount(req: CloseAccountReq, res: Response) {
-    const data = await this._AccountService.CloseAccount(req.body, AuthHelper.Data(req))
+    const data = await this._AccountService.CloseAccount(req.params, AuthHelper.Data(req))
     res.status(200).send(data)
   }
 

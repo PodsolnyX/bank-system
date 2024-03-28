@@ -1,14 +1,13 @@
 import { AuthInfo } from 'common'
-import { PaginationReq } from 'dto/Common'
+import { PaginationReq } from 'dto/Common/req'
 import {
   ChargeLoanDto,
   RequestLoanDto,
-  LoanDto,
   SearchLoanUserDto,
-  UserPaymentDto,
   GetPaymentsDto,
   LoanRatingDto,
-} from 'dto/Loan'
+} from 'dto/Loan/req'
+import { LoanDto, UserPaymentDto } from 'dto/Loan/resp'
 import { LoanAPI } from 'repos/lib'
 
 class LoanRepo {

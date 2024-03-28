@@ -14,7 +14,7 @@ export class AuthHelper {
       id: '',
     }
     try {
-      info.id = JSON.parse(jwtDecode(token)).sub
+      info.id = jwtDecode(token).sub || ''
     } catch {}
 
     return info

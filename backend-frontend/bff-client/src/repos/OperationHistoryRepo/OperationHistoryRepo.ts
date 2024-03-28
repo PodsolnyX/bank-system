@@ -1,6 +1,7 @@
 import { AuthInfo } from 'common'
-import { PaginationReq } from 'dto/Common'
-import { SearchOperationUserDto, OperationDto } from 'dto/OperationHistory'
+import { PaginationReq } from 'dto/Common/req'
+import { SearchOperationUserDto } from 'dto/OperationHistory/req'
+import { OperationDto } from 'dto/OperationHistory/resp'
 import { OperationAPI } from 'repos/lib'
 
 class OperationHistoryRepo {

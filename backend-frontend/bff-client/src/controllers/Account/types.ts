@@ -9,11 +9,11 @@ import {
   TransferSelfDto,
   TransferUserDto,
   AccountPriorityDto,
-} from 'dto/Account'
-import { PaginationReq } from 'dto/Common'
+} from 'dto/Account/req'
+import { PaginationReq } from 'dto/Common/req'
 
 export type OpenAccountReq = Request<{}, {}, {}, OpenAccountDto>
-export type CloseAccountReq = Request<{}, {}, CloseAccountDto>
+export type CloseAccountReq = Request<CloseAccountDto>
 export type GetAccountsReq = Request<{}, {}, {}, PaginationReq<SearchAccountDto>>
 export type GetAccountReq = Request<GetAccountDto>
 export type DepositReq = Request<

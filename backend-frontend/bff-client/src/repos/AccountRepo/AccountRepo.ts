@@ -6,13 +6,13 @@ import {
   WithdrawDto,
   SearchAccountDto,
   GetAccountDto,
-  AccountDto,
+  TransferSelfDto,
   TransferUserDto,
   AccountPriorityDto,
-} from 'dto/Account'
-import { PaginationReq } from 'dto/Common'
+} from 'dto/Account/req'
+import { AccountDto } from 'dto/Account/resp'
+import { PaginationReq } from 'dto/Common/req'
 import { CoreAPI } from 'repos/lib'
-import { TransferSelfDto } from 'dto/Account/TransferSelfDto'
 import { AuthInfo } from 'common'
 
 class AccountRepo {
@@ -25,7 +25,7 @@ class AccountRepo {
   }
 
   async CloseAccount(Dto: CloseAccountDto, AuthInfo: AuthInfo) {
-    await CoreAPI.Req(AuthInfo).delete<Account>(`/account/user/${Dto.accountId}`)
+    await CoreAPI.Req(AuthInfo).delete(`/account/user/${Dto.accountId}`)
   }
 
   async GetAccounts(Dto: PaginationReq<SearchAccountDto>, AuthInfo: AuthInfo) {

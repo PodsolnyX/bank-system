@@ -7,10 +7,10 @@ import {
   SearchAccountDto,
   GetAccountDto,
   TransferUserDto,
+  TransferSelfDto,
   AccountPriorityDto,
-} from 'dto/Account'
-import { TransferSelfDto } from 'dto/Account/TransferSelfDto'
-import { PaginationReq } from 'dto/Common'
+} from 'dto/Account/req'
+import { PaginationReq } from 'dto/Common/req'
 import { Account, FullAccount } from 'entities/Account'
 import { AccountRepo } from 'repos/AccountRepo'
 import { PreferencesRepo } from 'repos/PreferencesRepo'
