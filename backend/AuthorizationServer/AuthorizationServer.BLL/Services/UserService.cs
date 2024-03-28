@@ -100,10 +100,10 @@ public class UserService
     public async Task<List<UserDto>> GetUserProfile(SearchUsersEmployeeDto dto)
     {
         var empRole = _dbContext.Roles.FirstOrDefault(e => e.Name == "Employee");
-
+        var listGuid = dto.UserIds.ConvertAll((e) => e.ToString());
         var users = await _dbContext
             .Users.Where(u =>
-                (dto.UserIds.Count == 0 || dto.UserIds.Contains(new Guid(u.Id)))
+                (dto.UserIds.Count == 0 || listGuid.Contains(u.Id))
                 && (string.IsNullOrEmpty(dto.Mail) || u.Email!.Contains(dto.Mail))
                 && (
                     string.IsNullOrEmpty(dto.Name)
