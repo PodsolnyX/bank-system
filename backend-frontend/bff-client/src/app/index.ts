@@ -1,7 +1,10 @@
 import express, { Application } from 'express'
-import { pipeline } from './pipeline'
+import { WebSocketServer } from 'ws'
 
-import { PORT } from 'app/config'
+import { pipeline } from './pipeline'
+import { PORT, WS_PATH, WS_PORT } from './config'
+
+import { WSHistory } from 'socket'
 
 const app = express()
 
@@ -15,3 +18,6 @@ app.listen(PORT, () => console.log(`Express - localhost:${PORT}`))
 process.on('uncaughtException', (err) => {
   console.log(`Error`, err)
 })
+
+const wss = new WebSocketServer({ port: WS_PORT, path: WS_PATH })
+wss.on('connection', WSHistory.connection)
