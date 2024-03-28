@@ -62,7 +62,7 @@ export const endpoints = accountsApi.injectEndpoints({
     }),
     transferUser: builder.mutation<TransferUserResp, TransferUserReq>({
       query: (data) => ({
-        url: `/${data.fromAccountId}/transfer/${data.userId}`,
+        url: `/${data.fromAccountId}/transfer/${data.userId}/toUser`,
         method: 'POST',
         params: {
           amount: data.amount,
