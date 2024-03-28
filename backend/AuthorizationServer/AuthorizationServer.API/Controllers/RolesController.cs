@@ -1,11 +1,12 @@
 ﻿using AuthorizationServer.BLL.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Server.AspNetCore;
 using OpenIddict.Validation.AspNetCore;
 
 namespace AuthorizationServer.MVC.Controllers;
 
-[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
 public class RolesController : Controller
 {
     private readonly RoleService _roleService;
@@ -15,7 +16,8 @@ public class RolesController : Controller
         _roleService = roleService;
     }
 
-    [HttpGet("roles")]
+   [HttpGet("roles")]
+   // [HttpGet("~/connect/roles")]
     public List<string?> GetRoles()
     {
         return _roleService.GetRoles();

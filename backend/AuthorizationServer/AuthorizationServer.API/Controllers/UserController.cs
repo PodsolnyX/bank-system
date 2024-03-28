@@ -3,10 +3,10 @@ using AuthorizationServer.BLL.DataTransferObjects;
 using AuthorizationServer.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Server.AspNetCore;
 using OpenIddict.Validation.AspNetCore;
 
 namespace AuthorizationServer.MVC.Controllers;
-[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
 [Route("user")]
 public class UserController: Controller {
     private readonly UserService _userService;
