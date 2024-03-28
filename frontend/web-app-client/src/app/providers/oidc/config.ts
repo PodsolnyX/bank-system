@@ -1,7 +1,8 @@
 import { WebStorageStateStore } from 'oidc-client-ts'
 import { AuthProviderProps, UserManager } from 'oidc-react'
+import { setToken, unsetToken } from 'features/auth'
 import { TOKEN_LS_NAME } from 'shared/config'
-import { setToken, store, unsetToken } from '../store'
+import { store } from '../store'
 
 export const oidcConfig: AuthProviderProps = {
   onSignIn: (userData) => {
