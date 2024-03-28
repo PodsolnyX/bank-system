@@ -2,7 +2,8 @@ import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { ParamsExtractor } from 'common'
 import { IncomingMessage } from 'http'
 import { UserService } from 'services/UserService'
-import { WS_STATUSES } from 'socket/config'
+import { WS_STATUSES } from './config'
+import { DataTransformer } from './dataTransform'
 import WebSocket from 'ws'
 
 export class WSHistory {
@@ -23,7 +24,8 @@ export class WSHistory {
   }
 
   public async connection(ws: WebSocket, req: IncomingMessage) {
-    const status = await this._UserService.ValidateJWT(req.headers.authorization)
+    const jwt = ParamsExtractor.Get(req.url, 'token') || ''
+    const status = await this._UserService.ValidateJWT(jwt)
     if (status !== 200) {
       ws.close(WS_STATUSES[status])
     }
@@ -31,20 +33,17 @@ export class WSHistory {
     const param = ParamsExtractor.Get(req.url || '', this._param)
     const connection = new HubConnectionBuilder()
       .configureLogging(LogLevel.None)
-      .withUrl(this._getUrl(req.headers.authorization!))
+      .withUrl(this._getUrl(jwt))
       .build()
     connection.start()
 
     connection.on('receivemessage', (data) => {
-      if (!param) {
-        ws.send(data)
-      }
       try {
-        const obj = JSON.parse(data)
-        if (obj['AccountId'] === param) {
-          ws.send(data)
+        const obj = DataTransformer(JSON.parse(data))
+        if (!param || obj['accountId'] === param) {
+          ws.send(JSON.stringify(obj))
         }
-      } catch {}
+      } catch (err) {}
     })
   }
 }
