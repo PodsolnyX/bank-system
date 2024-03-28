@@ -42,7 +42,7 @@ export const getAccountActions = (
   },
   {
     label: <Link to={getAccountTransferSelfLink(account.id)}>Перевод себе</Link>,
-    disabled: !!account.closedAt,
+    disabled: !!account.closedAt || account.amount <= 0,
     key: 'transferSelf',
   },
   {

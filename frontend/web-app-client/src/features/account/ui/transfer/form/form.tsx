@@ -6,10 +6,22 @@ import { useGetAccountsQuery } from 'entities/account'
 import { AppRoutes } from 'shared/config'
 import { format, moneyRules } from 'shared/lib'
 import { Center, ErrorMsg, Form } from 'shared/ui'
-import { TransferFormProps } from './types'
+import { TransferFormProps, TransferFormValues } from './types'
 
 export const TransferForm = (props: TransferFormProps) => {
+  const [disabled, setDisabled] = useState(false)
   const { type, account, onFinish, isLoading } = props
+
+  const wrappedOnFinish = async (values: TransferFormValues) => {
+    try {
+      setDisabled(true)
+      await onFinish(values)
+      setDisabled(false)
+    } catch {
+      setDisabled(false)
+    }
+  }
+
   const [chosenAcc, setChosenAcc] = useState<string | null>(null)
   const accounts = useGetAccountsQuery(
     {},
@@ -39,7 +51,7 @@ export const TransferForm = (props: TransferFormProps) => {
       <h1>{bi ? 'Перевод' : type === 'withdraw' ? 'Снятие' : 'Пополнение'}</h1>
       <Form
         className='w-full md:w-1/3'
-        onFinish={onFinish}
+        onFinish={wrappedOnFinish}
         initialValues={{
           accountId: account.id,
           fromAccountId: account.id,
@@ -126,7 +138,12 @@ export const TransferForm = (props: TransferFormProps) => {
           </Form.Item>
         )}
 
-        <Button type='primary' className='float-right' htmlType='submit'>
+        <Button
+          type='primary'
+          className='float-right'
+          htmlType='submit'
+          disabled={disabled}
+        >
           Подтвердить
         </Button>
       </Form>

@@ -19,7 +19,7 @@ export const oidcConfig: AuthProviderProps = {
     }
   },
   onBeforeSignIn() {
-    return location.pathname;
+    return location.pathname
   },
   userManager: new UserManager({
     authority: 'https://coto-dev.ru',

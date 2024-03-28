@@ -5,8 +5,8 @@ import { MainMenuItems } from '../config'
 import { MenuCard } from './menuCard'
 
 export const MainPage = () => {
-  const redirected = useAppSelector(store => store.authReducer.redirected)
-  
+  const redirected = useAppSelector((store) => store.authReducer.redirected)
+
   if (!redirected) {
     return <PageLoader />
   }

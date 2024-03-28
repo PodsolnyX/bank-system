@@ -3,7 +3,7 @@ import { TOKEN_LS_NAME } from 'shared/config'
 
 const initialState = {
   token: localStorage.getItem(TOKEN_LS_NAME),
-  redirected: false
+  redirected: false,
 }
 
 const authSlice = createSlice({
@@ -18,7 +18,7 @@ const authSlice = createSlice({
     },
     finishRedirect(state) {
       state.redirected = true
-    }
+    },
   },
 })
 

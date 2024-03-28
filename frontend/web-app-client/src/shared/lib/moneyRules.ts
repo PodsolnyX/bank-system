@@ -10,7 +10,7 @@ export const moneyRules: Rule[] = [
   { required: true, message: requiredMsg },
   {
     validator: (_rule, v) =>
-      Number(v) > MIN || v === undefined ? Promise.resolve() : Promise.reject(minMsg),
+      Number(v) >= MIN || v === undefined ? Promise.resolve() : Promise.reject(minMsg),
   },
   {
     validator: (_rule, v) =>

@@ -3,7 +3,7 @@ import { Account } from 'entities/account'
 export type TransferFormProps = {
   isLoading: boolean
   type: 'self' | 'external' | 'withdraw' | 'deposit'
-  onFinish: (values: TransferFormValues) => void
+  onFinish: (values: TransferFormValues) => Promise<void>
   account: Account
 }
 
