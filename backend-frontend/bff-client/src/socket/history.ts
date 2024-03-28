@@ -1,27 +1,37 @@
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { ParamsExtractor } from 'common'
 import { IncomingMessage } from 'http'
-import { WSAuth } from 'socket/lib'
+import { UserService } from 'services/UserService'
+import { WS_STATUSES } from 'socket/config'
 import WebSocket from 'ws'
 
 export class WSHistory {
-  static readonly url = 'http://109.107.189.133:7004/api/notifications?access_token='
-  static readonly param = 'accountId'
+  private readonly _url = 'http://109.107.189.133:7004/api/notifications?access_token='
+  private readonly _param = 'accountId'
 
-  private static getUrl(token: string) {
-    return `${WSHistory.url}${token}`
+  private _UserService: UserService
+
+  constructor(UserService: UserService) {
+    this._UserService = UserService
+
+    this._getUrl = this._getUrl.bind(this)
+    this.connection = this.connection.bind(this)
   }
 
-  static connection(ws: WebSocket, req: IncomingMessage) {
-    const error = WSAuth.Validate(req)
-    if (error) {
-      ws.close(error)
+  private _getUrl(token: string) {
+    return `${this._url}${token}`
+  }
+
+  public async connection(ws: WebSocket, req: IncomingMessage) {
+    const status = await this._UserService.ValidateJWT(req.headers.authorization)
+    if (status !== 200) {
+      ws.close(WS_STATUSES[status])
     }
 
-    const param = ParamsExtractor.Get(req.url || '', WSHistory.param)
+    const param = ParamsExtractor.Get(req.url || '', this._param)
     const connection = new HubConnectionBuilder()
       .configureLogging(LogLevel.None)
-      .withUrl(WSHistory.getUrl(req.headers.authorization!))
+      .withUrl(this._getUrl(req.headers.authorization!))
       .build()
     connection.start()
 

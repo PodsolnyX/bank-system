@@ -4,7 +4,7 @@ import { WebSocketServer } from 'ws'
 import { pipeline } from './pipeline'
 import { PORT, WS_PATH, WS_PORT } from './config'
 
-import { WSHistory } from 'socket'
+import { WSHistoryInst } from 'init/Ws'
 
 const app = express()
 
@@ -20,4 +20,4 @@ process.on('uncaughtException', (err) => {
 })
 
 const wss = new WebSocketServer({ port: WS_PORT, path: WS_PATH })
-wss.on('connection', WSHistory.connection)
+wss.on('connection', WSHistoryInst.connection)
