@@ -1,4 +1,4 @@
-import {Breadcrumb, Spin, Tag, Typography} from "antd";
+import {Badge, Breadcrumb, Spin, Tag, Tooltip, Typography} from "antd";
 import {
     convertNumberPriceToNormalString
 } from "../../../shared/helpers/stringHelpers.ts";
@@ -40,6 +40,11 @@ const AccountPage = () => {
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Счет:</Typography.Text>
                         <Typography.Text strong>{data.id}</Typography.Text>
+                        {
+                            data.isPriority ? <Tooltip title={"Приоритетный счёт"}>
+                                <Badge color={"green"} status={"processing"}/>
+                            </Tooltip> : undefined
+                        }
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>ФИО:</Typography.Text>

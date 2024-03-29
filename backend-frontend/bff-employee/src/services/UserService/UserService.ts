@@ -62,8 +62,12 @@ class UserService {
                 params: { userIds: [Dto.UserId] }
             })
 
+        const loansRatingRes = await LoanAPI.Req(AuthInfo).get<number>(
+            `/loan/employee/rating/${Dto.UserId}`)
+
         return {
             user: userRes.data[0],
+            loanRating: loansRatingRes.data,
             accounts: accountsRes.data,
             loans: loansRes.data
         }

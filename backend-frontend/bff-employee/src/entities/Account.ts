@@ -2,5 +2,6 @@ export type Account = {
   id: string
   userId: string,
   amount: number
-  closedAt?: string
+  closedAt?: string,
+  isPriority: boolean
 }

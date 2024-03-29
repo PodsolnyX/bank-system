@@ -4,6 +4,7 @@ import {LoanDto} from "../../loan/models/LoanDto.ts";
 
 export interface UserInfoDto {
     user: UserDto,
+    loanRating: number,
     accounts: AccountDto[],
     loans: LoanDto[]
 }

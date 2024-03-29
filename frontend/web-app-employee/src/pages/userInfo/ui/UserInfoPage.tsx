@@ -1,4 +1,4 @@
-import {Breadcrumb, Spin, Typography} from "antd";
+import {Breadcrumb, Spin, Tag, Typography} from "antd";
 import {useUserInfo} from "../hooks/useUserInfo.ts";
 import AccountsTable from "../../accounts/ui/AccountsTable.tsx";
 import LoansTable from "./LoansTable.tsx";
@@ -9,8 +9,6 @@ const UserInfoPage = () => {
 
 
     const {data, isLoading} = useUserInfo();
-
-    console.log(data)
 
     if (!data || isLoading) {
         return <Spin/>
@@ -50,6 +48,10 @@ const UserInfoPage = () => {
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Роль:</Typography.Text>
                         <Typography.Text strong>{data.user.isEmployee ? "Сотрудник" : "Клиент"}</Typography.Text>
+                    </div>
+                    <div className={"flex gap-1 flex-wrap"}>
+                        <Typography.Text className={"text-lime-500"} strong>Кредитный рейтинг:</Typography.Text>
+                        <Tag color={"blue"}>{data.loanRating}</Tag>
                     </div>
                 </div>
                 <Typography.Text className={"text-2xl text-lime-500"} strong>{`Счета`}</Typography.Text>

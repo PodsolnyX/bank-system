@@ -5,5 +5,6 @@ export interface AccountDto {
     userName?: string
     amount: number
     closedAt?: string,
-    currencyType: string
+    currencyType: string,
+    isPriority: boolean
 }
