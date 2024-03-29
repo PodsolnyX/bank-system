@@ -42,7 +42,7 @@ const commonColumns: ColumnsType<Payment> = [
     responsive: ['md'],
     filters: [
       {
-        text: 'Только неоплаченные',
+        text: 'Только просроченные',
         value: true,
       },
     ],

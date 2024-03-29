@@ -4,7 +4,7 @@ import { FormProps } from 'shared/ui'
 import { ChargeLoanReq } from '../../api'
 
 export type ChargeLoanFormProps = {
-  onFinish: (values: ChargeLoanFormValues) => void
+  onFinish: (values: ChargeLoanFormValues) => Promise<void>
   loan: Pick<Loan, 'id' | 'currencyType' | 'debt'>
   accounts: Pick<Account, 'id' | 'currencyType' | 'closedAt' | 'amount'>[]
 } & FormProps
