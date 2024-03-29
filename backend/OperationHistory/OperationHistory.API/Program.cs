@@ -59,6 +59,7 @@ builder
 var app = builder.Build();
 
 await app.MigrateDbAsync();
+await app.ConfigureDatabaseSeed();
 
 app.UseSwagger();
 app.UseSwaggerUI();

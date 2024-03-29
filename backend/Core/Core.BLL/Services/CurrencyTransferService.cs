@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 namespace Core.BLL.Services;
 
 public class CurrencyTransferService {
-    public async Task<int> TransferMoney(CurrencyType fromCurrency, CurrencyType toCurrency, int amount) {
+    public async Task<int> TransferCurrency(CurrencyType fromCurrency, CurrencyType toCurrency, int amount) {
         if (fromCurrency == toCurrency)
             return amount;
         using HttpClient client = new HttpClient();

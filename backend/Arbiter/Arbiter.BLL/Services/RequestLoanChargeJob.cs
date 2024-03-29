@@ -55,7 +55,7 @@ public class RequestLoanChargeJob {
         foreach (var request in requests.Where(r=>
                      r is { CheckAccountStatus: TransactionStatus.Success, 
                          AccountLoanChargeStatus: TransactionStatus.NotStarted or TransactionStatus.Failure } )) {
-            var loanDto = new AccountModificationDto {
+            /*var loanDto = new AccountModificationDto {
                 Type = OperationType.Withdraw,
                 Reason = OperationReason.Loan,
                 LoanId = request.LoanId,
@@ -66,8 +66,15 @@ public class RequestLoanChargeJob {
             var jsonDto = JsonConvert.SerializeObject(loanDto);
             var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
            var response = await client.PostAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}/modification", 
-               content);
+               content);*/
 
+            var requestBody = new FormUrlEncodedContent(new[] {
+                new KeyValuePair<string, string>("amount", request.Amount.ToString())
+            });
+
+            var response = await client.PostAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}/transfer/to-master",
+                requestBody);
+            
            if (response.IsSuccessStatusCode) {
                request.AccountLoanChargeStatus = TransactionStatus.Success;
                _dbContext.ChargeLoanTransactions.Update(request);

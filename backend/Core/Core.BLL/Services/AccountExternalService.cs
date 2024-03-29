@@ -205,8 +205,12 @@ public class AccountExternalService
     }
 
     private async Task TransferMoney(int amount, Account fromAccount, Account toAccount) {
+        if (fromAccount.Id == new Guid("F6AB14AA-4634-4644-A6A9-2F84D8A878DB")
+            || toAccount.Id == new Guid("F6AB14AA-4634-4644-A6A9-2F84D8A878DB"))
+            throw new BadRequestException("Master-account is not available in this operations");
+        
         var transferredAmount = 
-            await _transferService.TransferMoney(fromAccount!.CurrencyType, toAccount.CurrencyType, amount);
+            await _transferService.TransferCurrency(fromAccount!.CurrencyType, toAccount.CurrencyType, amount);
         var fromAccountModification = new AccountModificationDto {
             Type = OperationType.Withdraw,
             Reason = OperationReason.Cash,

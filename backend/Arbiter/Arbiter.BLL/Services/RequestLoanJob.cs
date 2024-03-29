@@ -95,7 +95,7 @@ public class RequestLoanJob {
                          TakeLoanStatus: TransactionStatus.Success,
                          AccountLoanIncomeStatus: TransactionStatus.NotStarted or TransactionStatus.Failure
                      } )) {
-            var loanDto = new AccountModificationDto {
+            /*var loanDto = new AccountModificationDto {
                 Type = OperationType.Deposit,
                 Reason = OperationReason.Loan,
                 LoanId = request.LoanId,
@@ -108,7 +108,15 @@ public class RequestLoanJob {
             var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
             
             var response = await client.PostAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}/modification",
-                content);
+                content);*/
+            
+            var requestBody = new FormUrlEncodedContent(new[] {
+                new KeyValuePair<string, string>("amount", request.Amount.ToString())
+            });
+
+            var response = await client.PostAsync($"{_options.Value.BaseUrlCore}{_options.Value.BaseCoreController}{request.AccountId}/transfer/from-master",
+                requestBody);
+            
             if (response.IsSuccessStatusCode) {
                 request.AccountLoanIncomeStatus = TransactionStatus.Success;
                 _dbContext.RequestLoanTransactions.Remove(request);
