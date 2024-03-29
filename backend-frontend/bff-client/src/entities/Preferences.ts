@@ -5,5 +5,6 @@ export enum Theme {
 
 export type Preferences = {
   theme: Theme
+  themeEmployee: Theme
   hiddenAccounts: string[]
 }

@@ -17,6 +17,7 @@ class PreferencesRepo {
 
   private _DefaultPreferences: Preferences = {
     theme: Theme.Default,
+    themeEmployee: Theme.Default,
     hiddenAccounts: [],
   }
 
