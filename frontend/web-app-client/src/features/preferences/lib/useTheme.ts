@@ -17,10 +17,11 @@ export const useTheme = () => {
 
   const theme = isAuth
     ? themeUpdateResult.data?.theme || preferences?.theme
-    : Theme.Default
+    : localStorage.getItem('theme') ||  Theme.Default
 
   if (theme) {
     document.body.dataset[dataAttributeName] = theme
+    localStorage.setItem('theme', theme)
   }
 
   return {
