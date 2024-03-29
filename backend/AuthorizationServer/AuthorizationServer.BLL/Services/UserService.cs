@@ -113,8 +113,9 @@ public class UserService
                 && (
                     dto.IsEmployee == null
                     || (
-                        dto.IsEmployee.Value
-                        && _dbContext.UserRoles.Any(e => e.RoleId == empRole.Id && e.UserId == u.Id)
+                        dto.IsEmployee.Value ?
+                         _dbContext.UserRoles.Any(e => e.RoleId == empRole.Id && e.UserId == u.Id)
+                         : !_dbContext.UserRoles.Any(e => e.RoleId == empRole.Id && e.UserId == u.Id)
                     )
                 )
             )
