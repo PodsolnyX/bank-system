@@ -23,8 +23,6 @@ class AccountService {
       params: Dto,
     })
 
-    console.log(accountsRes.data, 4444)
-
     const userIds = [...new Set(accountsRes.data.map(it => it.userId))]
 
     const usersRes = await AuthAPI.Req(AuthInfo).get<User[]>('/user/profiles', {

@@ -9,6 +9,8 @@ import LoginPage from "../../pages/login";
 import UserInfoPage from "../../pages/userInfo";
 import LoanPage from "../../pages/loan";
 import {useAuth} from "oidc-react";
+import authService from "../../services/auth/AuthService.ts";
+import {useQuery} from "@tanstack/react-query";
 
 const Router = () => {
 
@@ -18,6 +20,15 @@ const Router = () => {
 }
 
 const AuthRoutes = () => {
+
+    const {data} =  useQuery({
+        queryKey: ["GET_THEME"],
+        queryFn: () => authService.getTheme(),
+        select: ({data}) => data,
+    })
+
+    console.log(data?.theme)
+
     return (
         <Routes>
             <Route path={Links.Main} element={<MainPage/>}/>

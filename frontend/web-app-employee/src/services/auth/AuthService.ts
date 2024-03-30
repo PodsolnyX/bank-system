@@ -33,6 +33,10 @@ class AuthService {
     async banUser(id: string) {
         return instance.post(`/auth/user/${id}/ban`)
     }
+
+    async getTheme() {
+        return instance.get<{theme: string}>("/preference/employee/theme")
+    }
 }
 
 const authService = new AuthService();

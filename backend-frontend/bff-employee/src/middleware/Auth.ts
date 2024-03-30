@@ -29,6 +29,5 @@ export const AuthMiddleware =
                 return
             }
 
-            console.log("AUTH SUCCESS")
             next()
         }

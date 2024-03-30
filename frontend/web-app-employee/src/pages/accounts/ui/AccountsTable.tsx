@@ -79,7 +79,7 @@ function getTableColumns(filter?: ColumnsFilter): ColumnsType<AccountData> {
         sorter: (a, b) => a.userName.localeCompare(b.userName),
         render: (text, record) =>
             <Link to={generatePath(Links.UserInfo, {id: record.userId})}>
-                {text ? text : "МАСТЕР-СЧЁТ"}
+                {record.userId === "00000000-0000-0000-0000-000000000000" ? "МАСТЕР-СЧЁТ" : text }
             </Link>
     })
 
