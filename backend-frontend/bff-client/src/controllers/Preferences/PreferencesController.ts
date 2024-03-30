@@ -8,7 +8,7 @@ import {
   HideAccountReq,
   ShowAccountReq,
   UpdateThemeReq,
-} from 'controllers/Preferences/types'
+} from './types'
 import { AuthHelper } from 'common'
 
 class PreferencesController {
