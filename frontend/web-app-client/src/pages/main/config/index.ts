@@ -1,5 +1,4 @@
 import accountsIcon from 'shared/assets/card.svg'
-import historyIcon from 'shared/assets/history.svg'
 import loanIcon from 'shared/assets/loan.svg'
 import profileIcon from 'shared/assets/user.svg'
 import { AppRoutes } from 'shared/config'
@@ -15,11 +14,6 @@ export const MainMenuItems: MenuCardProps[] = [
     title: 'Кредиты',
     link: AppRoutes.LOANS,
     icon: loanIcon,
-  },
-  {
-    title: 'История',
-    link: AppRoutes.HISTORY,
-    icon: historyIcon,
   },
   {
     title: 'Профиль',

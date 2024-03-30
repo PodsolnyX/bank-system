@@ -22,7 +22,6 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
     setDisable(true)
     await onFinish(values)
     setDisable(false)
-
   }
 
   const [chosenAcc, setChosenAcc] = useState<string | null>(null)
@@ -116,7 +115,12 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
             addonAfter={loan.currencyType}
           />
         </Form.Item>
-        <Button type='primary' className='float-right' htmlType='submit' disabled={disable}>
+        <Button
+          type='primary'
+          className='float-right'
+          htmlType='submit'
+          disabled={disable}
+        >
           Подтвердить
         </Button>
       </Form>

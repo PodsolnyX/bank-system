@@ -17,7 +17,7 @@ export const useTheme = () => {
 
   const theme = isAuth
     ? themeUpdateResult.data?.theme || preferences?.theme
-    : localStorage.getItem('theme') ||  Theme.Default
+    : localStorage.getItem('theme') || Theme.Default
 
   if (theme) {
     document.body.dataset[dataAttributeName] = theme

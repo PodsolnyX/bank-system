@@ -28,9 +28,9 @@ export const TransferPage = (props: TransferPageProps) => {
     try {
       const formattedValues = convert(values)
       if (type === 'self') {
-        await triggerTransferSelf(formattedValues as TransferSelfReq)
+        await triggerTransferSelf(formattedValues as TransferSelfReq).unwrap()
       } else if (type === 'external') {
-        await triggerTransferUser(formattedValues as TransferUserReq)
+        await triggerTransferUser(formattedValues as TransferUserReq).unwrap()
       }
       toastSuccess('Запрос на операцию принят')
     } catch (e) {

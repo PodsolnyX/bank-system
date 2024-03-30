@@ -43,7 +43,7 @@ export const AccountPage = () => {
 
   const priorityBtnClick = async () => {
     try {
-      await makePriority({ accountId: id })
+      await makePriority({ accountId: id }).unwrap()
       toastSuccess('Успешно')
     } catch (err) {
       toastError('Произошла ошибка')
@@ -73,7 +73,7 @@ export const AccountPage = () => {
       />
       <div className='flex flex-col lg:flex-row justify-evenly mb-2 text-center'>
         <Dropdown
-          disabled={!!accQuery.data!.closedAt}
+          disabled={!!accQuery.data!.closedAt || accQuery.data!.amount === 0}
           menu={{
             items: [
               {
