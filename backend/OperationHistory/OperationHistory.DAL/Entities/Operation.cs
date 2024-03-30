@@ -55,7 +55,7 @@ public class Operation : BaseEntity
     /// <summary>
     /// Amount of money involved in the operation.
     /// </summary>
-    public int Amount { get; set; }
+    public long Amount { get; set; }
 
     /// <summary>
     /// Message of the operation.

@@ -14,14 +14,19 @@ using RequestLoanDto = Arbiter.BLL.DataTransferObjects.RequestLoanDto;
 
 namespace Arbiter.BLL.Services;
 
-public class RequestLoanService {
+public class RequestLoanService
+{
     private readonly ArbiterDbContext _dbContext;
 
-    public RequestLoanService(ArbiterDbContext dbContext) {
+    public RequestLoanService(ArbiterDbContext dbContext)
+    {
         _dbContext = dbContext;
     }
-    public async Task RequestLoan(RequestLoanDto dto) {
-        var request = new RequestLoanTransaction {
+
+    public async Task RequestLoan(RequestLoanDto dto)
+    {
+        var request = new RequestLoanTransaction
+        {
             UserId = dto.UserId,
             AccountId = dto.AccountId,
             TariffId = dto.TariffId,

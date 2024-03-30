@@ -1,6 +1,7 @@
 ﻿namespace Core.BLL.DataTransferObjects;
 
-public class WithdrawDto {
-    public int Amount { get; set; }
+public class WithdrawDto
+{
+    public long Amount { get; set; }
     public string? Message { get; set; }
 }
