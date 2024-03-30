@@ -37,7 +37,12 @@ public class AccountExternalService
 
     public async Task<AccountDto> OpenAccount(Guid userId, OpenAccountDto dto)
     {
-        var account = new Account { UserId = userId, CurrencyType = dto.CurrencyType };
+        var account = new Account
+        {
+            UserId = userId,
+            CurrencyType = dto.CurrencyType,
+            CreatedAt = DateTime.UtcNow
+        };
 
         _dbContext.Accounts.Add(account);
         await _dbContext.SaveChangesAsync();
