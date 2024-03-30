@@ -11,7 +11,7 @@ import { PreferencesDocument } from 'repos/PreferencesRepo/types'
 import { AuthInfo } from 'common'
 
 class PreferencesRepo {
-  private _MongoURL = 'mongodb://localhost:27017'
+  private _MongoURL = 'mongodb://root:password@109.107.189.133:27017'
   private _MongoDbName = 'preferences'
   private _MongoDbCollectionName = 'preferences'
 
