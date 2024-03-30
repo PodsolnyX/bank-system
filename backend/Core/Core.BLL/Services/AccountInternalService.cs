@@ -15,7 +15,7 @@ public class AccountInternalService
     private readonly OperationHistorySender _operationHistorySender;
     private readonly AccountBalanceService _accountBalanceService;
     private readonly CurrencyTransferService _transferService;
-    private readonly Logger<AccountInternalService> _logger;
+    private readonly ILogger<AccountInternalService> _logger;
 
     public AccountInternalService(
         CoreDbContext dbContext,
