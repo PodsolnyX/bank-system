@@ -48,6 +48,7 @@ public class CoreAccountBalanceSender
         catch (Exception e)
         {
             _logger.LogError(e, "Error while sending message to Core");
+            throw;
         }
     }
 }

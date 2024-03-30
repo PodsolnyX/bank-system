@@ -47,6 +47,7 @@ public class OperationHistorySender
         catch (Exception e)
         {
             _logger.LogError(e, "Error while sending operation history message");
+            throw;
         }
     }
 }

@@ -5,6 +5,7 @@ using Core.BLL.DataTransferObjects;
 using Core.DAL;
 using Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Core.BLL.Services;
 
@@ -14,18 +15,21 @@ public class AccountInternalService
     private readonly OperationHistorySender _operationHistorySender;
     private readonly AccountBalanceService _accountBalanceService;
     private readonly CurrencyTransferService _transferService;
+    private readonly Logger<AccountInternalService> _logger;
 
     public AccountInternalService(
         CoreDbContext dbContext,
         OperationHistorySender operationHistorySender,
         AccountBalanceService accountBalanceService,
-        CurrencyTransferService transferService
+        CurrencyTransferService transferService,
+        Logger<AccountInternalService> logger
     )
     {
         _dbContext = dbContext;
         _operationHistorySender = operationHistorySender;
         _accountBalanceService = accountBalanceService;
         _transferService = transferService;
+        _logger = logger;
     }
 
     public async Task ModifyAccount(Guid accountId, AccountModificationDto dto)
@@ -39,25 +43,33 @@ public class AccountInternalService
 
         await _accountBalanceService.LockAccount(accountId);
 
-        _operationHistorySender.SendOperationHistoryMessage(
-            new OperationHistoryMessage
-            {
-                UserId = account!.UserId,
-                AccountId = accountId,
-                LoanId = dto.LoanId,
-                TransactionId = dto.TransactionId ?? Guid.NewGuid(),
+        try
+        {
+            _operationHistorySender.SendOperationHistoryMessage(
+                new OperationHistoryMessage
+                {
+                    UserId = account!.UserId,
+                    AccountId = accountId,
+                    LoanId = dto.LoanId,
+                    TransactionId = dto.TransactionId ?? Guid.NewGuid(),
 
-                OperationType = dto.Type,
-                OperationReason = dto.Reason,
-                OperationStatus = OperationStatus.Success,
+                    OperationType = dto.Type,
+                    OperationReason = dto.Reason,
+                    OperationStatus = OperationStatus.Success,
 
-                Amount = dto.Amount,
-                CurrencyType = account.CurrencyType,
+                    Amount = dto.Amount,
+                    CurrencyType = account.CurrencyType,
 
-                DateTime = DateTime.UtcNow,
-                Message = dto.Message
-            }
-        );
+                    DateTime = DateTime.UtcNow,
+                    Message = dto.Message
+                }
+            );
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while sending operation history message");
+            await _accountBalanceService.UnlockAccount(accountId);
+        }
     }
 
     public async Task ModifyAccountCancel(Guid accountId, AccountModificationDto dto)
@@ -71,25 +83,33 @@ public class AccountInternalService
 
         await _accountBalanceService.LockAccount(accountId);
 
-        _operationHistorySender.SendOperationHistoryMessage(
-            new OperationHistoryMessage
-            {
-                UserId = account!.UserId,
-                AccountId = accountId,
-                LoanId = dto.LoanId,
-                TransactionId = dto.TransactionId ?? Guid.NewGuid(),
+        try
+        {
+            _operationHistorySender.SendOperationHistoryMessage(
+                new OperationHistoryMessage
+                {
+                    UserId = account!.UserId,
+                    AccountId = accountId,
+                    LoanId = dto.LoanId,
+                    TransactionId = dto.TransactionId ?? Guid.NewGuid(),
 
-                OperationType = dto.Type,
-                OperationReason = dto.Reason,
-                OperationStatus = OperationStatus.Failure,
+                    OperationType = dto.Type,
+                    OperationReason = dto.Reason,
+                    OperationStatus = OperationStatus.Failure,
 
-                Amount = dto.Amount,
-                CurrencyType = account.CurrencyType,
+                    Amount = dto.Amount,
+                    CurrencyType = account.CurrencyType,
 
-                DateTime = DateTime.UtcNow,
-                Message = dto.Message
-            }
-        );
+                    DateTime = DateTime.UtcNow,
+                    Message = dto.Message
+                }
+            );
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while sending operation history message");
+            await _accountBalanceService.UnlockAccount(accountId);
+        }
     }
 
     public async Task TransferMoneyInternal(
