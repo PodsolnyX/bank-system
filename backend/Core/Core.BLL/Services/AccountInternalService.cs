@@ -15,21 +15,18 @@ public class AccountInternalService
     private readonly OperationHistorySender _operationHistorySender;
     private readonly AccountBalanceService _accountBalanceService;
     private readonly CurrencyTransferService _transferService;
-    private readonly ILogger<AccountInternalService> _logger;
 
     public AccountInternalService(
         CoreDbContext dbContext,
         OperationHistorySender operationHistorySender,
         AccountBalanceService accountBalanceService,
-        CurrencyTransferService transferService,
-        Logger<AccountInternalService> logger
+        CurrencyTransferService transferService
     )
     {
         _dbContext = dbContext;
         _operationHistorySender = operationHistorySender;
         _accountBalanceService = accountBalanceService;
         _transferService = transferService;
-        _logger = logger;
     }
 
     public async Task ModifyAccount(Guid accountId, AccountModificationDto dto)
@@ -67,7 +64,6 @@ public class AccountInternalService
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while sending operation history message");
             await _accountBalanceService.UnlockAccount(accountId);
         }
     }
@@ -107,7 +103,6 @@ public class AccountInternalService
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while sending operation history message");
             await _accountBalanceService.UnlockAccount(accountId);
         }
     }
