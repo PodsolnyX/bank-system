@@ -76,9 +76,8 @@ class PreferencesService {
 
   async GetTheme(AuthInfo: AuthInfo): Promise<GetThemeDto> {
     // @ts-ignore
-    const lox = await this._FetchPreferences(AuthInfo.id, { themeEmployee: 1, _id: 0 })
-    console.log(lox)
-    return lox;
+    const res = await this._FetchPreferences(AuthInfo.id, { themeEmployee: 1, _id: 0 })
+    return {theme: res.themeEmployee};
   }
 
   // async GetHiddenAccounts(UsersIds: string[]): Promise<HiddenAccounts> {

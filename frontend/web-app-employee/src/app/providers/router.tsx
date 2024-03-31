@@ -21,14 +21,6 @@ const Router = () => {
 
 const AuthRoutes = () => {
 
-    const {data} =  useQuery({
-        queryKey: ["GET_THEME"],
-        queryFn: () => authService.getTheme(),
-        select: ({data}) => data,
-    })
-
-    console.log(data?.theme)
-
     return (
         <Routes>
             <Route path={Links.Main} element={<MainPage/>}/>

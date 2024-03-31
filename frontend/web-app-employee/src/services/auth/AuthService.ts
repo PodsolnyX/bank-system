@@ -5,6 +5,7 @@ import {SearchUsersDto} from "./models/SearchUsersDto.ts";
 import {Pagination} from "../common/Pagination.ts";
 import {UserCreateDto} from "./models/UserCreateDto.ts";
 import {UserInfoDto} from "./models/UserInfoDto.ts";
+import {ThemeDto} from "./models/ThemeDto.ts";
 
 class AuthService {
     async getProfile(params: GetProfileParamsDto) {
@@ -35,7 +36,11 @@ class AuthService {
     }
 
     async getTheme() {
-        return instance.get<{theme: string}>("/preference/employee/theme")
+        return instance.get<ThemeDto>("/preference/employee/theme")
+    }
+
+    async updateTheme(data: ThemeDto) {
+        return instance.post("/preference/employee/theme", data)
     }
 }
 

@@ -4,6 +4,7 @@ import "./styles/index.css"
 import {useAuth} from "oidc-react";
 import {Spin} from "antd";
 import {useSignalR} from "../shared/hooks/useSignalR.ts";
+import ThemeProvider from "./providers/theme/ThemeProvider.tsx";
 function App() {
 
     const { isLoading: isAuthLoading, userData } = useAuth()
@@ -13,9 +14,11 @@ function App() {
     if (isAuthLoading) return <Spin/>
 
     return (
-        <Layout>
-            <Router/>
-        </Layout>
+        <ThemeProvider>
+            <Layout>
+                <Router/>
+            </Layout>
+        </ThemeProvider>
     )
 }
 

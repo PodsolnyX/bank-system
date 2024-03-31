@@ -2,16 +2,19 @@ import {Dropdown, MenuProps, Space, Typography} from "antd";
 import logo from "../../../shared/assets/logo.png"
 import {Link} from "react-router-dom";
 import {Links} from "../../../constants/Links.ts";
-import {DownOutlined, LoginOutlined} from "@ant-design/icons";
+import {DownOutlined, LoginOutlined, SunOutlined} from "@ant-design/icons";
 import {MenuLinks} from "../constants/MenuLinks.ts";
 import {useAuth} from "oidc-react";
+import {useTheme} from "../../../app/providers/theme/ThemeProvider.tsx";
 
 const Header = () => {
 
     const {userData} = useAuth()
+    const {changeTheme} = useTheme();
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
         if (key === "logout") {}
+        if (key === "theme") changeTheme()
     };
 
 
@@ -60,11 +63,17 @@ const Header = () => {
 
 const items: MenuProps['items'] = [
     {
+        key: 'theme',
+        label: "Поменять тему",
+        icon: <SunOutlined />
+    },
+    {
         key: 'logout',
         label: "Выйти",
         danger: true,
         icon: <LoginOutlined/>
     },
+
 ];
 
 export default Header;
