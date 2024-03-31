@@ -109,18 +109,18 @@ public class AccountInternalService
             await _transferService.TransferCurrency(fromAccount!.CurrencyType, toAccount.CurrencyType, amount);
         var fromAccountModification = new AccountModificationDto {
             Type = OperationType.Withdraw,
-            Reason = OperationReason.Cash,
+            Reason = OperationReason.Loan,
             TransactionId = Guid.NewGuid(),
             Amount = amount,
-            Message = "Перевод"
+            Message = "Списание"
         };
         await ModifyAccount(fromAccount.Id, fromAccountModification);
         var toAccountModification = new AccountModificationDto {
             Type = OperationType.Deposit,
-            Reason = OperationReason.Cash,
+            Reason = OperationReason.Loan,
             TransactionId = fromAccountModification.TransactionId,
             Amount = transferredAmount,
-            Message = "Перевод"
+            Message = "Пополнение"
         };
         try {
             await ModifyAccount(toAccount.Id, toAccountModification);
@@ -128,10 +128,10 @@ public class AccountInternalService
         catch (Exception e) {
             var cancelWithdraw = new AccountModificationDto {
                 Type = OperationType.Deposit,
-                Reason = OperationReason.Cash,
+                Reason = OperationReason.Loan,
                 TransactionId =  fromAccountModification.TransactionId,
                 Amount = amount,
-                Message = "Отмена перевода"
+                Message = "Отмена"
             };
             await ModifyAccountCancel(fromAccount.Id, cancelWithdraw);
         }
