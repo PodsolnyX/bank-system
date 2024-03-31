@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthorizationServer.MVC.Controllers;
 
+[ApiExplorerSettings(IgnoreApi = true)]
 [Route("account")]
 public class AccountController : Controller
 {
@@ -96,6 +97,8 @@ public class AccountController : Controller
         return RedirectToAction(nameof(HomeController.Index), "Home");
     }
 
+    [HttpPost("logout")]
+    [HttpGet("logout")]
     public async Task<IActionResult> Logout()
     {
         await _userService.Logout();

@@ -28,8 +28,8 @@ namespace Core.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("integer");
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -41,6 +41,9 @@ namespace Core.DAL.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsLockedForTransaction")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPriority")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("ModifiedAt")

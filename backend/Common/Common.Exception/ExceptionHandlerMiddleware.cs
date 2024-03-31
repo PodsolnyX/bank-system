@@ -36,6 +36,17 @@ public class ExceptionHandlerMiddleware {
             context.Response.StatusCode = (int)HttpStatusCode.NotFound;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(errorDetails.ToString());
+        } 
+        catch (InvalidOperationException ex) {
+            var errorDetails = new ErrorDetails {
+                StatusCode = (int)HttpStatusCode.InternalServerError,
+                Message = ex.Message,
+                TraceId = Activity.Current?.Id ?? context.TraceIdentifier
+            };
+            _logger.LogError(ex, "{Message}", errorDetails.ToString());
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(errorDetails.ToString());
         }
 
         catch (ForbiddenException ex) {

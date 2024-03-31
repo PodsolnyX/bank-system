@@ -1,6 +1,12 @@
 ﻿using System.Security.Claims;
+using Auth.BLL.DataTransferObjects;
+using AuthorizationServer.BLL.DataTransferObjects;
+using Common.DataTransfer;
+using Common.Exception;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OpenIddict.Abstractions;
 
@@ -11,13 +17,16 @@ public class UserService
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly ILogger<UserService> _logger;
+    private readonly IdentityDbContext _dbContext;
 
     public UserService(
         UserManager<IdentityUser> userManager,
         ILogger<UserService> logger,
-        SignInManager<IdentityUser> signInManager
+        SignInManager<IdentityUser> signInManager,
+        IdentityDbContext dbContext
     )
     {
+        _dbContext = dbContext;
         _userManager = userManager;
         _logger = logger;
         _signInManager = signInManager;
@@ -32,6 +41,7 @@ public class UserService
         if (result.Succeeded)
         {
             await _userManager.AddToRoleAsync(user, "Client");
+            await _userManager.SetLockoutEnabledAsync(user, true);
             await Login(email, password);
             return;
         }
@@ -52,10 +62,22 @@ public class UserService
         if (await _userManager.CheckPasswordAsync(user, password))
         {
             _logger.LogInformation("User logged in");
+
+            var claims = new List<Claim> { new(OpenIddictConstants.Claims.Subject, user.Id), };
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             await _signInManager.SignInWithClaimsAsync(
                 user,
-                null,
-                new List<Claim> { new(OpenIddictConstants.Claims.Subject, user.Id), }
+                new AuthenticationProperties()
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+                    IsPersistent = true
+                },
+                claims
             );
             return;
         }
@@ -73,5 +95,88 @@ public class UserService
     {
         var user = await _userManager.FindByIdAsync(userId);
         return user == null ? [] : (await _userManager.GetRolesAsync(user)).ToList();
+    }
+
+    public async Task<List<UserDto>> GetUserProfile(SearchUsersEmployeeDto dto)
+    {
+        var empRole = _dbContext.Roles.FirstOrDefault(e => e.Name == "Employee");
+        var listGuid = dto.UserIds.ConvertAll((e) => e.ToString());
+        var users = await _dbContext
+            .Users.Where(u =>
+                (dto.UserIds.Count == 0 || listGuid.Contains(u.Id))
+                && (string.IsNullOrEmpty(dto.Mail) || u.Email!.Contains(dto.Mail))
+                && (
+                    string.IsNullOrEmpty(dto.Name)
+                    || (u.UserName != null && u.UserName.Contains(dto.Name))
+                )
+                && (dto.IsBanned == null || (dto.IsBanned == u.LockoutEnd.HasValue))
+                && (
+                    dto.IsEmployee == null
+                    || (
+                        dto.IsEmployee.Value ?
+                         _dbContext.UserRoles.Any(e => e.RoleId == empRole.Id && e.UserId == u.Id)
+                         : !_dbContext.UserRoles.Any(e => e.RoleId == empRole.Id && e.UserId == u.Id)
+                    )
+                )
+            )
+            .ToPagedList(dto);
+
+        return users
+            .Select(user => new UserDto
+            {
+                Id = new Guid(user.Id),
+                Mail = user.Email,
+                Name = user.UserName,
+                IsEmployee = _userManager.IsInRoleAsync(user, "Employee").Result,
+                BannedAt = user.LockoutEnd
+            })
+            .ToList();
+    }
+
+    public async Task<Guid> CreateUser(UserCreateDto dto)
+    {
+        var user = new IdentityUser() { Email = dto.Mail, UserName = dto.Name, };
+        await _userManager.CreateAsync(user, "12345");
+        await _userManager.AddToRoleAsync(user, "Client");
+        if (dto.IsEmployee)
+            await _userManager.AddToRoleAsync(user, "Employee");
+        return new Guid(user.Id);
+    }
+
+    public async Task BanUser(Guid id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null)
+            throw new NotFoundException("User not found");
+        if (await _userManager.IsLockedOutAsync(user))
+            throw new ForbiddenException("Already banned");
+        await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
+    }
+
+    public async Task UnBanUser(Guid id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null)
+            throw new NotFoundException("User not found");
+        if (!await _userManager.IsLockedOutAsync(user))
+            throw new ForbiddenException("Not banned");
+        user.LockoutEnd = null;
+        await _userManager.UpdateAsync(user);
+    }
+
+    public async Task<UserPublicInfo> GetUserPublicInfo(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            _logger.LogError("User not found");
+            throw new NotFoundException("User not found");
+        }
+
+        return new UserPublicInfo
+        {
+            IsEmployee = await _userManager.IsInRoleAsync(user, "Employee"),
+            BannedAt = user.LockoutEnd
+        };
     }
 }

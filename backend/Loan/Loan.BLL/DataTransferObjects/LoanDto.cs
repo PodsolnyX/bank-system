@@ -2,19 +2,20 @@
 
 namespace Loan.BLL.DataTransferObjects;
 
-public class LoanDto {
+public class LoanDto
+{
     public Guid Id { get; set; }
-    
+
     public Guid UserId { get; set; }
-    
+
     public Guid AccountId { get; set; }
-    
+
     public TariffDto Tariff { get; set; }
-    
+
     public DateTime? LastChargeDate { get; set; }
-    
+
     public CurrencyType CurrencyType { get; set; }
     public bool IsClosed { get; set; } = false;
-    
-    public int Debt { get; set; }
+
+    public long Debt { get; set; }
 }

@@ -38,7 +38,7 @@ public  class LoanService {
             throw new NotFoundException("Loan not found");
         if (dto.Amount > loan.Debt)
             throw new BadRequestException("Loan debt < charge amount");
-        
+
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(_options.Value.BaseUrlArbiter);
         var jsonDto = JsonConvert.SerializeObject(dto);
@@ -103,5 +103,17 @@ public  class LoanService {
                 CurrencyType = l.CurrencyType,
                 Debt = l.Debt
             }).ToList();
+    }
+
+    public async Task<int> GetCreditRating(Guid userId) {
+        double paidPayments = await _dbContext.Payments
+            .CountAsync(p => p.PenaltyFee == 0 
+                        &&  p.Loan.UserId == userId);
+        double allPayments = await _dbContext.Payments
+            .CountAsync(p => p.Loan.UserId == userId);
+        var rating = (allPayments == 0 || paidPayments == 0)
+            ? 1000
+            : paidPayments / allPayments * 1000;
+        return (int)Math.Round(rating);
     }
 }

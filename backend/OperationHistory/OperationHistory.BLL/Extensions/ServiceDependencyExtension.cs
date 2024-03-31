@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Hangfire.PostgreSql;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,8 @@ public static class ServiceDependencyExtension
         services.AddScoped<OperationHistoryReaderService>();
         services.AddScoped<OperationHistoryService>();
         services.AddScoped<CoreAccountBalanceSender>();
+        services.AddScoped<NotificationsService>();
+        services.AddSingleton<IUserIdProvider, SignalRUserIdProvider>();
         services.AddHostedService<RabbitMqListenerService>();
         services.AddHangfireServer();
         services.AddHangfire(x =>

@@ -37,8 +37,8 @@ namespace Arbiter.DAL.Migrations
                     b.Property<int>("AccountLoanChargeStatus")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("integer");
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("CheckAccountRetries")
                         .HasColumnType("integer");
@@ -84,8 +84,8 @@ namespace Arbiter.DAL.Migrations
                     b.Property<int>("AccountLoanIncomeStatus")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("integer");
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("CheckAccountRetries")
                         .HasColumnType("integer");

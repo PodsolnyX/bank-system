@@ -1,22 +1,27 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
+using Common.Auth.Jwt;
 using Common.Configuration;
 using Microsoft.OpenApi.Models;
+using OperationHistory.API;
 using OperationHistory.BLL.Extensions;
+using OperationHistory.BLL.Hubs;
 using OperationHistory.BLL.Jobs;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(
+        policy => {
+            policy.WithOrigins("null")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowed(_ => true);
+        });
 });
-
 builder
     .Services.AddControllers()
     .AddJsonOptions(opts =>
@@ -24,12 +29,13 @@ builder
         var enumConverter = new JsonStringEnumConverter();
         opts.JsonSerializerOptions.Converters.Add(enumConverter);
     });
+builder.Services.AddJwtAuthorization();
 
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.UseApiKeyAuthorization();
+    option.UseJwtAuthorization();
 
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Operation History", Version = "v1" });
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -37,6 +43,7 @@ builder.Services.AddSwaggerGen(option =>
 });
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddSignalR();
 
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -52,15 +59,19 @@ builder
 var app = builder.Build();
 
 await app.MigrateDbAsync();
+await app.ConfigureDatabaseSeed();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 app.ConfigureJobs();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors();
+app.UseWebSockets();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/api/notifications");
+
 app.Run();

@@ -6,18 +6,27 @@ using Microsoft.Extensions.Options;
 
 namespace Arbiter.BLL.Services;
 
-public class RequestLoanChargeService {
+public class RequestLoanChargeService
+{
     private readonly ArbiterDbContext _dbContext;
     private readonly IOptions<InternalApiQueries> _options;
     private readonly IBackgroundJobClient _backgroundJobClient;
 
-    public RequestLoanChargeService(ArbiterDbContext dbContext, IBackgroundJobClient backgroundJobClient, IOptions<InternalApiQueries> options) {
+    public RequestLoanChargeService(
+        ArbiterDbContext dbContext,
+        IBackgroundJobClient backgroundJobClient,
+        IOptions<InternalApiQueries> options
+    )
+    {
         _dbContext = dbContext;
         _backgroundJobClient = backgroundJobClient;
         _options = options;
     }
-    public async Task RequestLoanCharge(RequestLoanChargeDto dto) {
-        var request = new ChargeLoanTransaction {
+
+    public async Task RequestLoanCharge(RequestLoanChargeDto dto)
+    {
+        var request = new ChargeLoanTransaction
+        {
             UserId = dto.UserId,
             LoanId = dto.LoanId,
             AccountId = dto.AccountId,
@@ -28,5 +37,4 @@ public class RequestLoanChargeService {
         await _dbContext.AddAsync(request);
         await _dbContext.SaveChangesAsync();
     }
-    
 }

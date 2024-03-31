@@ -2,6 +2,7 @@
 using Common.Enum;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using OperationHistory.DAL;
 using OperationHistory.DAL.Entities;
 
@@ -12,16 +13,19 @@ public class OperationHistoryService
     private readonly OpHistoryDbContext _dbContext;
     private readonly IBackgroundJobClient _backgroundJobClient;
     private readonly CoreAccountBalanceSender _accountBalanceSender;
+    private readonly ILogger<OperationHistoryService> _logger;
 
     public OperationHistoryService(
         OpHistoryDbContext dbContext,
         IBackgroundJobClient backgroundJobClient,
-        CoreAccountBalanceSender accountBalanceSender
+        CoreAccountBalanceSender accountBalanceSender,
+        ILogger<OperationHistoryService> logger
     )
     {
         _dbContext = dbContext;
         _backgroundJobClient = backgroundJobClient;
         _accountBalanceSender = accountBalanceSender;
+        _logger = logger;
     }
 
     public async Task AddOperationHistory(OperationHistoryMessage message)
@@ -87,13 +91,20 @@ public class OperationHistoryService
 
         var balance = (operationAggregation?.CalculatedAmount ?? 0) + operationSum;
 
-        _accountBalanceSender.SendCoreAccountBalanceMessage(
-            new UpdateAccountBalanceMessage
-            {
-                AccountId = accountId,
-                Amount = balance,
-                DateTime = DateTime.UtcNow
-            }
-        );
+        try
+        {
+            _accountBalanceSender.SendCoreAccountBalanceMessage(
+                new UpdateAccountBalanceMessage
+                {
+                    AccountId = accountId,
+                    Amount = balance,
+                    DateTime = DateTime.UtcNow
+                }
+            );
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while sending account balance message");
+        }
     }
 }

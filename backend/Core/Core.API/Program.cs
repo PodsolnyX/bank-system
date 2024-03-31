@@ -1,9 +1,12 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.ApiKeyAuthorization;
+using Common.Auth.Jwt;
 using Common.Configuration;
 using Common.Exception;
 using Core.BLL.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -17,6 +20,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddJwtAuthorization();
+
 builder
     .Services.AddControllers()
     .AddJsonOptions(opts =>
@@ -29,7 +34,7 @@ builder
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.UseApiKeyAuthorization();
+    option.UseJwtAuthorization();
 
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank: Core", Version = "v1" });
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -53,6 +58,7 @@ builder
 var app = builder.Build();
 
 await app.MigrateDbAsync();
+await app.ConfigureDatabaseSeed();
 
 app.UseSwagger();
 app.UseSwaggerUI();

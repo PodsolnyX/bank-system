@@ -1,6 +1,8 @@
 ﻿using Common.Auth.ApiKeyAuthorization;
 using Loan.BLL.DataTransferObjects;
 using Loan.BLL.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Loan.API.Controllers;
@@ -10,7 +12,7 @@ namespace Loan.API.Controllers;
 /// </summary>
 [Controller]
 [Route("tariff/employee")]
-[ApiKeyAuthorization]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Employee")]
 
 public class TariffEmployeeController: ControllerBase {
     private readonly TariffService _tariffService;

@@ -3,19 +3,20 @@ using Common.Enum;
 
 namespace Loan.BLL.DataTransferObjects;
 
-public class TakeLoanDto {
+public class TakeLoanDto
+{
     [Required]
     public Guid UserId { get; set; }
-    
+
     [Required]
     public Guid AccountId { get; set; }
-    
+
     [Required]
     public Guid TariffId { get; set; }
-    
+
     [Required]
-    public int Amount { get; set; }
-    
+    public long Amount { get; set; }
+
     [Required]
     public CurrencyType CurrencyType { get; set; }
 }

@@ -1,7 +1,10 @@
-﻿using Common.Auth.ApiKeyAuthorization;
+﻿using System.Security.Claims;
+using Common.Auth.Jwt;
 using Common.Enum;
 using Core.BLL.DataTransferObjects;
 using Core.BLL.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.API.Controllers;
@@ -10,7 +13,7 @@ namespace Core.API.Controllers;
 /// Account controller for user
 /// </summary>
 [Controller]
-[ApiKeyAuthorization]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("account/user")]
 public class AccountUserController : ControllerBase
 {
@@ -96,5 +99,44 @@ public class AccountUserController : ControllerBase
             Message = dto.Message
         };
         await _accountExternalService.ModifyAccount(userId, accountId, modificationDto);
+    }
+
+    /// <summary>
+    /// Transfer money from my account to my account
+    /// </summary>
+    [HttpPost("{fromAccountId:guid}/transfer/{toAccountId:guid}")]
+    public async Task TransferMoneyBetweenAccounts(
+        Guid fromAccountId,
+        Guid toAccountId,
+        long amount
+    )
+    {
+        var userId = HttpContext.GetUserId();
+        await _accountExternalService.TransferMoneyBetweenMyAccounts(
+            fromAccountId,
+            toAccountId,
+            amount,
+            userId
+        );
+    }
+
+    /// <summary>
+    /// Transfer money from my account to user
+    /// </summary>
+    [HttpPost("{fromAccountId:guid}/transfer/{toUserId:guid}/toUser")]
+    public async Task TransferMoneyToUser(Guid fromAccountId, Guid toUserId, long amount)
+    {
+        var userId = HttpContext.GetUserId();
+        await _accountExternalService.TransferMoneyToUser(fromAccountId, toUserId, amount, userId);
+    }
+
+    /// <summary>
+    /// Make account priority
+    /// </summary>
+    [HttpPost("{accountId:guid}/priority")]
+    public async Task MakePriority(Guid accountId)
+    {
+        var userId = HttpContext.GetUserId();
+        await _accountExternalService.MakeAccountPriority(accountId, userId);
     }
 }

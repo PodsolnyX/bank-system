@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenIddict.Validation.AspNetCore;
 
 namespace AuthorizationServer.BLL.Extensions;
 
@@ -12,7 +13,10 @@ public static class AuthorizationExtension
     public static IServiceCollection SetupAuthorization(this IServiceCollection services)
     {
         services
-            .AddAuthentication()
+            .AddAuthentication(options =>
+                options.DefaultAuthenticateScheme =
+                    OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme
+            )
             .AddCookie(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 options =>

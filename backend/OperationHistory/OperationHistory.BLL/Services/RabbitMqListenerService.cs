@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OperationHistory.BLL.Hubs;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -70,8 +71,10 @@ public class RabbitMqListenerService : BackgroundService
 
                 using var scope = _serviceScopeFactory.CreateScope();
                 var service = scope.ServiceProvider.GetRequiredService<OperationHistoryService>();
+                var notificationsService = scope.ServiceProvider.GetRequiredService<NotificationsService>();
                 await service.AddOperationHistory(message);
                 service.EnqueueUpdateAccountBalance(message.AccountId);
+                await notificationsService.SendNotification(message);
             }
             catch (Exception e)
             {

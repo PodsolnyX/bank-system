@@ -37,8 +37,8 @@ namespace Loan.DAL.Migrations
                     b.Property<int>("CurrencyType")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Debt")
-                        .HasColumnType("integer");
+                    b.Property<long>("Debt")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -71,17 +71,17 @@ namespace Loan.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("AlreadyPaid")
-                        .HasColumnType("integer");
+                    b.Property<long>("AlreadyPaid")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("AmountForPay")
-                        .HasColumnType("integer");
+                    b.Property<long>("AmountForPay")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("CurrentDebt")
-                        .HasColumnType("integer");
+                    b.Property<long>("CurrentDebt")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -98,8 +98,8 @@ namespace Loan.DAL.Migrations
                     b.Property<DateTime?>("PaidAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("PenaltyFee")
-                        .HasColumnType("integer");
+                    b.Property<long>("PenaltyFee")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
