@@ -1,7 +1,8 @@
 import { Response } from 'express'
 import { GetOperationHistoryReq } from './types'
-import { Extractor } from '../lib/Extractor'
+
 import { OperationHistoryService } from 'services/OperationHistoryService'
+import { AuthHelper } from 'common'
 
 class OperationHistoryController {
   private _OperationHistoryService: OperationHistoryService
@@ -12,7 +13,8 @@ class OperationHistoryController {
 
   async GetOperationHistory(req: GetOperationHistoryReq, res: Response) {
     const data = await this._OperationHistoryService.GetOperationHistory(
-      Extractor.ExtractParams(req)
+      req.query,
+      AuthHelper.Data(req)
     )
     res.status(200).send(data)
   }

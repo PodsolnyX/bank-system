@@ -1,6 +1,4 @@
-import { GetProfileDto, GetUserStatusDto, RegisterDto } from 'dto/User'
+import { GetAccessDto } from 'dto/User/req'
 import { Request } from 'express'
 
-export type GetUserReq = Request<{}, {}, {}, GetProfileDto>
-export type GetUserStatusReq = Request<{}, {}, {}, GetUserStatusDto>
-export type RegisterReq = Request<{}, {}, RegisterDto>
+export type GetAccessInfoReq = Request<GetAccessDto>

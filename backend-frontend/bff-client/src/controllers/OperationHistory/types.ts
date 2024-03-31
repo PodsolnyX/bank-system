@@ -1,5 +1,5 @@
-import { PaginationReq } from 'dto/Common'
-import { SearchOperationUserDto } from 'dto/OperationHistory'
+import { PaginationReq } from 'dto/Common/req'
+import { SearchOperationUserDto } from 'dto/OperationHistory/req'
 import { Request } from 'express'
 
 export type GetOperationHistoryReq = Request<

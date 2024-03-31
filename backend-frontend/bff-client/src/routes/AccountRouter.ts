@@ -36,6 +36,21 @@ RouterHelper.use(AccountRouter, AccountControllerInst, [
     path: '/:accountId',
     handlers: [AccountControllerInst.GetAccount],
   },
+  {
+    method: 'post',
+    path: '/:fromAccountId/transfer/:toAccountId',
+    handlers: [AccountControllerInst.TransferSelf],
+  },
+  {
+    method: 'post',
+    path: '/:fromAccountId/transfer/:userId/toUser',
+    handlers: [AccountControllerInst.TransferUser],
+  },
+  {
+    method: 'post',
+    path: '/:accountId/priority',
+    handlers: [AccountControllerInst.MakePriority],
+  },
 ])
 
 export default AccountRouter

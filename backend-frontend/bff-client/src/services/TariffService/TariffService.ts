@@ -1,5 +1,6 @@
-import { PaginationReq, WithUser } from 'dto/Common'
-import { SearchTariffDto } from 'dto/Loan'
+import { AuthInfo } from 'common'
+import { PaginationReq } from 'dto/Common/req'
+import { SearchTariffDto } from 'dto/Tariff/req'
 import { TariffRepo } from 'repos/TariffRepo'
 
 class TariffService {
@@ -7,12 +8,10 @@ class TariffService {
 
   constructor(TariffRepo: TariffRepo) {
     this._TariffRepo = TariffRepo
-
-    this.GetTariffs = this.GetTariffs.bind(this)
   }
 
-  async GetTariffs(Dto: WithUser<PaginationReq<SearchTariffDto>>) {
-    return await this._TariffRepo.GetTariffs(Dto)
+  async GetTariffs(Dto: PaginationReq<SearchTariffDto>, AuthInfo: AuthInfo) {
+    return await this._TariffRepo.GetTariffs(Dto, AuthInfo)
   }
 }
 

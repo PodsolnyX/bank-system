@@ -1,5 +1,6 @@
-import { GetProfileDto, GetUserStatusDto, RegisterDto } from 'dto/User'
 import { UserRepo } from 'repos/UserRepo'
+import { JWT_STATUS } from './types'
+import { jwtDecode } from 'jwt-decode'
 
 class UserService {
   private _UserRepo: UserRepo
@@ -7,20 +8,34 @@ class UserService {
   constructor(UserRepo: UserRepo) {
     this._UserRepo = UserRepo
 
-    this.GetProfile = this.GetProfile.bind(this)
-    this.Register = this.Register.bind(this)
+    this.GetAccessInfoById = this.GetAccessInfoById.bind(this)
+    this.ValidateJWT = this.ValidateJWT.bind(this)
   }
 
-  async GetProfile(Dto: GetProfileDto) {
-    return await this._UserRepo.GetProfile(Dto)
+  async GetAccessInfoById(id: string) {
+    return await this._UserRepo.GetAccessInfoById(id)
   }
 
-  async GetStatus(Dto: GetUserStatusDto) {
-    return await this._UserRepo.GetStatus(Dto)
-  }
+  async ValidateJWT(jwt: string | null | undefined): Promise<JWT_STATUS> {
+    if (!jwt) {
+      return 401
+    }
+    try {
+      const decoded = jwtDecode(jwt)
+      if (!decoded.sub || !decoded.exp || decoded.exp <= Date.now() / 1000) {
+        return 401
+      }
 
-  async Register(Dto: RegisterDto) {
-    return await this._UserRepo.Register(Dto)
+      const authData = await this.GetAccessInfoById(decoded.sub)
+
+      if (authData.bannedAt) {
+        return 403
+      }
+
+      return 200
+    } catch {
+      return 401
+    }
   }
 }
 

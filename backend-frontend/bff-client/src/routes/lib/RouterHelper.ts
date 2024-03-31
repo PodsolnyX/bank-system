@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { ReqError } from 'common/ReqError'
 import { Router, RequestHandler } from 'express'
 
 type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'all'
@@ -25,6 +26,8 @@ class RouterHelper {
           } catch (err) {
             if (err instanceof AxiosError && err.response) {
               args[1].status(err.response.status).send(err.response.data)
+            } else if (err instanceof ReqError) {
+              args[1].status(err.status).send({ message: err.message })
             } else {
               args[1].sendStatus(500)
             }

@@ -4,11 +4,15 @@ import {
   DepositReq,
   GetAccountReq,
   GetAccountsReq,
+  MakePriorityReq,
   OpenAccountReq,
+  TransferSelfReq,
+  TransferUserReq,
   WithdrawReq,
 } from 'controllers/Account/types'
-import { Extractor } from '../lib/Extractor'
+
 import { AccountService } from 'services/AccountService'
+import { AuthHelper } from 'common'
 
 class AccountController {
   private _AccountService: AccountService
@@ -18,32 +22,71 @@ class AccountController {
   }
 
   async OpenAccount(req: OpenAccountReq, res: Response) {
-    const data = await this._AccountService.OpenAccount(Extractor.ExtractParams(req))
+    const data = await this._AccountService.OpenAccount(req.query, AuthHelper.Data(req))
     res.status(200).send(data)
   }
 
   async CloseAccount(req: CloseAccountReq, res: Response) {
-    const data = await this._AccountService.CloseAccount(Extractor.ExtractBody(req))
+    const data = await this._AccountService.CloseAccount(req.params, AuthHelper.Data(req))
     res.status(200).send(data)
   }
 
   async GetAccounts(req: GetAccountsReq, res: Response) {
-    const data = await this._AccountService.GetAccounts(Extractor.ExtractParams(req))
+    const data = await this._AccountService.GetAccounts(req.query, AuthHelper.Data(req))
     res.status(200).send(data)
   }
 
   async GetAccount(req: GetAccountReq, res: Response) {
-    const data = await this._AccountService.GetAccount(Extractor.ExtractParams(req))
+    const data = await this._AccountService.GetAccount(req.params, AuthHelper.Data(req))
     res.status(200).send(data)
   }
 
   async Deposit(req: DepositReq, res: Response) {
-    const data = await this._AccountService.Deposit(Extractor.ExtractParams(req))
+    const data = await this._AccountService.Deposit(
+      {
+        ...req.query,
+        ...req.params,
+      },
+      AuthHelper.Data(req)
+    )
     res.status(200).send(data)
   }
 
   async Withdraw(req: WithdrawReq, res: Response) {
-    const data = await this._AccountService.Withdraw(Extractor.ExtractParams(req))
+    const data = await this._AccountService.Withdraw(
+      {
+        ...req.query,
+        ...req.params,
+      },
+      AuthHelper.Data(req)
+    )
+    res.status(200).send(data)
+  }
+
+  async TransferSelf(req: TransferSelfReq, res: Response) {
+    const data = await this._AccountService.TransferSelf(
+      {
+        ...req.query,
+        ...req.params,
+      },
+      AuthHelper.Data(req)
+    )
+    res.status(200).send(data)
+  }
+
+  async TransferUser(req: TransferUserReq, res: Response) {
+    const data = await this._AccountService.TransferUser(
+      {
+        ...req.query,
+        ...req.params,
+      },
+      AuthHelper.Data(req)
+    )
+    res.status(200).send(data)
+  }
+
+  async MakePriority(req: MakePriorityReq, res: Response) {
+    const data = await this._AccountService.MakePriority(req.params, AuthHelper.Data(req))
     res.status(200).send(data)
   }
 }

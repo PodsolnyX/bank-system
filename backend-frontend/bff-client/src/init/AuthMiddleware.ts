@@ -1,4 +1,4 @@
 import { UserServiceInst } from 'init/User'
-import { AuthMiddleware } from 'middleware/Auth'
+import { AuthMiddlewareFn } from 'middleware/Auth'
 
-export const AuthMiddlewareInst = () => AuthMiddleware(UserServiceInst)
+export const AuthMiddleware = () => AuthMiddlewareFn(UserServiceInst)
