@@ -69,7 +69,7 @@ const items: MenuProps['items'] = [
     },
     {
         key: 'logout',
-        label: "Выйти",
+        label: <a href={"https://coto-dev.ru"}>Выйти</a>,
         danger: true,
         icon: <LoginOutlined/>
     },

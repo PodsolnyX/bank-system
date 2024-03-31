@@ -16,7 +16,6 @@ class AccountController {
 
   async GetAccounts(req: GetAccountsReq, res: Response) {
     const data = await this._AccountService.GetAllAccounts(Extractor.ExtractParams(req), AuthHelper.Data(req))
-    console.log(data)
     res.status(200).send(data)
   }
 
