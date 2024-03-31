@@ -12,7 +12,7 @@ public class OperationHistoryMessage
     public OperationType OperationType { get; set; }
     public OperationReason OperationReason { get; set; }
     public OperationStatus OperationStatus { get; set; }
-    public int Amount { get; set; }
+    public long Amount { get; set; }
     public string? Message { get; set; }
     public DateTime DateTime { get; set; }
 }

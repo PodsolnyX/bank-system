@@ -3,6 +3,7 @@ using System;
 using Arbiter.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Arbiter.DAL.Migrations
 {
     [DbContext(typeof(ArbiterDbContext))]
-    partial class ArbiterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240330094748_Made_Amount_Long")]
+    partial class Made_Amount_Long
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

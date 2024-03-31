@@ -105,22 +105,31 @@ public class AccountUserController : ControllerBase
     /// Transfer money from my account to my account
     /// </summary>
     [HttpPost("{fromAccountId:guid}/transfer/{toAccountId:guid}")]
-    public async Task TransferMoneyBetweenAccounts(Guid fromAccountId, Guid toAccountId, int amount)
+    public async Task TransferMoneyBetweenAccounts(
+        Guid fromAccountId,
+        Guid toAccountId,
+        long amount
+    )
     {
         var userId = HttpContext.GetUserId();
-        await _accountExternalService.TransferMoneyBetweenMyAccounts(fromAccountId, toAccountId, amount, userId);
+        await _accountExternalService.TransferMoneyBetweenMyAccounts(
+            fromAccountId,
+            toAccountId,
+            amount,
+            userId
+        );
     }
-    
+
     /// <summary>
     /// Transfer money from my account to user
     /// </summary>
     [HttpPost("{fromAccountId:guid}/transfer/{toUserId:guid}/toUser")]
-    public async Task TransferMoneyToUser(Guid fromAccountId, Guid toUserId, int amount)
+    public async Task TransferMoneyToUser(Guid fromAccountId, Guid toUserId, long amount)
     {
         var userId = HttpContext.GetUserId();
         await _accountExternalService.TransferMoneyToUser(fromAccountId, toUserId, amount, userId);
     }
-    
+
     /// <summary>
     /// Make account priority
     /// </summary>

@@ -9,7 +9,8 @@ namespace Core.API.Controllers;
 [Controller]
 [AllowAnonymous]
 [Route("account/internal")]
-public class AccountInternalController : ControllerBase {
+public class AccountInternalController : ControllerBase
+{
     private readonly AccountInternalService _accountInternalService;
     private readonly AccountExternalService _accountExternalService;
 
@@ -17,7 +18,8 @@ public class AccountInternalController : ControllerBase {
     public AccountInternalController(
         AccountInternalService accountInternalService,
         AccountExternalService accountExternalService
-    ) {
+    )
+    {
         _accountInternalService = accountInternalService;
         _accountExternalService = accountExternalService;
     }
@@ -26,7 +28,8 @@ public class AccountInternalController : ControllerBase {
     /// Get specific account
     /// </summary>
     [HttpGet("{id:guid}")]
-    public async Task<AccountDto> GetAccount(Guid id) {
+    public async Task<AccountDto> GetAccount(Guid id)
+    {
         return await _accountExternalService.GetAccount(id);
     }
 
@@ -34,7 +37,8 @@ public class AccountInternalController : ControllerBase {
     /// Modifies account
     /// </summary>
     [HttpPost("{accountId:guid}/modification")]
-    public async Task Modify(Guid accountId, [FromBody] AccountModificationDto dto) {
+    public async Task Modify(Guid accountId, [FromBody] AccountModificationDto dto)
+    {
         await _accountInternalService.ModifyAccount(accountId, dto);
     }
 
@@ -42,7 +46,8 @@ public class AccountInternalController : ControllerBase {
     /// Cancel account modification
     /// </summary>
     [HttpDelete("{accountId:guid}/modification")]
-    public async Task ModifyCancel(Guid accountId, [FromBody] AccountModificationDto dto) {
+    public async Task ModifyCancel(Guid accountId, [FromBody] AccountModificationDto dto)
+    {
         await _accountInternalService.ModifyAccountCancel(accountId, dto);
     }
 
@@ -50,20 +55,25 @@ public class AccountInternalController : ControllerBase {
     /// Transfer money from my account to master-account (charge loan)
     /// </summary>
     [HttpPost("{accountId:guid}/transfer/to-master")]
-    public async Task TransferMoneyToMasterAccount(Guid accountId, int amount) {
+    public async Task TransferMoneyToMasterAccount(Guid accountId, long amount)
+    {
         await _accountInternalService.TransferMoneyInternal(
             accountId,
-            new Guid("F6AB14AA-4634-4644-A6A9-2F84D8A878DB"), amount);
+            new Guid("F6AB14AA-4634-4644-A6A9-2F84D8A878DB"),
+            amount
+        );
     }
 
     /// <summary>
     /// Transfer money from master-account to my account (request loan)
     /// </summary>
     [HttpPost("{accountId:guid}/transfer/from-master")]
-    public async Task TransferMoneyFromMasterAccount(Guid accountId, int amount) {
+    public async Task TransferMoneyFromMasterAccount(Guid accountId, long amount)
+    {
         await _accountInternalService.TransferMoneyInternal(
             new Guid("F6AB14AA-4634-4644-A6A9-2F84D8A878DB"),
-            accountId, amount);
+            accountId,
+            amount
+        );
     }
-    
 }

@@ -13,7 +13,7 @@ public class OperationDto
     public OperationReason Reason { get; set; }
     public OperationStatus Status { get; set; }
     public CurrencyType CurrencyType { get; set; }
-    public int Amount { get; set; }
+    public long Amount { get; set; }
     public string? Message { get; set; }
     public DateTime? CreatedAt { get; set; }
 }

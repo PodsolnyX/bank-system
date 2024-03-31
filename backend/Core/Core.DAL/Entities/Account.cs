@@ -13,7 +13,7 @@ public class Account : BaseEntity
 
     public CurrencyType CurrencyType { get; set; }
 
-    public int Amount { get; set; }
+    public long Amount { get; set; }
 
     public bool IsLockedForTransaction { get; set; }
     public bool IsPriority { get; set; } = false;

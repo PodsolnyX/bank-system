@@ -8,6 +8,6 @@ public class RequestLoanChargeDto
     public Guid LoanId { get; set; }
     public Guid AccountId { get; set; }
     public Guid TariffId { get; set; }
-    public int Amount { get; set; }
+    public long Amount { get; set; }
     public CurrencyType CurrencyType { get; set; }
 }
