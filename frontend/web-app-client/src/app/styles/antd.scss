@@ -1,13 +1,48 @@
+.ant-table-wrapper,
+.ant-card,
+.ant-dropdown,
+.ant-select-dropdown,
+.ant-btn,
+.ant-form-item-label,
+.ant-form-item-control-input,
+.ant-tabs-nav-wrap,
+.ant-result-title,
+.ant-result-subtitle,
+.ant-alert,
+.ant-progress-text {
+  filter: var(--antd-filter);
+}
+
+.ant-table-cell .ant-btn {
+  filter: none;
+}
+
+.ant-form-item-explain-error {
+  filter: none !important;
+}
+
 .ant-select-arrow {
-    color: black !important;
+  color: black !important;
 }
 
 .ant-table-cell {
-    padding: 6px !important;
+  padding: 6px !important;
+}
+
+.ant-spin-dot {
+  width: 64px !important;
+  height: 64px !important;
+}
+
+.ant-spin-dot-item {
+  width: 30px !important;
+  height: 30px !important;
+  background-color: limegreen !important;
 }
 
 @media (max-width: 500px) {
-    .ant-table table, .ant-tag { 
-        font-size: 10px;
-    }
+  .ant-table table,
+  .ant-tag {
+    font-size: 10px;
+  }
 }

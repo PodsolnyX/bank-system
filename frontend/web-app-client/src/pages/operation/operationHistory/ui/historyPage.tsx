@@ -1,8 +1,7 @@
-import { HistoryTable } from 'entities'
-import { useGetHistoryQuery } from 'shared/api'
-import { AppRoutes } from 'shared/const'
-import { OperationStatus, SortOrder } from 'shared/entities'
-import { Center, ErrorMsg, PageHeader } from 'shared/ui'
+import { HistoryTable, useGetHistoryQuery, OperationStatus } from 'entities/operation'
+import { SortOrder } from 'shared/api'
+import { AppRoutes } from 'shared/config'
+import { Center, ErrorMsg, PageHeader, PageLoader } from 'shared/ui'
 
 export const HistoryPage = () => {
   const histQuery = useGetHistoryQuery({
@@ -23,6 +22,10 @@ export const HistoryPage = () => {
         text='Произошла ошибка при загрузке данных'
       />
     )
+  }
+
+  if (histQuery.isFetching) {
+    return <PageLoader />
   }
 
   return (

@@ -1,23 +1,21 @@
-import { useEffect } from 'react'
-import { Card, Skeleton } from 'antd'
-import { useLazyGetProfileQuery } from 'shared/api'
-import { useAppSelector } from 'shared/store'
-import { Center, PageHeader, Property } from 'shared/ui'
+import { SunOutlined, MoonOutlined } from '@ant-design/icons'
+import { Card, Skeleton, Switch } from 'antd'
+import { useAuth } from 'oidc-react'
 import { Link } from 'react-router-dom'
-import { AppRoutes } from 'shared/const'
+
+import { useTheme } from 'features/preferences'
+import { Theme } from 'entities/preferences'
+import { extractFromJWT } from 'entities/user'
+import { Center, PageHeader, Property, PageLoader } from 'shared/ui'
 
 export const ProfilePage = () => {
-  const [trigger, { data, isLoading }] = useLazyGetProfileQuery()
-  const mail = useAppSelector((store) => store.authReducer.mail)
-
-  useEffect(() => {
-    if (mail) {
-      trigger(mail, true)
-    }
-  }, [trigger, mail])
+  const { theme, setTheme } = useTheme()
+  const { isLoading, userData } = useAuth()
+  const token = userData?.access_token
+  const data = extractFromJWT(token)
 
   if (isLoading) {
-    return
+    return <PageLoader />
   }
 
   return (
@@ -29,17 +27,25 @@ export const ProfilePage = () => {
         </Card>
       ) : (
         <Card
-          title={<span className='text-pretty'>{data?.name || 'Нет имени'}</span>}
+          title={
+            <div className='flex items-center'>
+              <span className='text-pretty'>{data.name}</span>
+              <Switch
+                className='ms-auto'
+                value={theme === Theme.Dark}
+                onChange={() =>
+                  setTheme({ theme: theme === Theme.Dark ? Theme.Default : Theme.Dark })
+                }
+                checkedChildren={<MoonOutlined />}
+                unCheckedChildren={<SunOutlined />}
+              />
+            </div>
+          }
           className='w-full md:w-1/2'
         >
-          <Property name='id' value={data?.id || '—'} className='m-0' />
-          <Property
-            name='Роль'
-            value={data?.isEmployee ? 'Клиент, сотрудник' : 'Клиент'}
-            className='m-0'
-          />
-          <Property name='Почта' value={data?.mail || '—'} className='m-0' />
-          <Link to={AppRoutes.LOGOUT}>Выйти</Link>
+          <Property name='id' value={data.id} className='m-0' />
+          <Property name='Почта' value={data.mail} className='m-0' />
+          <Link to={'https://coto-dev.ru/'}>Выйти</Link>
         </Card>
       )}
     </Center>

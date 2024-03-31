@@ -1,5 +1,5 @@
+import logoSVG from 'shared/assets/logo.svg'
 import { Image } from 'shared/ui'
-import logoSVG from 'assets/logo.svg'
 
 export interface LogoProps {
   [propKey: string]: any

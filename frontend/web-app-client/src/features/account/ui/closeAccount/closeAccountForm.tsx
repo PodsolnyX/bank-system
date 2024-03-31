@@ -1,6 +1,6 @@
 import { Button } from 'antd'
-import { Form, FormProps } from 'shared/ui'
 import { useEffect, useState } from 'react'
+import { Form, FormProps } from 'shared/ui'
 
 export type CloseAccountFormProps = {
   onFinish: () => void

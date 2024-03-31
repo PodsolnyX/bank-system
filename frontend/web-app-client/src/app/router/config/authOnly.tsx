@@ -1,24 +1,21 @@
 import { RouteObject } from 'react-router-dom'
-import { OperationType } from 'shared/entities'
-import { AppRoutes } from 'shared/const'
-
 import {
   AccountPage,
   AccountsPage,
   LoanPage,
   LoansListPage,
-  HistoryPage,
-  LogoutPage,
   MainPage,
   NewAccountPage,
-  OperationPage,
+  TransferPage,
   ProfilePage,
   NewLoanPage,
   CloseAccountPage,
   ChargeLoanPage,
+  RatingPage,
+  OperationPage,
 } from 'pages'
-
-import { privateWrapper } from 'app/router/lib'
+import { AppRoutes } from 'shared/config'
+import { privateWrapper } from '../lib'
 
 const _privateRoutes: RouteObject[] = [
   {
@@ -31,19 +28,19 @@ const _privateRoutes: RouteObject[] = [
   },
   {
     path: AppRoutes.WITHDRAW,
-    element: <OperationPage type={OperationType.WITHDRAW} />,
+    element: <OperationPage type={'withdraw'} />,
   },
   {
     path: AppRoutes.DEPOSIT,
-    element: <OperationPage type={OperationType.DEPOSIT} />,
-  },
-  {
-    path: AppRoutes.HISTORY,
-    element: <HistoryPage />,
+    element: <OperationPage type={'deposit'} />,
   },
   {
     path: AppRoutes.LOANS,
     element: <LoansListPage />,
+  },
+  {
+    path: AppRoutes.RATING,
+    element: <RatingPage />,
   },
   {
     path: AppRoutes.REPAY,
@@ -70,12 +67,16 @@ const _privateRoutes: RouteObject[] = [
     element: <CloseAccountPage />,
   },
   {
-    path: AppRoutes.PROFILE,
-    element: <ProfilePage />,
+    path: AppRoutes.TRANSFER_SELF,
+    element: <TransferPage type='self' />,
   },
   {
-    path: AppRoutes.LOGOUT,
-    element: <LogoutPage />,
+    path: AppRoutes.TRANSFER_ANOTHER,
+    element: <TransferPage type='external' />,
+  },
+  {
+    path: AppRoutes.PROFILE,
+    element: <ProfilePage />,
   },
 ]
 

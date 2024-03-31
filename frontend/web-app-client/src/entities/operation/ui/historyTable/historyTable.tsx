@@ -1,5 +1,5 @@
 import { Table, Skeleton, Empty } from 'antd'
-import { Operation } from 'shared/entities'
+import { Operation } from '../../model'
 import { fullHistoryColumns, historyColumns } from './historyTableColumns'
 
 export interface HistoryTableProps {
@@ -14,7 +14,7 @@ export const HistoryTable = (props: HistoryTableProps) => {
     <Table
       rowKey={(record) => record.id}
       bordered
-      className='w-full md:w-2/3 border-[1px] border-slate-300 border-solid rounded-lg text-sm'
+      className='w-full md:w-2/3 mt-2 border-[1px] border-border border-solid rounded-lg text-sm'
       columns={full ? fullHistoryColumns : historyColumns}
       dataSource={history}
       pagination={{ pageSize: 7, showSizeChanger: false }}

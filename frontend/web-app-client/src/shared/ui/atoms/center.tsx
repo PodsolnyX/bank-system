@@ -1,5 +1,5 @@
 import cs from 'classnames'
-import { CommonProps } from 'shared/utils'
+import { CommonProps } from 'shared/lib'
 
 export const Center = (props: CommonProps) => {
   const { children, className, ...rest } = props

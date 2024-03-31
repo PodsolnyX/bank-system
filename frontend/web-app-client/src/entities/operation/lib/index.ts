@@ -1,4 +1,4 @@
-import { OperationReason, OperationStatus, OperationType } from 'shared/entities'
+import { OperationReason, OperationStatus, OperationType } from '../model'
 
 export function getOperationName(type: OperationType, reason: OperationReason) {
   const names = {

@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import { Alert, Button, InputNumber, Select } from 'antd'
 import { AccountBookOutlined, CreditCardOutlined } from '@ant-design/icons'
+import { Alert, Button, InputNumber, Select } from 'antd'
+import { useState } from 'react'
+import { Account } from 'entities/account'
+import { Tariff } from 'entities/tariff'
+import { moneyRules } from 'shared/lib'
+import { format } from 'shared/lib/format'
 import { Form, FormProps } from 'shared/ui'
-import { Account, Tariff } from 'shared/entities'
-import { RequestLoanReq } from 'shared/api'
-import { moneyRules } from 'shared/utils'
-import { format } from 'shared/utils/format'
+import { RequestLoanReq } from '../../api'
 
 export type NewLoanFormProps = {
-  onFinish: (data: NewLoanFormData) => void
+  onFinish: (data: NewLoanFormData) => Promise<void>
   tariffs: Tariff[]
   accounts: Account[]
 } & Omit<FormProps, 'children'>
@@ -20,6 +21,7 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
 
   const [tariff, setTariff] = useState<string | null>(null)
   const [account, setAccount] = useState<string | null>(null)
+  const [disable, setDisable] = useState(false)
   const tariffCurr = tariffs.find((t) => t.id === tariff)?.currencyTypes
   const accountCurr = accounts.find((a) => a.id === account)?.currencyType
   const isValid = !!(accountCurr && tariffCurr?.includes(accountCurr))
@@ -29,12 +31,14 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
   const visibleTariffs = tariffs
   const visibleAccounts = accounts.filter((acc) => !acc.closedAt)
 
-  const onFinishWrap = (data: NewLoanFormData) => {
+  const onFinishWrap = async (data: NewLoanFormData) => {
     if (isValid) {
-      onFinish({
+      setDisable(true)
+      await onFinish({
         ...data,
         currencyType: accountCurr,
       })
+      setDisable(false)
     }
   }
 
@@ -98,7 +102,7 @@ export const NewLoanForm = (props: NewLoanFormProps) => {
       )}
 
       <p className='text-red-500'></p>
-      <Button className='float-right' type='primary' htmlType='submit'>
+      <Button className='float-right' type='primary' htmlType='submit' disabled={disable}>
         Создать
       </Button>
     </Form>

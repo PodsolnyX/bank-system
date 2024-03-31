@@ -1,10 +1,15 @@
-import { Button, Skeleton, Tabs } from 'antd'
+import {
+  PlusCircleOutlined,
+  FieldTimeOutlined,
+  PieChartOutlined,
+} from '@ant-design/icons'
+import { Button, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
-import { PlusCircleOutlined, FieldTimeOutlined } from '@ant-design/icons'
-import { Center, ErrorMsg, PageHeader } from 'shared/ui'
-import { AppRoutes } from 'shared/const'
-import { useExecuteJobMutation, useGetLoansQuery, useGetPaymentsQuery } from 'shared/api'
-import { GeneralLoanTable, PaymentsTable } from 'entities'
+import { useExecuteJobMutation } from 'features/loan'
+import { useGetLoansQuery, useGetPaymentsQuery } from 'entities/loan'
+import { GeneralLoanTable, PaymentsTable } from 'entities/loan'
+import { AppRoutes } from 'shared/config'
+import { Center, ErrorMsg, PageHeader, PageLoader } from 'shared/ui'
 
 export const LoansListPage = () => {
   const loans = useGetLoansQuery({ limit: 10000 })
@@ -26,26 +31,29 @@ export const LoansListPage = () => {
     location.reload()
   }
 
+  if (loans.isFetching || payments.isFetching) {
+    return <PageLoader />
+  }
+
   return (
     <Center>
       <PageHeader text='Список кредитов' />
-      {loans.isFetching || payments.isFetching ? (
-        <div>
-          <Skeleton.Button className='mb-2 mx-1' />
-          <Skeleton.Button className='mb-2 mx-1' />
-        </div>
-      ) : (
-        <div className='text-center'>
-          <Link to={AppRoutes.LOAN_NEW}>
-            <Button className='mb-2 mx-1' icon={<PlusCircleOutlined />}>
-              Новый кредит
-            </Button>
-          </Link>
-          <Button className='mb-2 mx-1' icon={<FieldTimeOutlined />} onClick={timeJump}>
-            Прыжок времени
+
+      <div className='text-center'>
+        <Link to={AppRoutes.LOAN_NEW}>
+          <Button className='mb-2 mx-1' icon={<PlusCircleOutlined />}>
+            Новый кредит
           </Button>
-        </div>
-      )}
+        </Link>
+        <Button className='mb-2 mx-1' icon={<FieldTimeOutlined />} onClick={timeJump}>
+          Прыжок времени
+        </Button>
+        <Link to={AppRoutes.RATING}>
+          <Button className='mb-2 mx-1' icon={<PieChartOutlined />}>
+            Рейтинг
+          </Button>
+        </Link>
+      </div>
       <Tabs
         className='w-full md:w-2/3 flex justify-center align-center'
         centered

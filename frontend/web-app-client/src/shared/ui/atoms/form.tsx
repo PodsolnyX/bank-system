@@ -1,6 +1,6 @@
 import { Form as AntdForm, FormProps as AntdFormProps, Skeleton } from 'antd'
 import cs from 'classnames'
-import { CommonProps } from 'shared/utils'
+import { CommonProps } from 'shared/lib'
 
 export type FormProps = AntdFormProps &
   CommonProps & {
@@ -15,7 +15,7 @@ export const Form = (props: FormProps) => {
       disabled={!!isLoading || !!showSkeleton}
       layout='vertical'
       className={cs(
-        'w-full p-2 m-2 border-[1px] border-slate-300 border-solid rounded-md shadow-xl',
+        'w-full p-2 m-2 border-[1px] border-border border-solid rounded-md shadow-xl',
         className,
         { 'animate-pulse': isLoading }
       )}

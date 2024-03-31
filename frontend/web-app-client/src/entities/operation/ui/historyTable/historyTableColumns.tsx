@@ -3,16 +3,11 @@ import { TagProps } from 'antd/es/tag'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
+import { getAccountHistoryLink, getLoanLink } from 'shared/config'
+import { CurrencyType } from 'shared/lib'
+import { format } from 'shared/lib/format'
 import { getOperationCode, getOperationName, getOperationStatusName } from '../../lib'
-import { getAccountHistoryLink, getLoanLink } from 'shared/const'
-import {
-  CurrencyType,
-  Operation,
-  OperationReason,
-  OperationStatus,
-  OperationType,
-} from 'shared/entities'
-import { format } from 'shared/utils/format'
+import { Operation, OperationReason, OperationStatus, OperationType } from '../../model'
 
 const commonColumns: ColumnsType<Operation> = [
   {

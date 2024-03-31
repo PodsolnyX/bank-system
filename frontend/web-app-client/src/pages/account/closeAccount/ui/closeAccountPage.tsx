@@ -1,11 +1,12 @@
-import { Center, PageHeader } from 'shared/ui'
-import { CloseAccountForm } from 'features/account'
-import { useCloseAccountMutation, useGetAccountQuery } from 'shared/api'
-import { useNavigate, useParams } from 'react-router-dom'
-import { AppRoutes } from 'shared/const'
-import { PageLoader } from 'widgets'
 import { useEffect } from 'react'
-import { toastError, toastSuccess } from 'shared/toast'
+import { useNavigate, useParams } from 'react-router-dom'
+import { CloseAccountForm } from 'features/account'
+import { useCloseAccountMutation } from 'entities/account'
+import { useGetAccountQuery } from 'entities/account'
+import { AppRoutes } from 'shared/config'
+import { toastError, toastSuccess } from 'shared/lib'
+import { PageLoader } from 'shared/ui'
+import { Center, PageHeader } from 'shared/ui'
 
 export const CloseAccountPage = () => {
   const id = useParams()['id']!

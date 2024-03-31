@@ -1,13 +1,13 @@
-import { Select, InputNumber, Button, Input } from 'antd'
 import { CreditCardOutlined, WalletOutlined } from '@ant-design/icons'
-import { Center, ErrorMsg, Form } from 'shared/ui'
-import { moneyRules } from 'shared/utils'
-import { ChargeLoanFormProps } from './types'
+import { Select, InputNumber, Button, Input } from 'antd'
 import { useMemo, useState } from 'react'
-import { AppRoutes } from 'shared/const'
 import { Link } from 'react-router-dom'
-import { format } from 'shared/utils/format'
-import { PageLoader } from 'widgets'
+import { AppRoutes } from 'shared/config'
+import { moneyRules } from 'shared/lib'
+import { format } from 'shared/lib/format'
+import { Center, ErrorMsg, Form } from 'shared/ui'
+import { PageLoader } from 'shared/ui'
+import { ChargeLoanFormProps, ChargeLoanFormValues } from './types'
 
 export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
   const { loan, accounts, isLoading, onFinish, ...rest } = props
@@ -16,6 +16,13 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
       (acc) => !acc.closedAt && acc.currencyType === loan.currencyType
     )
   }, [accounts, loan.currencyType])
+
+  const [disable, setDisable] = useState(false)
+  const wrappedOnFinish = async (values: ChargeLoanFormValues) => {
+    setDisable(true)
+    await onFinish(values)
+    setDisable(false)
+  }
 
   const [chosenAcc, setChosenAcc] = useState<string | null>(null)
 
@@ -47,7 +54,7 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
         className='w-full md:w-1/3'
         {...rest}
         onFinish={(v) =>
-          onFinish({
+          wrappedOnFinish({
             ...v,
             currencyType: loan.currencyType,
           })
@@ -108,7 +115,12 @@ export const ChargeLoanForm = (props: ChargeLoanFormProps) => {
             addonAfter={loan.currencyType}
           />
         </Form.Item>
-        <Button type='primary' className='float-right' htmlType='submit'>
+        <Button
+          type='primary'
+          className='float-right'
+          htmlType='submit'
+          disabled={disable}
+        >
           Подтвердить
         </Button>
       </Form>

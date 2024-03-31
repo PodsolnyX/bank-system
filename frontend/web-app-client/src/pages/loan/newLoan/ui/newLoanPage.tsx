@@ -1,20 +1,18 @@
-import { Center, ErrorMsg, PageHeader } from 'shared/ui'
-import { NewLoanForm, NewLoanFormData } from 'features/loan'
-import {
-  useGetTariffsQuery,
-  useGetAccountsQuery,
-  useRequestLoanMutation,
-} from 'shared/api'
 import { useNavigate } from 'react-router-dom'
-import { AppRoutes } from 'shared/const'
-import { toastError, toastSuccess } from 'shared/toast'
-import { PageLoader } from 'widgets'
-import { convert } from 'shared/utils/format'
+import { NewLoanForm, NewLoanFormData } from 'features/loan'
+import { useRequestLoanMutation } from 'features/loan'
+import { useGetAccountsQuery } from 'entities/account'
+import { useGetTariffsQuery } from 'entities/tariff'
+import { AppRoutes } from 'shared/config'
+import { toastError, toastSuccess } from 'shared/lib'
+import { convert } from 'shared/lib/format'
+import { PageLoader } from 'shared/ui'
+import { Center, ErrorMsg, PageHeader } from 'shared/ui'
 
 export const NewLoanPage = () => {
   const navigate = useNavigate()
   const tariffs = useGetTariffsQuery({})
-  const accounts = useGetAccountsQuery({})
+  const accounts = useGetAccountsQuery({ hidden: false })
   const [trigger] = useRequestLoanMutation()
 
   const onFinish = async (values: NewLoanFormData) => {

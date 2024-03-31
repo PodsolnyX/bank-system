@@ -12,7 +12,8 @@ export const Property = (props: PropertyProps) => {
   const { name, value, className, containerClassName } = props
   return (
     <div className={cs('w-full md:w-2/3', containerClassName)}>
-      <span className={cs('text-lime-500', className)}>{`${name}:`}</span> {value}
+      <span className={cs('text-heading', className)}>{`${name}:`}</span>{' '}
+      <span className='text-common'>{value}</span>
     </div>
   )
 }

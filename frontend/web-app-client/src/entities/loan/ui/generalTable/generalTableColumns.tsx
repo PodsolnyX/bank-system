@@ -2,12 +2,12 @@ import { Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 
-import { Dropdown } from 'shared/ui'
-import { CurrencyType } from 'shared/entities'
-import { getAccountHistoryLink, getLoanLink } from 'shared/const'
 import { LoanInfo, getLoanActions } from 'entities/loan'
-import { getPaymentDisplayInfo, getPaymentStatus, PaymentStatus } from 'entities/payment'
-import { format } from 'shared/utils/format'
+import { getAccountHistoryLink, getLoanLink } from 'shared/config'
+import { CurrencyType } from 'shared/lib'
+import { format } from 'shared/lib/format'
+import { Dropdown } from 'shared/ui'
+import { getPaymentDisplayInfo, getPaymentStatus, PaymentStatus } from '../payment'
 
 export const generalLoanTableColumns: ColumnsType<LoanInfo> = [
   {

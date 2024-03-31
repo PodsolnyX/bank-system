@@ -1,59 +1,21 @@
-@import "reset";
-@import "antd";
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-@import "react-toastify/dist/ReactToastify.css";
+@import 'reset';
 
-body, #root {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-}
+@import 'main';
+@import 'themes';
+@import 'links';
+@import 'headings';
+@import 'img';
+@import 'input';
+@import 'utilities';
 
-@layer utilities {
-.img-shadow {
-    filter: drop-shadow(12px 12px 7px rgba(0,0,0,0.5))
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-.shimmer {
-    mask: linear-gradient(-60deg,#000 30%,#0005,#000 70%) right/300% 100%;
-    animation: shimmer 2s;
-}
-
-@keyframes shimmer {
-    100% {
-        mask-position: left
-    }
-}}
-
-img, h1, h2, h3 {
-    user-select: none;
-}
-
-a {
-    color: #79abf0;
-}
-
-a:hover {
-    color: #468def;
-}
-
-a.active {
-    color: #1677ff;
-    text-decoration: underline;
-    text-underline-offset: 12px;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+@import 'antd';
+@import 'react-toastify/dist/ReactToastify.css';
 
 
-h1, h2, h3, h4, h5, h6 {
-    color: rgb(132, 204, 22) !important;
-}
+
+
+
