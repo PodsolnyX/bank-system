@@ -158,7 +158,7 @@ public class RequestLoanJob
             }
             else
             {
-                if (request.TakeLoanRetries >= 4)
+                if (request.AccountLoanIncomeRetries >= 4)
                 {
                     // Отменить взятие кредита
                     var cancelResponse = await client.DeleteAsync(
