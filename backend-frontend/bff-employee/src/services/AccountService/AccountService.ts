@@ -7,6 +7,7 @@ import {AuthAPI, CoreAPI} from "../../repos/lib";
 import {Account} from "../../entities/Account";
 import {User} from "../../entities/User";
 import {AuthInfo} from "common/Auth";
+import PreferencesService from "../PreferenceService/PreferenceService";
 
 class AccountService {
 
@@ -25,6 +26,9 @@ class AccountService {
 
     const userIds = [...new Set(accountsRes.data.map(it => it.userId))]
 
+    const pref = new PreferencesService();
+    const hiddenAccounts = await pref.GetHiddenAccounts(userIds) || [];
+
     const usersRes = await AuthAPI.Req(AuthInfo).get<User[]>('/user/profiles', {
       params: {
         userIds: userIds
@@ -32,10 +36,14 @@ class AccountService {
     })
 
     return (
-        accountsRes.data.map(it => {
+        accountsRes.data.map(account => {
           return {
-            userName: usersRes.data.find(_it => _it.id === it.userId)?.name || null,
-            ...it,
+            userName: usersRes.data.find(_it => _it.id === account.userId)?.name || null,
+            isHidden:
+                !!hiddenAccounts
+                .find(user => user.userid === account.userId)?.hiddenAccounts
+                .find(hiddenAccounts => hiddenAccounts === account.id) || false,
+            ...account,
           }
         })
     )

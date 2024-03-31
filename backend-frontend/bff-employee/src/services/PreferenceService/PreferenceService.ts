@@ -1,7 +1,7 @@
 import {AuthInfo} from "common/Auth";
 import {Collection, Db, MongoClient} from "mongodb";
 import {GetThemeDto, UpdateThemeDto} from "../../dto/Preference";
-import {HiddenAccounts, Preferences, Theme} from "../../entities/Preference";
+import {Preferences, Theme} from "../../entities/Preference";
 import {ReqError} from "../../common/ReqError";
 import {GetPreferencesDto} from "../../dto/Preference/GetPreferencesDto";
 
@@ -59,30 +59,19 @@ class PreferencesService {
     return preferences || this._DefaultPreferences
   }
 
-  // private async _FetchUsersPreferences(
-  //     UsersIds: string[],
-  //     projection?: Document | undefined
-  // ): Promise<GetPreferencesDto[]> {
-  //   await this._Init()
-  //   const preferences = await this._Collection?.find(
-  //       // { userid: UsersIds },
-  //       // { projection: projection || { theme: 1, hiddenAccounts: 1, _id: 0 } }
-  //   )
-  //   if (!preferences) {
-  //     return [];
-  //   }
-  //   return preferences;
-  // }
-
   async GetTheme(AuthInfo: AuthInfo): Promise<GetThemeDto> {
     // @ts-ignore
     const res = await this._FetchPreferences(AuthInfo.id, { themeEmployee: 1, _id: 0 })
     return {theme: res.themeEmployee};
   }
 
-  // async GetHiddenAccounts(UsersIds: string[]): Promise<HiddenAccounts> {
-  //   return await this._FetchUsersPreferences(UsersIds, { hiddenAccounts: 1, _id: 0 })
-  // }
+  async GetHiddenAccounts(UsersIds: string[]) {
+    await this._Init();
+    return this._Collection?.find(
+        { userid: { $in: UsersIds} },
+        { projection: { userid: 1, hiddenAccounts: 1, _id: 0 } }
+    ).toArray();
+  }
 
   async UpdateTheme(
       theme: UpdateThemeDto,

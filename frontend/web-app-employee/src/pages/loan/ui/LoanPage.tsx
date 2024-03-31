@@ -42,23 +42,23 @@ const LoanPage = () => {
                 <div className={"grid grid-cols-2 gap-2"}>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Кредит:</Typography.Text>
-                        <Typography.Text strong>{loan.id}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{loan.id}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>ФИО:</Typography.Text>
-                        <Typography.Text strong>{loan.userId}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{loan.userId}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Счет:</Typography.Text>
-                        <Typography.Text strong>{loan.accountId}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{loan.accountId}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Последняя выплата:</Typography.Text>
-                        <Typography.Text strong>{convertDateTimmeStringToNormalString(loan.lastChargeDate)}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{convertDateTimmeStringToNormalString(loan.lastChargeDate)}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Долг:</Typography.Text>
-                        <Typography.Text
+                        <Typography.Text className={"dark:text-white"}
                             strong>{`${convertNumberPriceToNormalString(loan.debt)} ${loan.currencyType.toUpperCase()}`}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
@@ -67,15 +67,15 @@ const LoanPage = () => {
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Тариф:</Typography.Text>
-                        <Typography.Text strong>{loan.tariff.name}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{loan.tariff.name}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Ставка:</Typography.Text>
-                        <Typography.Text strong>{`${loan.tariff.interestRate}%`}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{`${loan.tariff.interestRate}%`}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Период:</Typography.Text>
-                        <Typography.Text strong>{`${loan.tariff.periodInDays} дней`}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{`${loan.tariff.periodInDays} дней`}</Typography.Text>
                     </div>
                 </div>
                 <Typography.Text className={"text-2xl text-lime-500"} strong>Счета на оплату</Typography.Text>

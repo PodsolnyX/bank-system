@@ -25,6 +25,7 @@ class UserService {
         this.GetUsers = this.GetUsers.bind(this)
         this.CreateUser = this.CreateUser.bind(this)
         this.BanUser = this.BanUser.bind(this)
+        this.UnbanUser = this.UnbanUser.bind(this)
         this.GetUserInfo = this.GetUserInfo.bind(this)
         this.GetAccessInfoById = this.GetAccessInfoById.bind(this)
     }
@@ -89,7 +90,19 @@ class UserService {
     }
 
     async BanUser(Dto: UserBanDto, AuthInfo: AuthInfo) {
-        return (await AuthAPI.Req(AuthInfo).post(`/user/ban/${Dto.UserId}`)).data
+        return (await AuthAPI.Req(AuthInfo).delete(`/user/ban`, {
+            params: {
+                id: Dto.UserId
+            }
+        })).data
+    }
+
+    async UnbanUser(Dto: UserBanDto, AuthInfo: AuthInfo) {
+        return (await AuthAPI.Req(AuthInfo).post(`/user/unban`, {
+            params: {
+                id: Dto.UserId
+            }
+        })).data
     }
 }
 

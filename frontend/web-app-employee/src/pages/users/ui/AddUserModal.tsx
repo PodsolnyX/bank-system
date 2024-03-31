@@ -49,8 +49,7 @@ const AddUserModal = (props: AddUserModal) => {
                     <InputControl name={"name"} control={control}
                                   placeholder={"Иванов Иван Иванович"}
                                   rules={{
-                                      required: validators.required,
-                                      pattern: validators.fullNamePattern
+                                      required: validators.required
                                   }}
                     />
                     <Typography.Text>Почта</Typography.Text>

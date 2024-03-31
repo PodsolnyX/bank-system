@@ -5,6 +5,7 @@ import {generatePath, Link} from "react-router-dom";
 import {Links} from "../../../constants/Links.ts";
 import {convertNumberPriceToNormalString} from "../../../shared/helpers/stringHelpers.ts";
 import React from "react";
+import {EyeInvisibleOutlined} from "@ant-design/icons";
 
 interface AccountsTableProps {
     loading?: boolean,
@@ -52,7 +53,8 @@ const getData = (data?: AccountDto[]) => {
             currencyType: it.currencyType,
             isClosed: !!it.closedAt,
             userId: it.userId,
-            isPriority: it.isPriority
+            isPriority: it.isPriority,
+            isHidden: it.isHidden
         }
     })
 }
@@ -65,7 +67,8 @@ interface AccountData {
     amount: number;
     currencyType: string,
     isClosed: boolean,
-    isPriority: boolean
+    isPriority: boolean,
+    isHidden: boolean
 }
 
 function getTableColumns(filter?: ColumnsFilter): ColumnsType<AccountData> {
@@ -94,7 +97,10 @@ function getTableColumns(filter?: ColumnsFilter): ColumnsType<AccountData> {
                 <Link to={generatePath(Links.Account, {id:text})}>
                     {text}
                     {
-                        record.isPriority ? <Tooltip title={"Приоритетный счёт"}><Badge color={"green"} status={"processing"} className={"ml-2"}/></Tooltip> : undefined
+                        record.isPriority ? <Tooltip title={"Приоритетный счёт"}><Badge color={"green"} status={"processing"} className={"ml-2"}/></Tooltip> : ""
+                    }
+                    {
+                        record.isHidden ? <Tooltip title={"Скрытый"}><EyeInvisibleOutlined className={"ml-2 text-gray-500"}/></Tooltip> : ""
                     }
                 </Link>
         },

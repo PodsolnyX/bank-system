@@ -32,7 +32,11 @@ class AuthService {
     }
 
     async banUser(id: string) {
-        return instance.post(`/auth/user/${id}/ban`)
+        return instance.delete(`/auth/user/${id}/ban`)
+    }
+
+    async unbanUser(id: string) {
+        return instance.post(`/auth/user/${id}/unban`)
     }
 
     async getTheme() {

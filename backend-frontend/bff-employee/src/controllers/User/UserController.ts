@@ -63,6 +63,11 @@ class UserController {
     const status = await this._UserService.BanUser(Extractor.ExtractParams(req), AuthHelper.Data(req))
     res.status(200).send(status)
   }
+
+  async UnbanUser(req: BanUserReq, res: Response) {
+    const status = await this._UserService.UnbanUser(Extractor.ExtractParams(req), AuthHelper.Data(req))
+    res.status(200).send(status)
+  }
 }
 
 export default UserController

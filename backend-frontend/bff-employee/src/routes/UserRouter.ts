@@ -37,9 +37,14 @@ RouterHelper.use(UserRouter, UserControllerInst, [
     handlers: [UserControllerInst.CreateUser],
   },
   {
-    method: 'post',
+    method: 'delete',
     path: '/:UserId/ban',
     handlers: [UserControllerInst.BanUser],
+  },
+  {
+    method: 'post',
+    path: '/:UserId/unban',
+    handlers: [UserControllerInst.UnbanUser],
   },
 ])
 
