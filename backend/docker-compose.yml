@@ -14,6 +14,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.8-management
     restart: always
+    hostname: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -22,8 +23,15 @@ services:
       - external-network
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   postgres:
     image: postgres:latest
+    command: postgres -c 'max_connections=250'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -34,6 +42,11 @@ services:
       - internal-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   
   arbiter:
     build:
@@ -67,6 +80,9 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+    links:
+      - rabbitmq
+      - postgres
     volumes:
       - /var/log/bank/core:/app/logs
   
@@ -86,6 +102,8 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+    links:
+      - postgres
     volumes:
       - /var/log/bank/loan:/app/logs
   
@@ -104,6 +122,9 @@ services:
     ports:
       - "7004:8080"
     depends_on:
+      - rabbitmq
+      - postgres
+    links:
       - rabbitmq
       - postgres
     volumes:
