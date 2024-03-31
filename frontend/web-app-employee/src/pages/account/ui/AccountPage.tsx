@@ -1,4 +1,4 @@
-import {Breadcrumb, Spin, Tag, Typography} from "antd";
+import {Badge, Breadcrumb, Spin, Tag, Tooltip, Typography} from "antd";
 import {
     convertNumberPriceToNormalString
 } from "../../../shared/helpers/stringHelpers.ts";
@@ -39,15 +39,20 @@ const AccountPage = () => {
                 <div className={"grid grid-cols-2 gap-2"}>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Счет:</Typography.Text>
-                        <Typography.Text strong>{data.id}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{data.id}</Typography.Text>
+                        {
+                            data.isPriority ? <Tooltip title={"Приоритетный счёт"}>
+                                <Badge color={"green"} status={"processing"}/>
+                            </Tooltip> : undefined
+                        }
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>ФИО:</Typography.Text>
-                        <Typography.Text strong>{data.userId}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{data.userId}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Баланс:</Typography.Text>
-                        <Typography.Text
+                        <Typography.Text  className={"dark:text-white"}
                             strong>{`${convertNumberPriceToNormalString(data.amount)} ${data.currencyType?.toUpperCase()}`}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>

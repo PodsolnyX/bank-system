@@ -1,10 +1,11 @@
-import {Table, Tag} from "antd";
+import {Badge, Table, Tag, Tooltip} from "antd";
 import {AccountDto} from "../../../services/account/models/AccountDto.ts";
 import {ColumnsType} from "antd/es/table";
 import {generatePath, Link} from "react-router-dom";
 import {Links} from "../../../constants/Links.ts";
 import {convertNumberPriceToNormalString} from "../../../shared/helpers/stringHelpers.ts";
 import React from "react";
+import {EyeInvisibleOutlined} from "@ant-design/icons";
 
 interface AccountsTableProps {
     loading?: boolean,
@@ -51,7 +52,9 @@ const getData = (data?: AccountDto[]) => {
             amount: it.amount,
             currencyType: it.currencyType,
             isClosed: !!it.closedAt,
-            userId: it.userId
+            userId: it.userId,
+            isPriority: it.isPriority,
+            isHidden: it.isHidden
         }
     })
 }
@@ -63,7 +66,9 @@ interface AccountData {
     id: string;
     amount: number;
     currencyType: string,
-    isClosed: boolean
+    isClosed: boolean,
+    isPriority: boolean,
+    isHidden: boolean
 }
 
 function getTableColumns(filter?: ColumnsFilter): ColumnsType<AccountData> {
@@ -77,7 +82,7 @@ function getTableColumns(filter?: ColumnsFilter): ColumnsType<AccountData> {
         sorter: (a, b) => a.userName.localeCompare(b.userName),
         render: (text, record) =>
             <Link to={generatePath(Links.UserInfo, {id: record.userId})}>
-                {text}
+                {record.userId === "00000000-0000-0000-0000-000000000000" ? "МАСТЕР-СЧЁТ" : text }
             </Link>
     })
 
@@ -88,7 +93,16 @@ function getTableColumns(filter?: ColumnsFilter): ColumnsType<AccountData> {
             dataIndex: 'id',
             key: 'id',
             sorter: (a, b) => a.id.localeCompare(b.id),
-            render: (text: string) => <Link to={generatePath(Links.Account, {id:text})}>{text}</Link>
+            render: (text: string, record) =>
+                <Link to={generatePath(Links.Account, {id:text})}>
+                    {text}
+                    {
+                        record.isPriority ? <Tooltip title={"Приоритетный счёт"}><Badge color={"green"} status={"processing"} className={"ml-2"}/></Tooltip> : ""
+                    }
+                    {
+                        record.isHidden ? <Tooltip title={"Скрытый"}><EyeInvisibleOutlined className={"ml-2 text-gray-500"}/></Tooltip> : ""
+                    }
+                </Link>
         },
         {
             title: 'Статус',

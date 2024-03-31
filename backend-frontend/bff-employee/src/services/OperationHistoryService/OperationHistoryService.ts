@@ -1,6 +1,7 @@
-import { PaginationReq, WithUser } from 'dto/Common'
+import { PaginationReq } from 'dto/Common'
 import {OperationDto, SearchOperationUserDto} from 'dto/OperationHistory'
 import {OperationAPI} from "repos/lib";
+import {AuthInfo} from "common/Auth";
 
 class OperationHistoryService {
 
@@ -9,9 +10,9 @@ class OperationHistoryService {
     this.GetOperationHistory = this.GetOperationHistory.bind(this)
   }
 
-  async GetOperationHistory(Dto: WithUser<PaginationReq<SearchOperationUserDto>>) {
+  async GetOperationHistory(Dto: PaginationReq<SearchOperationUserDto>, AuthInfo: AuthInfo) {
     return (
-        await OperationAPI.Req.get<OperationDto[]>('/operation-history/employee', {
+        await OperationAPI.Req(AuthInfo).get<OperationDto[]>('/operation-history/employee', {
           params: Dto,
         })
     ).data

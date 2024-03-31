@@ -1,4 +1,4 @@
-import {instance} from "../../api/instance.ts";
+import {instance} from "../../shared/api/instance.ts";
 import {TariffDto} from "./models/TariffDto.ts";
 import {CreateTariffDto} from "./models/CreateTariffDto.ts";
 

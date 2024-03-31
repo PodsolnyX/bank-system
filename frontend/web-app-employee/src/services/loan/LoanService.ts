@@ -1,4 +1,4 @@
-import {instance} from "../../api/instance.ts";
+import {instance} from "../../shared/api/instance.ts";
 import {LoanDto} from "./models/LoanDto.ts";
 import {UserPaymentsDto} from "./models/UserPaymentsDto.ts";
 

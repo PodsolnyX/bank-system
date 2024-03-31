@@ -12,6 +12,7 @@ const UsersPage = () => {
     const {
         getUsers,
         banUser,
+        unbanUser,
         params,
         setParams
     } = useUsers();
@@ -47,7 +48,7 @@ const UsersPage = () => {
                 render: (_text: string, record: UserData) =>
                     <Popconfirm
                         title={"Вы уверены?"}
-                        onConfirm={() => banUser.mutate(record.id)}
+                        onConfirm={record.isBanned ? () => unbanUser.mutate(record.id) : () => banUser.mutate(record.id)}
                     >
                         <Button
                             danger={!record.isBanned}

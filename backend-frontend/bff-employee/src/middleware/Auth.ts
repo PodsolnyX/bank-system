@@ -1,35 +1,33 @@
-import { AxiosError } from 'axios'
-import { AuthData, CookieName } from 'config/Auth'
-import { NextFunction, Request, Response } from 'express'
-import { UserService } from 'services/UserService'
+import {NextFunction, Request, Response} from 'express'
+import {UserService} from 'services/UserService'
+import {jwtDecode} from "jwt-decode";
 
 export const AuthMiddleware =
-  (UserService: UserService) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    const User = req.cookies[CookieName]
-    if (!User) {
-      res.sendStatus(401)
-      return
-    }
+    (UserService: UserService) =>
+        async (req: Request, res: Response, next: NextFunction) => {
+            const token = req.headers.authorization
+            if (!token) {
+                res.sendStatus(401)
+                return
+            }
 
-    try {
-      const profile = await UserService.GetProfile({
-        mail: User,
-      })
+            try {
+                const decoded = jwtDecode(token)
+                if (!decoded.sub || !decoded.exp || decoded.exp <= Date.now() / 1000) {
+                    res.sendStatus(401)
+                    return
+                }
 
-      if (profile.bannedAt) {
-        res.sendStatus(403)
-        return
-      }
+                const authData = await UserService.GetAccessInfoById(decoded.sub)
 
-      AuthData.Header = profile.id
+                if (authData.bannedAt || !authData.isEmployee) {
+                    res.sendStatus(403)
+                    return
+                }
+            } catch {
+                res.sendStatus(401)
+                return
+            }
 
-      next()
-    } catch (err) {
-      if (err instanceof AxiosError && err.response) {
-        res.status(err.response.status).send(err.response.data)
-      } else {
-        res.sendStatus(500)
-      }
-    }
-  }
+            next()
+        }

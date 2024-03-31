@@ -1,8 +1,9 @@
-import { PaginationReq, WithUser } from 'dto/Common'
+import { PaginationReq } from 'dto/Common'
 import {SearchLoanUserDto, GetLoanDto, LoanDto} from 'dto/Loan'
 import {LoanAPI} from "../../repos/lib";
 import {GetUserPayments} from "../../dto/Loan/GetUserPayments";
 import {UserPaymentsDto} from "../../dto/Loan/UserPaymentsDto";
+import {AuthInfo} from "common/Auth";
 
 class LoanService {
 
@@ -13,17 +14,17 @@ class LoanService {
     this.GetUserPayments = this.GetUserPayments.bind(this)
   }
 
-  async GetLoans(Dto: WithUser<PaginationReq<SearchLoanUserDto>>) {
+  async GetLoans(Dto: PaginationReq<SearchLoanUserDto>, AuthInfo: AuthInfo) {
     return (
-        await LoanAPI.Req.get<LoanDto[]>('/loan/user', {
+        await LoanAPI.Req(AuthInfo).get<LoanDto[]>('/loan/user', {
           params: Dto,
         })
     ).data
   }
 
-  async GetLoan(Dto: WithUser<GetLoanDto>) {
+  async GetLoan(Dto: GetLoanDto, AuthInfo: AuthInfo) {
     return (
-        await LoanAPI.Req.get<LoanDto[]>('/loan/employee', {
+        await LoanAPI.Req(AuthInfo).get<LoanDto[]>('/loan/employee', {
           params: {
             AccountIds: [Dto.LoanId]
           },
@@ -31,8 +32,8 @@ class LoanService {
     ).data[0]
   }
 
-  async GetUserPayments(Dto: WithUser<GetUserPayments>) {
-    return (await LoanAPI.Req.get<UserPaymentsDto[]>(`/loan/employee/${Dto.UserId}`, {
+  async GetUserPayments(Dto: GetUserPayments, AuthInfo: AuthInfo) {
+    return (await LoanAPI.Req(AuthInfo).get<UserPaymentsDto[]>(`/loan/employee/${Dto.UserId}`, {
       params: {
         LoanIds: [Dto.LoanId],
         OnlyActual: false

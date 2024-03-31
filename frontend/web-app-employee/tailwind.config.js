@@ -9,5 +9,6 @@ export default {
     preflight: false,
   },
   plugins: [],
+  darkMode: 'selector'
 }
 

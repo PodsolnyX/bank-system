@@ -1,4 +1,4 @@
-import {Breadcrumb, Spin, Typography} from "antd";
+import {Breadcrumb, Spin, Tag, Typography} from "antd";
 import {useUserInfo} from "../hooks/useUserInfo.ts";
 import AccountsTable from "../../accounts/ui/AccountsTable.tsx";
 import LoansTable from "./LoansTable.tsx";
@@ -9,8 +9,6 @@ const UserInfoPage = () => {
 
 
     const {data, isLoading} = useUserInfo();
-
-    console.log(data)
 
     if (!data || isLoading) {
         return <Spin/>
@@ -33,23 +31,27 @@ const UserInfoPage = () => {
                 <div className={"grid grid-cols-2 gap-2"}>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>ID:</Typography.Text>
-                        <Typography.Text strong>{data.user.id}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{data.user.id}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>ФИО:</Typography.Text>
-                        <Typography.Text strong>{data.user.name}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{data.user.name}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Mail:</Typography.Text>
-                        <Typography.Text strong>{data.user.mail}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{data.user.mail}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Статус:</Typography.Text>
-                        <Typography.Text strong>{data.user.bannedAt ? "Заблокирован" : "Активен"}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{data.user.bannedAt ? "Заблокирован" : "Активен"}</Typography.Text>
                     </div>
                     <div className={"flex gap-1 flex-wrap"}>
                         <Typography.Text className={"text-lime-500"} strong>Роль:</Typography.Text>
-                        <Typography.Text strong>{data.user.isEmployee ? "Сотрудник" : "Клиент"}</Typography.Text>
+                        <Typography.Text strong className={"dark:text-white"}>{data.user.isEmployee ? "Сотрудник" : "Клиент"}</Typography.Text>
+                    </div>
+                    <div className={"flex gap-1 flex-wrap"}>
+                        <Typography.Text className={"text-lime-500"} strong>Кредитный рейтинг:</Typography.Text>
+                        <Tag color={"blue"}>{data.loanRating}</Tag>
                     </div>
                 </div>
                 <Typography.Text className={"text-2xl text-lime-500"} strong>{`Счета`}</Typography.Text>

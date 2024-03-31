@@ -1,21 +1,17 @@
-import { CookieName } from 'config/Auth'
-import { WithUser } from 'dto/Common'
 import { Request } from 'express'
 
 export class Extractor {
-  static ExtractBody<T>(req: Request<any, any, T>): WithUser<T> {
+  static ExtractBody<T>(req: Request<any, any, T>) {
     return {
       ...req.params,
-      ...req.body,
-      [CookieName]: req.cookies[CookieName]?.toString() || '',
+      ...req.body
     }
   }
 
-  static ExtractParams<T, V>(req: Request<T, any, any, V>): WithUser<T & V> {
+  static ExtractParams<T, V>(req: Request<T, any, any, V>) {
     return {
       ...req.params,
-      ...req.query,
-      [CookieName]: req.cookies[CookieName]?.toString() || '',
+      ...req.query
     }
   }
 }

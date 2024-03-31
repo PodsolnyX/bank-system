@@ -1,10 +1,11 @@
 import {GetProfileParamsDto} from "./models/GetProfileParamsDto.ts";
-import {instance} from "../../api/instance.ts";
+import {instance} from "../../shared/api/instance.ts";
 import {UserDto} from "./models/UserDto.ts";
 import {SearchUsersDto} from "./models/SearchUsersDto.ts";
 import {Pagination} from "../common/Pagination.ts";
 import {UserCreateDto} from "./models/UserCreateDto.ts";
 import {UserInfoDto} from "./models/UserInfoDto.ts";
+import {ThemeDto} from "./models/ThemeDto.ts";
 
 class AuthService {
     async getProfile(params: GetProfileParamsDto) {
@@ -31,7 +32,19 @@ class AuthService {
     }
 
     async banUser(id: string) {
-        return instance.post(`/auth/user/${id}/ban`)
+        return instance.delete(`/auth/user/${id}/ban`)
+    }
+
+    async unbanUser(id: string) {
+        return instance.post(`/auth/user/${id}/unban`)
+    }
+
+    async getTheme() {
+        return instance.get<ThemeDto>("/preference/employee/theme")
+    }
+
+    async updateTheme(data: ThemeDto) {
+        return instance.post("/preference/employee/theme", data)
     }
 }
 

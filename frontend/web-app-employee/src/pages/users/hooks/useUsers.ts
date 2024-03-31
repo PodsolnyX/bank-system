@@ -36,9 +36,17 @@ export function useUsers() {
         }
     })
 
+    const unbanUser = useMutation({
+        mutationFn: (id: string) => authService.unbanUser(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: authQueryKeys.users({}) } )
+        }
+    })
+
     return {
         getUsers,
         banUser,
+        unbanUser,
         createUser,
         params,
         setParams
