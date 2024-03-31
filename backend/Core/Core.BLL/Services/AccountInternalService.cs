@@ -160,8 +160,6 @@ public class AccountInternalService
             var cancelWithdraw = new AccountModificationDto
             {
                 Type = OperationType.Deposit,
-                Reason = OperationReason.Cash,
-                TransactionId = fromAccountModification.TransactionId,
                 Reason = OperationReason.Loan,
                 TransactionId =  fromAccountModification.TransactionId,
                 Amount = amount,
