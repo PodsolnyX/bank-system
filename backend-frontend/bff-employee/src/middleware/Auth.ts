@@ -20,7 +20,7 @@ export const AuthMiddleware =
 
                 const authData = await UserService.GetAccessInfoById(decoded.sub)
 
-                if (authData.bannedAt) {
+                if (authData.bannedAt || !authData.isEmployee) {
                     res.sendStatus(403)
                     return
                 }

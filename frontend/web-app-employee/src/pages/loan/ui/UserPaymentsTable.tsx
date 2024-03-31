@@ -104,7 +104,10 @@ function getTableColumns(): ColumnsType<PaymentData> {
             title: 'Статус',
             dataIndex: 'isActual',
             key: 'isActual',
-            render: text => <Tag color={text ? "blue" : "default"}>{text ? "Актуален" : "Неактуален"}</Tag>
+            render: (text, record) =>
+                <Tag color={record.penaltyFee ? "red" : record.amountForPay === record.alreadyPaid ? "green" : text ? "blue" : "default"}>
+                    {record.penaltyFee ? "Просрочен" : record.amountForPay === record.alreadyPaid ? "Оплачен" : text ? "Актуален" : "Неактуален"}
+                </Tag>
         },
         {
             title: 'Дата оплаты',
