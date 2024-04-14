@@ -68,7 +68,6 @@ services:
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-core-db
-      - OBSERVER__COLLECTORURL=http://observer:8080/http
     ports:
       - "7002:8080"
     depends_on:
