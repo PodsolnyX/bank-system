@@ -1,14 +1,17 @@
-﻿version: '3'
+version: "3.7"
+
 services:
   mongodb:
     image: mongo:7.0.8-rc0-jammy
+    hostname: mongodb
     ports:
       - '27017:27017'
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root 
+      - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - mongo_data:/data/db
+      - mongo_config_data:/data/configdb
     restart: always
   
   rabbitmq:
@@ -18,9 +21,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      - internal-network
-      - external-network
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
@@ -38,8 +38,6 @@ services:
     restart: always
     ports:
       - "5432:5432"
-    networks:
-      - internal-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -55,8 +53,6 @@ services:
     restart: always
     environment:
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-arbiter-db
-    networks:
-      - internal-network
     ports:
       - "7000:8080"
     depends_on:
@@ -72,9 +68,7 @@ services:
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-core-db
-    networks:
-      - external-network
-      - internal-network
+      - OBSERVER__COLLECTORURL=http://observer:8080/http
     ports:
       - "7002:8080"
     depends_on:
@@ -94,9 +88,6 @@ services:
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-loan-db
-    networks:
-      - external-network
-      - internal-network
     ports:
       - "7003:8080"
     depends_on:
@@ -116,9 +107,6 @@ services:
       - RABBITMQ__HOSTNAME=rabbitmq
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-op-history-db
       - CONNECTIONSTRINGS__HANGFIRE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=hangfire-db
-    networks:
-      - external-network
-      - internal-network
     ports:
       - "7004:8080"
     depends_on:
@@ -137,9 +125,6 @@ services:
     restart: always
     environment:
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=authorization-server-db
-    networks:
-      - external-network
-      - internal-network
     ports:
       - "7005:8080"
     depends_on:
@@ -147,13 +132,122 @@ services:
     volumes:
       - /var/log/bank/authorization-server:/app/logs
 
+  observer:
+    build:
+      context: .
+      dockerfile: Observer/Observer.API/Dockerfile
+    restart: always
+    environment:
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=observer-db
+    ports:
+      - "7006:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - /var/log/bank/observer:/app/logs
 
+  pg-compeng:
+    container_name: datalens-pg-compeng
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+
+  control-api:
+    container_name: datalens-control-api
+    image: ghcr.io/datalens-tech/datalens-control-api:0.2058.0
+    environment:
+      BI_API_UWSGI_WORKERS_COUNT: 4
+      CONNECTOR_AVAILABILITY_VISIBLE: "clickhouse,postgres,chyt,ydb"
+      RQE_FORCE_OFF: 1
+      DL_CRY_ACTUAL_KEY_ID: key_1
+      DL_CRY_KEY_VAL_ID_key_1: "h1ZpilcYLYRdWp7Nk8X1M1kBPiUi8rdjz9oBfHyUKIk="
+      RQE_SECRET_KEY: ""
+      US_HOST: "http://us:8083"
+      US_MASTER_TOKEN: "fake-us-master-token"
+      CONFIG_PATH: "/etc/backend-configs/api.yaml"
+  
+    depends_on:
+      - us
+    volumes:
+      - ./backend-configs:/etc/backend-configs
+
+  data-api:
+    container_name: datalens-data-api
+    image: ghcr.io/datalens-tech/datalens-data-api:0.2058.0
+    environment:
+      GUNICORN_WORKERS_COUNT: 5
+      RQE_FORCE_OFF: 1
+      CACHES_ON: 0
+      MUTATIONS_CACHES_ON: 0
+      RQE_SECRET_KEY: ""
+      DL_CRY_ACTUAL_KEY_ID: key_1
+      DL_CRY_KEY_VAL_ID_key_1: "h1ZpilcYLYRdWp7Nk8X1M1kBPiUi8rdjz9oBfHyUKIk="
+      BI_COMPENG_PG_ON: 1
+      BI_COMPENG_PG_URL: "postgresql://postgres:postgres@pg-compeng:5432/postgres"
+      US_HOST: "http://us:8083"
+      US_MASTER_TOKEN: "fake-us-master-token"
+      CONFIG_PATH: "/etc/backend-configs/api.yaml"
+  
+    depends_on:
+      - us
+      - pg-compeng
+    volumes:
+      - ./backend-configs:/etc/backend-configs
+
+  pg-us:
+    container_name: datalens-pg-us
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: us-db-ci_purgeable
+      POSTGRES_USER: us
+      POSTGRES_PASSWORD: us
+    volumes:
+      - ./metadata:/var/lib/postgresql/data
+
+  us:
+    container_name: datalens-us
+    image: ghcr.io/datalens-tech/datalens-us:0.185.0
+    depends_on:
+      - pg-us
+    environment:
+      APP_INSTALLATION: "opensource"
+      APP_ENV: "prod"
+      MASTER_TOKEN: "fake-us-master-token"
+      POSTGRES_DSN_LIST: ${METADATA_POSTGRES_DSN_LIST:-postgres://us:us@pg-us:5432/us-db-ci_purgeable}
+      SKIP_INSTALL_DB_EXTENSIONS: ${METADATA_SKIP_INSTALL_DB_EXTENSIONS:-0}
+      USE_DEMO_DATA: ${USE_DEMO_DATA:-0}
+      HC: ${HC:-1}
+      NODE_EXTRA_CA_CERTS: /certs/root.crt
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./certs:/certs
+
+  datalens:
+    container_name: datalens-ui
+    image: ghcr.io/datalens-tech/datalens-ui:0.1488.0
+    ports:
+      - ${UI_PORT:-8080}:8080
+    depends_on:
+      - us
+      - control-api
+      - data-api
+    environment:
+      APP_MODE: "full"
+      APP_ENV: "production"
+      APP_INSTALLATION: "opensource"
+      AUTH_POLICY: "disabled"
+      US_ENDPOINT: "http://us:8083"
+      BI_API_ENDPOINT: "http://control-api:8080"
+      BI_DATA_ENDPOINT: "http://data-api:8080"
+      NODE_EXTRA_CA_CERTS: "/usr/local/share/ca-certificates/cert.pem"
+      HC: ${HC:-0}
+      
 volumes:
   rabbitmq_data:
   postgres_data:
   mongo_data:
-
-networks:
-  internal-network:
-  external-network:
-    external: true
+  mongo_config_data:

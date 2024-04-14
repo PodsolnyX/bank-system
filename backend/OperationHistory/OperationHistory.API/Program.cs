@@ -1,10 +1,9 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Common.Auth.ApiKeyAuthorization;
 using Common.Auth.Jwt;
 using Common.Configuration;
 using Microsoft.OpenApi.Models;
-using OperationHistory.API;
+using Observer.BLL.Middlewares;
 using OperationHistory.BLL.Extensions;
 using OperationHistory.BLL.Hubs;
 using OperationHistory.BLL.Jobs;
@@ -12,15 +11,17 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options => {
-    options.AddDefaultPolicy(
-        policy => {
-            policy.WithOrigins("null")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .SetIsOriginAllowed(_ => true);
-        });
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("null")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(_ => true);
+    });
 });
 builder
     .Services.AddControllers()
@@ -64,6 +65,8 @@ await app.ConfigureDatabaseSeed();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.ConfigureJobs();
+
+app.UseHttpCollectorMiddleware();
 
 //app.UseHttpsRedirection();
 app.UseAuthorization();

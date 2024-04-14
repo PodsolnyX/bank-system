@@ -1,13 +1,11 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Common.Auth.ApiKeyAuthorization;
 using Common.Auth.Jwt;
 using Common.Configuration;
 using Common.Exception;
 using Core.BLL.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Observer.BLL.Middlewares;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,6 +62,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseErrorHandleMiddleware();
+
+app.UseHttpCollectorMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
