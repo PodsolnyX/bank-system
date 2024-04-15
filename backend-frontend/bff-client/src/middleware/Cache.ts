@@ -21,7 +21,7 @@ export const CacheMiddlewareFn =
       if (cached.data) {
         res.send(cached.data)
       }
-      return; 
+      return
     }
 
     next()

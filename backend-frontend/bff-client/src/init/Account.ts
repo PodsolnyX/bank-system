@@ -9,4 +9,7 @@ export const AccountServiceInst = new AccountService(
   AccountRepositoryInst,
   PreferencesRepositoryInst
 )
-export const AccountControllerInst = new AccountController(AccountServiceInst, CacheServiceInst)
+export const AccountControllerInst = new AccountController(
+  AccountServiceInst,
+  CacheServiceInst
+)
