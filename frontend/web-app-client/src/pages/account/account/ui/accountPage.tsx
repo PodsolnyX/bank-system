@@ -22,8 +22,7 @@ import {
   getAccountTransferSelfLink,
   getAccountWithdrawLink,
 } from 'shared/config'
-import { toastError, toastSuccess } from 'shared/lib'
-import { format } from 'shared/lib/format'
+import { toastError, toastSuccess, format } from 'shared/lib'
 import { Center, ErrorMsg, PageHeader, PageLoader, Property } from 'shared/ui'
 
 export const AccountPage = () => {
