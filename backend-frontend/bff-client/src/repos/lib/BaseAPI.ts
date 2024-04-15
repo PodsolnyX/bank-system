@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
+import axiosRetry from 'axios-retry'
 import { AuthInfo } from 'common/Auth'
 
 export abstract class BaseReq {
@@ -18,6 +19,13 @@ export abstract class BaseReq {
       baseURL: this.BASE_URL,
       headers,
       paramsSerializer: { indexes: this.SERIALIZER_INDEXES },
+    })
+
+    axiosRetry(AxiosInst, {
+      retryDelay: (retryCount) => {
+        return retryCount * 750
+      },
+      retries: 3
     })
 
     return AxiosInst

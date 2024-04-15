@@ -2,7 +2,7 @@ import { Response } from 'express'
 import { GetTariffsReq } from './types'
 
 import { TariffService } from 'services/TariffService'
-import { AuthHelper } from 'common'
+import { ReqHelper } from 'common'
 
 class TariffController {
   private _TariffService: TariffService
@@ -12,7 +12,7 @@ class TariffController {
   }
 
   async GetTariffs(req: GetTariffsReq, res: Response) {
-    const data = await this._TariffService.GetTariffs(req.body, AuthHelper.Data(req))
+    const data = await this._TariffService.GetTariffs(req.body, ReqHelper.AuthData(req))
     res.status(200).send(data)
   }
 }

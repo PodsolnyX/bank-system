@@ -1,3 +1,4 @@
+import { KEY_HEADER } from 'app/config'
 import { Request } from 'express'
 import { jwtDecode } from 'jwt-decode'
 
@@ -6,8 +7,8 @@ export type AuthInfo = {
   token: string
 }
 
-export class AuthHelper {
-  public static Data(req: Request<any, any, any, any>) {
+export class ReqHelper {
+  public static AuthData(req: Request<any, any, any, any>) {
     const token = req.headers.authorization || ''
     const info: AuthInfo = {
       token,
@@ -18,5 +19,9 @@ export class AuthHelper {
     } catch {}
 
     return info
+  }
+
+  public static XKey(req: Request<any, any, any, any>) {
+    return req.headers[KEY_HEADER] as string
   }
 }

@@ -12,32 +12,48 @@ import {
 } from 'controllers/Account/types'
 
 import { AccountService } from 'services/AccountService'
-import { AuthHelper } from 'common'
+import { CacheService } from 'services/CacheService'
+import { ReqHelper } from 'common'
 
 class AccountController {
   private _AccountService: AccountService
+  private _CacheService: CacheService
 
-  constructor(AccountService: AccountService) {
+  constructor(AccountService: AccountService, CacheService: CacheService) {
     this._AccountService = AccountService
+    this._CacheService = CacheService
   }
 
   async OpenAccount(req: OpenAccountReq, res: Response) {
-    const data = await this._AccountService.OpenAccount(req.query, AuthHelper.Data(req))
+    const data = await this._AccountService.OpenAccount(
+      req.query,
+      ReqHelper.AuthData(req)
+    )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
   }
 
   async CloseAccount(req: CloseAccountReq, res: Response) {
-    const data = await this._AccountService.CloseAccount(req.params, AuthHelper.Data(req))
+    const data = await this._AccountService.CloseAccount(
+      req.params,
+      ReqHelper.AuthData(req)
+    )
     res.status(200).send(data)
   }
 
   async GetAccounts(req: GetAccountsReq, res: Response) {
-    const data = await this._AccountService.GetAccounts(req.query, AuthHelper.Data(req))
+    const data = await this._AccountService.GetAccounts(
+      req.query,
+      ReqHelper.AuthData(req)
+    )
     res.status(200).send(data)
   }
 
   async GetAccount(req: GetAccountReq, res: Response) {
-    const data = await this._AccountService.GetAccount(req.params, AuthHelper.Data(req))
+    const data = await this._AccountService.GetAccount(
+      req.params,
+      ReqHelper.AuthData(req)
+    )
     res.status(200).send(data)
   }
 
@@ -47,8 +63,9 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
   }
 
@@ -58,8 +75,9 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
   }
 
@@ -69,8 +87,9 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
   }
 
@@ -80,13 +99,17 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
   }
 
   async MakePriority(req: MakePriorityReq, res: Response) {
-    const data = await this._AccountService.MakePriority(req.params, AuthHelper.Data(req))
+    const data = await this._AccountService.MakePriority(
+      req.params,
+      ReqHelper.AuthData(req)
+    )
     res.status(200).send(data)
   }
 }

@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import type { Response, Router, Request, NextFunction } from 'express'
-import { AuthMiddleware } from 'init/AuthMiddleware'
+import { AuthMiddleware, CacheMiddleware } from 'init/Middleware'
 import { ROUTER } from 'routes'
 import { CORS_CONFIG } from './config'
 
@@ -13,6 +13,7 @@ export const pipeline: PipelineItem[] = [
   [cors(CORS_CONFIG)],
   [bodyParser.json()],
   [AuthMiddleware()],
+  [CacheMiddleware()],
   ['/auth/user', ROUTER.USER],
   ['/account/user', ROUTER.ACCOUNT],
   ['/preferences/user', ROUTER.PREFERENCES],
