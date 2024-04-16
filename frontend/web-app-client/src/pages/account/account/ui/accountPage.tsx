@@ -13,7 +13,7 @@ import { useMakePriorityMutation } from 'features/account'
 import { useGetAccountQuery } from 'entities/account'
 import { HistoryTable } from 'entities/operation'
 import { OperationStatus, useGetHistoryQuery } from 'entities/operation'
-import { SortOrder } from 'shared/api'
+import { SortOrder, useKey } from 'shared/api'
 import {
   AppRoutes,
   getAccountCloseLink,
@@ -38,11 +38,12 @@ export const AccountPage = () => {
     ],
   })
   const accQuery = useGetAccountQuery({ id })
-  const [makePriority] = useMakePriorityMutation()
+  const [makePriority, makePriorityResult] = useMakePriorityMutation()
+  const key = useKey(makePriorityResult.status)
 
   const priorityBtnClick = async () => {
     try {
-      await makePriority({ accountId: id }).unwrap()
+      await makePriority({ accountId: id, ...key }).unwrap()
       toastSuccess('Успешно')
     } catch (err) {
       toastError('Произошла ошибка')

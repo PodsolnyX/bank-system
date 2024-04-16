@@ -40,6 +40,7 @@ export const endpoints = accountsApi.injectEndpoints({
           amount: data.amount,
           message: data.message,
         },
+        headers: getKey(data)
       }),
     }),
     withdraw: builder.mutation<WithdrawResp, WithdrawReq>({
@@ -50,6 +51,7 @@ export const endpoints = accountsApi.injectEndpoints({
           amount: data.amount,
           message: data.message,
         },
+        headers: getKey(data)
       }),
     }),
     transferSelf: builder.mutation<TransferSelfResp, TransferSelfReq>({
@@ -59,6 +61,7 @@ export const endpoints = accountsApi.injectEndpoints({
         params: {
           amount: data.amount,
         },
+        headers: getKey(data)
       }),
     }),
     transferUser: builder.mutation<TransferUserResp, TransferUserReq>({
@@ -68,12 +71,14 @@ export const endpoints = accountsApi.injectEndpoints({
         params: {
           amount: data.amount,
         },
+        headers: getKey(data)
       }),
     }),
     makePriority: builder.mutation<MakePriorityResp, MakePriorityReq>({
       query: (data) => ({
         url: `/${data.accountId}/priority`,
         method: 'POST',
+        headers: getKey(data)
       }),
       invalidatesTags: ['account', 'accounts'],
     }),

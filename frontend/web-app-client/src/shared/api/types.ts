@@ -12,6 +12,6 @@ export enum SortOrder {
   DESC,
 }
 
-export type WithKey<T> = T & {
+export type WithKey<T = object> = T & {
   [IDEMPOTENCY_KEY]: string
 }

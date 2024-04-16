@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { CloseAccountForm } from 'features/account'
-import { useCloseAccountMutation } from 'entities/account'
+import { CloseAccountForm, useCloseAccountMutation } from 'features/account'
 import { useGetAccountQuery } from 'entities/account'
 import { AppRoutes } from 'shared/config'
 import { toastError, toastSuccess } from 'shared/lib'

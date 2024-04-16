@@ -16,4 +16,6 @@ export const baseQueryWithAuth = (args: FetchBaseQueryArgs) =>
   })
 
 export const staggeredBaseQuery = (args: FetchBaseQueryArgs) =>
-  retry(baseQueryWithAuth(args), { maxRetries: 3 })
+  retry(baseQueryWithAuth(args), {
+    retryCondition: (error, _args, { attempt }) => error.status === 500 && attempt < 3,
+  })

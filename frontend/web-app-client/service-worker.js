@@ -42,7 +42,7 @@ function extractText(string) {
     }
     let curr = obj.currencyType
     let currText = curr === 0 ? 'RUB' : curr === 1 ? 'USD' : curr === 2 ? 'EUR' : ''
-    let mainText = `${obj.accountId}. ${text}: ${obj.amount}${currText}`
+    let mainText = `${obj.accountId}. ${text}: ${obj.amount / 100}${currText}`
     return obj.loanId ? `${mainText}. Кредит: ${obj.loanId}` : mainText
   } catch {
     return 'Зайдите в приложение'
