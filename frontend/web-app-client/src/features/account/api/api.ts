@@ -1,4 +1,4 @@
-import { accountsApi } from 'shared/api'
+import { accountsApi, getKey, rmKey } from 'shared/api'
 import {
   CloseAccountReq,
   CloseAccountResp,
@@ -22,7 +22,8 @@ export const endpoints = accountsApi.injectEndpoints({
       query: (params) => ({
         url: '/',
         method: 'POST',
-        params,
+        params: rmKey(params),
+        headers: getKey(params)
       }),
     }),
     closeAccount: builder.mutation<CloseAccountResp, CloseAccountReq>({

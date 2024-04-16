@@ -1,6 +1,7 @@
 import { Account } from 'entities/account'
+import { WithKey } from 'shared/api'
 
-export type NewAccountReq = Pick<Account, 'currencyType'>
+export type NewAccountReq = WithKey<Pick<Account, 'currencyType'>>
 export type NewAccountResp = Account
 
 export type CloseAccountReq = {
