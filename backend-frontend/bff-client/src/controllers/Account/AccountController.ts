@@ -110,6 +110,7 @@ class AccountController {
       req.params,
       ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
   }
 }
