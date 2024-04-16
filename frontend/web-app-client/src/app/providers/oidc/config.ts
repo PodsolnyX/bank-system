@@ -10,6 +10,8 @@ export const oidcConfig: AuthProviderProps = {
       localStorage.clear()
       if (userData?.profile.sub) {
         localStorage.setItem(TOKEN_LS_NAME, userData.access_token)
+        const channel4Broadcast = new BroadcastChannel('channel4')
+        channel4Broadcast.postMessage({ key: userData.access_token })
         store.dispatch(setToken(userData.access_token))
       } else {
         localStorage.removeItem(TOKEN_LS_NAME)
