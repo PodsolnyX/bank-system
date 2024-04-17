@@ -29,11 +29,11 @@ export class CB {
           if (errors / NewRecords.length < CB._Config.Threshold) {
             State = CBState.Closed
             Timeout = null
+            NewRecords = []
           } else {
             State = CBState.Open
             Timeout = Date.now() + CB._Config.TimeoutMs
           }
-          NewRecords = []
         }
       } else if (State === CBState.Closed) {
         if (errors / NewRecords.length >= CB._Config.Threshold) {
