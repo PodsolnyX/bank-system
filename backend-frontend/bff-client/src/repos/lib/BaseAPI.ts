@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 import axiosRetry from 'axios-retry'
 import { AuthInfo } from 'common/Auth'
+import { CB, mapUrl } from 'middleware/CircuitBreaker'
 
 export abstract class BaseReq {
   protected static BASE_URL: string
@@ -20,6 +21,22 @@ export abstract class BaseReq {
       headers,
       paramsSerializer: { indexes: this.SERIALIZER_INDEXES },
     })
+    AxiosInst.interceptors.response.use(
+      (response) => {
+        const mapping = mapUrl(this.BASE_URL)
+        if (mapping) {
+          CB.Success(mapping)
+        }
+        return response
+      },
+      (error) => {
+        const mapping = mapUrl(this.BASE_URL)
+        if (mapping) {
+          CB.Error(mapping)
+        }
+        return Promise.reject(error)
+      }
+    )
 
     axiosRetry(AxiosInst, {
       retryDelay: (retryCount) => {
