@@ -55,12 +55,10 @@ export class CB {
   }
 
   static Error(service: CBMicroservice) {
-    console.log('err', service)
     CB._Add(service, { type: 'Error', time: Date.now() })
   }
 
   static Success(service: CBMicroservice) {
-    console.log('scs', service)
     CB._Add(service, { type: 'Success', time: Date.now() })
   }
 

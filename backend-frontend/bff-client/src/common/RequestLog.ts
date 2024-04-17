@@ -16,3 +16,6 @@ export type RequestLog = {
   responseBody: string | null
   responseHeaders: Record<string, string> | null
 }
+
+export const REQUEST_ID_HEADER = 'x-bffc-id'
+export const REQUEST_TIME_START_HEADER = 'x-bffc-timestart'
