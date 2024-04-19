@@ -72,6 +72,7 @@ app.UseCors();
 
 app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
+app.UseDoomMiddleware();
 
 app.MapControllers();
 app.Run();

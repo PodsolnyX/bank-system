@@ -1,4 +1,5 @@
 using AuthorizationServer.BLL.Extensions;
+using Common.Exception;
 using Microsoft.OpenApi.Models;
 using Observer.BLL.Middlewares;
 
@@ -91,6 +92,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseHttpCollectorMiddleware();
+app.UseDoomMiddleware();
 
 app.UseAuthentication();
 app.UseAuthorization();

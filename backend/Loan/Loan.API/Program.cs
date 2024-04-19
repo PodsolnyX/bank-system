@@ -89,6 +89,7 @@ app.UseSwaggerUI();
 
 app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
+app.UseDoomMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

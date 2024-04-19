@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.Jwt;
 using Common.Configuration;
+using Common.Exception;
 using Microsoft.OpenApi.Models;
 using Observer.BLL.Middlewares;
 using OperationHistory.BLL.Extensions;
@@ -66,7 +67,9 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.ConfigureJobs();
 
+app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
+app.UseDoomMiddleware();
 
 //app.UseHttpsRedirection();
 app.UseAuthorization();
