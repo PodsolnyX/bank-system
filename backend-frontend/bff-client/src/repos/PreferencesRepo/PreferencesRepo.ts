@@ -9,9 +9,10 @@ import {
 import { Preferences, Theme } from 'entities/Preferences'
 import { PreferencesDocument } from 'repos/PreferencesRepo/types'
 import { AuthInfo } from 'common'
+import { MONGO_URL } from 'app/config'
 
 class PreferencesRepo {
-  private _MongoURL = 'mongodb://root:password@109.107.189.133:27017'
+  private _MongoURL = MONGO_URL
   private _MongoDbName = 'preferences'
   private _MongoDbCollectionName = 'preferences'
 

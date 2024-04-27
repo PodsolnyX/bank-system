@@ -1,9 +1,11 @@
-export enum Microservices {
-    Core = 'http://109.107.189.133:7002',
-    Loan = 'http://109.107.189.133:7003',
-    Operation = 'http://109.107.189.133:7004',
-    User = 'http://109.107.189.133:7005',
-    Observer = 'http://109.107.189.133:7006'
+import { BACKEND_URL } from "app/config";
+
+export const Microservices = {
+    Core: `${BACKEND_URL}:7002`,
+    Loan: `${BACKEND_URL}:7003`,
+    Operation: `${BACKEND_URL}:7004`,
+    User: `${BACKEND_URL}:7005`,
+    Observer: `${BACKEND_URL}:7006`
 }
 
 export enum BffRoutes {

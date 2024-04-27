@@ -1,5 +1,3 @@
-import { Microservices } from 'common/Microservices'
-
 export enum CBState {
   Closed,
   Open,
@@ -16,10 +14,7 @@ export type CBQueue = {
   Timeout?: number | null
 }
 
-export type CBMicroservice =
-  | Microservices.Core
-  | Microservices.Loan
-  | Microservices.Operation
+export type CBMicroservice = any
 
 export type CBQueues = {
   [key in CBMicroservice]: CBQueue
