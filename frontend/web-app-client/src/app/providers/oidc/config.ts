@@ -25,12 +25,12 @@ export const oidcConfig: AuthProviderProps = {
     return location.pathname
   },
   userManager: new UserManager({
-    authority: 'https://coto-dev.ru',
+    authority: 'http://192.168.1.6:7005',
     client_id: 'client',
     client_secret: 'client-secret',
     redirect_uri: location.origin,
     automaticSilentRenew: true,
-    silent_redirect_uri: 'https://coto-dev.ru',
+    silent_redirect_uri: 'http://192.168.1.6:7005',
     includeIdTokenInSilentRenew: true,
     includeIdTokenInSilentSignout: true,
     revokeTokensOnSignout: true,
