@@ -147,8 +147,8 @@ services:
   
   bff-client:
     build:
-      context: ../
-      dockerfile: backend-frontend/bff-client/Dockerfile
+      context: ../backend-frontend/bff-client
+      dockerfile: Dockerfile
     restart: always
     environment:
       - MONGO_URL=mongodb://root:password@127.0.0.1:27017
