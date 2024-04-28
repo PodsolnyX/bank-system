@@ -148,7 +148,7 @@ services:
   bff-client:
     build:
       context: ../
-      dockerfile: ../backend-frontend/bff-client/Dockerfile
+      dockerfile: backend-frontend/bff-client/Dockerfile
     restart: always
     environment:
       - MONGO_URL=mongodb://root:password@127.0.0.1:27017
@@ -160,7 +160,7 @@ services:
   web-app-client:
     build:
       context: ../
-      dockerfile: ../frontend/web-app-client/Dockerfile
+      dockerfile: frontend/web-app-client/Dockerfile
     restart: always
     ports:
       - "80:80"
