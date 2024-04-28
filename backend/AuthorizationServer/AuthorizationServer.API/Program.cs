@@ -1,5 +1,7 @@
 using AuthorizationServer.BLL.Extensions;
+using Common.Exception;
 using Microsoft.OpenApi.Models;
+using Observer.BLL.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,6 +90,8 @@ app.UseCors();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseHttpCollectorMiddleware();
 
 app.UseAuthentication();
 app.UseAuthorization();

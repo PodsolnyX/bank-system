@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -24,6 +24,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.Auth\Common.Auth.csproj" />
       <ProjectReference Include="..\..\Common\Common.Configuration\Common.Configuration.csproj" />
+      <ProjectReference Include="..\..\Observer\Observer.BLL\Observer.BLL.csproj" />
       <ProjectReference Include="..\Core.BLL\Core.BLL.csproj" />
     </ItemGroup>
 

@@ -9,26 +9,29 @@ using Loan.BLL.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Observer.BLL.Middlewares;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options => {
-    options.AddDefaultPolicy(
-        policy => {
-            policy.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
 });
 
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
-builder.Services.AddControllers().AddJsonOptions(opts => {
-    var enumConverter = new JsonStringEnumConverter();
-    opts.JsonSerializerOptions.Converters.Add(enumConverter);
-});
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(opts =>
+    {
+        var enumConverter = new JsonStringEnumConverter();
+        opts.JsonSerializerOptions.Converters.Add(enumConverter);
+    });
 builder
     .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -75,18 +78,23 @@ await app.MigrateDbAsync();
 
 app.UseHangfireDashboard();
 
-RecurringJob.AddOrUpdate<PaymentRequestJob>("PaymentRequestJob", x => x.ExecutePayment(),"0 12 * * *");
+RecurringJob.AddOrUpdate<PaymentRequestJob>(
+    "PaymentRequestJob",
+    x => x.ExecutePayment(),
+    "0 12 * * *"
+);
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseErrorHandleMiddleware();
+app.UseHttpCollectorMiddleware();
+app.UseDoomMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors();
-
 
 app.MapControllers();
 app.Run();
