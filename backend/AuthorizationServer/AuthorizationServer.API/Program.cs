@@ -92,7 +92,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseHttpCollectorMiddleware();
-app.UseDoomMiddleware();
 
 app.UseAuthentication();
 app.UseAuthorization();
