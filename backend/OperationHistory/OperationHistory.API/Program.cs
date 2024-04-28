@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Common.Auth.Jwt;
 using Common.Configuration;
 using Common.Exception;
+using Common.Serilog;
 using Microsoft.OpenApi.Models;
 using Observer.BLL.Middlewares;
 using OperationHistory.BLL.Extensions;
@@ -47,12 +48,7 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddSignalR();
 
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+builder.Logging.ConfigureSerilog("operation-history");
 
 builder
     .Services.AddOptions<RabbitMqConfiguration>()

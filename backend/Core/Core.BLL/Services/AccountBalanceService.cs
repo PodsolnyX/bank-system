@@ -29,6 +29,8 @@ public class AccountBalanceService
 
         account.IsLockedForTransaction = true;
         await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Account {AccountId} locked", accountId);
     }
 
     public async Task UnlockAccount(Guid accountId)
@@ -45,6 +47,8 @@ public class AccountBalanceService
 
         account.IsLockedForTransaction = false;
         await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Account {AccountId} unlocked", accountId);
     }
 
     public async Task UpdateAccountBalance(UpdateAccountBalanceMessage message)
@@ -64,6 +68,8 @@ public class AccountBalanceService
         account.ModifiedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Account balance updated");
 
         await UnlockAccount(message.AccountId);
     }

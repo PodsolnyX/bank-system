@@ -4,6 +4,7 @@ using Arbiter.BLL.DataTransferObjects;
 using Arbiter.BLL.Extensions;
 using Arbiter.BLL.Services;
 using Common.Exception;
+using Common.Serilog;
 using Hangfire;
 using Microsoft.OpenApi.Models;
 using Observer.BLL.Middlewares;
@@ -41,12 +42,7 @@ builder
     .Services.AddOptions<InternalApiQueries>()
     .Bind(builder.Configuration.GetSection(InternalApiQueries.ApiQueries));
 
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+builder.Logging.ConfigureSerilog("arbiter");
 
 var app = builder.Build();
 

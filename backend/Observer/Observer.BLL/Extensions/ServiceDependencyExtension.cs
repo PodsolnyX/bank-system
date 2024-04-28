@@ -31,6 +31,7 @@ public static class ServiceDependencyExtension
     )
     {
         services.AddScoped<HttpRequestService>();
+        services.AddScoped<LogsService>();
         return services;
     }
 }

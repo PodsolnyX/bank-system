@@ -3,6 +3,5 @@
 public class ObserverOptions
 {
     public string CollectorUrl { get; set; }
-    public string MicroserviceName { get; set; }
     public List<string> Tags { get; set; }
 }

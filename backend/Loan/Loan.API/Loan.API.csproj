@@ -24,6 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.Auth\Common.Auth.csproj" />
+      <ProjectReference Include="..\..\Common\Common.Serilog\Common.Serilog.csproj" />
       <ProjectReference Include="..\..\Observer\Observer.BLL\Observer.BLL.csproj" />
       <ProjectReference Include="..\Loan.BLL\Loan.BLL.csproj" />
     </ItemGroup>

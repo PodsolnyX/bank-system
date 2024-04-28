@@ -5,6 +5,7 @@ public class HttpRequestCreateDto
     public string MicroserviceName { get; set; }
     public List<string> Tags { get; set; }
     public string Source { get; set; }
+    public string TraceId { get; set; }
 
     public DateTime StartedAt { get; set; }
     public DateTime FinishedAt { get; set; }

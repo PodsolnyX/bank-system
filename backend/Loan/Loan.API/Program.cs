@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.Jwt;
 using Common.Exception;
+using Common.Serilog;
 using Hangfire;
 using Loan.BLL.DataTransferObjects;
 using Loan.BLL.Extensions;
@@ -65,12 +66,7 @@ builder
     .Services.AddOptions<InternalApiQuery>()
     .Bind(builder.Configuration.GetSection(InternalApiQuery.ApiQueries));
 
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+builder.Logging.ConfigureSerilog("loan");
 
 var app = builder.Build();
 

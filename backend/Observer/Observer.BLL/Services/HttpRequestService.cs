@@ -15,6 +15,7 @@ public class HttpRequestService(ObserverDbContext context)
             MicroserviceName = dto.MicroserviceName,
             Tags = dto.Tags,
             Source = dto.Source,
+            TraceId = dto.TraceId,
 
             StartedAt = dto.StartedAt,
             FinishedAt = dto.FinishedAt,

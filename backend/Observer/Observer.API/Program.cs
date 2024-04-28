@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Exception;
+using Common.Serilog;
 using Microsoft.OpenApi.Models;
 using Observer.BLL.Extensions;
 using Serilog;
@@ -35,12 +36,7 @@ builder.Services.AddSwaggerGen(option =>
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+builder.Logging.ConfigureSerilog("observer", false);
 
 var app = builder.Build();
 await app.MigrateDbAsync();

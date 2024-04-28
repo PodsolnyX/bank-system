@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Observer.BLL.Configuration;
 using Observer.BLL.Dtos;
@@ -35,11 +36,16 @@ public class HttpCollectorMiddleware(RequestDelegate next, IOptions<ObserverOpti
             var endTime = DateTime.UtcNow;
             timer.Stop();
 
+            IHostEnvironment? env =
+                Host.CreateDefaultBuilder().Build().Services.GetService(typeof(IHostEnvironment))
+                as IHostEnvironment;
+
             var httpRequest = new HttpRequestCreateDto()
             {
-                MicroserviceName = options.Value.MicroserviceName,
+                MicroserviceName = env?.ApplicationName ?? "Unknown",
                 Tags = options.Value.Tags,
                 Source = "HTTP",
+                TraceId = context.TraceIdentifier,
 
                 StartedAt = startTime,
                 FinishedAt = endTime,

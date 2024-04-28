@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Observer.DAL;
@@ -12,9 +13,11 @@ using Observer.DAL;
 namespace Observer.DAL.Migrations
 {
     [DbContext(typeof(ObserverDbContext))]
-    partial class ObserverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240428130416_Add_Logs")]
+    partial class Add_Logs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

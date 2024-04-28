@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 using Common.Auth.Jwt;
 using Common.Configuration;
 using Common.Exception;
+using Common.Serilog;
 using Core.BLL.Extensions;
 using Microsoft.OpenApi.Models;
 using Observer.BLL.Middlewares;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,12 +39,7 @@ builder.Services.AddSwaggerGen(option =>
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+builder.Logging.ConfigureSerilog("core");
 
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);

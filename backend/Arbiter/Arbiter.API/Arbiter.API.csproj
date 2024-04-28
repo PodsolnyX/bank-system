@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Common\Common.Serilog\Common.Serilog.csproj" />
       <ProjectReference Include="..\Arbiter.BLL\Arbiter.BLL.csproj" />
     </ItemGroup>
 
