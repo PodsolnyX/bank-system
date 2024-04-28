@@ -12,33 +12,56 @@ import {
 } from 'controllers/Account/types'
 
 import { AccountService } from 'services/AccountService'
-import { AuthHelper } from 'common'
+import { CacheService } from 'services/CacheService'
+import { ReqHelper } from 'common'
+import { ObserverService } from 'services/ObserverService'
 
 class AccountController {
   private _AccountService: AccountService
+  private _CacheService: CacheService
+  private _ObserverService: ObserverService
 
-  constructor(AccountService: AccountService) {
+  constructor(AccountService: AccountService, CacheService: CacheService, ObserverService: ObserverService) {
     this._AccountService = AccountService
+    this._CacheService = CacheService
+    this._ObserverService = ObserverService
   }
 
   async OpenAccount(req: OpenAccountReq, res: Response) {
-    const data = await this._AccountService.OpenAccount(req.query, AuthHelper.Data(req))
+    const data = await this._AccountService.OpenAccount(
+      req.query,
+      ReqHelper.AuthData(req)
+    )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200, data)
   }
 
   async CloseAccount(req: CloseAccountReq, res: Response) {
-    const data = await this._AccountService.CloseAccount(req.params, AuthHelper.Data(req))
+    const data = await this._AccountService.CloseAccount(
+      req.params,
+      ReqHelper.AuthData(req)
+    )
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async GetAccounts(req: GetAccountsReq, res: Response) {
-    const data = await this._AccountService.GetAccounts(req.query, AuthHelper.Data(req))
+    const data = await this._AccountService.GetAccounts(
+      req.query,
+      ReqHelper.AuthData(req)
+    )
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200, data)
   }
 
   async GetAccount(req: GetAccountReq, res: Response) {
-    const data = await this._AccountService.GetAccount(req.params, AuthHelper.Data(req))
+    const data = await this._AccountService.GetAccount(
+      req.params,
+      ReqHelper.AuthData(req)
+    )
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200, data)
   }
 
   async Deposit(req: DepositReq, res: Response) {
@@ -47,9 +70,11 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async Withdraw(req: WithdrawReq, res: Response) {
@@ -58,9 +83,11 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async TransferSelf(req: TransferSelfReq, res: Response) {
@@ -69,9 +96,11 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async TransferUser(req: TransferUserReq, res: Response) {
@@ -80,14 +109,21 @@ class AccountController {
         ...req.query,
         ...req.params,
       },
-      AuthHelper.Data(req)
+      ReqHelper.AuthData(req)
     )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async MakePriority(req: MakePriorityReq, res: Response) {
-    const data = await this._AccountService.MakePriority(req.params, AuthHelper.Data(req))
+    const data = await this._AccountService.MakePriority(
+      req.params,
+      ReqHelper.AuthData(req)
+    )
+    await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
+    this._ObserverService.Collect(req, 200)
   }
 }
 

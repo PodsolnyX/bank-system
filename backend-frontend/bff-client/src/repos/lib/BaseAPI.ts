@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
+import axiosRetry from 'axios-retry'
 import { AuthInfo } from 'common/Auth'
+import { CB, mapUrl } from 'middleware/CircuitBreaker'
 
 export abstract class BaseReq {
   protected static BASE_URL: string
@@ -7,7 +9,7 @@ export abstract class BaseReq {
   private static readonly PREFERENCES_HEADER_NAME = 'XUserId'
   private static readonly SERIALIZER_INDEXES = null
 
-  public static Req(AuthInfo: AuthInfo | null): AxiosInstance {
+  public static Req(AuthInfo: AuthInfo | null = null): AxiosInstance {
     const headers = AuthInfo
       ? {
           [this.API_HEADER_NAME]: `Bearer ${AuthInfo.token}`,
@@ -18,6 +20,29 @@ export abstract class BaseReq {
       baseURL: this.BASE_URL,
       headers,
       paramsSerializer: { indexes: this.SERIALIZER_INDEXES },
+    })
+    AxiosInst.interceptors.response.use(
+      (response) => {
+        const mapping = mapUrl(this.BASE_URL)
+        if (mapping) {
+          CB.Success(mapping)
+        }
+        return response
+      },
+      (error) => {
+        const mapping = mapUrl(this.BASE_URL)
+        if (mapping) {
+          CB.Error(mapping)
+        }
+        return Promise.reject(error)
+      }
+    )
+
+    axiosRetry(AxiosInst, {
+      retryDelay: (retryCount) => {
+        return retryCount * 750
+      },
+      retries: 3,
     })
 
     return AxiosInst
