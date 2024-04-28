@@ -1,9 +1,8 @@
 import { Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
-import { MakePriorityReq } from 'features/account/api'
+import { ShowAccountReq } from 'features/preferences'
 import { Account } from 'entities/account'
-import { ShowAccountReq } from 'entities/preferences'
 import { getAccountHistoryLink } from 'shared/config'
 import { CurrencyType } from 'shared/lib'
 import { format } from 'shared/lib/format'
@@ -13,7 +12,6 @@ import { getAccountActions } from '../../config'
 export const getAccountColumns = (
   show: (data: ShowAccountReq) => any,
   hide: (data: ShowAccountReq) => any,
-  makePriority: (data: MakePriorityReq) => any
 ): ColumnsType<Account> => [
   {
     title: 'Номер',
@@ -70,7 +68,7 @@ export const getAccountColumns = (
     title: 'Действие',
     dataIndex: '',
     render: (_, acc) => (
-      <Dropdown items={getAccountActions(acc, show, hide, makePriority)} />
+      <Dropdown items={getAccountActions(acc, show, hide)} />
     ),
     width: '10%',
     align: 'center',

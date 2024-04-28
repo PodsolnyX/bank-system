@@ -1,4 +1,4 @@
-import { loansApi } from 'shared/api'
+import { WithKey, getKey, loansApi, rmKey } from 'shared/api'
 import { RequestLoanResp, RequestLoanReq, ChargeLoanResp, ChargeLoanReq } from './types'
 
 const endpoints = loansApi.injectEndpoints({
@@ -7,20 +7,23 @@ const endpoints = loansApi.injectEndpoints({
       query: (params) => ({
         url: '/request',
         method: 'POST',
-        params,
+        params: rmKey(params),
+        headers: getKey(params)
       }),
     }),
     chargeLoan: builder.mutation<ChargeLoanResp, ChargeLoanReq>({
       query: (params) => ({
         url: '/charge',
         method: 'POST',
-        params,
+        params: rmKey(params),
+        headers: getKey(params)
       }),
     }),
-    executeJob: builder.mutation<void, void>({
-      query: () => ({
+    executeJob: builder.mutation<void, WithKey>({
+      query: (data) => ({
         url: '/',
         method: 'POST',
+        headers: getKey(data)
       }),
     }),
   }),

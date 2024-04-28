@@ -8,13 +8,15 @@ import { Link } from 'react-router-dom'
 import { useExecuteJobMutation } from 'features/loan'
 import { useGetLoansQuery, useGetPaymentsQuery } from 'entities/loan'
 import { GeneralLoanTable, PaymentsTable } from 'entities/loan'
+import { useKey } from 'shared/api'
 import { AppRoutes } from 'shared/config'
 import { Center, ErrorMsg, PageHeader, PageLoader } from 'shared/ui'
 
 export const LoansListPage = () => {
   const loans = useGetLoansQuery({ limit: 10000 })
   const payments = useGetPaymentsQuery({ onlyActual: false })
-  const [trigger] = useExecuteJobMutation()
+  const [trigger, triggerResult] = useExecuteJobMutation()
+  const key = useKey(triggerResult.status)
 
   if (loans.isError || payments.isError) {
     return (
@@ -27,7 +29,7 @@ export const LoansListPage = () => {
   }
 
   const timeJump = async () => {
-    await trigger()
+    await trigger(key)
     location.reload()
   }
 

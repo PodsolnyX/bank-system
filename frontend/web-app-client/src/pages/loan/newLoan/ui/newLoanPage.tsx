@@ -3,6 +3,7 @@ import { NewLoanForm, NewLoanFormData } from 'features/loan'
 import { useRequestLoanMutation } from 'features/loan'
 import { useGetAccountsQuery } from 'entities/account'
 import { useGetTariffsQuery } from 'entities/tariff'
+import { useKey } from 'shared/api'
 import { AppRoutes } from 'shared/config'
 import { toastError, toastSuccess } from 'shared/lib'
 import { convert } from 'shared/lib/format'
@@ -13,11 +14,12 @@ export const NewLoanPage = () => {
   const navigate = useNavigate()
   const tariffs = useGetTariffsQuery({})
   const accounts = useGetAccountsQuery({ hidden: false })
-  const [trigger] = useRequestLoanMutation()
+  const [trigger, res] = useRequestLoanMutation()
+  const key = useKey(res.status)
 
   const onFinish = async (values: NewLoanFormData) => {
     try {
-      await trigger(convert(values)).unwrap()
+      await trigger({ ...convert(values), ...key }).unwrap()
       toastSuccess('Ваша заявка принята, ждите')
       navigate(AppRoutes.MAIN)
     } catch {
