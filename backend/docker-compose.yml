@@ -144,7 +144,26 @@ services:
       - postgres
     volumes:
       - /var/log/bank/observer:/app/logs
-      
+  
+  bff-client:
+    build:
+      context: .
+      dockerfile: ../backend-frontend/bff-client/Dockerfile
+    restart: always
+    environment:
+      - MONGO_URL=mongodb://root:password@127.0.0.1:27017
+      - BACKEND_URL=http://127.0.0.1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+  web-app-client:
+    build:
+      context: .
+      dockerfile: ../frontend/web-app-client/Dockerfile
+    restart: always
+    ports:
+      - "80:80"
 volumes:
   rabbitmq_data:
   postgres_data:
