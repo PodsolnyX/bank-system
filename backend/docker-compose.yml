@@ -159,8 +159,8 @@ services:
       - mongodb
   web-app-client:
     build:
-      context: ../
-      dockerfile: frontend/web-app-client/Dockerfile
+      context: ../frontend/web-app-client
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "80:80"
