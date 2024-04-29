@@ -59,7 +59,7 @@ app.UseSwaggerUI();
 app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
 
-//app.UseDoomMiddleware();
+app.UseDoomMiddleware();
 app.UseIdempotencyMiddleware();
 
 app.UseHttpsRedirection();
