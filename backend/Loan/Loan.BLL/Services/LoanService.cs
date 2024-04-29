@@ -24,6 +24,7 @@ public  class LoanService {
             throw new NotFoundException("Tariff not found");
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(_options.Value.BaseUrlArbiter);
+        httpClient.DefaultRequestHeaders.Add("X-Idempotency-Key", Guid.NewGuid()+"_loan request");
         var jsonDto = JsonConvert.SerializeObject(dto);
         var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync($"{_options.Value.BaseArbiterController}loan", content);
@@ -41,6 +42,7 @@ public  class LoanService {
 
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(_options.Value.BaseUrlArbiter);
+        httpClient.DefaultRequestHeaders.Add("X-Idempotency-Key", Guid.NewGuid()+"_loan charge");
         var jsonDto = JsonConvert.SerializeObject(dto);
         var content = new StringContent(jsonDto, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync($"{_options.Value.BaseArbiterController}loan-charge", content);
