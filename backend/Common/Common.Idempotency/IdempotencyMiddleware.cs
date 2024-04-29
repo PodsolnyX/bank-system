@@ -78,12 +78,11 @@ public class IdempotencyMiddleware
     {
         try
         {
-            var identifier =
-                context
-                    .Request.Headers.ToImmutableArray()
-                    .Where(h => h.Key == "X-Idempotency-Key")
-                    .Select(s => s.Value.FirstOrDefault())
-                    .FirstOrDefault() ?? "TEST";
+            var identifier = context
+                .Request.Headers.ToImmutableArray()
+                .Where(h => h.Key == "X-Idempotency-Key")
+                .Select(s => s.Value.FirstOrDefault())
+                .FirstOrDefault();
             var path = context.Request.Path.Value;
 
             if (identifier == null || path == null)
