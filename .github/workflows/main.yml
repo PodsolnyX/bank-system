@@ -19,7 +19,7 @@ jobs:
       working-directory: ./backend
 
     - name: Clear docker images
-      run: sudo docker images prune -y
+      run: sudo docker image prune -f
 
     - name: Start docker
       run: sudo docker-compose up -d --build
