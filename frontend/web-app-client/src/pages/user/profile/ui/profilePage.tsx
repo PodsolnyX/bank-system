@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useTheme } from 'features/preferences'
 import { Theme } from 'entities/preferences'
 import { extractFromJWT } from 'entities/user'
+import { AUTH_BASE_URL } from 'shared/config'
 import { Center, PageHeader, Property, PageLoader } from 'shared/ui'
 
 export const ProfilePage = () => {
@@ -45,7 +46,7 @@ export const ProfilePage = () => {
         >
           <Property name='id' value={data.id} className='m-0' />
           <Property name='Почта' value={data.mail} className='m-0' />
-          <Link to={'https://coto-dev.ru/'}>Выйти</Link>
+          <Link to={AUTH_BASE_URL}>Выйти</Link>
         </Card>
       )}
     </Center>
