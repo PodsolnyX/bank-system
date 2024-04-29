@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Common.Auth.Jwt;
 using Common.Configuration;
 using Common.Exception;
+using Common.Idempotency;
 using Common.Serilog;
 using Microsoft.OpenApi.Models;
 using Observer.BLL.Middlewares;
@@ -48,7 +49,8 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddSignalR();
 
-builder.Logging.ConfigureSerilog("operation-history");
+builder.Logging.ConfigureSerilog();
+builder.Services.AddIdempotencyDistributedCache();
 
 builder
     .Services.AddOptions<RabbitMqConfiguration>()
@@ -66,6 +68,7 @@ app.ConfigureJobs();
 app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
 app.UseDoomMiddleware();
+app.UseIdempotencyMiddleware();
 
 //app.UseHttpsRedirection();
 app.UseAuthorization();

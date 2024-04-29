@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Common.Auth.Jwt;
 using Common.Configuration;
 using Common.Exception;
+using Common.Idempotency;
 using Common.Serilog;
 using Core.BLL.Extensions;
 using Microsoft.OpenApi.Models;
@@ -38,11 +39,10 @@ builder.Services.AddSwaggerGen(option =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
-
-builder.Logging.ConfigureSerilog("core");
-
+builder.Logging.ConfigureSerilog();
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddIdempotencyDistributedCache();
 
 builder
     .Services.AddOptions<RabbitMqConfiguration>()
@@ -58,7 +58,9 @@ app.UseSwaggerUI();
 
 app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
-app.UseDoomMiddleware();
+
+//app.UseDoomMiddleware();
+app.UseIdempotencyMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

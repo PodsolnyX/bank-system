@@ -24,6 +24,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Common.Auth\Common.Auth.csproj" />
       <ProjectReference Include="..\..\Common\Common.Configuration\Common.Configuration.csproj" />
+      <ProjectReference Include="..\..\Common\Common.Idempotency\Common.Idempotency.csproj" />
       <ProjectReference Include="..\..\Common\Common.Serilog\Common.Serilog.csproj" />
       <ProjectReference Include="..\..\Observer\Observer.BLL\Observer.BLL.csproj" />
       <ProjectReference Include="..\Core.BLL\Core.BLL.csproj" />
@@ -33,6 +34,10 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="logs\" />
     </ItemGroup>
 
 </Project>

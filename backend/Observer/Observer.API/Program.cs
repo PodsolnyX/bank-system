@@ -36,7 +36,7 @@ builder.Services.AddSwaggerGen(option =>
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-builder.Logging.ConfigureSerilog("observer", false);
+builder.Logging.ConfigureSerilog(false);
 
 var app = builder.Build();
 await app.MigrateDbAsync();

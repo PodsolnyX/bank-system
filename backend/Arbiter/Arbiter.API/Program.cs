@@ -4,6 +4,7 @@ using Arbiter.BLL.DataTransferObjects;
 using Arbiter.BLL.Extensions;
 using Arbiter.BLL.Services;
 using Common.Exception;
+using Common.Idempotency;
 using Common.Serilog;
 using Hangfire;
 using Microsoft.OpenApi.Models;
@@ -42,7 +43,8 @@ builder
     .Services.AddOptions<InternalApiQueries>()
     .Bind(builder.Configuration.GetSection(InternalApiQueries.ApiQueries));
 
-builder.Logging.ConfigureSerilog("arbiter");
+builder.Logging.ConfigureSerilog();
+builder.Services.AddIdempotencyDistributedCache();
 
 var app = builder.Build();
 
@@ -69,6 +71,7 @@ app.UseCors();
 app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
 app.UseDoomMiddleware();
+app.UseIdempotencyMiddleware();
 
 app.MapControllers();
 app.Run();

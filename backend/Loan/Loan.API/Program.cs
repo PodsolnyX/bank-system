@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Common.Auth.Jwt;
 using Common.Exception;
+using Common.Idempotency;
 using Common.Serilog;
 using Hangfire;
 using Loan.BLL.DataTransferObjects;
@@ -66,7 +67,8 @@ builder
     .Services.AddOptions<InternalApiQuery>()
     .Bind(builder.Configuration.GetSection(InternalApiQuery.ApiQueries));
 
-builder.Logging.ConfigureSerilog("loan");
+builder.Logging.ConfigureSerilog();
+builder.Services.AddIdempotencyDistributedCache();
 
 var app = builder.Build();
 
@@ -86,6 +88,7 @@ app.UseSwaggerUI();
 app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
 app.UseDoomMiddleware();
+app.UseIdempotencyMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
