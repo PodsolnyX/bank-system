@@ -46,6 +46,7 @@ public class AccountExternalService
 
         _dbContext.Accounts.Add(account);
         await _dbContext.SaveChangesAsync();
+        _logger.LogInformation("Account {AccountId} opened", account.Id);
 
         return await GetAccount(userId, account.Id);
     }
@@ -58,12 +59,16 @@ public class AccountExternalService
         account!.DeletedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Account {AccountId} closed", account.Id);
     }
 
     public async Task<AccountDto> GetAccount(Guid accountId)
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
         CheckAccount(account);
+
+        _logger.LogInformation("Account {AccountId} retrieved", account!.Id);
 
         return account!.ToDto();
     }
@@ -72,6 +77,8 @@ public class AccountExternalService
     {
         var account = await _dbContext.Accounts.FindAsync(accountId);
         CheckAccount(account, userId);
+
+        _logger.LogInformation("Account {AccountId} retrieved", account!.Id);
 
         return account!.ToDto();
     }
@@ -142,7 +149,6 @@ public class AccountExternalService
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while sending operation history message");
             await _accountBalanceService.UnlockAccount(accountId);
         }
     }
@@ -178,6 +184,8 @@ public class AccountExternalService
         }
         _dbContext.UpdateRange(accounts);
         await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Account {AccountId} set as priority", accountId);
     }
 
     public async Task TransferMoneyToUser(
@@ -203,6 +211,12 @@ public class AccountExternalService
                 "Account to transfer not found, may be choose priority account"
             );
         await TransferMoney(amount, fromAccount, toAccount);
+
+        _logger.LogInformation(
+            "Money transferred from {FromAccountId} account to {ToUserId} user",
+            fromAccountId,
+            toUserId
+        );
     }
 
     public async Task TransferMoneyBetweenMyAccounts(
@@ -225,6 +239,12 @@ public class AccountExternalService
         if (toAccount == null)
             throw new NotFoundException("Account to transfer not found");
         await TransferMoney(amount, fromAccount, toAccount);
+
+        _logger.LogInformation(
+            "Money transferred from {FromAccountId} account to {ToAccountId} account",
+            fromAccountId,
+            toAccountId
+        );
     }
 
     private async Task TransferMoney(long amount, Account fromAccount, Account toAccount)

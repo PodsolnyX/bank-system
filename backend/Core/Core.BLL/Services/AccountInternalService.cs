@@ -15,18 +15,21 @@ public class AccountInternalService
     private readonly OperationHistorySender _operationHistorySender;
     private readonly AccountBalanceService _accountBalanceService;
     private readonly CurrencyTransferService _transferService;
+    private readonly ILogger<AccountInternalService> _logger;
 
     public AccountInternalService(
         CoreDbContext dbContext,
         OperationHistorySender operationHistorySender,
         AccountBalanceService accountBalanceService,
-        CurrencyTransferService transferService
+        CurrencyTransferService transferService,
+        ILogger<AccountInternalService> logger
     )
     {
         _dbContext = dbContext;
         _operationHistorySender = operationHistorySender;
         _accountBalanceService = accountBalanceService;
         _transferService = transferService;
+        _logger = logger;
     }
 
     public async Task ModifyAccount(Guid accountId, AccountModificationDto dto)
@@ -35,6 +38,7 @@ public class AccountInternalService
 
         if (dto.Type == OperationType.Withdraw && account!.Amount < dto.Amount)
         {
+            _logger.LogError("Not enough money on the account");
             throw new InvalidOperationException("Not enough money on the account");
         }
 
@@ -74,6 +78,7 @@ public class AccountInternalService
 
         if (dto.Type == OperationType.Deposit && account!.Amount < dto.Amount)
         {
+            _logger.LogError("Not enough money on the account");
             throw new InvalidOperationException("Not enough money on the account");
         }
 
@@ -154,18 +159,21 @@ public class AccountInternalService
         try
         {
             await ModifyAccount(toAccount.Id, toAccountModification);
+            _logger.LogInformation("Transfer success");
         }
         catch (Exception e)
         {
+            _logger.LogError(e, "Transfer failed");
             var cancelWithdraw = new AccountModificationDto
             {
                 Type = OperationType.Deposit,
                 Reason = OperationReason.Loan,
-                TransactionId =  fromAccountModification.TransactionId,
+                TransactionId = fromAccountModification.TransactionId,
                 Amount = amount,
                 Message = "Отмена"
             };
             await ModifyAccountCancel(fromAccount.Id, cancelWithdraw);
+            _logger.LogInformation("Transfer canceled");
         }
     }
 }

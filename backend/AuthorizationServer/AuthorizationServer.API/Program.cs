@@ -1,5 +1,8 @@
 using AuthorizationServer.BLL.Extensions;
+using Common.Idempotency;
+using Common.Serilog;
 using Microsoft.OpenApi.Models;
+using Observer.BLL.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +69,8 @@ builder.Services.AddServices();
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddConfiguredOpenIddict();
 builder.Services.AddClientSeeder();
+builder.Logging.ConfigureSerilog();
+builder.Services.AddIdempotencyDistributedCache();
 
 var app = builder.Build();
 
@@ -88,6 +93,9 @@ app.UseCors();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseHttpCollectorMiddleware();
+app.UseIdempotencyMiddleware();
 
 app.UseAuthentication();
 app.UseAuthorization();

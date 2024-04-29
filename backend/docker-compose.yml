@@ -1,14 +1,17 @@
-﻿version: '3'
+version: "3.7"
+
 services:
   mongodb:
     image: mongo:7.0.8-rc0-jammy
+    hostname: mongodb
     ports:
       - '27017:27017'
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root 
+      - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - mongo_data:/data/db
+      - mongo_config_data:/data/configdb
     restart: always
   
   rabbitmq:
@@ -18,9 +21,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      - internal-network
-      - external-network
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
@@ -38,8 +38,6 @@ services:
     restart: always
     ports:
       - "5432:5432"
-    networks:
-      - internal-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -48,6 +46,19 @@ services:
       timeout: 5s
       retries: 5
   
+  redis:
+    image: redis:7.2.4-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+        test: [ "CMD", "redis-cli", "ping" ]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+  
   arbiter:
     build:
       context: .
@@ -55,8 +66,6 @@ services:
     restart: always
     environment:
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-arbiter-db
-    networks:
-      - internal-network
     ports:
       - "7000:8080"
     depends_on:
@@ -72,9 +81,6 @@ services:
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-core-db
-    networks:
-      - external-network
-      - internal-network
     ports:
       - "7002:8080"
     depends_on:
@@ -94,9 +100,6 @@ services:
     environment:
       - RABBITMQ__HOSTNAME=rabbitmq
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-loan-db
-    networks:
-      - external-network
-      - internal-network
     ports:
       - "7003:8080"
     depends_on:
@@ -116,9 +119,6 @@ services:
       - RABBITMQ__HOSTNAME=rabbitmq
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=bank-op-history-db
       - CONNECTIONSTRINGS__HANGFIRE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=hangfire-db
-    networks:
-      - external-network
-      - internal-network
     ports:
       - "7004:8080"
     depends_on:
@@ -137,9 +137,6 @@ services:
     restart: always
     environment:
       - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=authorization-server-db
-    networks:
-      - external-network
-      - internal-network
     ports:
       - "7005:8080"
     depends_on:
@@ -147,13 +144,23 @@ services:
     volumes:
       - /var/log/bank/authorization-server:/app/logs
 
-
+  observer:
+    build:
+      context: .
+      dockerfile: Observer/Observer.API/Dockerfile
+    restart: always
+    environment:
+      - CONNECTIONSTRINGS__DATABASE=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=observer-db
+    ports:
+      - "7006:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - /var/log/bank/observer:/app/logs
+      
 volumes:
   rabbitmq_data:
   postgres_data:
+  redis_data:
   mongo_data:
-
-networks:
-  internal-network:
-  external-network:
-    external: true
+  mongo_config_data:

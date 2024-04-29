@@ -3,6 +3,7 @@ using Core.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Observer.BLL.Configuration;
 
 namespace Core.BLL.Extensions;
 
@@ -31,6 +32,7 @@ public static class ServiceDependencyExtension
         IConfiguration configuration
     )
     {
+        services.Configure<ObserverOptions>(configuration.GetSection("Observer"));
         services.AddScoped<AccountExternalService>();
         services.AddScoped<AccountInternalService>();
         services.AddScoped<AccountBalanceService>();

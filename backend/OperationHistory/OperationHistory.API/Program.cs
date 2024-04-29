@@ -1,10 +1,12 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Common.Auth.ApiKeyAuthorization;
 using Common.Auth.Jwt;
 using Common.Configuration;
+using Common.Exception;
+using Common.Idempotency;
+using Common.Serilog;
 using Microsoft.OpenApi.Models;
-using OperationHistory.API;
+using Observer.BLL.Middlewares;
 using OperationHistory.BLL.Extensions;
 using OperationHistory.BLL.Hubs;
 using OperationHistory.BLL.Jobs;
@@ -12,15 +14,17 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options => {
-    options.AddDefaultPolicy(
-        policy => {
-            policy.WithOrigins("null")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .SetIsOriginAllowed(_ => true);
-        });
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("null")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(_ => true);
+    });
 });
 builder
     .Services.AddControllers()
@@ -45,12 +49,8 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddSignalR();
 
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+builder.Logging.ConfigureSerilog();
+builder.Services.AddIdempotencyDistributedCache();
 
 builder
     .Services.AddOptions<RabbitMqConfiguration>()
@@ -64,6 +64,11 @@ await app.ConfigureDatabaseSeed();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.ConfigureJobs();
+
+app.UseErrorHandleMiddleware();
+app.UseHttpCollectorMiddleware();
+app.UseDoomMiddleware();
+app.UseIdempotencyMiddleware();
 
 //app.UseHttpsRedirection();
 app.UseAuthorization();

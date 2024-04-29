@@ -9,13 +9,18 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
-    
+
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
-      
+
     - name: Stop docker
       run: sudo docker-compose down
-      
+      working-directory: ./backend
+
+    - name: Clear docker images
+      run: sudo docker images prune -y
+
     - name: Start docker
       run: sudo docker-compose up -d --build
+      working-directory: ./backend

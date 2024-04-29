@@ -43,6 +43,7 @@ public class OperationHistorySender
                 basicProperties: null,
                 body: body
             );
+            _logger.LogInformation("Operation history message sent");
         }
         catch (Exception e)
         {

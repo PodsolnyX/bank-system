@@ -8,9 +8,9 @@ namespace Tests;
 
 public class Helper
 {
-    //private const string ServerUrl = "http://109.107.189.133";
+    private const string ServerUrl = "http://109.107.189.133";
 
-    private const string ServerUrl = "http://localhost";
+    //private const string ServerUrl = "http://localhost";
 
     private const string CoreApiUrl = ServerUrl + ":7002";
     private const string OperationApiUrl = ServerUrl + ":7004";
