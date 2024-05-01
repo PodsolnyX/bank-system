@@ -24,7 +24,7 @@ export const CacheMiddlewareFn =
       if (cached.data) {
         res.send(cached.data)
       }
-      ObserverService.Collect(req, 400, cached.data)
+      ObserverService.Collect(req, cached.status, cached.data)
       return
     }
 

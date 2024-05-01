@@ -1,6 +1,8 @@
 import { AxiosError } from 'axios'
 import { ReqError } from 'common/ReqError'
 import { Router, RequestHandler } from 'express'
+import { ObserverServiceInst } from 'init/Observer'
+import { ObserverService } from 'services/ObserverService'
 
 type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'all'
 
@@ -15,6 +17,10 @@ type Route = {
 }
 
 class RouterHelper {
+  private _Observer: ObserverService
+  constructor(Observer: ObserverService) {
+    this._Observer = Observer
+  }
   use(router: Router, controller: any, routes: Route[]) {
     const paths = new Set(routes.map((route) => route.path))
 
@@ -26,10 +32,13 @@ class RouterHelper {
           } catch (err) {
             if (err instanceof AxiosError && err.response) {
               args[1].status(err.response.status).send(err.response.data)
+              this._Observer.Collect(args[0], err.response.status, err.response.data)
             } else if (err instanceof ReqError) {
               args[1].status(err.status).send({ message: err.message })
+              this._Observer.Collect(args[0], err.status, { message: err.message })
             } else {
               args[1].sendStatus(500)
+              this._Observer.Collect(args[0], 500)
             }
           }
         }
@@ -44,4 +53,4 @@ class RouterHelper {
   }
 }
 
-export default new RouterHelper()
+export default new RouterHelper(ObserverServiceInst)

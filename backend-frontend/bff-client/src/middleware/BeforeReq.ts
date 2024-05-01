@@ -4,7 +4,7 @@ import { CB, mapBffRoute } from 'middleware/CircuitBreaker'
 import { ObserverService } from 'services/ObserverService'
 
 export const BeforeReqFn =
-  (ObserverService: ObserverService) =>
+  (ObserverService: ObserverService,) =>
   async (req: Request, res: Response, next: NextFunction) => {
     req.headers[REQUEST_ID_HEADER] = Math.random().toString(16).slice(2)
     req.headers[REQUEST_TIME_START_HEADER] = Date.now().toString()

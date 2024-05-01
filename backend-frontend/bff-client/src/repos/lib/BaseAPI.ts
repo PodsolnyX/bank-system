@@ -1,21 +1,29 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosHeaders, AxiosInstance } from 'axios'
 import axiosRetry from 'axios-retry'
-import { AuthInfo } from 'common/Auth'
+import { v4 as uuidv4 } from 'uuid'
+import { ReqMetaInfo } from 'common/Auth'
 import { CB, mapUrl } from 'middleware/CircuitBreaker'
 
 export abstract class BaseReq {
   protected static BASE_URL: string
-  private static readonly API_HEADER_NAME = 'Authorization'
+  private static readonly API_AUTH_HEADER_NAME = 'Authorization'
+  private static readonly API_IDEMPOTENCY_HEADER_NAME = 'X-IdempotencyKey'
+  private static readonly API_TRACE_HEADER_NAME = 'X-TraceId'
+
   private static readonly PREFERENCES_HEADER_NAME = 'XUserId'
   private static readonly SERIALIZER_INDEXES = null
 
-  public static Req(AuthInfo: AuthInfo | null = null): AxiosInstance {
-    const headers = AuthInfo
+  public static Req(AuthInfo: ReqMetaInfo | null = null): AxiosInstance {
+    const headers: Record<string, string> = AuthInfo
       ? {
-          [this.API_HEADER_NAME]: `Bearer ${AuthInfo.token}`,
+          [this.API_AUTH_HEADER_NAME]: `Bearer ${AuthInfo.token}`,
           [this.PREFERENCES_HEADER_NAME]: AuthInfo.id,
+          [this.API_TRACE_HEADER_NAME]: uuidv4(),
         }
       : {}
+    if (AuthInfo?.idempotencyKey) {
+      headers[this.API_IDEMPOTENCY_HEADER_NAME] = AuthInfo.idempotencyKey
+    }
     const AxiosInst = axios.create({
       baseURL: this.BASE_URL,
       headers,
@@ -43,6 +51,12 @@ export abstract class BaseReq {
         return retryCount * 750
       },
       retries: 3,
+      onRetry: (_retryCount, _error, requestConfig) => {
+        if (requestConfig.headers == null) {
+          requestConfig.headers = new AxiosHeaders()
+        }
+        requestConfig.headers[this.API_TRACE_HEADER_NAME] = uuidv4()
+      },
     })
 
     return AxiosInst

@@ -52,7 +52,7 @@ class LoanController {
   async GetRating(req: Request, res: Response) {
     const rating = await this._LoanService.GetRating(ReqHelper.AuthData(req))
     res.status(200).send({ rating })
-    this._ObserverService.Collect(req, 200, rating)
+    this._ObserverService.Collect(req, 200, { rating })
   }
 
   async ExecuteJob(req: Request, res: Response) {
