@@ -7,6 +7,6 @@ export const WS_PATH = '/history'
 export const KEY_HEADER = 'x-key'
 
 export const MONGO_URL =
-  process.env.MONGO_URL || 'mongodb://root:password@109.107.189.133:27017'
+  process.env.MONGO_URL || 'mongodb://abudabi:ultragiperparol@109.107.189.133:27017'
 
   export const BACKEND_URL = process.env.BACKEND_URL || 'http://109.107.189.133'

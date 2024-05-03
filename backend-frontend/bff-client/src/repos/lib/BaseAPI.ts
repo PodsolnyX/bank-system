@@ -47,10 +47,11 @@ export abstract class BaseReq {
     )
 
     axiosRetry(AxiosInst, {
-      retryDelay: (retryCount) => {
-        return retryCount * 750
+      //TODO
+      retryDelay: () => {
+        return 75
       },
-      retries: 3,
+      retries: 30,
       onRetry: (_retryCount, _error, requestConfig) => {
         if (requestConfig.headers == null) {
           requestConfig.headers = new AxiosHeaders()
