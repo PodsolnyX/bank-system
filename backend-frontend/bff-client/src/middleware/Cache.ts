@@ -1,4 +1,4 @@
-import { KEY_HEADER } from 'app/config'
+import { KEY_HEADER } from 'common/config'
 import { NextFunction, Request, Response } from 'express'
 import { CacheService } from 'services/CacheService'
 import { ObserverService } from 'services/ObserverService'
@@ -20,11 +20,8 @@ export const CacheMiddlewareFn =
 
     const cached = await CacheService.Get(key)
     if (cached) {
-      res.status(cached.status)
-      if (cached.data) {
-        res.send(cached.data)
-      }
-      ObserverService.Collect(req, cached.status, cached.data)
+      res.status(cached.status).send(cached.data || undefined)
+      ObserverService.Collect(req, cached.status)
       return
     }
 

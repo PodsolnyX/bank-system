@@ -17,7 +17,7 @@ class TariffController {
   async GetTariffs(req: GetTariffsReq, res: Response) {
     const data = await this._TariffService.GetTariffs(req.body, ReqHelper.AuthData(req))
     res.status(200).send(data)
-    this._ObserverService.Collect(req, 200, data)
+    this._ObserverService.Collect(req, 200)
   }
 }
 

@@ -1,4 +1,4 @@
-import { KEY_HEADER } from 'app/config'
+import { KEY_HEADER } from 'common/config'
 import { Request } from 'express'
 import { jwtDecode } from 'jwt-decode'
 

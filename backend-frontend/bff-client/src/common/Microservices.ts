@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "app/config";
+import { BACKEND_URL } from "common/config";
 
 export const Microservices = {
     Core: `${BACKEND_URL}:7002`,

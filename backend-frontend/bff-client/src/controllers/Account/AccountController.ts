@@ -34,7 +34,7 @@ class AccountController {
     )
     await this._CacheService.Insert({ data, key: ReqHelper.XKey(req) })
     res.status(200).send(data)
-    this._ObserverService.Collect(req, 200, data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async CloseAccount(req: CloseAccountReq, res: Response) {
@@ -52,7 +52,7 @@ class AccountController {
       ReqHelper.AuthData(req)
     )
     res.status(200).send(data)
-    this._ObserverService.Collect(req, 200, data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async GetAccount(req: GetAccountReq, res: Response) {
@@ -61,7 +61,7 @@ class AccountController {
       ReqHelper.AuthData(req)
     )
     res.status(200).send(data)
-    this._ObserverService.Collect(req, 200, data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async Deposit(req: DepositReq, res: Response) {

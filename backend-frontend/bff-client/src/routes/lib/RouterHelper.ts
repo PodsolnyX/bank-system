@@ -32,10 +32,10 @@ class RouterHelper {
           } catch (err) {
             if (err instanceof AxiosError && err.response) {
               args[1].status(err.response.status).send(err.response.data)
-              this._Observer.Collect(args[0], err.response.status, err.response.data)
+              this._Observer.Collect(args[0], err.response.status)
             } else if (err instanceof ReqError) {
               args[1].status(err.status).send({ message: err.message })
-              this._Observer.Collect(args[0], err.status, { message: err.message })
+              this._Observer.Collect(args[0], err.status)
             } else {
               args[1].sendStatus(500)
               this._Observer.Collect(args[0], 500)

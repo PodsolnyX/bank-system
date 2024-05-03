@@ -40,19 +40,19 @@ class LoanController {
   async GetLoans(req: GetLoansReq, res: Response) {
     const data = await this._LoanService.GetLoans(req.query, ReqHelper.AuthData(req))
     res.status(200).send(data)
-    this._ObserverService.Collect(req, 200, data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async GetPayments(req: GetPaymentsReq, res: Response) {
     const data = await this._LoanService.GetPayments(req.query, ReqHelper.AuthData(req))
     res.status(200).send(data)
-    this._ObserverService.Collect(req, 200, data)
+    this._ObserverService.Collect(req, 200)
   }
 
   async GetRating(req: Request, res: Response) {
     const rating = await this._LoanService.GetRating(ReqHelper.AuthData(req))
     res.status(200).send({ rating })
-    this._ObserverService.Collect(req, 200, { rating })
+    this._ObserverService.Collect(req, 200)
   }
 
   async ExecuteJob(req: Request, res: Response) {

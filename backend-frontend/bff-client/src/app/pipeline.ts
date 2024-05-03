@@ -8,7 +8,7 @@ import {
   NotFoundMiddleware,
 } from 'init/Middleware'
 import { ROUTER } from 'routes'
-import { CORS_CONFIG } from './config'
+import { CORS_CONFIG } from 'common/config'
 import { BffRoutes, Microservices } from 'common/Microservices'
 import { CB } from 'middleware/CircuitBreaker'
 import { CBState } from 'middleware/CircuitBreaker/types'

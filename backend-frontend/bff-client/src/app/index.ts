@@ -2,7 +2,7 @@ import express, { Application } from 'express'
 import { WebSocketServer } from 'ws'
 
 import { pipeline } from './pipeline'
-import { PORT, WS_PATH, WS_PORT } from './config'
+import { PORT, WS_PATH, WS_PORT } from 'common'
 
 import { WSHistoryInst } from 'init/Ws'
 

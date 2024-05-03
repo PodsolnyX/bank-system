@@ -15,7 +15,7 @@ class UserController {
   async GetAccessInfoById(req: GetAccessInfoReq, res: Response) {
     const data = await this._UserService.GetAccessInfoById(req.params.userid)
     res.status(200).send(data)
-    this._ObserverService.Collect(req, 200, data)
+    this._ObserverService.Collect(req, 200)
   }
 }
 

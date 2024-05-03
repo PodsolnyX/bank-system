@@ -9,7 +9,7 @@ import {
 import { Preferences, Theme } from 'entities/Preferences'
 import { PreferencesDocument } from 'repos/PreferencesRepo/types'
 import { ReqMetaInfo } from 'common'
-import { MONGO_URL } from 'app/config'
+import { MONGO_URL } from 'common/config'
 
 class PreferencesRepo {
   private _MongoURL = MONGO_URL

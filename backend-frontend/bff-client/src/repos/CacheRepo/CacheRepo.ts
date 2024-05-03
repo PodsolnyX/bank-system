@@ -1,6 +1,6 @@
 import { MongoClient, Db, Collection } from 'mongodb'
 import { CachedQueryDbRecord, CachedQuery, CachedQueryInfoResp } from 'common'
-import { MONGO_URL } from 'app/config'
+import { MONGO_URL } from 'common/config'
 
 class CacheRepo {
   private _MongoURL = MONGO_URL
