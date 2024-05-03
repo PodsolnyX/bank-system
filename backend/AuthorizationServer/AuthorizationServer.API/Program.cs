@@ -94,7 +94,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseHttpCollectorMiddleware();
+//app.UseHttpCollectorMiddleware();
 app.UseIdempotencyMiddleware();
 
 app.UseAuthentication();
