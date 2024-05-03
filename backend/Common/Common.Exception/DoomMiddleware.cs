@@ -26,17 +26,17 @@ public class DoomMiddleware
     /// <param name="context"></param>
     public async Task InvokeAsync(HttpContext context)
     {
-        var fiftyPercent = new Random().Next(0, 2) == 1;
-        var ninetyPercent = new Random().Next(0, 10) < 9;
-
-        if (DateTime.UtcNow.Minute % 2 == 0 && ninetyPercent)
-        {
-            throw new ApplicationException("Doom 90%");
-        }
-        if (fiftyPercent)
-        {
-            throw new ApplicationException("Doom 50%");
-        }
+        // var fiftyPercent = new Random().Next(0, 2) == 1;
+        // var ninetyPercent = new Random().Next(0, 10) < 9;
+        //
+        // if (DateTime.UtcNow.Minute % 2 == 0 && ninetyPercent)
+        // {
+        //     throw new ApplicationException("Doom 90%");
+        // }
+        // if (DateTime.UtcNow.Minute % 2 == 1 && fiftyPercent)
+        // {
+        //     throw new ApplicationException("Doom 50%");
+        // }
         await _next(context);
     }
 }
