@@ -8,6 +8,7 @@ import {useSignalR} from "../shared/hooks/useSignalR.ts";
 import ThemeProvider from "./providers/theme/ThemeProvider.tsx";
 import {messaging} from "./firebase";
 import {useEffect} from "react";
+import {useSetupInstanceInterceptors} from "../shared/api/useSetupInstanceInterceptors.ts";
 
 async function requestPermission() {
     //requesting permission using Notification API
@@ -32,6 +33,10 @@ function App() {
     useEffect(() => {
         requestPermission()
     },[])
+
+    useSetupInstanceInterceptors()
+
+    console.log(userData)
 
     if (isAuthLoading) return <Spin/>
 
