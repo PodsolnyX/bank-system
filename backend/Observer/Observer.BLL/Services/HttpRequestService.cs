@@ -24,6 +24,7 @@ public class HttpRequestService(ObserverDbContext context)
             Method = dto.Method,
             Path = dto.Path,
             QueryString = dto.QueryString,
+            Body = "",
             Headers = dto.Headers,
 
             RemoteIpAddress = dto.RemoteIpAddress,
