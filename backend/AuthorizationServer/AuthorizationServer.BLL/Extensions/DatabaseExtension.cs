@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Observer.BLL.Configuration;
 
 namespace AuthorizationServer.BLL.Extensions;
 
@@ -13,6 +14,7 @@ public static class DatabaseExtension
         IConfiguration configuration
     )
     {
+        services.Configure<ObserverOptions>(configuration.GetSection("Observer"));
         services.AddDbContext<IdentityDbContext>(options =>
         {
             options.UseNpgsql(configuration.GetConnectionString("Database"));

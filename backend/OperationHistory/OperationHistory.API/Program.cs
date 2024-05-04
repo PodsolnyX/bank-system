@@ -65,8 +65,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.ConfigureJobs();
 
-app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
+app.UseErrorHandleMiddleware();
 app.UseDoomMiddleware();
 app.UseIdempotencyMiddleware();
 

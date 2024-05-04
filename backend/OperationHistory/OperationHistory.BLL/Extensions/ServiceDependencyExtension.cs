@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Observer.BLL.Configuration;
 using OperationHistory.BLL.Services;
 using OperationHistory.DAL;
 
@@ -33,6 +34,7 @@ public static class ServiceDependencyExtension
         IConfiguration configuration
     )
     {
+        services.Configure<ObserverOptions>(configuration.GetSection("Observer"));
         services.AddScoped<OperationHistoryReaderService>();
         services.AddScoped<OperationHistoryService>();
         services.AddScoped<CoreAccountBalanceSender>();

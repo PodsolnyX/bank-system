@@ -85,8 +85,8 @@ RecurringJob.AddOrUpdate<PaymentRequestJob>(
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
+app.UseErrorHandleMiddleware();
 app.UseDoomMiddleware();
 app.UseIdempotencyMiddleware();
 

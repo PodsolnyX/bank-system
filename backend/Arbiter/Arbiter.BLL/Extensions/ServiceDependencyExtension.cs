@@ -5,6 +5,7 @@ using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Observer.BLL.Configuration;
 
 namespace Arbiter.BLL.Extensions;
 
@@ -32,6 +33,7 @@ public static class ServiceDependencyExtension
         IConfiguration configuration
     )
     {
+        services.Configure<ObserverOptions>(configuration.GetSection("Observer"));
         services.AddScoped<RequestLoanService>();
         services.AddScoped<RequestLoanChargeService>();
         services.AddHangfireServer();

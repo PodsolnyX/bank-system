@@ -56,9 +56,9 @@ await app.ConfigureDatabaseSeed();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseErrorHandleMiddleware();
-app.UseHttpCollectorMiddleware();
 
+app.UseHttpCollectorMiddleware();
+app.UseErrorHandleMiddleware();
 app.UseDoomMiddleware();
 app.UseIdempotencyMiddleware();
 
