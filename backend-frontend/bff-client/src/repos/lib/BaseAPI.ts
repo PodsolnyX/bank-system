@@ -7,7 +7,7 @@ import { CB, mapUrl } from 'middleware/CircuitBreaker'
 export abstract class BaseReq {
   protected static BASE_URL: string
   private static readonly API_AUTH_HEADER_NAME = 'Authorization'
-  private static readonly API_IDEMPOTENCY_HEADER_NAME = 'X-IdempotencyKey'
+  private static readonly API_IDEMPOTENCY_HEADER_NAME = 'X-Idempotency-Key'
   private static readonly API_TRACE_HEADER_NAME = 'X-TraceId'
 
   private static readonly PREFERENCES_HEADER_NAME = 'XUserId'
@@ -18,7 +18,7 @@ export abstract class BaseReq {
       ? {
           [this.API_AUTH_HEADER_NAME]: `Bearer ${AuthInfo.token}`,
           [this.PREFERENCES_HEADER_NAME]: AuthInfo.id,
-          [this.API_TRACE_HEADER_NAME]: uuidv4(),
+          [this.API_TRACE_HEADER_NAME]: AuthInfo.traceId,
         }
       : {}
     if (AuthInfo?.idempotencyKey) {

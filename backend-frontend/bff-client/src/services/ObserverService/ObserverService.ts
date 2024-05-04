@@ -21,14 +21,14 @@ class ObserverService {
         headers[key] = value
       }
     }
-
+    const time = Date.now()
     const data: RequestLog = {
-      durationInMilliseconds: Date.now() - parseInt(start),
-      finishedAt: new Date().toISOString(),
+      durationInMilliseconds: time - parseInt(start),
+      finishedAt: new Date(time).toISOString(),
       headers,
       method: req.method,
       microserviceName: 'bff-client',
-      path: req.path,
+      path: req.originalUrl,
       queryString: i === -1 ? null : req.url.substr(i + 1),
       remoteIpAddress: req.ip || null,
       responseHeaders: null,
