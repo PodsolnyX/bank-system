@@ -24,7 +24,7 @@ async function requestPermission() {
     });
     console.log("Token generated : ", token);
   } else if (permission === "denied") {
-    alert("You denied for the notification");
+    console.log("You denied for the notification");
   }
 }
 

@@ -36,6 +36,8 @@ export const TransferForm = (props: TransferFormProps) => {
   const mono = type === 'deposit' || type === 'withdraw'
   const bi = !mono
 
+  const isFetching = isLoading || accounts.isFetching
+
   if (accounts.isSuccess && type === 'self' && !validAccounts?.length) {
     return (
       <ErrorMsg
@@ -56,7 +58,7 @@ export const TransferForm = (props: TransferFormProps) => {
           accountId: account.id,
           fromAccountId: account.id,
         }}
-        isLoading={isLoading}
+        isLoading={isFetching}
       >
         {mono && (
           <Form.Item label='Счет' name='accountId'>
