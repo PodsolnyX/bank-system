@@ -63,7 +63,10 @@ const TariffsPage = () => {
                 render: (_text: string, record: TariffData) =>
                     <Popconfirm
                         title={"Вы уверены?"}
-                        onConfirm={() => remove.mutate(record.id)}
+                        onConfirm={() => {
+                            const key = crypto.randomUUID();
+                            remove.mutate({id: record.id, key})
+                        }}
                     >
                         <Button
                             danger={true}

@@ -13,7 +13,6 @@ const Header = () => {
     const {changeTheme} = useTheme();
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
-        if (key === "logout") {}
         if (key === "theme") changeTheme()
     };
 
@@ -69,7 +68,7 @@ const items: MenuProps['items'] = [
     },
     {
         key: 'logout',
-        label: "Выйти",
+        label: <a href={"https://coto-dev.ru"}>Выйти</a>,
         danger: true,
         icon: <LoginOutlined/>
     },

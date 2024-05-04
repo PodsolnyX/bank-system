@@ -14,14 +14,14 @@ export function useTariffs() {
     })
 
     const create = useMutation({
-        mutationFn: (data: CreateTariffDto) => tariffService.createTariff(data),
+        mutationFn: (data: {data: CreateTariffDto, key: string}) => tariffService.createTariff(data.data, data.key),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: tariffQueryKeys.tariffs() } )
         }
     })
 
     const remove = useMutation({
-        mutationFn: (id: string) => tariffService.deleteTariff(id),
+        mutationFn: (data: {id: string, key: string}) => tariffService.deleteTariff(data.id, data.key),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: tariffQueryKeys.tariffs() } )
         }

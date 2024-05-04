@@ -27,10 +27,11 @@ const AddUserModal = (props: AddUserModal) => {
 
     const {createUser} = useUsers();
     const onSubmit = (data: UserCreateDto) => {
-        createUser.mutateAsync({
+        const key = crypto.randomUUID();
+        createUser.mutateAsync({data: {
             ...data,
             isEmployee
-        })
+        }, key})
             .then(() => {
                 onCancel();
             })

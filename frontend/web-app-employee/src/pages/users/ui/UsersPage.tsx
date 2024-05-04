@@ -48,7 +48,10 @@ const UsersPage = () => {
                 render: (_text: string, record: UserData) =>
                     <Popconfirm
                         title={"Вы уверены?"}
-                        onConfirm={record.isBanned ? () => unbanUser.mutate(record.id) : () => banUser.mutate(record.id)}
+                        onConfirm={() => {
+                            const key = crypto.randomUUID();
+                            record.isBanned ? unbanUser.mutate({id: record.id, key}) : banUser.mutate({id: record.id, key})
+                        }}
                     >
                         <Button
                             danger={!record.isBanned}

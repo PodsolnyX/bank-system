@@ -20,7 +20,7 @@ const ThemeProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
     })
 
     const {mutate: reqChangeTheme} = useMutation({
-        mutationFn: () => authService.updateTheme({theme}),
+        mutationFn: (key: string) => authService.updateTheme({theme}, key),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["GET_THEME"] } )
         }
@@ -28,7 +28,8 @@ const ThemeProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
     const changeTheme = () => {
         setTheme(theme === "Default" ? "Dark" : "Default");
         localStorage.setItem("theme", theme);
-        reqChangeTheme();
+        const key = crypto.randomUUID();
+        reqChangeTheme(key);
     }
 
     useEffect(() => {
