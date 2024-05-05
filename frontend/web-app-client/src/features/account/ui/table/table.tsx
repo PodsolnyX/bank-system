@@ -1,6 +1,5 @@
 import { Table, Skeleton, Empty } from 'antd'
 import { useEffect, useState } from 'react'
-import { useMakePriorityMutation } from 'features/account/api'
 import {
   HideAccountReq,
   ShowAccountReq,
@@ -21,7 +20,6 @@ export const AccountsTable = ({ accounts, isLoading }: AccountsListProps) => {
 
   const [showTrigger] = useShowAccountMutation()
   const [hideTrigger] = useHideAccountMutation()
-  const [priorityTrigger] = useMakePriorityMutation()
 
   useEffect(() => {
     setAccountsInTable(accounts)
@@ -53,7 +51,7 @@ export const AccountsTable = ({ accounts, isLoading }: AccountsListProps) => {
         rowKey={(record) => record.id}
         bordered
         className='w-full md:w-2/3 border-[1px] border-border border-solid rounded-lg'
-        columns={getAccountColumns(show, hide, priorityTrigger)}
+        columns={getAccountColumns(show, hide)}
         dataSource={accountsInTable}
         pagination={{ pageSize: 7, showSizeChanger: false }}
         locale={{

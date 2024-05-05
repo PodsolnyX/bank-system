@@ -1,10 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { TransferForm, TransferFormValues } from 'features/account'
 import {
-  useGetAccountQuery,
+  TransferForm,
+  TransferFormValues,
   useDepositMutation,
   useWithdrawMutation,
-} from 'entities/account'
+} from 'features/account'
+import { useGetAccountQuery } from 'entities/account'
+import { useKey } from 'shared/api'
 import { AppRoutes } from 'shared/config'
 import { toastError, toastSuccess, convert } from 'shared/lib'
 import { PageLoader, ErrorMsg } from 'shared/ui'
@@ -21,16 +23,18 @@ export const OperationPage = (props: OperationPageProps) => {
   const account = useGetAccountQuery({ id: id! })
   const [withdraw, withdrawRes] = useWithdrawMutation()
   const [deposit, depositRes] = useDepositMutation()
+  const withdraw_key = useKey(withdrawRes.status)
+  const deposit_key = useKey(depositRes.status)
 
   const onFinish = async (values: TransferFormValues) => {
     try {
       const convertedValues = convert(values)
       switch (type) {
         case 'deposit':
-          await deposit(convertedValues).unwrap()
+          await deposit({ ...convertedValues, ...deposit_key }).unwrap()
           break
         case 'withdraw':
-          await withdraw(convertedValues).unwrap()
+          await withdraw({ ...convertedValues, ...withdraw_key }).unwrap()
           break
         default:
           throw Error('Неизвестная операция')

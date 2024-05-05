@@ -4,6 +4,7 @@ import { PageHeader, Center, PageLoader } from 'shared/ui'
 import { MainMenuItems } from '../config'
 import { MenuCard } from './menuCard'
 
+
 export const MainPage = () => {
   const redirected = useAppSelector((store) => store.authReducer.redirected)
 

@@ -14,7 +14,7 @@ export type NewLoanFormProps = {
   accounts: Account[]
 } & Omit<FormProps, 'children'>
 
-export type NewLoanFormData = RequestLoanReq
+export type NewLoanFormData = Omit<RequestLoanReq, 'key'>
 
 export const NewLoanForm = (props: NewLoanFormProps) => {
   const { onFinish, tariffs, accounts, ...rest } = props
