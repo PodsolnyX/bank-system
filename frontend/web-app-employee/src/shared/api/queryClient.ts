@@ -8,8 +8,8 @@ const queryClient = new QueryClient({
             retryDelay: attempt => Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000)
         },
         mutations: {
-            retry: 10,
-            retryDelay: attempt => Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000)
+            retry: 15,
+            retryDelay: attempt => 1000
         }
     }
 })

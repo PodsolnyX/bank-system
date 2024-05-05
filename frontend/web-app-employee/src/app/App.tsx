@@ -36,8 +36,6 @@ function App() {
 
     useSetupInstanceInterceptors()
 
-    console.log(userData)
-
     if (isAuthLoading) return <Spin/>
 
     return (
