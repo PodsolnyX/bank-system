@@ -1,4 +1,4 @@
-import { AuthInfo } from 'common'
+import { ReqMetaInfo } from 'common'
 import { PaginationReq } from 'dto/Common/req'
 import { SearchOperationUserDto } from 'dto/OperationHistory/req'
 import { OperationHistoryRepo } from 'repos/OperationHistoryRepo'
@@ -12,7 +12,7 @@ class OperationHistoryService {
 
   async GetOperationHistory(
     Dto: PaginationReq<SearchOperationUserDto>,
-    AuthInfo: AuthInfo
+    AuthInfo: ReqMetaInfo
   ) {
     return await this._OperationHistoryRepo.GetOperationHistory(Dto, AuthInfo)
   }

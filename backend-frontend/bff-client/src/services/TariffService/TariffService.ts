@@ -1,4 +1,4 @@
-import { AuthInfo } from 'common'
+import { ReqMetaInfo } from 'common'
 import { PaginationReq } from 'dto/Common/req'
 import { SearchTariffDto } from 'dto/Tariff/req'
 import { TariffRepo } from 'repos/TariffRepo'
@@ -10,7 +10,7 @@ class TariffService {
     this._TariffRepo = TariffRepo
   }
 
-  async GetTariffs(Dto: PaginationReq<SearchTariffDto>, AuthInfo: AuthInfo) {
+  async GetTariffs(Dto: PaginationReq<SearchTariffDto>, AuthInfo: ReqMetaInfo) {
     return await this._TariffRepo.GetTariffs(Dto, AuthInfo)
   }
 }

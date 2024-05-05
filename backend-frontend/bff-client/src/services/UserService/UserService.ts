@@ -1,6 +1,7 @@
 import { UserRepo } from 'repos/UserRepo'
 import { JWT_STATUS } from './types'
 import { jwtDecode } from 'jwt-decode'
+import { AxiosError } from 'axios'
 
 class UserService {
   private _UserRepo: UserRepo
@@ -22,7 +23,7 @@ class UserService {
     }
     try {
       const decoded = jwtDecode(jwt)
-      if (!decoded.sub || !decoded.exp || decoded.exp <= Date.now() / 1000) {
+      if (!decoded.sub) {
         return 401
       }
 
@@ -33,7 +34,10 @@ class UserService {
       }
 
       return 200
-    } catch {
+    } catch(err) {
+      if (err instanceof AxiosError) {
+        return 200
+      }
       return 401
     }
   }

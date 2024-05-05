@@ -1,4 +1,4 @@
-import { AuthInfo, parseBoolean } from 'common'
+import { ReqMetaInfo, parseBoolean } from 'common'
 import {
   CloseAccountDto,
   DepositDto,
@@ -24,7 +24,7 @@ class AccountService {
     this._PreferencesRepo = PreferencesRepo
   }
 
-  private async _TransformAccounts(accounts: Account[], AuthInfo: AuthInfo) {
+  private async _TransformAccounts(accounts: Account[], AuthInfo: ReqMetaInfo) {
     const { hiddenAccounts } = await this._PreferencesRepo.GetHiddenAccounts(AuthInfo)
     const FullAccounts: FullAccount[] = accounts.map((account) => ({
       ...account,
@@ -39,43 +39,43 @@ class AccountService {
     })
   }
 
-  async OpenAccount(Dto: OpenAccountDto, AuthInfo: AuthInfo) {
+  async OpenAccount(Dto: OpenAccountDto, AuthInfo: ReqMetaInfo) {
     return await this._AccountRepo.OpenAccount(Dto, AuthInfo)
   }
 
-  async CloseAccount(Dto: CloseAccountDto, AuthInfo: AuthInfo) {
+  async CloseAccount(Dto: CloseAccountDto, AuthInfo: ReqMetaInfo) {
     return await this._AccountRepo.CloseAccount(Dto, AuthInfo)
   }
 
-  async GetAccounts(Dto: PaginationReq<SearchAccountDto>, AuthInfo: AuthInfo) {
+  async GetAccounts(Dto: PaginationReq<SearchAccountDto>, AuthInfo: ReqMetaInfo) {
     const accounts = await this._AccountRepo.GetAccounts(Dto, AuthInfo)
     const FullAccounts = await this._TransformAccounts(accounts, AuthInfo)
     const hidden = parseBoolean(Dto.hidden)
     return FullAccounts.filter((acc) => hidden === undefined || acc.hidden === hidden)
   }
 
-  async GetAccount(Dto: GetAccountDto, AuthInfo: AuthInfo) {
+  async GetAccount(Dto: GetAccountDto, AuthInfo: ReqMetaInfo) {
     const accounts = [await this._AccountRepo.GetAccount(Dto, AuthInfo)]
     return (await this._TransformAccounts(accounts, AuthInfo))[0]
   }
 
-  async Deposit(Dto: DepositDto, AuthInfo: AuthInfo) {
+  async Deposit(Dto: DepositDto, AuthInfo: ReqMetaInfo) {
     return await this._AccountRepo.Deposit(Dto, AuthInfo)
   }
 
-  async Withdraw(Dto: WithdrawDto, AuthInfo: AuthInfo) {
+  async Withdraw(Dto: WithdrawDto, AuthInfo: ReqMetaInfo) {
     return await this._AccountRepo.Withdraw(Dto, AuthInfo)
   }
 
-  async TransferSelf(Dto: TransferSelfDto, AuthInfo: AuthInfo) {
+  async TransferSelf(Dto: TransferSelfDto, AuthInfo: ReqMetaInfo) {
     return await this._AccountRepo.TransferSelf(Dto, AuthInfo)
   }
 
-  async TransferUser(Dto: TransferUserDto, AuthInfo: AuthInfo) {
+  async TransferUser(Dto: TransferUserDto, AuthInfo: ReqMetaInfo) {
     return await this._AccountRepo.TransferUser(Dto, AuthInfo)
   }
 
-  async MakePriority(Dto: AccountPriorityDto, AuthInfo: AuthInfo) {
+  async MakePriority(Dto: AccountPriorityDto, AuthInfo: ReqMetaInfo) {
     return await this._AccountRepo.MakePriority(Dto, AuthInfo)
   }
 }

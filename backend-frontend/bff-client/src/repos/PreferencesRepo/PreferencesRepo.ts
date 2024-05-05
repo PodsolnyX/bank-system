@@ -8,10 +8,11 @@ import {
 } from 'dto/Preferences/resp'
 import { Preferences, Theme } from 'entities/Preferences'
 import { PreferencesDocument } from 'repos/PreferencesRepo/types'
-import { AuthInfo } from 'common'
+import { ReqMetaInfo } from 'common'
+import { MONGO_URL } from 'common/config'
 
 class PreferencesRepo {
-  private _MongoURL = 'mongodb://root:password@109.107.189.133:27017'
+  private _MongoURL = MONGO_URL
   private _MongoDbName = 'preferences'
   private _MongoDbCollectionName = 'preferences'
 
@@ -59,21 +60,21 @@ class PreferencesRepo {
     return preferences || this._DefaultPreferences
   }
 
-  async GetPreferences(AuthInfo: AuthInfo): Promise<GetPreferencesDto> {
+  async GetPreferences(AuthInfo: ReqMetaInfo): Promise<GetPreferencesDto> {
     return await this._FetchPreferences(AuthInfo.id)
   }
 
-  async GetTheme(AuthInfo: AuthInfo): Promise<GetThemeDto> {
+  async GetTheme(AuthInfo: ReqMetaInfo): Promise<GetThemeDto> {
     return await this._FetchPreferences(AuthInfo.id, { theme: 1, _id: 0 })
   }
 
-  async GetHiddenAccounts(AuthInfo: AuthInfo): Promise<GetHiddenAccountsDto> {
+  async GetHiddenAccounts(AuthInfo: ReqMetaInfo): Promise<GetHiddenAccountsDto> {
     return await this._FetchPreferences(AuthInfo.id, { hiddenAccounts: 1, _id: 0 })
   }
 
   async UpdateTheme(
     theme: UpdateThemeDto,
-    AuthInfo: AuthInfo
+    AuthInfo: ReqMetaInfo
   ): Promise<GetPreferencesDto> {
     await this._Init()
     const { theme: newTheme } = theme
@@ -84,7 +85,7 @@ class PreferencesRepo {
 
   async HideAccount(
     account: HideAccountDto,
-    AuthInfo: AuthInfo
+    AuthInfo: ReqMetaInfo
   ): Promise<GetPreferencesDto> {
     await this._Init()
     const { accountId } = account
@@ -98,7 +99,7 @@ class PreferencesRepo {
 
   async ShowAccount(
     account: ShowAccountDto,
-    AuthInfo: AuthInfo
+    AuthInfo: ReqMetaInfo
   ): Promise<GetPreferencesDto> {
     await this._Init()
     const { accountId } = account
