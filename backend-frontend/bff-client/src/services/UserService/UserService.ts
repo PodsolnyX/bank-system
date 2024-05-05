@@ -22,7 +22,7 @@ class UserService {
     }
     try {
       const decoded = jwtDecode(jwt)
-      if (!decoded.sub || !decoded.exp || decoded.exp <= Date.now() / 1000) {
+      if (!decoded.sub || !decoded.exp) {
         return 401
       }
 
