@@ -31,13 +31,15 @@ export class WSHistory {
     }
 
     const param = ParamsExtractor.Get(req.url || '', this._param)
-    //TODO
+
     const connection = new HubConnectionBuilder()
       .configureLogging(LogLevel.None)
+      .withAutomaticReconnect([
+        50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50,
+        50, 50, 50, 50, 50, 50, 50,
+      ])
       .withUrl(this._getUrl(jwt))
-      .withAutomaticReconnect([50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 150, 150, 150, 150, 300, 350, 500, 50])
       .build()
-    connection.start()
 
     connection.on('receivemessage', (data) => {
       try {
@@ -47,5 +49,15 @@ export class WSHistory {
         }
       } catch (err) {}
     })
+
+    const start = async () => {
+      try {
+        await connection.start()
+      } catch (err) {
+        start()
+      }
+    }
+
+    start()
   }
 }

@@ -50,7 +50,7 @@ export abstract class BaseReq {
       //TODO
       retryCondition: (error) => error.response?.status === 500,
       retryDelay: (retryCount) => {
-        return retryCount * 55
+        return retryCount * 35
       },
       retries: 10,
       onRetry: (_retryCount, _error, requestConfig) => {
