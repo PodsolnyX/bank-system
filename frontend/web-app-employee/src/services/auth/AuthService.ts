@@ -24,27 +24,35 @@ class AuthService {
         return instance.get<UserInfoDto>(`/auth/user/user/${id}`)
     }
 
-    async createUser(data: UserCreateDto) {
-        return instance.post('/auth/user/create', data)
+    async createUser(data: UserCreateDto, key: string) {
+        return instance.post('/auth/user/create', data, {
+            headers: { "X-Idempotency-Key": key }
+        })
     }
     async logout() {
         return instance.post('/auth/user/logout')
     }
 
-    async banUser(id: string) {
-        return instance.delete(`/auth/user/${id}/ban`)
+    async banUser(id: string, key: string) {
+        return instance.delete(`/auth/user/${id}/ban`, {
+            headers: { "X-Idempotency-Key": key }
+        })
     }
 
-    async unbanUser(id: string) {
-        return instance.post(`/auth/user/${id}/unban`)
+    async unbanUser(id: string, key: string) {
+        return instance.post(`/auth/user/${id}/unban`, {
+            headers: { "X-Idempotency-Key": key }
+        })
     }
 
     async getTheme() {
         return instance.get<ThemeDto>("/preference/employee/theme")
     }
 
-    async updateTheme(data: ThemeDto) {
-        return instance.post("/preference/employee/theme", data)
+    async updateTheme(data: ThemeDto, key: string) {
+        return instance.post("/preference/employee/theme", data, {
+            headers: { "X-Idempotency-Key": key }
+        })
     }
 }
 

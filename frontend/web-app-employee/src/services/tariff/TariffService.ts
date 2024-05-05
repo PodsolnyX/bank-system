@@ -7,12 +7,16 @@ class TariffService {
         return instance.get<TariffDto[]>(`/tariff/user`)
     }
 
-    async createTariff(data: CreateTariffDto) {
-        return instance.post(`/tariff/user`, data)
+    async createTariff(data: CreateTariffDto, key: string) {
+        return instance.post(`/tariff/user`, data, {
+            headers: { "X-Idempotency-Key": key }
+        })
     }
 
-    async deleteTariff(id: string) {
-        return instance.delete(`/tariff/user/${id}`)
+    async deleteTariff(id: string, key: string) {
+        return instance.delete(`/tariff/user/${id}`, {
+            headers: { "X-Idempotency-Key": key }
+        })
     }
 }
 

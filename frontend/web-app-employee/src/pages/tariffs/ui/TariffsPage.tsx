@@ -11,7 +11,7 @@ const TariffsPage = () => {
 
     const {get, remove} = useTariffs();
 
-    const {data} = get;
+    const {data, isLoading} = get;
 
     const [open, setOpen] = useState(false);
 
@@ -63,7 +63,10 @@ const TariffsPage = () => {
                 render: (_text: string, record: TariffData) =>
                     <Popconfirm
                         title={"Вы уверены?"}
-                        onConfirm={() => remove.mutate(record.id)}
+                        onConfirm={() => {
+                            const key = crypto.randomUUID();
+                            remove.mutate({id: record.id, key})
+                        }}
                     >
                         <Button
                             danger={true}
@@ -87,10 +90,7 @@ const TariffsPage = () => {
                     <Typography.Text className={"text-2xl text-lime-500"} strong>Тарифы по кредитам</Typography.Text>
                     <Button icon={<PlusOutlined/>} onClick={() => setOpen(true)}>Добавить</Button>
                 </div>
-                {
-                    data &&
-                    <Table dataSource={getData(data)} columns={getTableColumns()} bordered size={"small"}/>
-                }
+                    <Table dataSource={getData(data)} columns={getTableColumns()} loading={isLoading} bordered size={"small"}/>
             </div>
             <AddTariffModal open={open} onCancel={() => setOpen(false)}/>
         </div>
@@ -106,7 +106,8 @@ interface TariffData {
     currencyTypes: CurrencyType[]
 }
 
-function getData(data: TariffDto[]) {
+function getData(data?: TariffDto[]) {
+    if (!data) return  [];
     return data.map(it => {
         return {
             key: it.id,

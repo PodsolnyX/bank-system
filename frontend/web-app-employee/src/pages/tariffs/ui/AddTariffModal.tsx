@@ -29,7 +29,8 @@ const AddUserModal = (props: AddUserModal) => {
 
     const [currency, setCurrency] = useState<CurrencyType[]>([CurrencyType.Rub]);
     const onSubmit = (data: CreateTariffDto) => {
-        create.mutateAsync({...data, currencyTypes: currency})
+        const key = crypto.randomUUID();
+        create.mutateAsync({data: {...data, currencyTypes: currency}, key})
             .then(() => {
                 onCancel();
             })

@@ -13,7 +13,6 @@ const Header = () => {
     const {changeTheme} = useTheme();
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
-        if (key === "logout") {}
         if (key === "theme") changeTheme()
     };
 

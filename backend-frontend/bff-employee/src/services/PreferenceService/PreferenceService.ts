@@ -11,7 +11,7 @@ export type PreferencesDocument = Preferences & {
 
 class PreferencesService {
 
-  private _MongoURL = 'mongodb://root:password@109.107.189.133:27017'
+  private _MongoURL = 'mongodb://abudabi:ultragiperparol@109.107.189.133:27017'
   private _MongoDbName = 'preferences'
   private _MongoDbCollectionName = 'preferences'
 

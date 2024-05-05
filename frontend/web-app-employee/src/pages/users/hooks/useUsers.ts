@@ -23,24 +23,25 @@ export function useUsers() {
     })
 
     const createUser = useMutation({
-        mutationFn: (data: UserCreateDto) => authService.createUser(data),
+        mutationFn: (data: {data: UserCreateDto, key: string}) => authService.createUser(data.data, data.key),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: authQueryKeys.users({}) } )
         }
     })
 
     const banUser = useMutation({
-        mutationFn: (id: string) => authService.banUser(id),
+        mutationFn: (data: {id: string, key: string}) => authService.banUser(data.id, data.key),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: authQueryKeys.users({}) } )
         }
     })
 
     const unbanUser = useMutation({
-        mutationFn: (id: string) => authService.unbanUser(id),
+        mutationFn: (data: {id: string, key: string}) => authService.unbanUser(data.id, data.key),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: authQueryKeys.users({}) } )
-        }
+        },
+        retry: 3
     })
 
     return {
