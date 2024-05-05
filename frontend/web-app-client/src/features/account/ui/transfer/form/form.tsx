@@ -23,18 +23,17 @@ export const TransferForm = (props: TransferFormProps) => {
   }
 
   const [chosenAcc, setChosenAcc] = useState<string | null>(null)
+  const mono = type === 'deposit' || type === 'withdraw'
+  const bi = !mono
   const accounts = useGetAccountsQuery(
     {},
     {
-      skip: type === 'external',
+      skip: mono,
     }
   )
   const validAccounts = accounts.data?.filter(
     (acc) => acc.id !== account.id && !acc.hidden && !acc.closedAt
   )
-
-  const mono = type === 'deposit' || type === 'withdraw'
-  const bi = !mono
 
   const isFetching = isLoading || accounts.isFetching
 
