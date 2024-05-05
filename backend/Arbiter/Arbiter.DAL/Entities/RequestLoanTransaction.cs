@@ -5,6 +5,7 @@ namespace Arbiter.DAL.Entities;
 public class RequestLoanTransaction
 {
     public Guid Id { get; set; }
+    public string IdempotenceKey { get; set; }
     public Guid UserId { get; set; }
     public Guid AccountId { get; set; }
     public Guid TariffId { get; set; }

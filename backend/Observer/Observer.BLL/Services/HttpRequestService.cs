@@ -24,14 +24,13 @@ public class HttpRequestService(ObserverDbContext context)
             Method = dto.Method,
             Path = dto.Path,
             QueryString = dto.QueryString,
-            Body = dto.Body,
+            Body = "",
             Headers = dto.Headers,
 
             RemoteIpAddress = dto.RemoteIpAddress,
             UserAgent = dto.UserAgent,
 
             StatusCode = dto.StatusCode,
-            ResponseBody = dto.ResponseBody,
             ResponseHeaders = dto.ResponseHeaders
         };
 

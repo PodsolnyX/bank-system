@@ -75,6 +75,7 @@ public class RabbitMqListenerService : BackgroundService
                 await service.AddOperationHistory(message);
                 service.EnqueueUpdateAccountBalance(message.AccountId);
                 await notificationsService.SendNotification(message);
+                await notificationsService.SendFirebase(message);
             }
             catch (Exception e)
             {

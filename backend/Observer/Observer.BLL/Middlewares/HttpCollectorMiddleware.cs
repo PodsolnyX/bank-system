@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
@@ -16,20 +17,9 @@ public class HttpCollectorMiddleware(RequestDelegate next, IOptions<ObserverOpti
     {
         var startTime = DateTime.UtcNow;
         var timer = Stopwatch.StartNew();
-
-        HttpResponse response = context.Response;
-        var originalResponseBody = response.Body;
-        using var newResponseBody = new MemoryStream();
-        response.Body = newResponseBody;
-
         try
         {
             await next(context);
-
-            newResponseBody.Seek(0, SeekOrigin.Begin);
-            await newResponseBody.CopyToAsync(originalResponseBody);
-            newResponseBody.Seek(0, SeekOrigin.Begin);
-            context.Response.Body = originalResponseBody;
         }
         finally
         {
@@ -46,6 +36,11 @@ public class HttpCollectorMiddleware(RequestDelegate next, IOptions<ObserverOpti
                 Tags = options.Value.Tags,
                 Source = "HTTP",
                 TraceId = context.TraceIdentifier,
+                IdempotencyKey = context
+                    .Request.Headers.ToImmutableArray()
+                    .Where(h => h.Key == "X-Idempotency-Key")
+                    .Select(s => s.Value.FirstOrDefault())
+                    .FirstOrDefault(),
 
                 StartedAt = startTime,
                 FinishedAt = endTime,
@@ -54,17 +49,19 @@ public class HttpCollectorMiddleware(RequestDelegate next, IOptions<ObserverOpti
                 Method = context.Request.Method,
                 Path = context.Request.Path,
                 QueryString = context.Request.QueryString.ToString(),
-                Body = await new StreamReader(context.Request.Body).ReadToEndAsync(),
                 Headers = context.Request.Headers.ToDictionary(
                     kvp => kvp.Key,
                     kvp => kvp.Value.ToString()
                 ),
 
                 RemoteIpAddress = context.Connection.RemoteIpAddress?.ToString(),
-                UserAgent = context.Request.Headers["User-Agent"].ToString(),
+                UserAgent = context
+                    .Request.Headers.ToImmutableArray()
+                    .Where(h => h.Key == "User-Agent")
+                    .Select(s => s.Value.FirstOrDefault())
+                    .FirstOrDefault(),
 
                 StatusCode = context.Response.StatusCode,
-                ResponseBody = await new StreamReader(newResponseBody).ReadToEndAsync(),
                 ResponseHeaders = context.Response.Headers.ToDictionary(
                     kvp => kvp.Key,
                     kvp => kvp.Value.ToString()

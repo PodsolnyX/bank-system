@@ -10,4 +10,5 @@ public class RequestLoanChargeDto
     public Guid TariffId { get; set; }
     public long Amount { get; set; }
     public CurrencyType CurrencyType { get; set; }
+    public string? IdempotenceKey { get; set; }
 }

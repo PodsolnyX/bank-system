@@ -31,7 +31,8 @@ public class RequestLoanService
             AccountId = dto.AccountId,
             TariffId = dto.TariffId,
             Amount = dto.Amount,
-            CurrencyType = dto.CurrencyType
+            CurrencyType = dto.CurrencyType,
+            IdempotenceKey = Guid.NewGuid()+"_RequestLoanArbiter"
         };
         await _dbContext.AddAsync(request);
         await _dbContext.SaveChangesAsync();

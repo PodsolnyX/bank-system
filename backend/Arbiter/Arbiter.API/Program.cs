@@ -43,8 +43,8 @@ builder
     .Services.AddOptions<InternalApiQueries>()
     .Bind(builder.Configuration.GetSection(InternalApiQueries.ApiQueries));
 
-builder.Logging.ConfigureSerilog();
 builder.Services.AddIdempotencyDistributedCache();
+builder.Logging.ConfigureSerilog();
 
 var app = builder.Build();
 
@@ -68,8 +68,8 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
-app.UseErrorHandleMiddleware();
 app.UseHttpCollectorMiddleware();
+app.UseErrorHandleMiddleware();
 app.UseDoomMiddleware();
 app.UseIdempotencyMiddleware();
 

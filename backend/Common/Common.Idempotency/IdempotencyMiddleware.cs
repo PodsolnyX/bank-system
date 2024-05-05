@@ -31,9 +31,7 @@ public class IdempotencyMiddleware
 
         if (cacheKey == null)
         {
-            _logger.LogWarning(
-                "Idempotency key not found in request headers. Proceeding without caching."
-            );
+            _logger.LogWarning("Idempotency key was not built. Proceeding without caching.");
             await _next(context);
         }
         else if (cachedBody != null)
@@ -84,13 +82,13 @@ public class IdempotencyMiddleware
                 .Select(s => s.Value.FirstOrDefault())
                 .FirstOrDefault();
             var path = context.Request.Path.Value;
+            var method = context.Request.Method;
 
-            if (identifier == null || path == null)
+            if (identifier == null || path == null || method.ToLowerInvariant() == "get")
             {
                 return null;
             }
 
-            var method = context.Request.Method;
             return string.Join(
                 "_",
                 [method.ToLowerInvariant(), path.Replace("/", "-"), identifier]

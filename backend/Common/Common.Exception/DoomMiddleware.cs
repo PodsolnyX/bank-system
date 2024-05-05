@@ -33,7 +33,7 @@ public class DoomMiddleware
         {
             throw new ApplicationException("Doom 90%");
         }
-        if (fiftyPercent)
+        if (DateTime.UtcNow.Minute % 2 == 1 && fiftyPercent)
         {
             throw new ApplicationException("Doom 50%");
         }
