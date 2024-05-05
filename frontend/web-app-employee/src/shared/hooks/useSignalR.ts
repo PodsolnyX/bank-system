@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useAuth} from "oidc-react";
 import * as signalR from "@microsoft/signalr";
 import {useQueryClient} from "@tanstack/react-query";
@@ -14,13 +14,12 @@ export function useSignalR() {
         if (!!user.userData) {
 
             const newConnection = new signalR.HubConnectionBuilder()
-                // @ts-ignore
                 .withUrl("http://109.107.189.133:7004/api/notifications", {
                     accessTokenFactory: () => {
-                        return localStorage.getItem("accessToken")
+                        return user.userData?.access_token || ""
                     }
                 })
-                .withAutomaticReconnect([0, 2, 10, 30, 60, 180, 300, 360])
+                .withAutomaticReconnect(Array(100).fill(10))
                 .build();
 
             setConnection(newConnection);
@@ -33,24 +32,49 @@ export function useSignalR() {
 
     }, [user.userData])
 
-    useEffect(() => {
+    // useEffect(() => {
+    //
+    //     if (connection) {
+    //         connection.start().then(function () {
+    //             connection.on('ReceiveMessage', function (message) {
+    //
+    //                 const newMessage = JSON.parse(message)
+    //                 console.log(newMessage);
+    //
+    //                 queryClient.invalidateQueries({ queryKey: operationHistoryQueryKeys.history({}) } )
+    //
+    //             });
+    //
+    //
+    //         }).catch(function (err) {
+    //             return console.error(err.toString());
+    //         });
+    //     }
+    // }, [connection])
 
+    const start = useCallback(async () => {
         if (connection) {
-            connection.start().then(function () {
+            try {
+                await connection.start()
+                console.log('SignalR Connected.')
                 connection.on('ReceiveMessage', function (message) {
 
                     const newMessage = JSON.parse(message)
                     console.log(newMessage);
 
-                    queryClient.invalidateQueries({ queryKey: operationHistoryQueryKeys.history({}) } )
+                    queryClient.invalidateQueries({queryKey: operationHistoryQueryKeys.history({})})
 
                 });
-
-
-            }).catch(function (err) {
-                return console.error(err.toString());
-            });
+            } catch (err) {
+                console.log('err')
+                setTimeout(start)
+            }
         }
     }, [connection])
 
+    useEffect(() => {
+        start()
+    }, [connection]);
+
 }
+
